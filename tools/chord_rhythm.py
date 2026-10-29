@@ -506,7 +506,7 @@ def _order(notes, shape):
 
 def render_figure(bars, dur, bpm, notes, render_note, render_chord,
                   figure="stab", shape=None, spec=None, seed=0,
-                  sr=chord_synth.SR, long=None):
+                  sr=chord_synth.SR, long=None, log=None):
     """Play a written figure into a `dur`-second, loop-safe chord buffer.
 
     `render_note(note, seg_dur)` voices one note (arp steps);
@@ -517,6 +517,11 @@ def render_figure(bars, dur, bpm, notes, render_note, render_chord,
 
     groove_flow: `long` hits ring to the next hit; alternate bars invert
     the chord when the sampled library can voice the new notes.
+
+    dyn flow (2026-10-29): `spec["dyn"]` names a dynamics.py accent shape;
+    each hit's level then comes from its character AND where it sits in
+    the bar, and soft hits play a little darker. `log` (a list) collects
+    (time_s, dur_s, notes, level) per hit for the MIDI file.
     """
     spec = spec or DEFAULT
     n = max(int(dur * sr), 1)
@@ -558,27 +563,41 @@ def render_figure(bars, dur, bpm, notes, render_note, render_chord,
         for step, ch in enumerate(bar[:16]):
             if ch == "-":
                 continue
-            lvl = groove.velocity(ch, step, None)
+            dyn = spec.get("dyn")
+            if dyn:
+                import dynamics
+                lvl = dynamics.level(ch, step, dyn)
+            else:
+                lvl = groove.velocity(ch, step, None)
             if lvl <= 0:
                 continue
+            played, held = notes, ring.get(b * 16 + step, seg_dur)
             if figure == "arp":
-                seg = render_note(order[k % len(order)],
-                                  ring.get(b * 16 + step, seg_dur))
+                played = [order[k % len(order)]]
+                seg = render_note(played[0], held)
                 k += 1
             elif figure == "pad" and ch == "X":
                 # the head of a pad is still a HELD block: it fills the
                 # slot the way sustain always did, and the re-attacks
                 # below are what's new.
+                held = dur
                 seg = render_chord(notes, dur)
             else:
-                held = ring.get(b * 16 + step, seg_dur)
                 seg = None
                 if spec.get("groove_flow") and b % 2 == 1:
-                    seg = render_chord(groove_lock.invert(notes), held)
+                    played = groove_lock.invert(notes)
+                    seg = render_chord(played, held)
                 if seg is None:
+                    played = notes
                     seg = render_chord(notes, held)
             if seg is None:
                 continue
             t = feel.hit_time(b * bar_s, step, bpm)
-            chord_synth.add_wrapped(out, seg * lvl, int(round(t * sr)))
+            if dyn:
+                seg = dynamics.soften(seg, lvl, sr)
+            else:
+                seg = seg * lvl
+            chord_synth.add_wrapped(out, seg, int(round(t * sr)))
+            if log is not None:
+                log.append((t % dur, min(held, dur), list(played), lvl))
     return chord_synth.finish_riff(out, sr)

@@ -92,11 +92,16 @@ def write_midi(path, events, bpm, tpq=480, tsig=(4, 4), chords=None):
     if chords:
         msgs = []
         for c in chords:
-            on = int(round(c["start_sec"] / spq * tpq))
-            off = int(round((c["start_sec"] + c["dur_sec"]) / spq * tpq))
-            for note in c["notes"]:
-                msgs.append((on, 0, 0x90, note, 90))
-                msgs.append((off, 1, 0x80, note, 64))
+            # dyn flow (2026-10-29): the chord figure's own hits at their
+            # written velocity; older beats keep one held block at 90
+            hits = c.get("hits") or [(0.0, c["dur_sec"], c["notes"], 90)]
+            for t, d, notes, vel in hits:
+                on = int(round((c["start_sec"] + t) / spq * tpq))
+                off = max(on + 1, int(round((c["start_sec"] + t + d)
+                                            / spq * tpq)))
+                for note in notes:
+                    msgs.append((on, 1, 0x90, note, vel))
+                    msgs.append((off, 0, 0x80, note, 64))
         msgs.sort()
         nm = b"chords"
         data = bytearray(b"\x00\xff\x03" + bytes([len(nm)]) + nm)
@@ -195,7 +200,11 @@ def write_stems(folder, stems, sources=None, loops=False):
             name = "drum loop"      # a loops beat's kick lane is a whole drum loop
         src = (sources or {}).get(lane)
         if src:
-            real = re.sub(r'[\\/:*?"<>|]', "_", Path(src).stem).strip()
+            # a label ("piano_66, F6/9 root") is not a path: its "/" must not
+            # cut the name down to "9 root"
+            real = re.sub(r'[\\/:*?"<>|]', "_", Path(
+                src if src.startswith(("/", "~")) else src.replace("/", "_")
+            ).stem).strip()
             if real:
                 name = f"{name} - {real}"
         g = 10 ** (STEM_BOOST_DB / 20.0)

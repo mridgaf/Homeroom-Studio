@@ -929,7 +929,13 @@ def test_recipe_records_key_progression_and_chords(machine_env):
     # for this key and progression — compose is deterministic once the
     # progression is named, so this is a real independent recomputation.
     key = KeyContext(h["root"], h["mode"])
-    _, expect = harmony.compose(key, h["progression"])
+    if h["progression"].startswith("gen:"):
+        # chord_gen (2026-10-29): the generated loop is saved in the preset
+        gen = rec["preset"]["chord_gen"]
+        assert h["progression"] == "gen:" + gen["style"]
+        expect = harmony.compose_chords(key, gen["chords"])
+    else:
+        _, expect = harmony.compose(key, h["progression"])
     if h.get("flow"):
         # chord flow (2026-09-26): the rows are the ARRANGED loop — repeats,
         # a turnaround, uneven lengths — and the notes are the voiced ones.
@@ -1083,6 +1089,11 @@ def test_card_theory_reads_the_recipe_and_the_owners_own_words(machine_env):
     assert th["key"] == h["key"]
     # the romans printed are this beat's, in order
     assert th["roman"] == " – ".join(c["roman"] for c in h["chords"])
+    if h["progression"].startswith("gen:"):
+        # chord_gen (2026-10-29): no hand-written card; it says so
+        assert th["progression"].endswith("loop, generated")
+        assert th["why"]
+        return
     # ...and the sentence is the config's, verbatim — not paraphrased here
     assert th["why"] == harmony.PROGRESSIONS[h["progression"]]["why"]
     assert th["progression"] == harmony.PROGRESSIONS[h["progression"]]["label"]

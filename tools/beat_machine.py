@@ -1600,6 +1600,17 @@ def add_bass_and_chords(preset, kit, sources, shots, variant, dirs, vnotes,
     # every chord is voiced from C4 up (see CHORD_LIFT_FLOOR). The bass
     # still reads the unlifted roots. New beats only.
     preset.setdefault("chord_lift", 1)
+    # CHORD GEN (owner 2026-10-29: "a whole new selection of chord
+    # progressions"): chords come from tools/chord_gen.py (genre tables
+    # built from 666k real songs) instead of progressions_config.json; the
+    # loop it made is saved here so a rebuild plays the same chords. The
+    # bass line writes its own genre pattern (tools/bass_gen.py), and
+    # chords + bass play written loud/soft (tools/dynamics.py). New beats
+    # only.
+    import chord_gen
+    import dynamics
+    preset.setdefault("chord_gen", {"v": chord_gen.VERSION, "who": dj})
+    preset.setdefault("dyn_flow", dynamics.VERSION)
     # An 808 beat plays NO bass line: the 808 bangs with the kick on its
     # own lane (_add_sample_lanes), one note, never following the chords
     # (owner 2026-09-23, reversing that morning's 808-plays-the-roots).
@@ -2358,8 +2369,26 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
     key_root, mode, prog = _roll_key(sig, variant, dirs, open_roll, srng,
                                      flow=flow)
     key = KeyContext(key_root, mode)
-    prog_name, chords = harmony.compose(
-        key, prog, rng=random.Random(variant * 419 + 5))
+    gen = preset.get("chord_gen")
+    # a rebuild hands back "gen:<style>" as the progression: that means
+    # "play the saved generated loop", not a named one
+    if gen and str(dirs.get("chord_feel") or "").startswith("gen:"):
+        dirs = dict(dirs, chord_feel=None)
+    if gen and not dirs.get("chord_feel") and "chords" not in gen:
+        # a typed mood word still picks a named loop; otherwise new beats
+        # play a generated one (free beats roll any style)
+        import chord_gen
+        got = chord_gen.generate(
+            chord_gen.styles_for(gen.get("who"), sig, free=open_roll),
+            mode, random.Random(variant * 1201 + 7))
+        if got:
+            gen.update(got)
+    if gen and gen.get("chords") and not dirs.get("chord_feel"):
+        prog_name = "gen:%s" % gen["style"]
+        chords = harmony.compose_chords(key, gen["chords"])
+    else:
+        prog_name, chords = harmony.compose(
+            key, prog, rng=random.Random(variant * 419 + 5))
     num, den = preset.get("tsig", (4, 4))
     bar_s = num * (4.0 / den) * 60.0 / preset["bpm"]
     nb = bars_of(preset)
@@ -2397,6 +2426,15 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
     # buffer instead of written into the lane's bar string.
     _grammar = chord_rhythm.spec_for(
         preset, free=free_beat(variant) and not preset.get("genre"))
+    # DYN FLOW (2026-10-29): written loud/soft by the style's accent shape
+    # (tools/dynamics.py), and the hits logged for the MIDI file
+    _dyn = None
+    if preset.get("dyn_flow"):
+        import dynamics
+        _dyn = dynamics.shape_for((preset.get("chord_gen") or {}).get("style"))
+    if _grammar and _dyn:
+        _grammar = dict(_grammar, dyn=_dyn)
+    _chord_hits = {}          # slot -> [(t_sec, dur_sec, notes, level)]
     # what the drums are already playing, so the "comp" figure can answer
     # them instead of doubling them. Read BEFORE any chord lane is added.
     # A rebuild hands back the lanes the beat was MADE with (dirs
@@ -2663,10 +2701,13 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
                     bars, _bar0.get(slot, 0), _busy.get("kick"),
                     random.Random(variant * 1013 + 29 + slot))
             _chord_cells[slot] = bars
+            _log = [] if slot not in _chord_hits else None
             a = chord_rhythm.render_figure(
                 bars, dur, preset["bpm"], notes, render_note, render_chord,
                 figure=figure, shape=shape, spec=_grammar,
-                seed=variant * 101 + slot, long=_long)
+                seed=variant * 101 + slot, long=_long, log=_log)
+            if _log and _dyn:
+                _chord_hits[slot] = _log
             # Silence means his library couldn't voice a single step of
             # the figure. Hand back None so the OLD arp/sustain path gets
             # its own try, rather than failing the whole plan — the
@@ -3266,7 +3307,8 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
             line, bass_notes = bass_rhythm.render_line(
                 bass_plan, _bslots, bar_s, preset["bpm"], _end,
                 _bass_voice(bused),
-                bass_rhythm.kick_feel(preset["lanes"], variant * 887 + 7))
+                bass_rhythm.kick_feel(preset["lanes"], variant * 887 + 7),
+                dyn=_dyn)
             if line is None:
                 bass_plan = None         # keep today's held root
             else:
@@ -3387,6 +3429,11 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
             preset["lanes"].pop(f"bass{i}", None)
         _mc = {"start_sec": start_bar * bar_s, "dur_sec": dur,
                "notes": chord.get("voiced", chord["notes"]) + [bass_note]}
+        if _chord_hits.get(i):
+            # dyn flow: the chords track plays the figure's real hits at
+            # their written loud/soft, not one held block at velocity 90
+            _mc["hits"] = [(t, d, list(ns), int(min(127, max(1, round(127 * v)))))
+                           for t, d, ns, v in _chord_hits[i]]
         if bass_plan and bass_beds:
             # the real line goes to its own MIDI track (write_midi), not a
             # held root inside the chords
@@ -5278,6 +5325,12 @@ def _beat_theory(no, root):
         return None
     import harmony
     prog = harmony.PROGRESSIONS.get(h.get("progression"), {})
+    if str(h.get("progression", "")).startswith("gen:"):
+        # chord_gen.py (2026-10-29): no hand-written card, say where from
+        prog = {"label": "%s loop, generated" %
+                h["progression"][4:].replace("_", " "),
+                "why": "Made by the chord generator from how real songs in "
+                       "this style move between chords."}
     chords = h.get("chords") or []
     return {"key": h.get("key"),
             "progression": prog.get("label") or h.get("progression"),

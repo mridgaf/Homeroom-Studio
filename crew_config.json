@@ -187,7 +187,7 @@
     "modes": [
      [
       "backbeat",
-      0.2404
+      0.2
      ],
      [
       "halftime",
@@ -203,7 +203,7 @@
      ],
      [
       "four",
-      0.0844
+      0.2
      ],
      [
       "push",
@@ -715,8 +715,8 @@
     "lean": {}
    },
    "pattern_tags": {
-    "push": 2,
-    "ghost": 2,
+    "push": 1.0,
+    "ghost": 1.0,
     "bounce": 1.5,
     "stab": 0.7
    },

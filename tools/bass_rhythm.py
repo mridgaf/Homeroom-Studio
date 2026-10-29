@@ -41,15 +41,20 @@ import chord_synth
 import groove
 from pattern_gen import _weighted
 
-FLOW_VERSION = 2          # 2 = the "pattern" figure (bass_patterns.json)
+FLOW_VERSION = 3          # 2 = the "pattern" figure (bass_patterns.json)
+                          # 3 = the "gen" figure (bass_gen.py, 2026-10-29)
 
 FIGURES = ("hold", "kick", "fifth", "octave", "walk", "push", "funk",
-           "pulse", "pattern")
+           "pulse", "pattern", "gen")
 
 # Share of chord slots that play a library pattern on a flow-2 beat.
 # Claude's starting point (owner 2026-10-19 asked for 100 new bass
 # patterns); tune by ear. A bass_grammar that names "pattern" itself wins.
 PATTERN_P = 0.5
+# Share of chord slots that write their own genre pattern (bass_gen.py) on
+# a flow-3 beat (owner 2026-10-29: a bass-line generator per genre).
+# Claude's starting point; tune by ear.
+GEN_P = 0.7
 
 # Which pattern tags each chord family leans toward (a tag not named = 1).
 PATTERN_TAGS = {
@@ -95,8 +100,14 @@ def spec_for(preset):
         figs = figs + [["pattern", total * PATTERN_P / (1 - PATTERN_P)]]
     elif flow < 2:
         figs = [[f, w] for f, w in figs if f != "pattern"] or DEFAULT
+    if flow >= 3 and not any(f == "gen" for f, _w in figs):
+        total = float(sum(w for _f, w in figs))
+        figs = figs + [["gen", total * GEN_P / (1 - GEN_P)]]
+    elif flow < 3:
+        figs = [[f, w] for f, w in figs if f != "gen"] or DEFAULT
     return {"figures": figs,
-            "tags": PATTERN_TAGS.get(sig.get("chord_family"), {})}
+            "tags": PATTERN_TAGS.get(sig.get("chord_family"), {}),
+            "style": (preset.get("chord_gen") or {}).get("style")}
 
 
 _LIB = None
@@ -195,7 +206,8 @@ def _kick_bar(kick_bars, bar):
     return NO_KICK
 
 
-def _figure_hits(fig, s, kick_bars, scale, rng, fits, tag_w=None):
+def _figure_hits(fig, s, kick_bars, scale, rng, fits, tag_w=None,
+                 style=None):
     """One slot's hits as [(bar, step, char, note)], bar relative to the
     slot. Step 0 of bar 0 is always the root, struck 'X'."""
     root, nb = s["root"], s["bars"]
@@ -206,12 +218,18 @@ def _figure_hits(fig, s, kick_bars, scale, rng, fits, tag_w=None):
         fifth]
     up = sorted((pc - root) % 12 for pc in scale if (pc - root) % 12)
     step_up = _pick(fits, root + up[0], root) if up else fifth
-    if fig == "pattern":
+    if fig in ("pattern", "gen"):
         lib = library()
-        if lib:
+        if fig == "gen":
+            import bass_gen
+            kb = [_kick_bar(kick_bars, s["start_bar"] + b) for b in (0, 1)]
+            entry = bass_gen.make(style, rng, kb)
+        else:
+            entry = _pick_entry(lib, rng, tag_w or {}) if lib else None
+        if entry:
             down = sorted((pc - root) % 12 for pc in scale if (pc - root) % 12)
             return _pattern_hits(
-                _pick_entry(lib, rng, tag_w or {}), s,
+                entry, s,
                 up[0] if up else 0, (down[-1] - 12) if down else 0, ivs,
                 fits)
         fig = "kick"                      # no library: the kick lock
@@ -295,13 +313,14 @@ def plan_line(slots, kick_bars, spec, variant, fits, scale=()):
         fig = _weighted(rng, spec["figures"])
         plan.append({"figure": fig, "tied": False,
                      "hits": _figure_hits(fig, s, kick_bars, scale, rng,
-                                          fits, spec.get("tags"))})
+                                          fits, spec.get("tags"),
+                                          spec.get("style"))})
     n = len(slots)
     for i, (s, p) in enumerate(zip(slots, plan)):
         nxt = slots[(i + 1) % n]["root"]
         last = s["bars"] - 1
         rng = random.Random(variant * 887 + 977 + i)
-        if p["figure"] == "pattern":
+        if p["figure"] in ("pattern", "gen"):
             # resolve the cross-slot roles: `a` slides in from the side
             # the line is coming from, `n` is the next root played early
             fixed = []
@@ -339,7 +358,7 @@ def plan_line(slots, kick_bars, spec, variant, fits, scale=()):
 
 
 def render_line(plan, slots, bar_s, bpm, loop_n, render_note, feel,
-                sr=chord_synth.SR):
+                sr=chord_synth.SR, dyn=None):
     """Play a planned line into one loop-length (`loop_n` samples),
     loop-safe buffer. Every note runs to the next hit (one note at a
     time); a ghost is half a 16th. `render_note(note, secs)` voices one
@@ -347,7 +366,11 @@ def render_line(plan, slots, bar_s, bpm, loop_n, render_note, feel,
 
     Returns (audio, notes) -- notes = per slot [(start_s, dur_s, note,
     level)] for the MIDI export -- or (None, None) if a note can't be
-    voiced even as its slot's root, so the caller keeps the old line."""
+    voiced even as its slot's root, so the caller keeps the old line.
+
+    `dyn` (a dynamics.py shape name, new beats from 2026-10-29): each
+    hit's level comes from its character AND where it sits in the bar,
+    and soft hits are a little darker -- see dynamics.py."""
     loop_s = loop_n / float(sr)
     six = bar_s / 16.0
     evs = []
@@ -368,14 +391,22 @@ def render_line(plan, slots, bar_s, bpm, loop_n, render_note, feel,
         if cut:
             dur = min(dur, cut * six)
         dur = max(dur, 0.02)
-        lvl = groove.velocity(ch, st, None)
+        if dyn:
+            import dynamics
+            lvl = dynamics.level(ch, st, dyn)
+        else:
+            lvl = groove.velocity(ch, st, None)
         seg = render_note(note, dur)
         if seg is None:
             note = slots[i]["root"]
             seg = render_note(note, dur)
             if seg is None:
                 return None, None
-        chord_synth.add_wrapped(out, seg * lvl, int(round(t * sr)))
+        if dyn:
+            seg = dynamics.soften(seg, lvl, sr)
+        else:
+            seg = seg * lvl
+        chord_synth.add_wrapped(out, seg, int(round(t * sr)))
         notes[i].append((t, dur, note, lvl))
     return out, notes
 

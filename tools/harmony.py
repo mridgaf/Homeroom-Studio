@@ -47,8 +47,14 @@ def compose(key, name=None, octave=3, rng=None):
     rng = rng or random
     if name not in PROGRESSIONS:
         name = rng.choice(names())
+    return name, compose_chords(key, PROGRESSIONS[name]["chords"], octave)
+
+
+def compose_chords(key, rel, octave=3):
+    """compose()'s chord dicts for any [[offset, quality], ...] list --
+    a progressions_config loop or one chord_gen.py made."""
     chords = []
-    for offset, quality in PROGRESSIONS[name]["chords"]:
+    for offset, quality in rel:
         root_pc = (key.pc + offset) % 12
         chords.append({
             "root": key.spell(root_pc),
@@ -57,7 +63,7 @@ def compose(key, name=None, octave=3, rng=None):
             "roman": key.roman(root_pc, quality),
             "notes": key.voice(root_pc, quality, octave),
         })
-    return name, chords
+    return chords
 
 
 # ---------------------------------------------------------------------------
