@@ -355,6 +355,9 @@ full read/append workflow and should trigger automatically. `SCRATCH.md`
 (project root) is the disposable live-reasoning trace for a multi-step
 problem in progress.
 
+## Web tools (set 2026-10-28)
+Use Firecrawl for web search, page reads and scraping. Do not use TinyFish. Use gstack `/browse` only for QA of web apps.
+
 ## Production Research Hub (added 2026-10-17)
 All production, effects, mixing and music-theory research is gathered in
 `~/Desktop/Homeroom Studio/Production Research Hub/`. Start at `00 START HERE.md`.
