@@ -1,0 +1,9 @@
+{
+  "exciter": {"impact_level": 0.92, "hardness": 0.38, "impact_tone": 0.18, "diffuser": 0.3, "noise_level": 0.08, "noise_decay": 0.045, "noise_color": 0.32},
+  "modal": {"level": 0.65, "ratios": [1.0, 1.98, 3.02, 4.01, 5.05, 6.0, 7.08, 8.02], "gains": [1.0, 0.48, 0.3, 0.22, 0.16, 0.12, 0.09, 0.07], "pans": [-0.1, 0.1, -0.08, 0.08, -0.06, 0.06, -0.04, 0.04], "decay": 0.62, "decay_scale": -0.22},
+  "object1": {"level": 0.65, "ratios": [1.0, 2.0, 3.0, 4.04, 5.02, 6.05, 7.0, 8.1], "gains": [1.0, 0.5, 0.31, 0.23, 0.17, 0.13, 0.1, 0.08], "pans": [-0.18, 0.18, -0.13, 0.13, -0.09, 0.09, -0.04, 0.04], "decay": 0.72, "damping": 0.7, "dispersion": -0.08, "collision": 0.16, "pitch_mod": -0.08, "coupling": 0.05, "direct_input": 1.0, "previous_input": 0.2},
+  "object2": {"enabled": false, "direct_input": 0.0, "previous_input": 0.0},
+  "mixer": {"modal_level": 0.66, "object1_level": 0.76, "object2_level": 0.0},
+  "effects": {"low_db": 1.0, "high_db": -2.5, "distortion": 0.09, "compression": 0.2, "delay_mix": 0.0, "reverb_mix": 0.1, "reverb_size": 0.42},
+  "master_gain": 0.8
+}

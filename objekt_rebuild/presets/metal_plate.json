@@ -1,0 +1,9 @@
+{
+  "exciter": {"impact_level": 0.82, "hardness": 0.9, "impact_tone": 0.7, "diffuser": 0.18, "noise_level": 0.11, "noise_decay": 0.11, "noise_color": 0.86},
+  "modal": {"level": 0.72, "ratios": [1.0, 1.49, 2.17, 2.96, 3.88, 5.13, 6.71, 8.62], "gains": [1.0, 0.78, 0.62, 0.52, 0.42, 0.33, 0.25, 0.19], "pans": [-0.32, 0.3, -0.24, 0.22, -0.16, 0.14, -0.08, 0.06], "decay": 3.6, "decay_scale": -0.02},
+  "object1": {"level": 0.72, "ratios": [1.0, 1.58, 2.34, 3.26, 4.37, 5.71, 7.3, 9.18], "gains": [1.0, 0.7, 0.54, 0.43, 0.34, 0.27, 0.21, 0.16], "pans": [-0.36, 0.34, -0.25, 0.24, -0.16, 0.15, -0.08, 0.07], "decay": 2.9, "damping": 0.18, "dispersion": 0.52, "collision": 0.22, "pitch_mod": 0.06, "coupling": 0.2, "direct_input": 0.8, "previous_input": 0.3},
+  "object2": {"level": 0.45, "ratios": [1.0, 1.72, 2.61, 3.69, 4.98, 6.49, 8.21, 10.2], "gains": [1.0, 0.64, 0.48, 0.38, 0.3, 0.24, 0.18, 0.14], "pans": [0.32, -0.32, 0.24, -0.24, 0.16, -0.16, 0.08, -0.08], "decay": 2.2, "damping": 0.28, "dispersion": 0.68, "collision": 0.28, "coupling": 0.24, "direct_input": 0.25, "previous_input": 0.75},
+  "mixer": {"modal_level": 0.62, "object1_level": 0.78, "object2_level": 0.48, "object1_pan": -0.12, "object2_pan": 0.12},
+  "effects": {"low_db": -1.0, "high_db": 2.2, "distortion": 0.12, "compression": 0.18, "delay_mix": 0.09, "delay_time": 0.13, "delay_feedback": 0.23, "reverb_mix": 0.22, "reverb_size": 0.78},
+  "master_gain": 0.62
+}

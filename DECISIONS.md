@@ -9405,3 +9405,17 @@ just not loaded by default.
 ### [2026-10-28] Instruments + loops: any, on 50% of beats, for everyone
 - Owner: "Instruments too". Both `_source_order(... free=...)` call sites in beat_machine now use `free_beat(variant, SOUND_OPEN_P)` with no genre exemption, so every DJ/Legend/genre leads with any instrument group, strings, loop or MIDI on half its beats ("chip" still only for those who ask). Key/harmony/chord-rhythm free rolls left at 30% (not sounds).
 - Status: open. Focused tests pass (135); full suite not run, nothing rendered.
+
+### [2026-10-28] Objekt clean-room reference renderer
+- Context: owner wants to understand and rebuild Reason Studios Objekt without having it installed.
+- Decision/change: built `objekt_rebuild/` from the official 2023 Objekt manual: Python impact/noise/external exciters, eight modal resonators, two eight-line feedback-delay objects, routing, effects, seeded randomization, polyphonic offline rendering, four original presets, tests, and WAV auditions. Downloaded the official manual and recorded its SHA-256. Replaced the earlier speculative Objekt note with a pointer to the grounded project.
+- Reasoning: the manual establishes public architecture and controls but not proprietary algorithms, nonlinearities, tapers, factory patches, or exact audio behavior. `PARITY.md` explicitly separates implemented, approximated, unknown, and reference-unit-dependent behavior.
+- Verify by: `cd objekt_rebuild && python3 -m unittest discover -s tests -v && python3 demo.py`; listen to `artifacts/objekt-clean-room-demo.wav`.
+- Status: superseded by the VST3 build below; the offline renderer remains as a reference implementation.
+
+### [2026-10-28] Objekt Rebuild VST3 0.1.0 built and installed
+- Context: owner asked to turn the Objekt clean-room renderer into a VST3.
+- Decision/change: added `objekt_rebuild/vst3/`: independent C++20 real-time DSP, eight MIDI voices, JUCE 9.0.4 VST3 adapter, 16 automatable parameters, four programs, generic editor, and host state restoration. Built native arm64 `Objekt Rebuild.vst3`, ad-hoc signed it, installed it at `~/Library/Audio/Plug-Ins/VST3/Objekt Rebuild.vst3`, and packaged `artifacts/Objekt-Rebuild-0.1.0-macOS-arm64-VST3.zip`.
+- Verification: CTest engine + processor tests passed; existing Python tests 6/6 passed; codesign deep/strict passed; pluginval 1.0.4 strictness 10 passed editor, processing at 44.1/48/96 kHz and 64-1024 blocks, automation, state restoration, thread safety, and fuzzing; REAPER arm64 discovered and loaded it, saved it in `Objekt-Rebuild-Host-Smoke.rpp`, and `-peaktest` rendered MIDI C4 at peak +/-0.01 dB at 1.161 s.
+- Limits: VST3 only, arm64 only, generic UI; no exact Objekt parity, modulation matrix, Mono/Legato/Portamento, Rack Extension, AU, or AAX. Private local JUCE build; distribution needs appropriate licensing review.
+- Status: confirmed — installed plugin and packaged bundle both verify. Reason 12 was launched after installation and its arm64 plugin database contains the exact installed path, name, vendor, version, and VST3 class ID. Owner has not yet played it by ear.
