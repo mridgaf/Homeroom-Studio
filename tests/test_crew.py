@@ -563,6 +563,27 @@ def test_allow_dirt_low_grits_the_808_and_leaves_the_mix_clean():
     assert s2.called and m2.call_args.kwargs["drive"] == p["drive"]
 
 
+def test_no_eq_beats_keep_only_duck_and_master():
+    """Owner 2026-10-29: keep the kick duck and the master stage; no mix
+    EQ (house or the DJ's own), no 120 Hz chord cut, no dirt."""
+    from unittest.mock import patch
+    import audio_engine
+    p = dict(CREW["Otto Grit"], no_eq=1)       # Otto: own EQ + allow_dirt
+    kit = _tone_kit(p)
+    with patch("audio_engine.eq3", side_effect=audio_engine.eq3) as e, \
+            patch("crew.highpass", side_effect=crew.highpass) as hp, \
+            patch("crew.sp1200", side_effect=crew.sp1200) as s, \
+            patch("crew.master", side_effect=crew.master) as m:
+        render_crew_beat("Otto Grit", kit, preset=p)
+    assert not e.called and not s.called
+    assert not any(c.args[1] == crew.CHORD_LOW_CUT_HZ
+                   for c in hp.call_args_list)
+    assert m.called and m.call_args.kwargs["drive"] == 0.7
+    with patch("audio_engine.eq3", side_effect=audio_engine.eq3) as e2:
+        render_crew_beat("Otto Grit", kit, preset=dict(p, no_eq=0))
+    assert e2.called                          # old beats rebuild as made
+
+
 def test_808_only_dirt_lands_on_the_808_not_the_kick():
     """Owner 2026-09-24, "The 808, all three": an 808 beat since 09-23 has a
     short kick plus the 808 in its own "bass" lane, and "low" dirt was

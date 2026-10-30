@@ -1616,6 +1616,13 @@ def add_bass_and_chords(preset, kit, sources, shots, variant, dirs, vnotes,
     # New beats only.
     import riff_gen
     preset.setdefault("texture_flow", riff_gen.VERSION)
+    # NO MIDI (owner 2026-10-29: "It just doesn't sound right"): no chords
+    # from his MIDI packs, no riffs from MIDI (packs or Lakh). Riff beats
+    # become two-note or loop beats. New beats only.
+    preset.setdefault("no_midi", 1)
+    # NO EQ (owner 2026-10-29): see crew.render_crew_beat. Soft chord/bass
+    # hits only get quieter, not darker. New beats only.
+    preset.setdefault("no_eq", 1)
     preset.setdefault("dyn_flow", dynamics.VERSION)
     # An 808 beat plays NO bass line: the 808 bangs with the kick on its
     # own lane (_add_sample_lanes), one note, never following the chords
@@ -1944,7 +1951,7 @@ def _wpick(spec, rng):
     return rng.choice(spec)
 
 
-def _source_order(pref, rng, free=False):
+def _source_order(pref, rng, free=False, no_midi=False):
     """The order to try chord voices for one chord. No signature -> the
     historical default (a sampled loop, else the sampled-instrument
     voice). With a signature `chord_source` (weighted, e.g.
@@ -1963,11 +1970,17 @@ def _source_order(pref, rng, free=False):
     banks, via instrument_sampler.VOICES — not an oscillator. The
     synthesized pad that used to be the never-fails floor is deleted, so
     unlike before, every source in this order can fail; _build_chords
-    handles the case where they all do."""
+    handles the case where they all do.
+
+    `no_midi` (owner 2026-10-29): "midi" is never on the table."""
+    if no_midi and pref:
+        pref = [s for s in pref if s[0] != "midi"] or None
     if free:
         import instrument_sampler
         every = sorted(set(instrument_sampler.VOICES) - {"chip"}
                        | {"strings", "loop", "midi"})
+        if no_midi:
+            every.remove("midi")
         primary = rng.choice(every)
         names = [s[0] for s in pref] if pref else ["loop", "synth"]
     elif not pref:
@@ -2132,7 +2145,7 @@ def _pin_bars_for_loop_voice(preset, variant, dirs):
     # every DJ/Legend/genre: any instrument or loop on half its beats
     # (owner 2026-10-28, overrides the 30% roll and the genre exemption)
     order = _source_order(pref, random.Random(variant * 461),
-                          free=free_beat(variant, SOUND_OPEN_P))
+                          free=free_beat(variant, SOUND_OPEN_P), no_midi=True)
     if not order or order[0] != "loop":
         return False
     preset["bar_lengths"] = [4]
@@ -2442,7 +2455,8 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
         import dynamics
         _dyn = dynamics.shape_for((preset.get("chord_gen") or {}).get("style"))
     if _grammar and _dyn:
-        _grammar = dict(_grammar, dyn=_dyn)
+        _grammar = dict(_grammar, dyn=_dyn,
+                        plain_soft=bool(preset.get("no_eq")))
     _chord_hits = {}          # slot -> [(t_sec, dur_sec, notes, level)]
     # what the drums are already playing, so the "comp" figure can answer
     # them instead of doubling them. Read BEFORE any chord lane is added.
@@ -2467,6 +2481,8 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
     if preset.get("texture_flow"):
         import riff_gen
         _tex = riff_gen.roll(variant)
+        if _tex == "riff" and preset.get("no_midi"):   # riffs are MIDI
+            _tex = riff_gen.no_riff(variant)
         if _tex == "riff":
             _riff = riff_gen.pick(
                 variant, (preset.get("chord_gen") or {}).get("style"))
@@ -2484,6 +2500,7 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
         _grammar = dict(_grammar or chord_rhythm.DEFAULT)
         if _dyn:
             _grammar["dyn"] = _dyn
+            _grammar["plain_soft"] = bool(preset.get("no_eq"))
         if _tex == "two":            # sparse stabs, never held or arped
             _grammar["figures"] = [["stab", 3], ["comp", 2]]
     _tonic = 60 + key.pc             # where a riff's 0 sits (C4-B4)
@@ -2491,7 +2508,9 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
     # above, for the owner's MIDI chord packs (tools/midi_packs.py) —
     # one candidate file per beat, not per chord slot, same reasoning as
     # loop_voice's own pool[:3] top-candidates convention.
-    want_midi = (pref and any(s[0] == "midi" for s in pref)) or voice == "midi" or free
+    want_midi = not preset.get("no_midi") and (
+        (pref and any(s[0] == "midi" for s in pref)) or voice == "midi"
+        or free)
     midi_prog, midi_pick_name = None, None
     if want_midi:
         m_pool = chord_synth.midi_pool(key)
@@ -2943,7 +2962,8 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
     # every DJ/Legend/genre: any instrument or loop on half its beats
     # (owner 2026-10-28, overrides the 30% roll and the genre exemption)
     order = _source_order(pref, random.Random(variant * 461),
-                          free=free_beat(variant, SOUND_OPEN_P))
+                          free=free_beat(variant, SOUND_OPEN_P),
+                          no_midi=bool(preset.get("no_midi")))
     if _tex == "loop" and not voice:
         order = ["loop"] + [s for s in order if s != "loop"]
     elif _tex in ("two", "riff") and not voice and order[0] == "loop":
@@ -3369,7 +3389,7 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
                 bass_plan, _bslots, bar_s, preset["bpm"], _end,
                 _bass_voice(bused),
                 bass_rhythm.kick_feel(preset["lanes"], variant * 887 + 7),
-                dyn=_dyn)
+                dyn=_dyn, plain_soft=bool(preset.get("no_eq")))
             if line is None:
                 bass_plan = None         # keep today's held root
             else:

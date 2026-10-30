@@ -60,6 +60,13 @@ def roll(variant):
     return TEXTURES[-1][0]
 
 
+def no_riff(variant):
+    """A riff beat's stand-in when MIDI is off (owner 2026-10-29): two
+    notes or a loop, even odds, own seed."""
+    return "two" if random.Random(variant * 1409 + 7).random() < 0.5 \
+        else "loop"
+
+
 def two_notes(root_pos):
     """Two notes of a root-position chord: 3rd + 7th, else root + 3rd."""
     ns = sorted(root_pos)

@@ -2384,7 +2384,9 @@ def test_midi_chords_played_on_strings_do_not_crash(machine_env, monkeypatch):
     path, report = beat_machine.generate(["Timberline"], root=root, shots=shots)
     rec = beat_recipes.load_recipe(root, int(path.name.split()[0]))
     voices = [c["voice"] for c in rec["harmony"]["chords"]]
-    assert all(v.startswith("midi:") and "strings" in v for v in voices), voices
+    # owner 2026-10-29: new beats never play MIDI (preset["no_midi"]), even
+    # when the signature asks for it -- the strings carry it instead
+    assert voices and not any(v.startswith("midi:") for v in voices), voices
 
 
 # ------------------------------------- batch tabs + waveforms (2026-10-03)

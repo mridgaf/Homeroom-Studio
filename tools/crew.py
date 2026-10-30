@@ -1617,7 +1617,14 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False,
     # (darker, -1.5 dB of air) survives a roster-wide brightening.
     # The other three stay opt-in per identity; see the `chorus`/`phaser`/
     # `backbeat_echo` keys in crew_config.json.
-    eq = eq if eq is not None else p.get("mix_eq", OWNER_TASTE["mix_eq"])
+    # NO EQ (owner 2026-10-29): new Original beats keep only the kick duck
+    # and the master stage's own tone -- no mix EQ (house, DJ or genre), no
+    # 120 Hz chord cut, no transient shaper, no dirt. Snare space, echo,
+    # chorus, phaser and glue stay. An eq passed in (Sound Engine) still
+    # applies. Loops beats are untouched.
+    _no_eq = bool(p.get("no_eq")) and not loop_bufs
+    eq = eq if eq is not None else (
+        None if _no_eq else p.get("mix_eq", OWNER_TASTE["mix_eq"]))
     echo = echo if echo is not None else p.get("backbeat_echo")
     chorus = chorus if chorus is not None else p.get("chorus")
     phaser = phaser if phaser is not None else p.get("phaser")
@@ -1810,7 +1817,7 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False,
     # the bottom). Runs on the loop-length buffer, and an FFT filter is
     # circular, so it stays loop-safe. From-scratch only: the Loops page's
     # "chordloop" lane keeps its own low end.
-    if not loop_bufs:
+    if not loop_bufs and not _no_eq:
         for lane in bufs:
             if lane.startswith(("chord", "melody")):
                 bufs[lane] = highpass(bufs[lane], CHORD_LOW_CUT_HZ)
@@ -1839,7 +1846,7 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False,
     # compression"). Runs on the raw lane buffer, before dirt/space/glue —
     # where a transient designer actually sits, on the drum channel rather
     # than the bus. Off unless a preset carries the field.
-    _tr = p.get("transient")
+    _tr = None if _no_eq else p.get("transient")
     if _tr:
         for lane in _tr.get("lanes", ()):
             if lane in bufs and onsets.get(lane):
@@ -1865,6 +1872,8 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False,
     _house_clean = OWNER_TASTE.get("clean_renders", False)
     clean = _house_clean and not _dirt              # gates the 808/kick
     clean_mix = _house_clean and _dirt is not True  # gates everything else
+    if _no_eq:
+        clean = clean_mix = True
     _glue = p.get("glue", {})
     if loop_bufs:
         # owner 2026-10-24: loop beats are FULLY clean for every identity —

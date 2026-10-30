@@ -600,7 +600,7 @@ def render_figure(bars, dur, bpm, notes, render_note, render_chord,
             if seg is None:
                 continue
             t = feel.hit_time(b * bar_s, step, bpm)
-            if dyn:
+            if dyn and not spec.get("plain_soft"):  # quieter, not darker
                 seg = dynamics.soften(seg, lvl, sr)
             else:
                 seg = seg * lvl

@@ -358,7 +358,7 @@ def plan_line(slots, kick_bars, spec, variant, fits, scale=()):
 
 
 def render_line(plan, slots, bar_s, bpm, loop_n, render_note, feel,
-                sr=chord_synth.SR, dyn=None):
+                sr=chord_synth.SR, dyn=None, plain_soft=False):
     """Play a planned line into one loop-length (`loop_n` samples),
     loop-safe buffer. Every note runs to the next hit (one note at a
     time); a ghost is half a 16th. `render_note(note, secs)` voices one
@@ -402,7 +402,7 @@ def render_line(plan, slots, bar_s, bpm, loop_n, render_note, feel,
             seg = render_note(note, dur)
             if seg is None:
                 return None, None
-        if dyn:
+        if dyn and not plain_soft:      # plain_soft: quieter, not darker
             seg = dynamics.soften(seg, lvl, sr)
         else:
             seg = seg * lvl

@@ -9449,3 +9449,15 @@ just not loaded by default.
 - Not done: full chords are 10% for EVERYONE, not research-per-identity yet (owner picked "research decides"). A riff slot with no notes plays the riff's other bar.
 - Tests: new unit + end-to-end texture tests; `test_loops_always_play_alone` skips riff/two beats. 235 pass in beat_machine/harmony/freedom/chord_bass_gen. Full suite not run, nothing rendered or heard.
 - Status: open
+
+### [2026-10-29] No MIDI on new beats: no pack MIDI chords, no MIDI riffs
+- Context: owner: "remove the MIDI aspect of doing the chords. Or the bass, or the lead. It just doesn't sound right." Clickable pick: "MIDI files from packs" (pack MIDI chords + Lakh/pack riffs).
+- Change: new stamp `preset["no_midi"]` (new beats only, set in add_bass_and_chords). `_source_order(..., no_midi=)` drops "midi" from signature weights and free rolls; `want_midi` off; riff texture re-rolls to two-note or loop 50/50 (`riff_gen.no_riff`). Bass was never MIDI (bass_gen writes it). Old beats rebuild as made. Backups `tools/*.pre-no-midi-2026-10-29.py`. The 11 identities with "midi" 75 in chord_source now roll their other sources.
+- Tests: original_midi/freedom/signature/chord_bass_gen + texture test 46 pass; `test_midi_chords_played_on_strings_do_not_crash` flipped to "no midi: voices"; `test_loops_always_play_alone` passes (handoff item 1 closed). Full suite not run, nothing rendered.
+- Status: open — his ear. Handoff item 2 (removing a sound moves others) paused by owner before investigation.
+
+### [2026-10-29] Original beats: no EQ, no dirt — kick duck + master stage only (plus space/echo/chorus/phaser/glue)
+- Context: owner read the render-chain list (`Handoffs/Original side effects - 2026-10-29.md`): "keep the kick duck, keep the master stage, remove all other EQ ... on DJ and genre, don't add dirt". Clickable: "Only EQ + dirt go" (snare reverb, echo, chorus, phaser, glue stay); soft hits darker -> "Remove it".
+- Change: new stamp `preset["no_eq"]` (new beats, add_bass_and_chords). In `crew.render_crew_beat` (not Loops beats): no house/DJ/genre mix EQ, no 120 Hz chord/melody cut, no transient shaper (Doc Day), clean = clean_mix = True (no vinyl, wow, saturation, SP-1200, 808/kick distortion; master drive 0.7). An eq passed in by the Sound Engine still applies. Soft chord/bass hits only quieter (`plain_soft` -> skips dynamics.soften). Master stage (air shelf, mid dip, mono below 200, -12 LUFS, mono below 120) unchanged. Backups `tools/*.pre-no-eq-2026-10-29.py`.
+- Tests: new `test_no_eq_beats_keep_only_duck_and_master`. Nothing rendered.
+- Status: open — his ear.
