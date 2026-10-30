@@ -230,6 +230,21 @@ to stop.)
 This is a hard rule, not a preference. No "just this once because the
 change is small" — that is exactly how it came back.
 
+### 0d-2. HARD RULE: don't nitpick test failures — only real problems
+
+Owner, 2026-10-30: "Ignore them from now on, unless they cause an actual
+problem... To not nitpick and find small problems and only address the
+real ones."
+- A failing test is only worth his attention if it shows a REAL problem:
+  a beat he'd hear as wrong, the app breaking, or the change you just made
+  breaking something. Otherwise it's noise.
+- Known minor failures (ignore, don't list, don't re-log): Otto Grit dirt
+  check, Timberline chip-only chords, `panel_sweep.py` imports reason_voice,
+  Night Metro clap lean + kick variety, the `.pre-*` backup test file
+  (run with `--ignore-glob='*.pre-*'`).
+- Report a suite as "passed apart from known minor failures" — no
+  per-failure list. Only name a failure if it is new AND real.
+
 ### 0e. The Dock always opens the newest version
 
 Owner, 2026-09-25: the Dock icons (the row of apps at the bottom of the screen) must always open the
