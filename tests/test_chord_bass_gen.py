@@ -137,3 +137,32 @@ def test_texture_rolls_and_riff_figure_plays_one_note_per_hit():
     assert played == [60, 63, 67]
     assert all(len(row[2]) == 1 for row in log)
     assert np.max(np.abs(a)) > 0
+
+
+def test_keys_led_identities_get_more_full_chords_on_new_beats_only():
+    # 2026-10-30, owner "rare, research decides": identities whose listen
+    # line says keys/strings/choir carry it get their own full-chord odds
+    import json
+    import riff_gen
+    from collections import Counter
+    root = Path(__file__).resolve().parent.parent
+    sig = json.loads((root / "genres_config.json").read_text())["G-Funk"][
+        "signature"]
+    assert sig["texture_full"] == 0.4
+    c = Counter(riff_gen.roll(v, sig["texture_full"]) for v in range(2000))
+    assert 700 < c["full"] < 900
+    # a beat stamped texture_flow 1 rolls the old odds: identical result
+    assert all(riff_gen.roll(v, 0.1) == riff_gen.roll(v) for v in range(500))
+    assert riff_gen.VERSION == 2
+
+
+def test_no_guitar_tab_chords_on_new_beats():
+    # owner 2026-10-30: "I don't want the guitar chords used" -> the
+    # Chordonomicon (guitar-tab) styles borrow the iReal sheet tables
+    for style in chord_gen.BORROW:
+        if style not in chord_gen.tables():
+            continue
+        for v in range(40):
+            g = chord_gen.generate({style: 1}, "minor", random.Random(v))
+            assert g["style"] == style            # bass still follows it
+            assert g["from"] not in chord_gen.BORROW, g

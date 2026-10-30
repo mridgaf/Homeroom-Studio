@@ -20,7 +20,7 @@ ORIGINAL_BUILT = {
     "genres_config.json": ["G-Funk", "Acid Rap Bright", "Horror Rap",
                            "Crunk", "Chiptune", "Baltimore Club",
                            "Acid Rap Detroit", "Memphis", "Houston Screw", "Emo Hip Hop", "Organized Noize", "Trip Hop", "Miami Bass", "New Orleans Bounce", "Reggaeton Alt", "Plug", "Wonky", "Detroit"],
-    "crew_config.json": ["Cutz", "Chrome Dial", "Crate Prophet", "Otto Grit", "Glass Cat", "Sunday Chop", "Night Metro", "Rage Engine"],
+    "crew_config.json": ["Cutz", "Chrome Dial", "Crate Prophet", "Otto Grit", "Glass Cat", "Sunday Chop", "Night Metro", "Rage Engine", "New Math", "Half Light", "Fast Water"],
 }
 
 

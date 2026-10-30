@@ -1435,6 +1435,7 @@
    ]
   },
   "signature": {
+   "texture_full": 0.4,
    "key": {
     "roots": [
      [
@@ -2437,6 +2438,7 @@
    ]
   },
   "signature": {
+   "texture_full": 0.25,
    "key": {
     "roots": [
      [
@@ -3482,6 +3484,7 @@
    ]
   },
   "signature": {
+   "texture_full": 0.4,
    "key": {
     "roots": [
      [
@@ -5081,6 +5084,7 @@
    ]
   },
   "signature": {
+   "texture_full": 0.25,
    "key": {
     "roots": [
      [
@@ -7199,6 +7203,7 @@
    ]
   },
   "signature": {
+   "texture_full": 0.4,
    "key": {
     "roots": [
      [
@@ -8860,6 +8865,7 @@
    ]
   },
   "signature": {
+   "texture_full": 0.25,
    "key": {
     "roots": [
      [

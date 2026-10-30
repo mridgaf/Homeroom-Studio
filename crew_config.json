@@ -3970,6 +3970,7 @@
    ]
   },
   "signature": {
+   "texture_full": 0.4,
    "key": {
     "roots": [
      [
@@ -5367,6 +5368,7 @@
    ]
   },
   "signature": {
+   "texture_full": 0.25,
    "key": {
     "roots": [
      [
@@ -5649,10 +5651,11 @@
  },
  "New Math": {
   "num": 9,
-  "bpm": 144,
+  "bpm": 88,
   "era": "now",
-  "built": "no one — the front edge",
-  "listen": "the new one. A club kick pattern that never sits where trap taught you to expect it; a hat lane counting FIVE against everyone else's four (quintuplet grid); percussion running world-rhythm math (E(7,16) and E(5,16) necklaces); and one lane swinging 58% while the rest of the kit stays dead straight — the clash IS the groove. Clean and punchy, mid-forward kick. Stamp is a found-sound fx hit on the tail of bars 4/8",
+  "built": "Flying Lotus, Cosmogramma years 2008-10 (owner pick 2026-10-30)",
+  "listen": "Flying Lotus in the Cosmogramma years: 78 to 97 bpm, drums played in by hand and not quantized, harp and strings over woozy synths, a live bass running octaves and fast scales, and a dense, layered mix. Stamp is a found-sound fx hit on the tail of bars 4/8",
+  "_research_note": "REBUILD 2026-10-30 (dj-rebuild, Original side). 'No one' identity: owner picked off-grid hip-hop -> Flying Lotus, Los Angeles (2008) + Cosmogramma (2010), then the COSMOGRAMMA side so it stays apart from the Wonky genre (Wonky keeps the synth + jitter-everything side, 86 bpm, 62% swing). Research: Handoffs/DJ Rebuild/New Math/research transcript.md (16 sources, 13 tracks). Backup: crew_config.pre-new-math-rebuild-2026-10-30.json. Old identity (144 bpm club, quintuplet hats, one 58% swung lane against a dead-straight kit) retired by the owner's pick.\nPHRASE-TO-SETTING MAP\n- '78 to 97 bpm' -> bpm 88 + signature.tempo [78,97]. 8 of 12 era tracks [CONFIRMED]; house lane 112-120 left out.\n- 'drums played in by hand and not quantized' -> every lane jitter 5 ms, every lane swing 50; quint20 hat mode removed, hat bars 16-step. Ellison: 'I just don't quantize the stuff' [CONFIRMED, his words]. Swing % NOT FOUND, so straight; 5 ms is my pick (Wonky has 7-9).\n- 'harp and strings over woozy synths' -> chord_source strings (harp files sit in the string group) + synth get half of the packs (crew 50-50), strings 2 : synth 1 (my pick; harp 8 tracks + strings 5 vs synth uncounted). Booklet credits [CONFIRMED].\n- 'a live bass running octaves and fast scales' -> signature.bass_grammar octave 3, walk 3, push 1, hold 1 (magnitudes mine). Thundercat [CONFIRMED].\n- 'a dense, layered mix' -> extras p 0.73 / nmax 2 (unchanged). Maximalist [CONFIRMED].\n- 'found-sound fx stamp bars 4/8' -> lanes.stamp + kit stamp fx (unchanged). Found sounds [CONFIRMED]; bar placement carried over.\nLEFT ALONE (research silent or UNSURE): key/mode + progressions (chord moves NOT FOUND; key data leans minor, UNSURE), kick flavors, Euclid perc grammar (carried, not in the line), sidechain 0.3 (ducking/pumping UNSURE), dust 0 (crackle is the Los Angeles side), library tags, phaser, chip settings.",
   "kit": {
    "kick": [
     "kick",
@@ -5728,7 +5731,7 @@
     1.0,
     [
      0,
-     1,
+     5,
      50,
      191
     ],
@@ -5748,7 +5751,7 @@
     0.85,
     [
      0,
-     1,
+     5,
      50,
      192
     ],
@@ -5768,7 +5771,7 @@
     0.4,
     [
      12,
-     1,
+     5,
      50,
      193
     ],
@@ -5788,19 +5791,19 @@
     0.38,
     [
      0,
-     1,
+     5,
      50,
      194
     ],
     [
-     "x-x-xx-x-xx-x-xx-x-x",
-     "x-x-xx-x-xx-x-xx-x-x",
-     "x-x-xx-x-xx-x-xx-x-x",
-     "x-x-xx-x-xxxx-xx-xxx",
-     "x-x-xx-x-xx-x-xx-x-x",
-     "x-x-xx-x-xx-x-xx-x-x",
-     "x-x-x-x-x-x-x-x-x-x-",
-     "xx-xx-xx-xx-xx-xxxxx"
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-xxx-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-x-",
+     "x-x-x-x-x-x-x-xx"
     ]
    ],
    "perc": [
@@ -5808,8 +5811,8 @@
     0.3,
     [
      0,
-     2,
-     58,
+     5,
+     50,
      195
     ],
     [
@@ -5828,7 +5831,7 @@
     0.4,
     [
      0,
-     1,
+     5,
      50,
      196
     ],
@@ -5979,40 +5982,36 @@
    "hat": {
     "modes": [
      [
-      "quint20",
-      0.55
-     ],
-     [
       "sixteenths",
-      0.09
+      0.2
      ],
      [
       "rolls32",
-      0.09
+      0.2
      ],
      [
       "broken",
-      0.07
+      0.156
      ],
      [
       "offbeats",
-      0.07
+      0.156
      ],
      [
       "gallop",
-      0.05
+      0.111
      ],
      [
       "eighths",
-      0.04
+      0.089
      ],
      [
       "answer",
-      0.02
+      0.044
      ],
      [
       "sparse",
-      0.02
+      0.044
      ]
     ]
    },
@@ -6157,6 +6156,10 @@
      ]
     ]
    },
+   "tempo": [
+    78,
+    97
+   ],
    "progressions": [
     [
      "math_minor_thirds",
@@ -6301,52 +6304,56 @@
    ],
    "chord_source": [
     [
+     "loop",
+     10
+    ],
+    [
      "midi",
-     1
+     75
     ],
     [
      "synth",
-     0.182
+     2.5
     ],
     [
      "bell",
-     0.182
+     0.833
     ],
     [
      "choir",
-     0.182
+     0.833
     ],
     [
      "guitar",
-     0.182
+     0.833
     ],
     [
      "horns",
-     0.182
+     0.833
     ],
     [
      "organ",
-     0.182
+     0.833
     ],
     [
      "pad",
-     0.182
+     0.833
     ],
     [
      "piano",
-     0.182
+     0.833
     ],
     [
      "pluck",
-     0.182
+     0.833
     ],
     [
      "strings",
-     0.182
+     5.0
     ],
     [
      "wood",
-     0.182
+     0.833
     ]
    ],
    "chord_rhythm": "arp",
@@ -6363,7 +6370,27 @@
     "offbeat": 1.5,
     "push": 1.2
    },
-   "chord_family": "bright_funk"
+   "chord_family": "bright_funk",
+   "bass_grammar": {
+    "figures": [
+     [
+      "octave",
+      3
+     ],
+     [
+      "walk",
+      3
+     ],
+     [
+      "push",
+      1
+     ],
+     [
+      "hold",
+      1
+     ]
+    ]
+   }
   },
   "phaser": {
    "rate_hz": 0.5,
@@ -6379,8 +6406,9 @@
   "num": 10,
   "bpm": 68,
   "era": "now",
-  "built": "no one — the slow lane",
-  "listen": "the slowest thing in the room. Half the roster's tempo, and every lane drags BEHIND the click on purpose (kick +26 ms, snare +34 ms) — nobody else is late by design. No hats at all: a cross-stick rim keeps time in threes over a four grid, so it never lines up twice the same way. The backbeat mostly refuses to show — the snare sits on the 4 alone and leaves the 2 empty. Tape wow is the highest on the roster, so the whole thing sags and recovers. Gated snare like the house, but his Alt file is a HALL — 2.2 seconds, the biggest room any DJ has. Stamp is a reversed hit at the END of bars 2 and 6, so it sucks INTO bars 3 and 7 — everyone else stamps the tail of 4 and 8; he arrives early instead.",
+  "built": "Earl Sweatshirt + the Alchemist, 2018-23 (owner pick 2026-10-30)",
+  "listen": "Earl Sweatshirt's Some Rap Songs and the Alchemist's Alfredo and Voir Dire: 64 to 86 bpm, the slowest on the roster. Loops that start off the beat, so every lane drags late on purpose (kick +26 ms, snare +34 ms). Loose percussion or barely any: no hats, a soft lo-fi snare that mostly sits out, a rim keeping time. Warped, slightly out-of-tune piano, guitar and string loops over vinyl crackle and tape wobble. Stamp is a reversed hit at the END of bars 2 and 6",
+  "_research_note": "REBUILD 2026-10-30 (dj-rebuild, Original side). 'No one' identity: owner picked 'Drumless Alchemist / Earl' -> Earl Sweatshirt Some Rap Songs (2018), Freddie Gibbs + Alchemist Alfredo (2020), Earl + Alchemist Voir Dire (2023). No other identity covers them. Research: Handoffs/DJ Rebuild/Half Light/research transcript.md (14 sources). Backup: crew_config.pre-half-light-rebuild-2026-10-30.json.\nPHRASE-TO-SETTING MAP\n- '64 to 86 bpm' -> bpm 68 (unchanged, inside) + signature.tempo [64,86]. Detector readings halved (they read these loose loops double-time) [UNSURE per track, range consistent].\n- 'loops that start off the beat, every lane drags late' -> lane offsets kick +26 / snare +34 (unchanged). Off-kilter loops, sample 'starting off-beat' [CONFIRMED: Pitchfork, Atwood]; the ms are carried over.\n- 'loose percussion or barely any: no hats, snare mostly sits out, a rim keeping time' -> no hat lane, snare grammar 'four' home, rim lane (unchanged). Beats 'grounded by samples instead of percussion', 'loose percussion' [CONFIRMED: Atwood, Pitchfork].\n- 'soft lo-fi snare' -> kit snare tags soft, lofi, dark, brush, rimshot ('room' swapped for 'lofi'). Choked snare 'like hitting a pillow', 'submerged underwater' [CONFIRMED: Flood, CHS Communicator].\n- 'warped, slightly out-of-tune' -> wow 0.6 (unchanged). Warped samples, out-of-tune piano [CONFIRMED: Pitchfork, Atwood].\n- 'piano, guitar and string loops' -> chord_source piano 3 : guitar 3 : strings 2 inside half the packs (crew 50-50; ratio = tracks credited, my pick). [CONFIRMED each, 2+ sources].\n- 'vinyl crackle' -> vinyl -38 (unchanged). Vinyl dust + cassette hiss [CONFIRMED: Pitchfork, Golden Gate Xpress 'grainy lo-fi'].\n- 'reversed stamp end of bars 2 and 6' -> lanes.stamp (unchanged, carried over, research silent).\nLEFT ALONE: hall alt 2.2 s (research silent; reviews hear the snare choked, not roomy, so the line no longer promises a hall), key/mode/progressions (chords NOT FOUND), kick, library tags, chorus, sidechain.",
   "kit": {
    "kick": [
     "kick",
@@ -6402,9 +6430,9 @@
     null,
     [
      "soft",
-     "room",
-     "brush",
+     "lofi",
      "dark",
+     "brush",
      "rimshot"
     ],
     1.6
@@ -6862,6 +6890,10 @@
      ]
     ]
    },
+   "tempo": [
+    64,
+    86
+   ],
    "progressions": [
     [
      "sad_accepting",
@@ -6927,51 +6959,55 @@
    "chord_source": [
     [
      "piano",
-     0.764
+     2.812
     ],
     [
      "guitar",
-     0.764
+     2.812
     ],
     [
      "organ",
-     0.764
+     0.938
     ],
     [
      "bell",
-     1.478
+     0.938
     ],
     [
      "choir",
-     0.764
+     0.938
     ],
     [
      "horns",
-     0.764
+     0.938
     ],
     [
      "pad",
-     0.764
+     0.938
     ],
     [
      "pluck",
-     0.05
+     0.938
     ],
     [
      "strings",
-     0.764
+     1.875
     ],
     [
      "synth",
-     0.764
+     0.938
     ],
     [
      "wood",
-     0.764
+     0.938
+    ],
+    [
+     "loop",
+     10
     ],
     [
      "midi",
-     2.801
+     75
     ]
    ],
    "chord_rhythm": "sustain",
@@ -7001,10 +7037,11 @@
  },
  "Fast Water": {
   "num": 11,
-  "bpm": 172,
+  "bpm": 155,
   "era": "now",
-  "built": "no one — the break lane",
-  "listen": "the fastest thing in the room and it doesn't sound fast. The kick and snare play HALFTIME — two moves a bar, so the pulse feels like 86 — while the break lane runs 32nds on top at the full 172. That lane is the loudest non-backbone lane on the roster (0.52 against everyone else's 0.26-0.4): the chop is the beat, not the garnish. Snare never sits on the 2 and 4 — it lands on the 2 and the '&' of 3, the jungle two-step. Ghost snares sit UNDER it at a whisper. Everything is nudged EARLY, not late (break -7 ms, ghosts -11 ms) — he pulls where Half Light drags. Straight 50% swing everywhere: at this tempo swing turns to mud. Gated snare like the house, Alt is a short PLATE (0.9 s) — bright and small, so the break stays readable. Stamp is a siren/reverse hit on the DOWNBEAT of bars 5 and 8 — he announces the bar instead of tailing it.",
+  "built": "Atmospheric jungle: LTJ Bukem + Goldie, 1994-96 (owner pick 2026-10-30)",
+  "listen": "Atmospheric jungle, LTJ Bukem's Logical Progression and Goldie's Timeless: 145 to 161 bpm. The kick and snare play HALFTIME while a chopped break lane runs 32nds on top at the full tempo, loud enough that the chop is the beat. The snare lands on the 2 and the '&' of 3 with ghost snares under it, everything nudged slightly EARLY, straight 50% swing. Strings and airy pads float over it with a little piano and sax or flute. Gated snare, short plate. Stamp is a siren/reverse hit on the DOWNBEAT of bars 5 and 8",
+  "_research_note": "REBUILD 2026-10-30 (dj-rebuild, Original side). 'No one' identity: owner picked 'Atmospheric jungle' -> LTJ Bukem, Logical Progression (1996) + Goldie, Timeless (1995). No other identity covers jungle/drum and bass. Research: Handoffs/DJ Rebuild/Fast Water/research transcript.md (16 sources). Backup: crew_config.pre-fast-water-rebuild-2026-10-30.json.\nPHRASE-TO-SETTING MAP\n- '145 to 161 bpm' -> bpm 172 -> 155 + signature.tempo [145,162]. Music 155 and Inner City Life 155 have 2 sources each [CONFIRMED]; Demon's Theme 145, Logical Progression 149, One & Only 161 one source [UNSURE]. Pitchfork: average d&b 160. 172 was outside the researched range.\n- 'halftime kick/snare under a 32nd break lane' -> kick/snare halftime bars + hat lane 32nds (unchanged). Bukem 'slow-motion breaks' [UNSURE, one source]; chopped breaks / Amen [CONFIRMED, XLR8R + A Bass Chronicle].\n- 'snare on the 2 and the & of 3, ghosts under it, nudged early, straight 50%' -> lane offsets and swing (unchanged, carried over; research silent, NOT FOUND).\n- 'strings and airy pads, a little piano and sax or flute' -> chord_source pad 2.25, strings 2.25, piano 1.5, wood 0.75, synth 0.75 (= half the 15; the other 6 share 7.5). Strings, jazzy chord voicings, Rhodes pads, sax, flute [CONFIRMED: DJ Mag, XLR8R, A Bass Chronicle, AllMusic]. Magnitudes mine.\n- 'gated snare, short plate' -> space gated + alt plate 0.9 s (unchanged, carried over, research silent).\n- 'siren/reverse stamp, downbeat of bars 5 and 8' -> lanes.stamp + kit stamp fx (unchanged, carried over, research silent).\nLEFT ALONE: key/mode/progressions (data leans B minor, UNSURE), sub bass via chord_family dreamy (hold/push; deep sub bass [CONFIRMED] already covered), kick flavors, library tags (jungle 4, dnb 3), phaser, vinyl -40.",
   "kit": {
    "kick": [
     "kick",
@@ -7228,6 +7265,10 @@
      ]
     ]
    },
+   "tempo": [
+    145,
+    162
+   ],
    "progressions": [
     [
      "suspended_open",
@@ -7293,51 +7334,55 @@
    "chord_source": [
     [
      "pad",
-     0.764
+     2.25
     ],
     [
      "strings",
-     0.764
+     2.25
     ],
     [
      "bell",
-     0.764
+     1.25
     ],
     [
      "choir",
-     0.764
+     1.25
     ],
     [
      "guitar",
-     0.764
+     1.25
     ],
     [
      "horns",
-     0.764
+     1.25
     ],
     [
      "organ",
-     0.764
+     1.25
     ],
     [
      "piano",
-     0.764
+     1.5
     ],
     [
      "pluck",
-     0.764
+     1.25
     ],
     [
      "synth",
-     0.764
+     0.75
     ],
     [
      "wood",
-     0.764
+     0.75
+    ],
+    [
+     "loop",
+     10
     ],
     [
      "midi",
-     2.801
+     75
     ]
    ],
    "chord_rhythm": "sustain",
@@ -7385,43 +7430,43 @@
     "modes": [
      [
       "displaced",
-      0.14
+      0.0776
      ],
      [
       "backbeat",
-      0.084
+      0.0466
      ],
      [
       "halftime",
-      0.084
+      0.0466
      ],
      [
       "sparse",
-      0.084
+      0.0466
      ],
      [
       "four",
-      0.084
+      0.0466
      ],
      [
       "push",
-      0.084
+      0.0466
      ],
      [
       "tresillo",
-      0.084
+      0.0466
      ],
      [
       "offbeat",
-      0.184
+      0.55
      ],
      [
       "drag",
-      0.084
+      0.0466
      ],
      [
       "pickup",
-      0.084
+      0.0466
      ]
     ],
     "ghosts": [
@@ -7442,35 +7487,35 @@
     "modes": [
      [
       "rolls32",
-      0.3
+      0.62
      ],
      [
       "sixteenths",
-      0.16
+      0.0869
      ],
      [
       "broken",
-      0.14
+      0.076
      ],
      [
       "gallop",
-      0.12
+      0.0651
      ],
      [
       "answer",
-      0.1
+      0.0543
      ],
      [
       "offbeats",
-      0.08
+      0.0434
      ],
      [
       "eighths",
-      0.06
+      0.0326
      ],
      [
       "sparse",
-      0.04
+      0.0217
      ]
     ]
    },

@@ -16,6 +16,13 @@ Two ways a loop is made, both seeded from the beat:
   chords, no chord twice, and the last chord has to be one that style
   really moves back to the first from, so the loop wraps.
 
+NO GUITAR TABS (owner 2026-10-30: "I don't want the guitar chords used";
+pick: borrow the jazz/soul sheets). The styles whose tables came from
+Chordonomicon (guitar-tab site data, 80-99% plain triads) now draw their
+chords from the iReal lead-sheet tables in BORROW. The style name is kept,
+so the bass line and riffs still follow it. Rebuilds replay their saved
+chords, so beats made before are unchanged.
+
 Each identity leans on its own styles (STYLE_FOR, Claude's picks from each
 identity's listen line); a free beat rolls any style.
 
@@ -33,7 +40,23 @@ sys.path.append(str(Path(__file__).parent))
 from key_context import mode_family                     # noqa: E402
 
 TABLES = Path(__file__).resolve().parent.parent / "chord_tables.json"
-VERSION = 1
+VERSION = 2
+# guitar-tab style -> {iReal sheet style: weight}. Claude's picks by feel:
+# dark/minor styles lean R&B + lo-fi, sample styles soul, bright ones funk.
+BORROW = {
+    "boom_bap": {"soul": 2, "jazz_rap": 1},
+    "rap": {"soul": 2, "rnb": 1},
+    "trap": {"rnb": 2, "lofi": 1},
+    "drill": {"rnb": 1, "lofi": 1},
+    "memphis": {"soul": 1, "rnb": 1},
+    "emo_rap": {"lofi": 2, "rnb": 1},
+    "trip_hop": {"lofi": 2, "jazz_rap": 1},
+    "club": {"funk": 2, "rnb": 1},
+    "latin": {"funk": 1, "rnb": 1},
+    "rock": {"funk": 2, "soul": 1},
+    "gfunk": {"funk": 2, "rnb": 1},
+    "gospel": {"soul": 1},
+}
 REAL_P = 0.5
 FLATTEN = 0.5            # count ** FLATTEN when picking a real loop
 SIZES = ((4, 6), (3, 3), (2, 1))     # (chords, weight) for a NEW loop
@@ -171,15 +194,20 @@ def generate(styles, mode, rng):
     if not styles:
         return None
     style = _pick(rng, styles.items())
+    src = style
+    if style in BORROW:
+        got = {k: w for k, w in BORROW[style].items() if k in tables()}
+        src = _pick(rng, got.items()) if got else style
     fam = mode_family(mode)
-    tab = tables()[style].get(fam) or next(iter(tables()[style].values()))
+    tab = tables()[src].get(fam) or next(iter(tables()[src].values()))
     made = "real" if rng.random() < REAL_P else "new"
     seq = _real(tab, rng) if made == "real" else _new(tab, rng)
     if not seq:
         made, seq = "real", _real(tab, rng)
     seen = dict((tuple(lp), c) for lp, c in tab["loops"]).get(tuple(seq))
     chords = [[int(c.split(":")[0]), c.split(":")[1]] for c in seq]
-    return {"style": style, "made": made, "seen": seen, "chords": chords}
+    return {"style": style, "from": src, "made": made, "seen": seen,
+            "chords": chords}
 
 
 if __name__ == "__main__":
@@ -188,4 +216,5 @@ if __name__ == "__main__":
                 "Baltimore Club", "Reggaeton Alt", "Plug"):
         g = generate(styles_for(who), "minor", r)
         assert g and 2 <= len(g["chords"]) <= 4, g
+        assert g["from"] not in BORROW, g          # never a guitar table
         print(who, g)

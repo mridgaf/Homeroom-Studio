@@ -37,9 +37,9 @@ Skill: `.claude/skills/dj-rebuild/SKILL.md`. ONE identity per session. Stages: n
 | 23 | No Alias | Legend | No I.D. | settings done 2026-10-24 (not heard; no render) | done 2026-10-24 (not heard); MIDI 75 / loop 10 | not started |
 | 24 | DJ Light Green | Legend | DJ Green Lantern (the 2013+ EDM/trap era) | settings done 2026-10-24 (not heard; no render) | done 2026-10-24 (not heard); MIDI 75 / loop 10 | not started |
 | 25 | Well Damn | Legend | FnZ (Finatik N Zac) — the Denzel Curry Miami-bass era (ZUU/T | settings done 2026-10-24 (not heard; no render) | done 2026-10-24 (not heard); MIDI 75 / loop 10 | not started |
-| 26 | New Math | Crew | no one — the front edge | not started | not started | not started |
-| 27 | Half Light | Crew | no one — the slow lane | not started | not started | not started |
-| 28 | Fast Water | Crew | no one — the break lane | not started | not started | not started |
+| 26 | New Math | Crew | Flying Lotus, Cosmogramma 2008-10 (owner pick 10-30) | settings done 2026-10-30 (not heard; no render) | done 2026-10-30 (not heard) | not started |
+| 27 | Half Light | Crew | Earl Sweatshirt + the Alchemist 2018-23 (owner pick 10-30) | settings done 2026-10-30 (not heard; no render) | done 2026-10-30 (not heard) | not started |
+| 28 | Fast Water | Crew | Atmospheric jungle: LTJ Bukem + Goldie 1994-96 (owner pick 10-30) | settings done 2026-10-30 (not heard; no render; break lane 13/100) | done 2026-10-30 (not heard) | not started |
 | 29 | Memphis | Genre | Three 6 Mafia / DJ Paul | settings done 2026-10-24 (not heard; no render) | done 2026-10-24 (not heard); MIDI 75 / loop 10 | not started |
 | 30 | Crunk | Genre | Lil Jon (through the hard, festival end — Turn Down for What | settings done 2026-10-24 (not heard; no render) | done 2026-10-24 (not heard) | not started |
 | 31 | Organized Noize | Genre | Organized Noize / Dungeon Family (Outkast, Goodie Mob) | settings done 2026-10-24 (not heard; no render) | done 2026-10-24 (not heard); MIDI 75 / loop 10 | not started |

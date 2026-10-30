@@ -9482,3 +9482,42 @@ just not loaded by default.
 - Change: new stamp `preset["no_loop"]` (new beats, add_bass_and_chords). `_source_order(..., no_loop=)` drops "loop" from the signature weights and the free roll and puts it dead last; the plan list puts a loop after every other instrument group too. Texture: loop and riff become "two" (full 10% unchanged). `_pin_bars_for_loop_voice` passes no_loop (loops no longer pin a beat to 4 bars). Loops-only beats are a separate path, untouched. Typed "loop" requests still win. Old beats rebuild as made. Backup `tools/beat_machine.pre-no-loop-2026-10-30.py`. Also fixed: an identity whose only source was "loop" returned a tuple and crashed the two-note reorder.
 - Tests: new `test_original_beats_use_a_loop_only_as_last_resort`; `test_loops_always_play_alone` now switches no_loop off to keep checking its rule. Nothing rendered.
 - Status: open: his ear. Full chords are still a flat 10% (item #3, research per identity).
+
+### [2026-10-30] Full chords per identity, read off each researched listen line
+- Context: handoff item 2. Full chords were a flat 10% for all 45; two notes carry 90% of Original beats now. Owner's pick: "rare, research decides". Sources: each identity's own `listen` line (dj-rebuild research), no new web research.
+- Change: `signature["texture_full"]` = 0.40 where keys/strings/choir carry the music (G-Funk, Acid Rap Bright, Organized Noize, Sunday Chop, Just Flame, DJ Hint, Farrow); 0.25 where they share it (Tenth Wonder, No Alias, Doc Day, Emo Hip Hop, Plug, Trip Hop, Rage Engine). Other 31 stay 10%. `riff_gen.roll(variant, full=)`; riff_gen.VERSION 1 -> 2, so beats stamped texture_flow 1 rebuild as made. Backup `tools/riff_gen.pre-texture-full-2026-10-30.py`.
+- Also: "chord1 made no sound, no stem written" = the 2026-08-01 empty-lane guard (beat_recipes.write_stems) reporting a silent lane. Old, by design; not a bug.
+- Tests: new `test_keys_led_identities_get_more_full_chords_on_new_beats_only`; focused 46 pass. Nothing rendered.
+- Status: open: his ear. Numbers are Claude's tiers; tune by ear.
+
+### [2026-10-30] No guitar-tab chords: those styles borrow the jazz/soul sheets
+- Context: owner: "I don't want the guitar chords used. Find alternatives." Clickable pick: "Borrow jazz/soul sheets" (over research tables, Lakh song stats). He was told it's jazzier than the 10-23 jazz-out.
+- Change: `chord_gen.BORROW` (VERSION 2): boom_bap, rap, trap, drill, memphis, emo_rap, trip_hop, club, latin, rock, gfunk, gospel (80-99% plain triads = Chordonomicon) now take chords from the iReal tables (soul, rnb, lofi, jazz_rap, funk; Claude's weights by feel). Style name kept, so bass/riffs still follow it; result carries `from`. Rebuilds replay saved chords. Backup `tools/chord_gen.pre-no-guitar-2026-10-30.py`. Supersedes the "own loops + color" pick for item 3 (sheets carry their own color).
+- Measured (45 identities x 60 rolls, minor): plain triads 78% -> 49%; distinct loops 551 -> 424 (fewer: styles now share 5 tables).
+- Tests: new `test_no_guitar_tab_chords_on_new_beats`; focused 63 pass. Nothing rendered.
+- Status: open: his ear. If styles sound alike now, next step = research tables for trap/Memphis/drill.
+
+### [2026-10-30] New Math rebuilt as Flying Lotus, Cosmogramma side (Original side)
+- Context: handoff item 6. New Math was a "no one" identity. Owner picks (clickable): off-grid hip-hop -> Flying Lotus 2008-10 -> the Cosmogramma side, so it stays apart from the Wonky genre (same scene).
+- Change: listen + _research_note (phrase map) rewritten; bpm 144 -> 88, signature.tempo [78,97]; every lane jitter 5 ms, swing 50 (Ellison: "I just don't quantize"); quint20 hats removed, hat bars 16-step; chord_source 75/10/15 with strings 5, synth 2.5, the other 9 share 7.5; signature.bass_grammar octave 3 / walk 3 / push 1 / hold 1. Key, progressions, kick, perc, sidechain, dust left alone (research silent). Backup crew_config.pre-new-math-rebuild-2026-10-30.json. Research: Handoffs/DJ Rebuild/New Math/research transcript.md (16 sources).
+- Tests: test_crew/test_pattern_gen/test_v6 updated for the new identity; New Math added to ORIGINAL_BUILT. Focused run: 387 pass apart from the known Night Metro failures. `built` now names Flying Lotus.
+- identity_survival (100 beats): tempo, timing feel (the not-quantized jitter), pan/gain, space 100/100; stamp 100/100; extras 1.0 guest lane per beat. Drum figures survive 0-24% but the new line names no drum figure, so nothing it promises is lost. Harp/strings odds and the bass are not measured by this tool.
+- Status: open: his ear. Nothing rendered.
+
+### [2026-10-30] Half Light rebuilt as Earl Sweatshirt / the Alchemist (Original side)
+- Context: handoff item 6, second of three "no one" DJs. Owner pick (clickable): "Drumless Alchemist / Earl" = Some Rap Songs (2018), Alfredo (2020), Voir Dire (2023).
+- Change: listen + _research_note (phrase map) + built rewritten; signature.tempo [64,86] (bpm 68 kept, inside); chord_source piano 2.81 / guitar 2.81 / strings 1.88, other 8 share 7.5, midi 75 / loop 10; snare tags room -> lofi. Everything else already matched (late lanes, no hats, wow, vinyl, stamp). Hall alt left but no longer promised. Backup crew_config.pre-half-light-rebuild-2026-10-30.json. Research: Handoffs/DJ Rebuild/Half Light/research transcript.md (14 sources).
+- Tests: Half Light asserts added to test_crew; ORIGINAL_BUILT. Focused run passes apart from the known Night Metro failures. identity_survival: every promised setting 100/100, snare bars 66/100.
+- Status: open: his ear. Nothing rendered.
+
+### [2026-10-30] Fast Water rebuilt as atmospheric jungle, Bukem / Goldie (Original side)
+- Context: handoff item 6, last of three "no one" DJs. Owner pick (clickable): "Atmospheric jungle" = LTJ Bukem Logical Progression (1996) + Goldie Timeless (1995).
+- Change: listen + _research_note (phrase map) + built rewritten; bpm 172 -> 155, signature.tempo [145,162] (Music and Inner City Life both read 155 on two sites; 172 was outside the range); chord_source pad 2.25 / strings 2.25 / piano 1.5 / wood 0.75 / synth 0.75, other 6 share 7.5, midi 75 / loop 10. Lanes, grammar, space, stamp unchanged. Backup crew_config.pre-fast-water-rebuild-2026-10-30.json. Research: Handoffs/DJ Rebuild/Fast Water/research transcript.md (16 sources).
+- Tests: asserts added to test_crew; ORIGINAL_BUILT. Focused run 397 pass, 2 known Night Metro failures. identity_survival: tempo, feel, space, stamp 100/100; BUT the 32nd break lane shows only 13/100 and the snare "2 and & of 3" 12/100 (both carried from the old line; research silent). Not fixed.
+- Status: open: his ear; decide whether to raise rolls32 / offbeat weights. Nothing rendered.
+
+### [2026-10-30] Fast Water: break lane and snare weights raised (follow-up)
+- Owner said yes to raising them. grammar.hat rolls32 0.30 -> 0.62, grammar.snare offbeat 0.18 -> 0.55 (rest scaled down). Backup crew_config.pre-fast-water-weights-2026-10-30.json.
+- Measured (100 beats): hat rolls32 13 -> 24/100, snare offbeat 12 -> 42/100. Hat is capped because library hat seeds (library p 0.6, jungle/dnb tags) replace the timekeeper roll; going further means lowering library p, which changes its sound. Left there (two tries rule).
+- Tests: focused run passes apart from known Night Metro failures. Nothing rendered.
+- Status: open: his ear.

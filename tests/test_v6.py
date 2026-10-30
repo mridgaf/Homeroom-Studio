@@ -194,6 +194,8 @@ def test_swing_rolls_vary_and_respect_bounds():
 def test_swing_preserves_deliberate_lane_clash():
     """New Math's one-swung-lane-against-straight-kit shifts as a unit."""
     p = copy.deepcopy(CREW["New Math"])
+    pan, gain, feel, bars = p["lanes"]["perc"]   # its old clash (retired
+    p["lanes"]["perc"] = (pan, gain, (feel[0], feel[1], 58, feel[3]), bars)  # 2026-10-30), rebuilt here
     before = {ln: spec[2][2] for ln, spec in p["lanes"].items()}
     got = beat_machine.roll_swing(p, 7)
     if got:

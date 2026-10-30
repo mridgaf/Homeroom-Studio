@@ -18,6 +18,11 @@ beat rolls ONE texture (seeded from the beat, so a rebuild matches):
 TEXTURES and BED_* are Claude's starting numbers (owner had no
 preference on the split; full chords rare per his pick). Tune by ear.
 
+Per identity (VERSION 2, 2026-10-30, owner: "rare, research decides"):
+signature["texture_full"] overrides the full-chord chance for identities
+whose researched listen line says keys/strings/choir carry the music.
+Beats stamped texture_flow 1 ignore it, so they rebuild as made.
+
     ./.venv/bin/python tools/riff_gen.py      # self-check
 """
 from __future__ import annotations
@@ -26,7 +31,7 @@ import json
 import random
 from pathlib import Path
 
-VERSION = 1
+VERSION = 2
 TABLES = Path(__file__).resolve().parent.parent / "riff_tables.json"
 TEXTURES = (("full", 0.10), ("two", 0.30), ("riff", 0.30), ("loop", 0.30))
 BED_P = 0.5              # riff beats with a soft two-note bed under them
@@ -49,10 +54,16 @@ def tables():
     return _T
 
 
-def roll(variant):
-    """This beat's texture name."""
+def roll(variant, full=None):
+    """This beat's texture name. `full` (0..1) replaces the full-chord
+    chance; the other textures share the rest in their usual ratio."""
     rng = random.Random(variant * 1409 + 3)
     r, acc = rng.random(), 0.0
+    if full is not None:
+        if r < full:
+            return "full"
+        f0 = TEXTURES[0][1]
+        r = f0 + (r - full) / (1.0 - full) * (1.0 - f0) if full < 1 else 0
     for name, w in TEXTURES:
         acc += w
         if r < acc:
@@ -135,6 +146,10 @@ if __name__ == "__main__":
     from collections import Counter
     c = Counter(roll(v) for v in range(4000))
     assert 0.07 < c["full"] / 4000 < 0.13, c
+    c4 = Counter(roll(v, 0.4) for v in range(4000))
+    assert 0.36 < c4["full"] / 4000 < 0.44, c4
+    assert abs(c4["two"] - c4["loop"]) < 200, c4   # rest keeps its ratio
+    assert all(roll(v, 0.1) == roll(v) for v in range(500))
     assert two_notes([60, 63, 67, 70]) == [63, 70]
     assert two_notes([60, 64, 67]) == [60, 64]
     riff = [[0.0, 0.5, 0, 110], [1.5, 0.5, 3, 80], [4.0, 1.0, 7, 60],

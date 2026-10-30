@@ -213,12 +213,10 @@ def test_style_is_a_lean_not_a_cage():
         gc, _ = _composed("Glass Cat", v)
         assert gc["lanes"]["clap"][3] \
             == [b.replace(".", "-") for b in gc["lanes"]["snare"][3]]
-    # New Math's quintuplets and Rage's 32nd walls still occur — the
-    # window is wide because library hat seeds (more frequent since
-    # 2026-07-21) take the timekeeper roll's place when they land
-    assert any(len(b) == 20
-               for v in range(60)
-               for b in _composed("New Math", v)[0]["lanes"]["hat"][3])
+    # Rage's 32nd walls still occur — the window is wide because library
+    # hat seeds (more frequent since 2026-07-21) take the timekeeper
+    # roll's place when they land. (New Math's quintuplets retired
+    # 2026-10-30 with its Flying Lotus rebuild.)
     assert any(len(b) == 32
                for v in range(60)
                for b in _composed("Rage Engine", v)[0]["lanes"]["hat"][3])

@@ -339,6 +339,7 @@
    ]
   },
   "signature": {
+   "texture_full": 0.4,
    "_note": "harmonic fingerprint (HARMONY-IDENTITY-PROPOSAL Addendum v2, 2026-07-23, wired 4th after No Alias/Swish Beatz/Razor all cleared audition). CORRECTION 2026-07-23: earlier notes in this file/proposal claimed the schema has an 'alt' field for a legend's second harmony mode -- checked the code, that's wrong. preset['alt'] is the drum-era alt-snare/reverb mechanism (see crew.py), unrelated to harmony. No engine mechanism exists for rolling between two full harmony modes per beat, and building one wasn't asked for, so this wires ONE mode only: research found Farrow genuinely bimodal (classic-minimal 2000-04 near-atonal vs later pop-era major/song-structured), and its own synthesis picked classic-minimal as the more identifiably 'Neptunes' sound -- that's what's here. The later major/pop mode is a documented, deliberately NOT-built follow-on, same honest-scope pattern as the Miami Bass/reggaeton rhythm-defined gap in the original proposal. Also flagged and left unsolved: Farrow and Swish Beatz (already wired) are both synth-dominant and will sound closer to each other than their real records do -- the distinguishing trait (pluck/bell timbre + huge negative space vs. horn-stab + density) has no field yet. Not yet audition-rendered. | BATCH 4/FINAL, 2026-07-24 (owner: finish up with the DJs). This closes the pre-07-23 legend backlog -- 12/12 legends now upgraded past their original loop/synth-only ceiling. RESOLVES the gap this file's own research flagged: 'Swizz and Farrow would eventually render near-identically on chord_source alone ... the real distinguishing trait (horn/brass-stab timbre + dense arrangement vs. Farrow's pluck/bell + huge negative space) has no field yet.' instrument_sampler now HAS that field. Web research confirms: 'funny little chimes', 'wide open spaces left up to the listener's imagination', built from as few as 4 sounds total (Grindin'). bell+pluck primary, one synth stab kept (their actual single lead synth), no horns -- that word is Swizz's now. | CHIP ADDED 2026-07-24 (owner request, 'video game sounds used with Pharaoh'). Checked before adding: N.E.R.D.'s 'Lapdance' (a Neptunes track) is documented as using synth lines 'reminiscent of rayguns or video game sound effects from the 8-bit era' -- so this is a real, specific trait of the source, not an unrelated bolt-on. Replaced the generic 'synth' slot (was [['bell', 3], ['pluck', 2], ['synth', 1]]) with 'chip' at the SAME weight (1 of 6) rather than adding a 4th option or raising the total -- his beats were already mostly bell/pluck with one occasional synth colour, and this keeps that ratio; chip just replaces what that occasional colour IS. No chip_tuning override: Neptunes are 'laser precision', not deliberately out of tune like New Math, so the default equal temperament stays. This is the chip voice's second use on the roster (after New Math/Chiptune) -- still the sanctioned exception, never a return to generic synthesis.",
    "key": {
     "roots": [
@@ -512,6 +513,7 @@
   "legend_swing": 50,
   "listen": "The 2001 era (1999-2003), not the G-funk Chronic one: 90-95 BPM, home 94, in a minor key on a one- or two-chord vamp (i to v, iv to i, or one chord held) that repeats all song. Hard, thumping kick with a little deep sub under it; a hard, tight snare that NEVER leaves 2 and 4; closed tight hats in eighths; sparse claps for percussion. The bass follows the kick. Piano usually carries the hook as short staccato stabs (Rhodes counts as piano), with strings held underneath; other sounds can still turn up. Few parts at a time, dry and clean, with hard compression on the drums.",
   "signature": {
+   "texture_full": 0.25,
    "_note": "DEEPENED 2026-07-24. Owner asked whether the FIRST FOUR legends (Doc Day, J Dillo, DJ Premium, Timberline) had been skimmed. Measured: their research notes averaged 583 chars vs 977 for the later eight, fewer progressions, fewer chord sources, and two of the four carried a modal key that silently returned ZERO in-key samples. They predate both the deeper-research standard AND instrument_sampler (2026-07-23), so they could only ever ask for loop/synth/strings. Fixed here. Dre: dorian, not plain minor — the minor-tonic-to-MAJOR-IV move is the documented dorian tell and 'frequently used in funk'. gfunk_dorian_9 was added for the G-Funk GENRE on 2026-07-24 and proved there (owner: the reweight made it read sunnier); the same lesson applies to Dre, who is where that sound came from. piano added for the live-Rhodes half of his chain.",
    "key": {
     "roots": [
@@ -4437,6 +4439,7 @@
    ]
   },
   "signature": {
+   "texture_full": 0.4,
    "_note": "harmonic fingerprint (HARMONY-IDENTITY-PROPOSAL Addendum v2, 2026-07-23, wired LAST of the 12 -- deliberately held back until the horn engine existed. Research's central finding: his chord_source was always described as 'strings' but ACTUALLY means a layered horn/brass stack; wiring him against the string-pad voice would have collapsed him into Kane East's orchestral mode. So tools/lead_synth.py (horn_chord) + a new 'horns' chord_source were built first, 2026-07-23. Mode is weighted major 2:1 not locked -- his bimodality is PER-SONG, not per-era (PSA major and U Don't Know minor, same album cycle), so no era split applies; verified data: PSA C#/Db major, U Don't Know G# minor, Show Me What You Got 106bpm, Exhibit C 82bpm. Roots are the engine's nearest available (SUB_ROOTS has no C#/G#) -- transposed on purpose, not a data error. chord_rhythm rolls stab-vs-held per beat, matching the research's 'sustain/stab-hybrid' (long horn sustains under verses, hard sidechained stabs on hooks). tempo 82-110 is the half-time-FELT pocket; the raw 155-178 grid figures are the same records double-counted, so they are not a second pocket. Not yet audition-rendered. | DEEPENED batch 3, 2026-07-24 (owner: lean on the Symphony bank). These were wired before instrument_sampler (2026-07-23) so could only reach loop/synth/horns; adding the sampled piano and the London Symphonic strings now. Just Blaze research 2026-07-24: he overlaid ORCHESTRAL STRINGS AND HORNS atop pitched soul samples ('Song Cry', 'U Don't Know') for arena-sized epic texture — so strings are now co-primary with his horns, not just horns. The bombast is the string+horn stack together.",
    "key": {
     "roots": [
@@ -5885,6 +5888,7 @@
    ]
   },
   "signature": {
+   "texture_full": 0.25,
    "_note": "DEEPENED batch 3, 2026-07-24 (owner: lean on the Symphony bank). These were wired before instrument_sampler (2026-07-23) so could only reach loop/synth/horns; adding the sampled piano and the London Symphonic strings now. No I.D. is Chicago SOUL boom-bap (Kanye's mentor), 'refinement over flash' — so warm Symphony strings + a soul Rhodes/piano over his sample loop. Was loop/synth only. dreamy added for the soul-7th warmth.",
    "key": {
     "roots": [
@@ -7446,6 +7450,7 @@
    ]
   },
   "signature": {
+   "texture_full": 0.25,
    "_note": "NEW BUILD 2026-10-11. LoC is the MAIN chord source: loop weight 6 against 0.3 for every instrument and 0.5 for midi (about 60% of beats). loop_pool_only restricts the loop pool to Library of Congress excerpts, so every loop pick is an old recording. Key/mode/progressions inherited from the base preset, unsourced.",
    "key": {
     "roots": [
@@ -7643,6 +7648,7 @@
   "legend_swing": 53,
   "listen": "a mixtape DJ's beat on soul and funk records: a steady New York boom-bap bed with room to be talked over, hard short kick, hard snare and tight closed hats, strings and bells and pads on top, and the DJ's own scratch or siren landing at the end of the phrase; old jazz and blues records chopped in on some beats, plain instruments on the rest",
   "signature": {
+   "texture_full": 0.4,
    "_note": "NEW BUILD 2026-10-11. REDONE 2026-10-23 (owner picks, 75-25 rule, his numbers, not sourced): strings/bell/pad 2.14 each (75%), midi 0.6 kept, loop and the other 8 instruments 0.17 each, so LoC is about 2% of beats; tempo 86-107 and root D added from 5 tracks, one source (research transcript). Before: loop weight 3 against 0.45 per instrument (about 35% of beats). loop_pool_only restricts every loop pick for this DJ to Library of Congress excerpts. Key/mode/progressions inherited from the base preset, unsourced.",
    "key": {
     "roots": [

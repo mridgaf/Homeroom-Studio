@@ -50,7 +50,7 @@ Research and the listen line are done ONCE per identity and shared by both sides
 - **"no one" identities** (New Math, Half Light, Fast Water): there's no producer to research. Ask him (clickable) what each should sound like and which real records point there, then research those records.
 - **Era.** If the producer has more than one era, ask which one (clickable) before searching.
 
-**Step 1. Research.** Use web search and fetch. **Quality bar** (don't call research done below it):
+**Step 1. Research.** Use Firecrawl in Code (`firecrawl search "<q>" --limit 6 --scrape --json -o file.json`; `firecrawl scrape <url> -o file.md`), sandbox off, saved under `/Volumes/TBOTC 3/Research Scratch/<name>/`; one search at a time with `sleep 2` (parallel gets 429). BPM from songbpm.com/@artist/track and Tunebat: loose or slow tracks read at DOUBLE time, halve and tag [UNSURE]. **Quality bar** (don't call research done below it):
 - 10+ independent sources
 - 5+ signature tracks in the era, with credits, BPM and key, each BPM from 2 sources where possible
 - Words from 2+ people who worked with them
@@ -120,3 +120,11 @@ Research and the listen line are done ONCE per identity and shared by both sides
 12. Genre chord odds (owner 2026-10-23): a genre's chord_source is 100% research instruments; every instrument no source names gets weight 0 (keep the entry), plus a test asserting the zeros. midi stays as is. Edit the JSON as text inside that one block: `genres_config.json` has its own indent, so a load/dump rewrite makes a huge diff.
 13. Drift: `tools/evolution.py` only reads `crew_config.json`, so genre chord_source cannot drift (Legends are in their own file too; check before claiming). `identity_survival.py` writes `~/.reason_voice/pattern_history.json`; the Claude sandbox blocks that, so run it unsandboxed (analysis only, no render).
 11. **Closed only by his ear.** Measured is not done.
+
+
+## Added 2026-10-30 (the three "no one" DJs: New Math, Half Light, Fast Water)
+- **"No one" identities:** ask for the genre family first (clickable), then the era or side, then grep all three configs so the pick does not overlap one that exists (New Math vs the Wonky genre: owner chose the Cosmogramma side to keep them apart).
+- **Rebuilding a crew DJ breaks old tests on purpose.** Edit `tests/test_crew.py`, `test_pattern_gen.py`, `test_v6.py` (lane specs are tuples: rebuild, don't assign) and add the name to `ORIGINAL_BUILT`. Also change `built` so it no longer says "no one".
+- **Crew chord odds, exact recipe:** midi 75, loop 10, researched sounds share half of the 15, every other sound shares the other half. Insert `["loop", 10]` right before `midi` (crew presets have no loop entry).
+- **Survival check:** the line may only promise what survives. If a drum phrase reads under 50%, lift its mode weight (target, others scaled), re-run once, and if library hat seeds still cap it, stop and report (two tries).
+- Worked examples: `Handoffs/DJ Rebuild/{New Math,Half Light,Fast Water}/research transcript.md`.

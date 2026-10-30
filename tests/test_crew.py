@@ -92,11 +92,33 @@ def test_owner_taste_lane_feels():
             assert lane[2][2] == 50, name
     # the documented Neptunes late-clap flam, 10-30 ms
     assert 10 <= CREW["Glass Cat"]["lanes"]["clap"][2][0] <= 30
-    # New Math's identity: exactly one lane swings against a straight kit
-    nm_swings = [ln[2][2] for ln in CREW["New Math"]["lanes"].values()]
-    assert sorted(nm_swings) == [50, 50, 50, 50, 50, 58]
-    # ...and the quintuplet hat grid is really there
-    assert any(len(b) == 20 for b in CREW["New Math"]["lanes"]["hat"][3])
+    # New Math (rebuilt 2026-10-30, Flying Lotus Cosmogramma): played in
+    # by hand, not quantized -> every lane jitters, nothing swung, and
+    # under Wonky's 7-9 ms so the two stay apart
+    nm = CREW["New Math"]
+    for ln in nm["lanes"].values():
+        assert 4 <= ln[2][1] < 7 and ln[2][2] == 50
+    assert all(m[0] != "quint20" for m in nm["grammar"]["hat"]["modes"])
+    assert 78 <= nm["bpm"] <= 97 and nm["signature"]["tempo"] == [78, 97]
+    packs = {k: w for k, w in nm["signature"]["chord_source"]
+             if k not in ("midi", "loop")}
+    assert max(packs, key=packs.get) == "strings"     # harp + strings
+    # Half Light (rebuilt 2026-10-30, Earl / Alchemist): piano, guitar and
+    # strings lead the packs, the snare is soft and lo-fi, tempo 64-86
+    hl = CREW["Half Light"]
+    packs = {k: w for k, w in hl["signature"]["chord_source"]
+             if k not in ("midi", "loop")}
+    assert set(sorted(packs, key=packs.get)[-3:]) == {"strings", "piano", "guitar"}
+    assert {"soft", "lofi"} <= set(hl["kit"]["snare"][2])
+    assert "room" not in hl["kit"]["snare"][2]
+    assert hl["signature"]["tempo"] == [64, 86] and 64 <= hl["bpm"] <= 86
+    # Fast Water (rebuilt 2026-10-30, Bukem / Goldie atmospheric jungle):
+    # 145-162 bpm, strings and pads lead the packs
+    fw = CREW["Fast Water"]
+    packs = {k: w for k, w in fw["signature"]["chord_source"]
+             if k not in ("midi", "loop")}
+    assert set(sorted(packs, key=packs.get)[-2:]) == {"pad", "strings"}
+    assert fw["signature"]["tempo"] == [145, 162] and 145 <= fw["bpm"] <= 162
 
 
 def test_hat_pans_subtle_and_both_sides():

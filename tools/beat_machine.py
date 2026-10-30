@@ -2502,7 +2502,8 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
     _tex, _riff = "full", None
     if preset.get("texture_flow"):
         import riff_gen
-        _tex = riff_gen.roll(variant)
+        _tex = riff_gen.roll(variant, sig.get("texture_full")
+                             if preset["texture_flow"] >= 2 else None)
         if preset.get("no_loop") and _tex != "full":  # no riffs, no loops
             _tex = "two"
         if _tex == "riff" and preset.get("no_midi"):   # riffs are MIDI
