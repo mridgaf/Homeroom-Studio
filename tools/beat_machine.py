@@ -2464,9 +2464,16 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
     # "busy_lanes"), so removing a drum doesn't re-roll the chords'
     # rhythm too (owner 2026-09-27: "remove a sound and all the other
     # sounds change").
-    _busy = {k: v[3] for k, v in
-             (dirs.get("busy_lanes") or preset["lanes"]).items()
-             if not k.startswith(("chord", "bass", "melody")) and len(v) > 3}
+    # The drums get a fill and extra lanes AFTER this (add_bass_and_chords),
+    # so the finished recipe's lanes aren't what the chords answered: the
+    # answer is saved as preset["chord_busy"] and a rebuild replays it
+    # (2026-10-30, the drift test caught it on 4 of 30 beats). Beats made
+    # before that fall back to the recipe's lanes.
+    _busy = dirs.get("busy") or {
+        k: list(v[3]) for k, v in
+        (dirs.get("busy_lanes") or preset["lanes"]).items()
+        if not k.startswith(("chord", "bass", "melody")) and len(v) > 3}
+    preset["chord_busy"] = _busy
     # slot -> the chord figure's written bars, so the answer melody can
     # lean away from the cells the chords hit (melody_rhythm)
     _chord_cells = {}
@@ -4943,7 +4950,8 @@ def swap_many(number, picks, root=ROOT, shots=None, status=lambda msg: None,
             # all three, so hand back all three.
             # Whether that hand-back actually happens is REBUILD_LOCKS_KEY.
             _dirs = {"chords": True, "chord_feel": None,
-                     "busy_lanes": normalize_preset(rec["preset"])["lanes"]}
+                     "busy_lanes": normalize_preset(rec["preset"])["lanes"],
+                     "busy": rec["preset"].get("chord_busy")}
             if REBUILD_LOCKS_KEY:
                 _h = rec.get("harmony") or {}
                 _dirs["chord_feel"] = _h.get("progression")

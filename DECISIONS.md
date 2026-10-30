@@ -9461,3 +9461,18 @@ just not loaded by default.
 - Change: new stamp `preset["no_eq"]` (new beats, add_bass_and_chords). In `crew.render_crew_beat` (not Loops beats): no house/DJ/genre mix EQ, no 120 Hz chord/melody cut, no transient shaper (Doc Day), clean = clean_mix = True (no vinyl, wow, saturation, SP-1200, 808/kick distortion; master drive 0.7). An eq passed in by the Sound Engine still applies. Soft chord/bass hits only quieter (`plain_soft` -> skips dynamics.soften). Master stage (air shelf, mid dip, mono below 200, -12 LUFS, mono below 120) unchanged. Backups `tools/*.pre-no-eq-2026-10-29.py`.
 - Tests: new `test_no_eq_beats_keep_only_duck_and_master`. Nothing rendered.
 - Status: open — his ear.
+
+### [2026-10-30] Removing a sound moved chords/bass/melody on some beats: fixed at the cause
+- Context: owner picked "Removing a sound moves others" (handoff item 2). The Sept volume lock was working; the drift came from somewhere else.
+- Finding (measured, 30 Cutz beats, snare removed): 4 drifted, chords/bass/melody up to 3.5 dB (seed 27). Notes, lanes, settings and the lock all matched; the chord AUDIO differed. Cause: `_build_chords` reads the drum lanes so comp figures answer the drums, but `add_bass_and_chords` adds the arrangement fill and sample lanes AFTER that, and a rebuild read the finished recipe's lanes. The melody/vox follow the chords' peak, so they moved too.
+- Change: `_build_chords` saves what it answered as `preset["chord_busy"]`; a rebuild passes it back (`dirs["busy"]`). Beats made before today have no `chord_busy` and still fall back to the recipe lanes (can still drift on a fill beat).
+- Tests: the 4 drifting beats re-checked, 0.00 dB on every lane; test_removing_a_sound / stem_removal / swapping_the_kick pass. Full suite not run. Probe scripts on `/Volumes/TBOTC 3/pytest-scratch/probe/`.
+- Status: confirmed for new beats (measured); old beats unchanged.
+
+### [2026-10-30] Full suite: 5 fail, 1644 pass, 3 skip (27 min) — logged, not fixed (owner: log and move on)
+- Run outside the sandbox, `--ignore-glob='*.pre-*'`: the backup `tests/test_sound_engine.pre-base-layer-2026-10-18.py` breaks collection (dotted name) and stops the whole suite. Should move out of tests/ (owner's call).
+- `test_beat_machine::test_generate_ships_wav_midi_stems_and_recipe`: an Otto Grit beat with allow_dirt True fails the dirt check. Likely from the 2026-10-29 no-EQ/no-dirt change (test still expects dirt). Not looked at.
+- `test_beat_machine::test_nothing_but_chip_is_ever_generated`: a Timberline beat has chord0-2 lanes where only chip is allowed. Not looked at.
+- `test_boundary::test_tools_never_import_reason_voice`: panel_sweep.py imports reason_voice. Known since 2026-10-29.
+- `test_pattern_gen::test_style_is_a_lean_not_a_cage` and `test_variety::test_every_dj_composes_apart[Night Metro]`: Night Metro too spread / not enough halftime. Known Night Metro issue.
+- Status: open.
