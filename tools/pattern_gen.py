@@ -1358,14 +1358,12 @@ def compose(preset, name, variant, boom_bap=False, tsig=None, trick=False,
                 # map — then vary either way
                 bank = BOOM_BAP_KICKS if boom_bap \
                     else KICK_BANK.get(name, [])
-                # v6: banks cross-pollinate — 15% of bank picks borrow
-                # another DJ's vocabulary (variety over style fidelity).
-                # NEVER into a legend (likeness), a genre (the figure IS
-                # the style) or a traditional beat (the borrowed line
-                # could be exotic); legends only borrow from other
-                # legends' books, never the loose nine.
-                if not boom_bap and not legend and not genre \
-                        and not traditional and rng.random() < 0.15:
+                # banks cross-pollinate: owner 2026-10-29 opened every
+                # DJ/Legend/genre to every book on half its bank picks
+                # (was 15%, loose nine only). Never a traditional beat
+                # (the borrowed line could be exotic).
+                if not boom_bap and not traditional \
+                        and rng.random() < SOUND_OPEN_P:
                     donor = rng.choice([d for d in KICK_BANK if d != name])
                     bank = KICK_BANK[donor]
                     notes.append("kick borrowed from %s's book" % donor)

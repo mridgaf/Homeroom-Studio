@@ -193,7 +193,9 @@ def test_style_is_a_lean_not_a_cage():
     # home mode's and a small sample swings on noise alone.
     for name, (lane, home) in homes.items():
         seen = Counter()
-        for v in range(120):
+        # 600 (2026-10-29): at 120 Rage Engine passed or failed on sample
+        # luck alone -- same lean (~0.55-0.6) on old and new code at 600
+        for v in range(600):
             p, notes = _composed(name, v)
             # a backbeat borrowed from a groove seed (2026-07-21) is the
             # library's voice, not this DJ's grammar — count grammar
@@ -296,7 +298,9 @@ def test_kick_bank_is_valid_and_gets_used():
     # a bank pattern's anchor shape (>=75% of rolls start from the bank)
     def caps(bar):
         return tuple(i for i, c in enumerate(bar) if c == "X")
-    bank_caps = {caps(b) for b in pattern_gen.KICK_BANK["Chrome Dial"]}
+    # any book counts: since 2026-10-29 half the picks borrow another's
+    bank_caps = {caps(b) for bank in pattern_gen.KICK_BANK.values()
+                 for b in bank}
     hits = sum(caps(_composed("Chrome Dial", v)[0]["lanes"]["kick"][3][0])
                in bank_caps for v in range(16))
     assert hits >= 6

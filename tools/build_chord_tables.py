@@ -12,6 +12,10 @@ quality]) the same way progressions_config.json is, so harmony.py can
 drop it into any key. The song's tonic comes from a Krumhansl key-finder
 run over all its chord tones.
 
+Since 2026-10-29 the jazz, jazz_rap, lofi, soul, gospel, funk, gfunk and
+rnb tables come from iReal Pro lead sheets instead (see ireal() below):
+real 7ths/9ths/13ths, and styles that actually differ.
+
 The CSV is 264 MB and lives on the external drive (owner rule 2026-10-29:
 anything that can go on the drive goes there). Run it in the background:
 
@@ -28,7 +32,7 @@ from pathlib import Path
 
 sys.path.append(str(Path(__file__).parent))
 
-from key_context import CHORDS, MINORISH                    # noqa: E402
+from key_context import ALL_CHORDS, CHORDS, MINORISH        # noqa: E402
 
 SRC = Path("/Volumes/TBOTC 3/Datasets/Chordonomicon/chordonomicon_v2.csv")
 OUT = Path(__file__).resolve().parent.parent / "chord_tables.json"
@@ -74,7 +78,9 @@ QUAL = {"": "major", "min": "minor", "7": "dom7", "min7": "min7",
         "13": "dom7", "min9": "min9", "maj9": "maj9", "add9": "add9",
         "min11": "min9", "6": "major", "min6": "minor", "minmaj7": "minor",
         "5": "5", "maj": "major"}
-TOKEN = re.compile(r"^([A-G])(s|b)?([^/]*)(?:/.*)?$")
+# "s" is Chordonomicon's sharp, but not the s of "sus" (Csus4 is C sus4,
+# not C# "us4" -- that misread dropped ~1.1% of chords, 2026-10-29)
+TOKEN = re.compile(r"^([A-G])(s(?!us)|b)?([^/]*)(?:/.*)?$")
 TAGS = re.compile(r"'([^']*)'")
 
 # Krumhansl-Kessler key profiles
@@ -140,6 +146,130 @@ def styles_of(tags, main):
     return out
 
 
+# --- iReal Pro charts (owner pick 2026-10-29: "iReal chords + Lakh riffs") ---
+# Chordonomicon's guitar tabs are 85% plain triads and every style shares
+# the same pop loops. The iReal Pro lead sheets in ChoCo (Choco: de Berardinis
+# et al. 2023) are written by players with the real colour: jazz 16% plain,
+# funk/soul/R&B 39-43%, and the styles share 1-19% of their loops. iReal has
+# no trap/Memphis/drill/club/reggaeton charts, so only these styles switch;
+# the rest stay Chordonomicon. A family (major/minor) with too few charts
+# keeps its Chordonomicon table.
+IREAL = Path("/Volumes/TBOTC 3/Datasets/choco/partitions/ireal-pro/choco")
+# style -> regex on the chart's iReal style field (lower-cased). Each chart
+# goes to the FIRST style that matches, so no two styles share charts --
+# overlapping groups made G-funk a copy of R&B and jazz rap a copy of jazz.
+# Claude's grouping: jazz rap gets the mid-tempo swing / soul-jazz records
+# that era sampled, lo-fi the slow ballads and bossa, G-funk slow 70s funk.
+IREAL_STYLES = (
+    ("jazz_rap", r"hip.?hop|soul jazz|funk(y)? jazz|nu jazz|^medium swing"),
+    ("gospel", r"gospel|worship"),
+    ("rnb", r"r.?n.?b|r n b|neo.?soul|smooth"),
+    ("gfunk", r"slow funk|funk ballad|groove|slow soul|funk shuffle"),
+    ("soul", r"soul"),
+    ("funk", r"funk|disco"),
+    ("lofi", r"^(slow |medium |jazz )?ballad|bossa"),
+    ("jazz", r"swing|jazz|waltz|bebop|bop"),
+)
+IREAL_MIN = 40            # charts per family before it replaces the old table
+# iReal spelling -> the engine's chord names (key_context.ALL_CHORDS)
+IQUAL = {"": "major", "^": "maj7", "^7": "maj7", "^9": "maj9", "^13": "maj9",
+         "^7#11": "maj7#11", "^9#11": "maj7#11", "^7#5": "maj7",
+         "-": "minor", "-7": "min7", "-9": "min9", "-11": "min11",
+         "-6": "min6", "-69": "min6", "-^7": "min_maj7", "-^9": "min_maj7",
+         "-b6": "minor", "-7b5": "m7b5", "h": "m7b5", "h7": "m7b5",
+         "o": "dim", "o7": "dim7", "+": "aug", "5": "5", "2": "add9",
+         "add9": "add9", "6": "maj6", "69": "6/9",
+         "7": "dom7", "9": "dom9", "11": "7sus4", "13": "dom13",
+         "7b9": "7b9", "7#9": "7#9", "7sus": "7sus4", "9sus": "9sus4",
+         "13sus": "9sus4", "7b9sus": "7sus4", "sus": "sus4"}
+ITOK = re.compile(r"^([A-G])([b#]?)([^/]*)")
+
+
+def _iqual(q):
+    if q in IQUAL:
+        return IQUAL[q]
+    if q.startswith("7b9") or q.startswith("13b9"):
+        return "7b9"
+    if q[:1] in ("7", "9") or q.startswith("13"):     # altered dominants
+        return "dom7"
+    return None
+
+
+def _ipc(m):
+    return (PC[m.group(1)] + {"#": 1, "b": -1}.get(m.group(2), 0)) % 12
+
+
+def ireal(out):
+    """Replace IREAL_STYLES' tables in `out` with ones built from iReal."""
+    if not IREAL.exists():
+        sys.exit("iReal charts not found at %s (drive mounted?)" % IREAL)
+    loops = collections.defaultdict(collections.Counter)
+    nxt = collections.defaultdict(lambda: collections.defaultdict(
+        collections.Counter))
+    songs = collections.Counter()
+    seen = set()
+    for part in ("forum", "playlists"):
+        with (IREAL / part / "meta.csv").open(newline="",
+                                              encoding="utf-8") as f:
+            rows = list(csv.DictReader(f))
+        for row in rows:
+            genre = (row["genre"] or "").strip().lower()
+            st = [s for s, rx in IREAL_STYLES if re.search(rx, genre)][:1]
+            name = (row["title"].lower(), row["artists"].lower())
+            if not st or name in seen:
+                continue
+            seen.add(name)
+            try:
+                d = json.loads((IREAL / part / "jams" /
+                                Path(row["jams_path"]).name).read_text())
+            except (OSError, ValueError):
+                continue
+            ann = {a["namespace"]: [o["value"] for o in a["data"]]
+                   for a in d["annotations"]}
+            key = ITOK.match((ann.get("key_mode") or [""])[0] or "")
+            if not key:
+                continue
+            tonic = _ipc(key)
+            fam = "minor" if "-" in ann["key_mode"][0] else "major"
+            seq = []
+            for c in ann.get("chord") or ann.get("chord_ireal") or []:
+                m = ITOK.match(str(c or ""))
+                q = m and _iqual(m.group(3).strip())
+                if q not in ALL_CHORDS:
+                    continue
+                tok = "%d:%s" % ((_ipc(m) - tonic) % 12, q)
+                if not seq or seq[-1] != tok:
+                    seq.append(tok)
+            if len(seq) < 4:
+                continue
+            for s in st:
+                songs[(s, fam)] += 1
+                for a, b in zip(seq, seq[1:]):
+                    nxt[(s, fam)][a][b] += 1
+                # charts aren't loops: every 2-4 chord run counts, and
+                # later only runs whose last chord really moves back to
+                # the first are kept, so the loop wraps
+                for p in (2, 3, 4):
+                    for i in range(len(seq) - p + 1):
+                        w = tuple(seq[i:i + p])
+                        if len({x.split(":")[0] for x in w}) == p:
+                            loops[(s, fam)][w] += 1
+    for (s, fam), n in sorted(songs.items()):
+        if n < IREAL_MIN:
+            continue
+        mv = nxt[(s, fam)]
+        ok = collections.Counter({w: c for w, c in loops[(s, fam)].items()
+                                  if mv[w[-1]].get(w[0], 0) >= 2})
+        out["styles"].setdefault(s, {})[fam] = {
+            "songs": n, "source": "ireal",
+            "loops": [[list(w), c] for w, c in ok.most_common(TOP_LOOPS)],
+            "next": {a: dict(b.most_common(TOP_NEXT))
+                     for a, b in mv.items() if sum(b.values()) >= 5},
+        }
+        print("ireal", s, fam, n, "charts")
+    return out
+
+
 def build():
     if not SRC.exists():
         sys.exit("Chordonomicon CSV not found at %s (drive mounted?)" % SRC)
@@ -196,6 +326,7 @@ def build():
                      for a, b in nxt[(s, fam)].items()
                      if sum(b.values()) >= 5},
         }
+    ireal(out)
     OUT.write_text(json.dumps(out, indent=0, ensure_ascii=False))
     for s, fams in sorted(out["styles"].items()):
         print(s, {f: (v["songs"], len(v["loops"])) for f, v in fams.items()})

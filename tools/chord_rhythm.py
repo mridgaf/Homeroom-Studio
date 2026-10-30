@@ -506,7 +506,7 @@ def _order(notes, shape):
 
 def render_figure(bars, dur, bpm, notes, render_note, render_chord,
                   figure="stab", shape=None, spec=None, seed=0,
-                  sr=chord_synth.SR, long=None, log=None):
+                  sr=chord_synth.SR, long=None, log=None, riff=None):
     """Play a written figure into a `dur`-second, loop-safe chord buffer.
 
     `render_note(note, seg_dur)` voices one note (arp steps);
@@ -522,6 +522,9 @@ def render_figure(bars, dur, bpm, notes, render_note, render_chord,
     each hit's level then comes from its character AND where it sits in
     the bar, and soft hits play a little darker. `log` (a list) collects
     (time_s, dur_s, notes, level) per hit for the MIDI file.
+
+    figure "riff" (2026-10-29, riff_gen.py): `riff` = (pitches, lengths),
+    each keyed by the hit's 16th across the slot; one note per hit.
     """
     spec = spec or DEFAULT
     n = max(int(dur * sr), 1)
@@ -572,7 +575,11 @@ def render_figure(bars, dur, bpm, notes, render_note, render_chord,
             if lvl <= 0:
                 continue
             played, held = notes, ring.get(b * 16 + step, seg_dur)
-            if figure == "arp":
+            if figure == "riff":
+                played = [riff[0][b * 16 + step]]
+                held = riff[1][b * 16 + step] * beat_s
+                seg = render_note(played[0], held)
+            elif figure == "arp":
                 played = [order[k % len(order)]]
                 seg = render_note(played[0], held)
                 k += 1

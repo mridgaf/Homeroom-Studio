@@ -128,7 +128,7 @@ def test_free_beat_borrows_each_drum_part_from_other_djs():
     donors = {n.split(" from ")[1] for n in notes}
     assert "Otto Grit" not in donors
     for n in donors:
-        assert crew.is_dj(n)
+        assert n in CREW
     for spec in p["grammar"].values():
         assert not (isinstance(spec, dict) and "copy" in spec
                     and spec["copy"] not in p["grammar"])
@@ -245,3 +245,21 @@ def test_no_beat_ever_has_two_basses(low_env, monkeypatch):
         kinds.add("808" if (voiced_808 or lows) else
                   "line" if line else "none")
     assert {"808", "line"} <= kinds, kinds
+
+
+def test_genres_and_legends_borrow_drum_parts_on_half_their_beats():
+    # owner 2026-10-29: all DJs and genres get every drum pattern book
+    import inspect
+    from pattern_gen import free_beat, SOUND_OPEN_P
+    src = inspect.getsource(beat_machine.solo_preset)
+    assert "name in CREW and free_beat(variant, SOUND_OPEN_P)" in src
+    share = sum(free_beat(v, SOUND_OPEN_P) for v in range(1000)) / 1000.0
+    assert 0.45 < share < 0.55
+    import copy
+    g = sorted(crew.GENRE_NAMES)[0]
+    donors = set()
+    for v in range(2, 40):
+        p = copy.deepcopy(CREW[g])
+        donors |= {n.split(" from ")[1]
+                   for n in beat_machine._borrow_drum_parts(p, g, v)}
+    assert g not in donors and donors & set(crew.GENRE_NAMES)

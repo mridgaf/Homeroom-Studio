@@ -772,7 +772,7 @@ def _borrow_drum_parts(p, name, variant):
     traditional backbone still applies afterwards inside compose(), and a
     typed backbeat in the notes box still wins after this. Returns notes."""
     rng = random.Random(variant * 709 + 23)
-    djs = sorted(n for n in CREW if is_dj(n) and n != name)
+    djs = sorted(n for n in CREW if n != name)     # genres lend too
     grammar = p.get("grammar") or {}
     notes = []
 
@@ -824,7 +824,8 @@ def solo_preset(name, variant, bpm, tsig=None, trick=False, dirs=None,
     _maybe_seat_snare(p, variant)
     _pin_bars_for_loop_voice(p, variant, dirs)
     borrowed = []
-    if not bb and is_dj(name) and free_beat(variant):
+    # owner 2026-10-29: every DJ/Legend/genre borrows on half its beats
+    if not bb and name in CREW and free_beat(variant, SOUND_OPEN_P):
         borrowed = _borrow_drum_parts(p, name, variant)
     if dirs and dirs.get("force_mode"):
         for ln in ("snare", "clap"):
@@ -1610,6 +1611,11 @@ def add_bass_and_chords(preset, kit, sources, shots, variant, dirs, vnotes,
     import chord_gen
     import dynamics
     preset.setdefault("chord_gen", {"v": chord_gen.VERSION, "who": dj})
+    # TEXTURE (owner 2026-10-29): full chords rare; most beats carry the
+    # music with two notes, a riff or a sampled loop (tools/riff_gen.py).
+    # New beats only.
+    import riff_gen
+    preset.setdefault("texture_flow", riff_gen.VERSION)
     preset.setdefault("dyn_flow", dynamics.VERSION)
     # An 808 beat plays NO bass line: the 808 bangs with the kick on its
     # own lane (_add_sample_lanes), one note, never following the chords
@@ -2376,10 +2382,13 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
         dirs = dict(dirs, chord_feel=None)
     if gen and not dirs.get("chord_feel") and "chords" not in gen:
         # a typed mood word still picks a named loop; otherwise new beats
-        # play a generated one (free beats roll any style)
+        # play a generated one. Owner 2026-10-29: every DJ/Legend/genre
+        # rolls any of the styles on half its beats (SOUND_OPEN_P, like the
+        # sounds); the bass line follows the style the chords picked.
         import chord_gen
         got = chord_gen.generate(
-            chord_gen.styles_for(gen.get("who"), sig, free=open_roll),
+            chord_gen.styles_for(gen.get("who"), sig,
+                                 free=free_beat(variant, SOUND_OPEN_P)),
             mode, random.Random(variant * 1201 + 7))
         if got:
             gen.update(got)
@@ -2453,14 +2462,31 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
     # a free beat's lead voice can be ANY instrument (_source_order), so
     # both libraries have to be on the table for it
     free = open_roll and not preset.get("genre")
+    # TEXTURE (riff_gen.py): one per beat, own seed
+    _tex, _riff = "full", None
+    if preset.get("texture_flow"):
+        import riff_gen
+        _tex = riff_gen.roll(variant)
+        if _tex == "riff":
+            _riff = riff_gen.pick(
+                variant, (preset.get("chord_gen") or {}).get("style"))
     want_loop = (not pref or any(s[0] == "loop" for s in pref)
-                 or voice == "loop" or free)
+                 or voice == "loop" or free or _tex == "loop")
     pool = chord_synth.sample_pool(key, preset["bpm"]) if want_loop else []
     if exact and exact.startswith("loop:"):      # his exact loop, alone
         pool = [e for e in pool if e["path"] == exact[5:]] or pool
     # signature["loop_pool_only"] (2026-10-11): see _limit_loop_pool.
     if not (exact and exact.startswith("loop:")):
         pool = _limit_loop_pool(pool, sig, key, variant)
+    if (_tex == "loop" and not pool) or (_tex == "riff" and not _riff):
+        _tex = "two"                 # nothing to carry it: two notes
+    if _tex in ("two", "riff"):
+        _grammar = dict(_grammar or chord_rhythm.DEFAULT)
+        if _dyn:
+            _grammar["dyn"] = _dyn
+        if _tex == "two":            # sparse stabs, never held or arped
+            _grammar["figures"] = [["stab", 3], ["comp", 2]]
+    _tonic = 60 + key.pc             # where a riff's 0 sits (C4-B4)
     # same "only scan if it's actually on the table" guard as want_loop
     # above, for the owner's MIDI chord packs (tools/midi_packs.py) —
     # one candidate file per beat, not per chord slot, same reasoning as
@@ -2680,6 +2706,35 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
                 return None                  # support/passing roles hold
             rng = random.Random(variant * 733 + 97 + slot)
             nbars = max(int(round(dur / bar_s)), 1)
+            _base = sorted(notes) if src == "midi" else chord["notes"]
+            if _tex == "riff":
+                import riff_gen
+                bars, pitch, length = riff_gen.riff_bars(
+                    _riff["notes"], nbars, _bar0.get(slot, 0),
+                    {n % 12 for n in _base}, set(key.scale()), _tonic)
+                _chord_cells[slot] = bars
+                _log = [] if slot not in _chord_hits else None
+                a = chord_rhythm.render_figure(
+                    bars, dur, preset["bpm"], notes, render_note,
+                    render_chord, figure="riff", spec=_grammar,
+                    seed=variant * 101 + slot, log=_log,
+                    riff=(pitch, length))
+                if _log and _dyn:
+                    _chord_hits[slot] = _log
+                if a is not None and _riff["bed"]:
+                    bed = render_chord(_lift(riff_gen.two_notes(_base),
+                                             _base), dur)
+                    if bed is not None:
+                        m = min(len(a), len(bed))
+                        a = a.copy()
+                        a[:m] += bed[:m] * riff_gen.BED_LEVEL
+                if a is None or not np.max(np.abs(a)) > 0:
+                    return None
+                return a, "riff" + (" + bed" if _riff["bed"] else "")
+            two = None
+            if _tex == "two":
+                import riff_gen
+                two = _lift(riff_gen.two_notes(_base), _base)
             # Skip the library patterns the last 3 beats of this DJ just
             # played: replay THEIR seeds, so the result depends only on
             # this beat's number and a rebuild still matches.
@@ -2703,8 +2758,8 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
             _chord_cells[slot] = bars
             _log = [] if slot not in _chord_hits else None
             a = chord_rhythm.render_figure(
-                bars, dur, preset["bpm"], notes, render_note, render_chord,
-                figure=figure, shape=shape, spec=_grammar,
+                bars, dur, preset["bpm"], two or notes, render_note,
+                render_chord, figure=figure, shape=shape, spec=_grammar,
                 seed=variant * 101 + slot, long=_long, log=_log)
             if _log and _dyn:
                 _chord_hits[slot] = _log
@@ -2889,6 +2944,10 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
     # (owner 2026-10-28, overrides the 30% roll and the genre exemption)
     order = _source_order(pref, random.Random(variant * 461),
                           free=free_beat(variant, SOUND_OPEN_P))
+    if _tex == "loop" and not voice:
+        order = ["loop"] + [s for s in order if s != "loop"]
+    elif _tex in ("two", "riff") and not voice and order[0] == "loop":
+        order = order[1:] + ["loop"]      # a loop would play over it
     plan_rng = random.Random(variant * 883 + 7)
     own = [s[0] for s in pref] if pref else []
     plans = [(s,) for s in order]
@@ -2949,7 +3008,8 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
     # instrument" — one instrument, his choice, never auto-layered over. Loops
     # and chip/midi are self-voiced picks, so they stay single too. Everything
     # else the machine voices itself may layer.
-    if voice or primary in ("loop", "chip", "midi"):
+    if voice or primary in ("loop", "chip", "midi") or _tex in ("two",
+                                                                 "riff"):
         part_count = 1
     else:
         part_count = random.Random(variant * 617 + 5).choices(
@@ -2963,6 +3023,7 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
     import melody_rhythm
     _mel_on = bool(preset.get("melody_flow") and (num, den) == (4, 4)
                    and primary not in ("loop", "chip", "midi")
+                   and _tex != "riff"             # the riff IS the line
                    and melody_rhythm.plays(variant))
     _lead_top = {}
     # which layer a double copies (band_flow): the lead on a multi-part
@@ -3569,8 +3630,17 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
         # out. Bass and MIDI still ride.
         vnotes.append("chords: %s in %s — no instrument could voice it, "
                       "chord lane left out" % (prog_name, key))
+    if _tex != "full":
+        vnotes.append("texture: %s" % (
+            "riff from %s%s" % (_riff["src"], " over a soft 2-note bed"
+                                if _riff["bed"] else "")
+            if _tex == "riff" else "two notes of each chord"
+            if _tex == "two" else "a sampled loop carries it"))
     harmony_info = {"key": str(key), "root": key_root, "mode": mode,
                     "progression": prog_name, "rhythm": _rhythm,
+                    "texture": ({"kind": _tex, "riff": _riff and _riff["src"],
+                                 "bed": bool(_riff and _riff["bed"])}
+                                if preset.get("texture_flow") else None),
                     # chord flow (2026-09-26): how the chords were stacked
                     # and how many bars each got; None on older beats
                     "flow": ({"voicing": voicing,

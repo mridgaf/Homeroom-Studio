@@ -2114,7 +2114,7 @@ def test_loops_always_play_alone(machine_env, monkeypatch):
         "chords_default": True})
     from pattern_gen import free_beat
     checked = 0
-    for seed in range(8):
+    for seed in range(24):    # textures: ~1/3 are loop beats
         random.seed(seed)
         path, report = beat_machine.generate(["Timberline"], root=root,
                                              shots=shots)
@@ -2124,6 +2124,10 @@ def test_loops_always_play_alone(machine_env, monkeypatch):
         # and may layer two instruments by design. Seed 5 is one; it only
         # passed before because its layering happened to fail to voice.
         if free_beat(rec["variant"]):
+            continue
+        # texture (2026-10-29): a riff or two-note beat plays no loop
+        if ((rec.get("harmony") or {}).get("texture") or {}).get(
+                "kind") in ("two", "riff"):
             continue
         checked += 1
         lanes = rec["preset"]["lanes"]
@@ -2454,3 +2458,18 @@ def test_peaks_are_one_bar_per_slice_scaled_to_the_loudest(tmp_path):
     assert len(p) == 20 and max(p) == 1.0
     assert all(0 <= v <= 1 for v in p)
     assert abs(p[0] - .2) < .01                          # .1 of a .5 peak
+
+
+def test_new_beats_roll_a_texture_and_record_it(machine_env):
+    """Owner 2026-10-29: full chords rare; two notes, riffs or a loop
+    carry most beats. The beat names its texture in its recipe."""
+    root, shots = machine_env
+    kinds = set()
+    for seed in range(12):
+        random.seed(seed)
+        path, _ = beat_machine.generate(["Cutz"], root=root, shots=shots)
+        rec = beat_recipes.load_recipe(root, int(path.name.split()[0]))
+        h = rec.get("harmony") or {}
+        if h.get("texture"):
+            kinds.add(h["texture"]["kind"])
+    assert kinds - {"full"}, kinds

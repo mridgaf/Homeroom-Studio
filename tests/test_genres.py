@@ -166,12 +166,13 @@ def test_styles_never_evolve():
     assert "n not in GENRE_NAMES" in text        # filtered before evolving
 
 
-def test_kick_banks_never_pollinate_into_a_style():
-    """The loose nine may borrow a style's book; nothing borrows INTO
-    one, or the figure stops being the figure."""
+def test_kick_banks_pollinate_into_everyone():
+    """Owner 2026-10-29: every DJ/Legend/genre may borrow any kick book
+    on half its picks (overrules the old never-into-a-style rule)."""
     src = (Path(__file__).resolve().parent.parent / "tools"
            / "pattern_gen.py").read_text()
-    assert "not legend and not genre" in src
+    assert "not legend and not genre" not in src
+    assert "rng.random() < SOUND_OPEN_P" in src
 
 
 # ------------------------------------------------- variety, honestly
