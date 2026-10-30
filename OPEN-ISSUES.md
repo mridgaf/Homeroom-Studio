@@ -127,7 +127,7 @@ Hear these before anything new is stacked on them. Claude renders one small audi
 - [x] **13. ✅ 2026-09-28: he rendered + heard all 11 on the app, kept.** Audition the 11 genres that are built but not rendered:** G-Funk, Horror Rap, Houston Screw,
   Memphis, Miami Bass, New Orleans Bounce, Organized Noize, Plug, Reggaeton Alt, Trip Hop, Wonky.
   Then hear them. Ref: [genre_newbuild_status.json](genre_newbuild_status.json)
-- [ ] **14. Build the last 2 Legends: DJ Premium and No Alias** (2026-09-30: DJ Premium BUILT; owner said he listens to DJ Premium and to keep the changes, so heard and kept; No Alias not started). 12 of 14 confirmed.
+- [x] **14. Build the last 2 Legends: DJ Premium and No Alias** (✅ closed 2026-10-30: both rebuilt, settings/Original/Loops all done per Handoffs/DJ Rebuild/TRACKER.md; not heard yet. Older note: 2026-09-30: DJ Premium BUILT; owner said he listens to DJ Premium and to keep the changes, so heard and kept; No Alias not started). 12 of 14 confirmed.
   Ref: `tools/legend_newbuild.py`
 
 ## 4. Decisions only you can make (🗳️) — ✅ done 2026-09-28: both built (see DECISIONS.md top)
