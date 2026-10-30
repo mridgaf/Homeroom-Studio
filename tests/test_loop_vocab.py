@@ -63,3 +63,37 @@ def test_loop_beats_ignore_allow_dirt():
         preset=_preset(allow_dirt=True, fx_stems=True, vinyl=-30, wow=0.3,
                        dust=0.5, mix_sat=2.0, kick_dist=0.5, drive=1.5))
     assert np.allclose(clean[0], dirty[0]) and np.allclose(clean[1], dirty[1])
+
+
+def test_doc_day_loop_words_are_only_doc_days():
+    """Loops side (2026-10-30): Doc Day's research backs ominous strings
+    and a piano hook; no other identity carries these extra words."""
+    assert {"dark", "piano", "strings"} <= set(loop_vocab.identity_words("Doc Day"))
+    assert "dark" not in loop_vocab.identity_words("Cutz")
+    assert loop_vocab._cfg()["Doc Day"]["words"] == ["rap", "dark", "piano", "strings"]
+
+
+def test_every_identity_has_loop_words_and_none_are_dead():
+    """Loops side (2026-10-30): all 45 identities carry a words block, and
+    every word reaches a group or lead type, so none are silent."""
+    import json
+    from pathlib import Path
+    root = Path(__file__).resolve().parent.parent
+    names = set()
+
+    def walk(o):
+        if isinstance(o, dict):
+            for n, v in o.items():
+                if isinstance(v, dict) and "listen" in v:
+                    names.add(n)
+                else:
+                    walk(v)
+    for f in ("crew_config.json", "legends_config.json", "genres_config.json"):
+        walk(json.loads((root / f).read_text()))
+    cfg = loop_vocab._cfg()
+    live = set(loop_vocab.word_groups()) | {
+        w for ws in cfg["_lead_types"].values() for w in ws}
+    assert len(names) == 45
+    for n in names:
+        words = cfg[n]["words"]
+        assert words and all(w in live for w in words), n

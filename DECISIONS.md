@@ -9521,3 +9521,13 @@ just not loaded by default.
 - Measured (100 beats): hat rolls32 13 -> 24/100, snare offbeat 12 -> 42/100. Hat is capped because library hat seeds (library p 0.6, jungle/dnb tags) replace the timekeeper roll; going further means lowering library p, which changes its sound. Left there (two tries rule).
 - Tests: focused run passes apart from known Night Metro failures. Nothing rendered.
 - Status: open: his ear.
+
+### [2026-10-30] Loops side: Doc Day (first identity)
+- Added `"Doc Day": {"words": ["rap","dark","piano","strings"]}` to loops_config.json (backup `loops_config.pre-docday-2026-10-30.json`). Backed by the 2001 research ("ominous strings", piano hook).
+- Mood row still hip hop (low +1, mid +1, glue 3.0): adding "dark" did not flip it. The line's "G-funk" mention also pulls in the funk/disco group; the words block can only add, so that stray steer stays (unfixed, not a bug in the block).
+- Status: open. Not heard, nothing rendered.
+
+### [2026-10-30] Loops side: words blocks for all 45 identities
+- Owner: keep going through the list. Each identity got a `"<Name>": {"words": [...]}` block in loops_config.json (backup `loops_config.pre-allloops-2026-10-30.json`), words taken from instruments and moods its researched listen line names. Every word checked live (reaches a group or lead type).
+- Only two mood rows moved: Horror Rap now dark (low +2, high -2, glue 2.2, matches "dark minor"), Reggaeton Alt kept its dark row (dropped "spanish"/"dark" that flipped it clean). Others unchanged.
+- Limit: a words block can only add, not remove, so odd steers from the line (Doc Day "G-funk", Crate Prophet "electronic") stay. Words are drawn from the lines, not re-researched per loop; unheard, nothing rendered. Status: open.
