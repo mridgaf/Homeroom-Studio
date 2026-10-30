@@ -2112,6 +2112,15 @@ def test_loops_always_play_alone(machine_env, monkeypatch):
         "progressions": [["dreamy", 1]],
         "chord_source": [["loop", 1]],
         "chords_default": True})
+    # new Original beats (2026-10-30) use a loop only as a last resort;
+    # this checks the rule wherever a loop DOES lead, so switch that off
+    real = beat_machine.solo_preset
+
+    def with_loops(*a, **k):
+        p, notes = real(*a, **k)
+        p["no_loop"] = 0
+        return p, notes
+    monkeypatch.setattr(beat_machine, "solo_preset", with_loops)
     from pattern_gen import free_beat
     checked = 0
     for seed in range(24):    # textures: ~1/3 are loop beats
@@ -2475,3 +2484,19 @@ def test_new_beats_roll_a_texture_and_record_it(machine_env):
         if h.get("texture"):
             kinds.add(h["texture"]["kind"])
     assert kinds - {"full"}, kinds
+
+
+def test_original_beats_use_a_loop_only_as_last_resort():
+    """Owner 2026-10-30, Original side: "I don't want to use loops. Unless
+    absolutely necessary." A loop never leads, free roll or not, and only
+    sits at the very end of the order."""
+    for v in range(200):
+        for free in (False, True):
+            order = beat_machine._source_order(
+                [["loop", 10], ["piano", 3], ["midi", 75]],
+                random.Random(v), free=free, no_midi=True, no_loop=True)
+            assert order[-1] == "loop" and order.count("loop") == 1, order
+            assert "midi" not in order
+    # beats made before keep their old order
+    old = beat_machine._source_order([["loop", 1]], random.Random(1))
+    assert old[0] == "loop"

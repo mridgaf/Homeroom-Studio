@@ -9476,3 +9476,9 @@ just not loaded by default.
 - `test_boundary::test_tools_never_import_reason_voice`: panel_sweep.py imports reason_voice. Known since 2026-10-29.
 - `test_pattern_gen::test_style_is_a_lean_not_a_cage` and `test_variety::test_every_dj_composes_apart[Night Metro]`: Night Metro too spread / not enough halftime. Known Night Metro issue.
 - Status: open.
+
+### [2026-10-30] Original side: no loops unless every instrument fails; texture full 10 / two 90
+- Context: with MIDI gone (10-29), the 37 identities on the 75/10/15 rule were splitting loops 40% / packs 60%. Owner: "part of this project already uses only loops. This side, I don't want to use loops. Unless absolutely necessary." Clickable: freed texture share -> "Full 10 / two 90".
+- Change: new stamp `preset["no_loop"]` (new beats, add_bass_and_chords). `_source_order(..., no_loop=)` drops "loop" from the signature weights and the free roll and puts it dead last; the plan list puts a loop after every other instrument group too. Texture: loop and riff become "two" (full 10% unchanged). `_pin_bars_for_loop_voice` passes no_loop (loops no longer pin a beat to 4 bars). Loops-only beats are a separate path, untouched. Typed "loop" requests still win. Old beats rebuild as made. Backup `tools/beat_machine.pre-no-loop-2026-10-30.py`. Also fixed: an identity whose only source was "loop" returned a tuple and crashed the two-note reorder.
+- Tests: new `test_original_beats_use_a_loop_only_as_last_resort`; `test_loops_always_play_alone` now switches no_loop off to keep checking its rule. Nothing rendered.
+- Status: open: his ear. Full chords are still a flat 10% (item #3, research per identity).

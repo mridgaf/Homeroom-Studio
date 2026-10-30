@@ -1620,6 +1620,11 @@ def add_bass_and_chords(preset, kit, sources, shots, variant, dirs, vnotes,
     # from his MIDI packs, no riffs from MIDI (packs or Lakh). Riff beats
     # become two-note or loop beats. New beats only.
     preset.setdefault("no_midi", 1)
+    # NO LOOPS on the Original side (owner 2026-10-30: "This side, I don't
+    # want to use loops. Unless absolutely necessary."). A loop is only the
+    # last resort after every instrument fails; loop/riff textures become
+    # two-note beats. Loops-only beats are a separate path. New beats only.
+    preset.setdefault("no_loop", 1)
     # NO EQ (owner 2026-10-29): see crew.render_crew_beat. Soft chord/bass
     # hits only get quieter, not darker. New beats only.
     preset.setdefault("no_eq", 1)
@@ -1951,7 +1956,7 @@ def _wpick(spec, rng):
     return rng.choice(spec)
 
 
-def _source_order(pref, rng, free=False, no_midi=False):
+def _source_order(pref, rng, free=False, no_midi=False, no_loop=False):
     """The order to try chord voices for one chord. No signature -> the
     historical default (a sampled loop, else the sampled-instrument
     voice). With a signature `chord_source` (weighted, e.g.
@@ -1972,25 +1977,34 @@ def _source_order(pref, rng, free=False, no_midi=False):
     unlike before, every source in this order can fail; _build_chords
     handles the case where they all do.
 
-    `no_midi` (owner 2026-10-29): "midi" is never on the table."""
+    `no_midi` (owner 2026-10-29): "midi" is never on the table.
+    `no_loop` (owner 2026-10-30): "loop" only as the very last resort."""
     if no_midi and pref:
         pref = [s for s in pref if s[0] != "midi"] or None
+    if no_loop and pref:
+        pref = [s for s in pref if s[0] != "loop"] or None
     if free:
         import instrument_sampler
         every = sorted(set(instrument_sampler.VOICES) - {"chip"}
                        | {"strings", "loop", "midi"})
         if no_midi:
             every.remove("midi")
+        if no_loop:
+            every.remove("loop")
         primary = rng.choice(every)
         names = [s[0] for s in pref] if pref else ["loop", "synth"]
     elif not pref:
-        return ("loop", "synth")
+        return ["synth", "loop"] if no_loop else ("loop", "synth")
     else:
         names = [s[0] for s in pref]
         primary = _wpick(pref, rng)
     order = [primary] + [n for n in names if n != primary]
+    if no_loop:
+        order = [n for n in order if n != "loop"]
     if "synth" not in order:
         order.append("synth")
+    if no_loop:
+        order.append("loop")      # only when every instrument failed
     return order
 
 
@@ -2145,7 +2159,8 @@ def _pin_bars_for_loop_voice(preset, variant, dirs):
     # every DJ/Legend/genre: any instrument or loop on half its beats
     # (owner 2026-10-28, overrides the 30% roll and the genre exemption)
     order = _source_order(pref, random.Random(variant * 461),
-                          free=free_beat(variant, SOUND_OPEN_P), no_midi=True)
+                          free=free_beat(variant, SOUND_OPEN_P), no_midi=True,
+                          no_loop=True)
     if not order or order[0] != "loop":
         return False
     preset["bar_lengths"] = [4]
@@ -2488,13 +2503,16 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
     if preset.get("texture_flow"):
         import riff_gen
         _tex = riff_gen.roll(variant)
+        if preset.get("no_loop") and _tex != "full":  # no riffs, no loops
+            _tex = "two"
         if _tex == "riff" and preset.get("no_midi"):   # riffs are MIDI
             _tex = riff_gen.no_riff(variant)
         if _tex == "riff":
             _riff = riff_gen.pick(
                 variant, (preset.get("chord_gen") or {}).get("style"))
     want_loop = (not pref or any(s[0] == "loop" for s in pref)
-                 or voice == "loop" or free or _tex == "loop")
+                 or voice == "loop" or free or _tex == "loop"
+                 or preset.get("no_loop"))      # its last resort
     pool = chord_synth.sample_pool(key, preset["bpm"]) if want_loop else []
     if exact and exact.startswith("loop:"):      # his exact loop, alone
         pool = [e for e in pool if e["path"] == exact[5:]] or pool
@@ -2970,7 +2988,8 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
     # (owner 2026-10-28, overrides the 30% roll and the genre exemption)
     order = _source_order(pref, random.Random(variant * 461),
                           free=free_beat(variant, SOUND_OPEN_P),
-                          no_midi=bool(preset.get("no_midi")))
+                          no_midi=bool(preset.get("no_midi")),
+                          no_loop=bool(preset.get("no_loop")))
     if _tex == "loop" and not voice:
         order = ["loop"] + [s for s in order if s != "loop"]
     elif _tex in ("two", "riff") and not voice and order[0] == "loop":
@@ -2994,6 +3013,8 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
              if g not in order and g != "chip"]
     plan_rng.shuffle(extra)
     plans += [(g,) for g in extra]
+    if preset.get("no_loop"):        # a loop only after every instrument
+        plans = [p for p in plans if p != ("loop",)] + [("loop",)]
     # The owner picking an instrument on the rack (2026-08-04) puts it at
     # the FRONT of the queue rather than replacing the queue: the plans
     # below are tried in turn and the first that can voice every chord
