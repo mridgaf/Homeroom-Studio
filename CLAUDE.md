@@ -26,9 +26,6 @@ and get walked through recipes step-by-step. All speech is processed locally
 (faster-whisper). v0.3 works end-to-end and is verified on the owner's machine.
 
 ## Owner & machine facts (do not rediscover these)
-- User: self-taught musician, technical background, NOT a developer. All
-  instructions to the user must be single paste-able commands or double-clickable
-  files. He runs commands in Terminal, sometimes pastes into the wrong window.
 - Machine (VERIFIED 2026-07-31 — the old entry here said "older MacBook Pro"
   and was simply wrong; do not reinstate it): **MacBook Pro 14" 2023,
   `Mac14,9`, Apple M2 Pro, 10 cores, 16 GB, arm64, macOS 26.5.2.** This is a
@@ -116,41 +113,19 @@ audio capture into the browser; (c) recipe cards render beautifully in HTML.
 Avoid Electron (heavy) and avoid packaging with PyInstaller until the UI is
 stable.
 
-**Keep:** recipe .md format + all content, PDF generator, Remote bridge files
-verbatim, mido CC map, faster-whisper. **Drop:** pynput global hotkey (replace
-with in-page control), `say` spoken feedback by default (visual instead, toggle
-in settings), the bare-terminal REPL.
 
 **Constraints that still hold:** venv uses system python3 (3.9), `pip install`
 inside `.venv`. Do not move the project folder — the Remote files and his
 muscle memory point at it. Tests are set up: `.venv/bin/python -m pytest tests/`
-— **~1331 tests, ~17 min** (measured 2026-10-03; the old "~750 tests, ~4 min"
-here was stale). Run it ALONE: it renders beats off the external drive, so a
-render or a library scan in another terminal starves it and the same suite
-crawls to hours. That looks exactly like a hang and isn't one.
-
 ## Known open items
 - All recipes are status: theoretical — as he tests them, flip to tested.
 - Whisper "find something like this" often transcribed as "and something like
   this" — v2 should fuzzy-match intents, not just regex.
-- `small.en` latency ~1s on his hardware; offer tiny.en toggle in UI settings.
-- **MIDI chord packs as a new chord source (own session, owner 2026-09-14).**
-  `tools/midi_packs.py` is real but dormant: it reads exact notes (no
-  key-guessing) from 298 MIDI files sitting in the same loop pack folders
-  (183 chord, 58 melody, 53 drum, 4 bass — measured), and its own
-  vendor-label-vs-detected-key cross-check disagrees on 104 of 245 keyed
-  files, which is real signal, not noise. The folder fix is DONE
-  (2026-09-15: own `midi_roots`/`midi_sorted_root` keys, reads
-  `BOTC Sorted MIDI`, guarded by `test_scan_finds_his_real_midi_packs`).
-  DONE 2026-09-26: `"midi"` is in every DJ/Legend/genre's `chord_source`
-  at 10% of beats (5 kept their higher shares). Heard and kept
-  2026-09-28 (listening checklist item 10).
 
 ## Where work runs (owner, 2026-10-18) -- say this at the START of a task
 - His computer is a Mac (M2 Pro). It is NOT Linux. The Cowork/chat sandbox Claude
   works in is a separate Linux machine: it cannot run his Mac `.venv`, cannot see
   `/Volumes/TBOTC 3`, and renders beats and runs the big test suite far too slowly.
-- So: the full test suite (~1331 tests), beat renders, library scans and anything
   that reads the external drive belong in **Claude Code** on the Mac. Say so up
   front, in the model / Cowork-or-Code line he asked for. Never start them in the
   sandbox, and never leave "run it on your Mac" as a surprise at the end.
@@ -173,19 +148,10 @@ it.
   Not "the governor's clamp was asymmetric" — "the volume control couldn't
   turn things down far enough."
 - **One idea per line.** Short paragraphs, tables and bullets over prose.
-  A table he can scan beats a paragraph he has to hold in his head.
 - **Numbers, not adjectives.** "Was 6.7 dB apart, now 0.4" tells him
   something. "Much better" doesn't.
-- **Say what he has to DO, and put it last** so it's easy to find. One
-  paste-able command or one double-clickable file — never a multi-step
-  developer procedure.
-- Explain the "why" only when it changes what he decides.
 
-### HARD RULE: Every reply is ONE short paragraph
 
-Owner, 2026-10-25: "Everything one small paragraph that I actually need to know."
-Only what he needs, honest about what was and wasn't heard or verified. Detail goes in
-files (DECISIONS.md, guides), not chat. His one action, if any, is the last line.
 
 ### HARD RULE: Anything he must click goes LAST, at the very bottom
 
@@ -203,8 +169,6 @@ Owner, 2026-10-03: he has ADHD and misses buttons or cards that appear mid-reply
 Owner, 2026-09-25: "If there is something that I do not have to do manually, you need to do it. Explain what you're going to do and then just do it. Quit giving me tasks."
 - Say in one or two lines what you are about to do, then do it. Do not hand him commands to paste, files to click, or steps to run that you could run yourself.
 - Only hand something to him when it truly needs him: his ears (listening), his password, a macOS permission dialog, or a physical action.
-- If a safety check blocks you, first try a safer way yourself (smaller steps, move instead of delete). Only then come to him, as one clickable yes/no, never as a to-do list.
-- House safety rules still hold: never delete his files (move them), never commit/push unless he says so.
 
 ### 0b. Ambiguity: stop and ask. Never guess
 
@@ -255,8 +219,6 @@ time:
 ```
 ./.venv/bin/python -m pytest tests/ -q
 ```
-~1331 tests, ~17 minutes. Later renders in the same session don't repeat
-it unless code changed since.
 
 **Never render while a test run is going.** They both read beats off the
 external drive and starve each other — the suite crawls, the render slows,
@@ -300,8 +262,6 @@ project, and other sessions do work. None of it writes back to
 OPEN-ISSUES.md or DECISIONS.md. Before offering or starting any step, look
 for proof it's done: beat folder dates in `/Volumes/TBOTC 3/Homeroom
 Rhythms/<name>`, `Nightly Loops/LATEST.txt`, `git log`, other sessions'
-transcripts. If it looks done, ask one clickable "looks done, mark it?",
-never redo it.
 
 ### 1. Verify before claiming done
 Don't report a fix, a build, a calculation, or a "this should work" as finished
@@ -322,13 +282,6 @@ in the project root before starting work — it has prior decisions, fixes, and
 open items.
 
 **Read `DECISIONS.md` only — NOT `DECISIONS-ARCHIVE.md`.** The ledger was
-split on 2026-08-01 because it had reached ~50,000 tokens and this rule was
-spending that on every single startup. `DECISIONS.md` now holds 2026-07-26
-onward plus a one-line index of everything older; the archive holds the 66
-earlier entries verbatim, nothing deleted or edited. Open the archive only
-when you need the reasoning behind something older, or when a live entry
-points back to one. Verified lossless at the time of the split: 73 entries
-in, 73 out, zero text changed.
 
 Statuses in the archive were true when written; several say `open` only
 because nobody circled back, not because the thread is live. Check the code
@@ -366,13 +319,7 @@ exact copies of the sources in `Originals/`, file list in `MANIFEST.txt`.
 Read the matching chapter before doing research or recipe work on effects, mixing or theory.
 
 ## Lessons from the 2026-10-21 disk cleanup session (Part 1 of 1)
-- **Big file moves: tell him up front to drag them in Finder.** Claude's Mac shell runs max ~3 min per command and kills background jobs when the command ends; copying ran ~27 MB/s. Tens of GB through Claude = 15+ approval prompts. Better: he drags, Claude then verifies by comparing file counts + sizes per folder (python os.walk), and he trashes the originals in Finder.
 - **Mount names change.** Connecting `~/Music/Homeroom Studio` renamed the project mount in Claude's shell to `Desktop--Homeroom Studio` (the Music one became `Music--Homeroom Studio`). Check `ls $HOME/mnt` before assuming a path.
-- **Photos libraries live inside `~/Pictures`** (Photos Library.photoslibrary, Photos Library 2.photoslibrary). Quit Photos before they are moved; one is the app's main library.
-- **Where things went (2026-10-21):** `~/Pictures` and `~/Music` were copied to `/Volumes/TBOTC 3/Pictures` and `/Volumes/TBOTC 3/Music` (verified identical, John trashed originals himself). `iCloud Drive (Archive) - 3` (38 GB) was moved to the drive by John; NOT verified by Claude at his request. `TONE3000 NAM Models` in `~/Music` is only a shortcut to REAPER's folder — leave it. `new desktop pickz` on the drive is missing some pictures; John accepted that.
-- **Leftovers on the drive, not needed:** `TBOTC 3/Mac Move` (partial ~550 MB copy) and `TBOTC 3/Mac Pictures` (mostly empty folders).
-- **`~/Music/Claude Hip Hop Tracks`** = 10 July-2026 instrumentals (94-100 bpm, 372 MB) built from real loop-pack stems by `tools/make_hiphop_tracks.py` (retired 2026-07-25). They are NOT inside this project. John says they sound more progressive than current Beat Machine output. Copied 2026-10-21 to `/Volumes/TBOTC 3/Reference Tracks` (11 files, sizes verified) — use them as the "this is the sound" target when tuning the beat engine. No listening comparison done yet.
-- **`~/Music/reason_voice`** is the July 3 first version of the voice app: older duplicate, nothing to add. `~/Music/Homeroom Studio/Notes` (5 generic notes) is not in the project; `~/Music/Homeroom` is empty.
 
 ## Shared memory (added 2026-10-22)
 Before work, search shared memory (basic-memory MCP). Save lasting decisions there. Hermes reads and writes the same folder (`~/basic-memory`).
