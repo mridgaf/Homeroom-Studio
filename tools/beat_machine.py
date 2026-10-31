@@ -1615,6 +1615,12 @@ def add_bass_and_chords(preset, kit, sources, shots, variant, dirs, vnotes,
     # 2-chord loops never split exactly in half, and comp/arp chords drop
     # the every-2nd-bar back-half rest and every-4th-bar push. New beats only.
     preset.setdefault("no_halfway", 1)
+    # DJ FLOW (owner 2026-10-31): comp/arp/pad rhythms follow the DJ's
+    # pattern_tags, and bends move hits off the 8th grid. New beats only.
+    preset.setdefault("dj_flow", 1)
+    # ONE CHORD (owner 2026-10-31): one chord per loop, every note in the
+    # key (harmony.home_chord / safe_scale). New beats only.
+    preset.setdefault("one_chord", 1)
     # An 808 beat plays NO bass line: the 808 bangs with the kick on its
     # own lane (_add_sample_lanes), one note, never following the chords
     # (owner 2026-09-23, reversing that morning's 808-plays-the-roots).
@@ -2412,6 +2418,9 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
     else:
         prog_name, chords = harmony.compose(
             key, prog, rng=random.Random(variant * 419 + 5))
+    _one = bool(preset.get("one_chord"))
+    if _one:
+        chords = [harmony.home_chord(key, chords)]
     num, den = preset.get("tsig", (4, 4))
     bar_s = num * (4.0 / den) * 60.0 / preset["bpm"]
     nb = bars_of(preset)
@@ -2429,11 +2438,15 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
         # chord colour (2026-10-19): richer chords on the same roots, per
         # the identity's chord_color card. Own seed -> no other roll moves.
         harmony.colorize(key, chords, sig.get("chord_color"),
-                         random.Random(variant * 733 + 11))
+                         random.Random(variant * 733 + 11), in_key=_one)
         _frng = random.Random(variant * 541 + 23)
         chords = harmony.arrange(key, chords, nb, _frng,
-                                 no_half=bool(preset.get("no_halfway")))
+                                 no_half=bool(preset.get("no_halfway")),
+                                 turn_ok=not _one)
         voicing = harmony.voice_lead(chords, _frng)
+    # the scale the riff / bass / melody pick passing notes from
+    _nscale = (harmony.safe_scale(key, chords[0]["notes"]) if _one
+               else key.scale())
     pref = sig.get("chord_source")
     # "arp" = broken-chord riff, "sustain" = held block. A weighted list
     # rolls per beat (Dre's keepers were a mix of both — owner 2026-07-22).
@@ -2747,7 +2760,7 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
                 import riff_gen
                 bars, pitch, length = riff_gen.riff_bars(
                     _riff["notes"], nbars, _bar0.get(slot, 0),
-                    {n % 12 for n in _base}, set(key.scale()), _tonic)
+                    {n % 12 for n in _base}, set(_nscale), _tonic)
                 _chord_cells[slot] = bars
                 _log = [] if slot not in _chord_hits else None
                 a = chord_rhythm.render_figure(
@@ -3390,7 +3403,7 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
             bass_plan = bass_rhythm.plan_line(
                 _bslots, _kick[3] if _kick else None,
                 bass_rhythm.spec_for(preset), variant,
-                _fits, key.scale())
+                _fits, _nscale, in_key=_one)
             _ccells = [_chord_cells.get(_i) for _i, _c, _sb, _d in slots]
             if (preset.get("band_flow") and any(_ccells)
                     and random.Random(variant * 1531 + 67).random()
@@ -3573,7 +3586,7 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
                 _mcells.setdefault(sb + b, set()).update(
                     k for k, ch in enumerate(bar) if ch != "-")
         _mhits = melody_rhythm.plan_phrase(
-            _mslots, key.scale(), melody_rhythm.spec_for(preset), variant,
+            _mslots, _nscale, melody_rhythm.spec_for(preset), variant,
             nb, _mcells, flow=int(preset.get("melody_flow") or 1))
         _by_path = {e["path"]: e for e in inst_idx}
         _avoid = {(_by_path.get(f) or {}).get("group")

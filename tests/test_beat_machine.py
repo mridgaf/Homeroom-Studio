@@ -892,13 +892,18 @@ def test_recipe_records_key_progression_and_chords(machine_env):
         # Recomputed from the saved variant with the same seed _build_chords
         # uses, so this is still an independent check, not a copy.
         nb = len(rec["preset"]["lanes"]["chord0"][3])
+        # one_chord (2026-10-31): one chord on the home note, all in key
+        one = bool(rec["preset"].get("one_chord"))
+        if one:
+            expect = [harmony.home_chord(key, expect)]
         # deep chord pass (2026-10-19): colour step, its own seed
         harmony.colorize(key, expect,
                          (rec["preset"].get("signature") or {})
                          .get("chord_color"),
-                         random.Random(rec["variant"] * 733 + 11))
+                         random.Random(rec["variant"] * 733 + 11),
+                         in_key=one)
         frng = random.Random(rec["variant"] * 541 + 23)
-        expect = harmony.arrange(key, expect, nb, frng)
+        expect = harmony.arrange(key, expect, nb, frng, turn_ok=not one)
         harmony.voice_lead(expect, frng)
         assert h["flow"]["bars"] == [c["bars"] for c in expect]
         for c in expect:
@@ -1171,6 +1176,8 @@ def test_one_instrument_plays_the_whole_beat(machine_env, only_his_instruments,
     voice is now committed for the whole beat before any audio is kept."""
     root, shots = machine_env
     # a wide progression the one-sample 'bell' group cannot cover alone
+    # a several-chord progression on purpose: opt out of one_chord
+    monkeypatch.setitem(CREW["Timberline"], "one_chord", 0)
     monkeypatch.setitem(CREW["Timberline"], "signature", {
         "key": {"roots": ["C"], "mode": "minor"},
         "progressions": [["epic", 1]],
@@ -1191,6 +1198,8 @@ def test_a_chord_lane_never_drops_out_mid_beat(machine_env,
     through a track.' Every chord in the beat gets a lane, or the beat has
     no chord lane at all — never some-but-not-others."""
     root, shots = machine_env
+    # a several-chord progression on purpose: opt out of one_chord
+    monkeypatch.setitem(CREW["Timberline"], "one_chord", 0)
     monkeypatch.setitem(CREW["Timberline"], "signature", {
         "key": {"roots": ["C"], "mode": "minor"},
         "progressions": [["epic", 1]],
@@ -1216,6 +1225,8 @@ def test_chord_bass_line_plays_on_his_own_bass_samples(
     non-808 DJ (Timberline is one). So now: chords on -> a bass line under
     them, voiced from his own samples, one file for the whole line."""
     root, shots = machine_env
+    # a several-chord progression on purpose: opt out of one_chord
+    monkeypatch.setitem(CREW["Timberline"], "one_chord", 0)
     monkeypatch.setitem(CREW["Timberline"], "signature", {
         "key": {"roots": ["C"], "mode": "minor"},
         "progressions": [["epic", 1]],
@@ -1245,6 +1256,8 @@ def test_no_lane_ever_combines_two_instruments(
     per-lane invariant is _one_instrument, and this checks it on real output
     for an identity assigned two sounds it could have mixed."""
     root, shots = machine_env
+    # a several-chord progression on purpose: opt out of one_chord
+    monkeypatch.setitem(CREW["Timberline"], "one_chord", 0)
     monkeypatch.setitem(CREW["Timberline"], "signature", {
         "key": {"roots": ["C"], "mode": "minor"},
         "progressions": [["epic", 1]],
@@ -1282,6 +1295,8 @@ def test_a_bass_line_is_one_sound_and_never_an_808(
                for e in _inst_index(tmp_path, "808", range(29, 61, 3))]
     monkeypatch.setattr(instrument_sampler, "scan_bass",
                         lambda *a, **k: bass + fake808)
+    # a several-chord progression on purpose: opt out of one_chord
+    monkeypatch.setitem(CREW["Timberline"], "one_chord", 0)
     monkeypatch.setitem(CREW["Timberline"], "signature", {
         "key": {"roots": ["C"], "mode": "minor"},
         "progressions": [["epic", 1]],
@@ -1318,6 +1333,8 @@ def test_a_bass_pick_changes_only_the_bass_and_survives_a_rebuild(
                for e in _inst_index(tmp_path, "808", range(29, 61, 3))]
     monkeypatch.setattr(instrument_sampler, "scan_bass",
                         lambda *a, **k: bass + fake808)
+    # a several-chord progression on purpose: opt out of one_chord
+    monkeypatch.setitem(CREW["Timberline"], "one_chord", 0)
     monkeypatch.setitem(CREW["Timberline"], "signature", {
         "key": {"roots": ["C"], "mode": "minor"},
         "progressions": [["epic", 1]],
@@ -1387,6 +1404,8 @@ def test_an_exact_instrument_pick_plays_just_it_and_survives_a_rebuild(
             + multi("Toy", "Sus", [72]))                 # can't reach a chord
     monkeypatch.setattr(instrument_sampler, "scan", lambda *a, **k: pool)
     monkeypatch.setattr(instrument_sampler, "scan_bass", lambda *a, **k: [])
+    # a several-chord progression on purpose: opt out of one_chord
+    monkeypatch.setitem(CREW["Timberline"], "one_chord", 0)
     monkeypatch.setitem(CREW["Timberline"], "signature", {
         "key": {"roots": ["C"], "mode": "minor"},
         "progressions": [["epic", 1]],
@@ -1448,6 +1467,8 @@ def test_the_rack_never_says_built_from_scratch_over_his_own_samples(
     them and there was no way for him to know otherwise. The label was the
     defect, and it is the only thing he can actually see."""
     root, shots = machine_env
+    # a several-chord progression on purpose: opt out of one_chord
+    monkeypatch.setitem(CREW["Timberline"], "one_chord", 0)
     monkeypatch.setitem(CREW["Timberline"], "signature", {
         "key": {"roots": ["C"], "mode": "minor"},
         "progressions": [["epic", 1]],
@@ -1476,6 +1497,8 @@ def test_nothing_but_chip_is_ever_generated(machine_env, monkeypatch):
     monkeypatch.setattr(instrument_sampler, "scan", lambda *a, **k: [])
     monkeypatch.setattr(instrument_sampler, "scan_bass", lambda *a, **k: [])
     root, shots = machine_env
+    # a several-chord progression on purpose: opt out of one_chord
+    monkeypatch.setitem(CREW["Timberline"], "one_chord", 0)
     monkeypatch.setitem(CREW["Timberline"], "signature", {
         "key": {"roots": ["C"], "mode": "minor"},
         "progressions": [["epic", 1]],
@@ -1506,6 +1529,8 @@ def _rack(no, root):
 
 
 def _chords_beat(root, shots, monkeypatch, seed=21):
+    # a several-chord progression on purpose: opt out of one_chord
+    monkeypatch.setitem(CREW["Timberline"], "one_chord", 0)
     monkeypatch.setitem(CREW["Timberline"], "signature", {
         "key": {"roots": ["C"], "mode": "minor"},
         "progressions": [["epic", 1]],
@@ -2036,6 +2061,8 @@ def test_bass_can_play_the_chord_rhythm(machine_env, only_his_instruments,
     """band_flow (owner 2026-10-21): a beat may put its bass line on the
     chords' own rhythm; the kick-clear lock stays the other style."""
     root, shots = machine_env
+    # a several-chord progression on purpose: opt out of one_chord
+    monkeypatch.setitem(CREW["Timberline"], "one_chord", 0)
     monkeypatch.setitem(CREW["Timberline"], "signature", {
         "key": {"roots": ["C"], "mode": "minor"},
         "progressions": [["epic", 1]],
@@ -2334,6 +2361,8 @@ def test_midi_chords_played_on_strings_do_not_crash(machine_env, monkeypatch):
     MIDI chord phrase voiced on the strings crashed (UnboundLocalError).
     Seed 7 hit it on the old code (checked 2026-09-28)."""
     root, shots = machine_env
+    # a several-chord progression on purpose: opt out of one_chord
+    monkeypatch.setitem(CREW["Timberline"], "one_chord", 0)
     monkeypatch.setitem(CREW["Timberline"], "signature", {
         "key": {"roots": ["C"], "mode": "minor"},
         "progressions": [["epic", 1]],

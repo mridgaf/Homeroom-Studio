@@ -92,12 +92,44 @@ ARP_KEEP_P = 0.5         # a bar keeps the last bar's cell (some repetition)
 ARP_RING = 4             # 16ths: longest an arp note rings into a gap
 
 
-def arp_bars(rng, nbars, rest_p, tail=True):
+# DJ FLOW (owner 2026-10-31, beats stamped `dj_flow`): comp, arp and pad
+# rhythms ignored the DJ -- only stabs read its `pattern_tags`. Now every
+# written cell is weighted by the same tags, read off the cell's own shape
+# (_cell_tags). A DJ with no tags weighs everything 1, as before.
+def _cell_tags(cells):
+    n = len(cells)
+    t = set()
+    if n <= 2:
+        t |= {"sparse", "long"}
+    if n >= 5:
+        t.add("busy")
+    if 2 <= n <= 4:
+        t.add("stab")
+    if 0 not in cells or any(c % 2 for c in cells):
+        t.add("offbeat")
+    if any(c % 2 for c in cells):
+        t.add("bounce")
+    if any(c in (3, 11, 14, 15) for c in cells):
+        t.add("push")
+    return t
+
+
+def _tag_w(cells, tags):
+    return max([float(tags.get(t, 1)) for t in _cell_tags(cells)] or [1.0]) \
+        if tags else 1.0
+
+
+# dj_flow pad: re-attack count 0..3, each weighted by the tags that suit it.
+PAD_TAGS = (("long", "pad"), ("sparse",), ("bounce", "stab"), ("busy",))
+
+
+def arp_bars(rng, nbars, rest_p, tail=True, tags=None):
     """Written arp bars for an arp_flow beat (see ARP_CELLS)."""
+    pool = [[c, w * _tag_w(c, tags)] for c, w in ARP_CELLS]
     bars, cell = [], None
     for b in range(nbars):
         if cell is None or rng.random() >= ARP_KEEP_P:
-            cell = _weighted(rng, [[c, w] for c, w in ARP_CELLS])
+            cell = _weighted(rng, pool)
         s = ["-"] * 16
         for c in cell:
             if tail and b % 2 == 1 and c >= 8:
@@ -204,10 +236,11 @@ def _phrase(bar, gb, rng, tail=True):
     return "".join(cells)
 
 
-def comp_bars(rng, nbars, bar0, busy, rest_p, tail=True):
+def comp_bars(rng, nbars, bar0, busy, rest_p, tail=True, tags=None):
     """Written comp bars for a comp_flow slot starting at loop bar `bar0`."""
     kc = _kit_cells(busy)
-    pool = [[c, w / (1.0 + len(set(c) & kc))] for c, w in COMP_CELLS]
+    pool = [[c, w * _tag_w(c, tags) / (1.0 + len(set(c) & kc))]
+            for c, w in COMP_CELLS]
     bars, cell = [], None
     for b in range(nbars):
         if cell is None or rng.random() >= ARP_KEEP_P:
@@ -219,7 +252,9 @@ def comp_bars(rng, nbars, bar0, busy, rest_p, tail=True):
             s[c] = "X" if c in BEATS else "x"
         bar = "".join(s)
         if rng.random() < 0.5:
-            bar = _bend(bar, rng)
+            bar = _bend(bar, rng, off=tags is not None)
+        if tags is not None:
+            bar = _loosen(bar, rng, tags)
         bars.append(_phrase(bar, bar0 + b, rng, tail))
     return bars
 
@@ -280,6 +315,8 @@ def spec_for(preset, free=False):
         spec["len_flow"] = True
     if preset.get("no_halfway"):
         spec["no_halfway"] = True
+    if preset.get("dj_flow"):
+        spec["dj_flow"] = True
     spec["figures"] = _with_arp_share(spec["figures"], share)
     # Pattern library (2026-10-11): new beats only, so every older beat
     # rebuilds exactly as it was made.
@@ -296,6 +333,29 @@ def spec_for(preset, free=False):
             spec["pattern_tags"] = ((preset.get("signature") or {})
                                     .get("pattern_tags"))
     return spec
+
+
+def _loosen(bar, rng, tags):
+    """dj_flow: each hit on an "and" (2, 6, 10, 14) may slide one 16th off
+    the 8th grid, more often for a DJ that leans off-beat, push or bounce.
+    Never makes two hits adjacent. 0.15 per lean point is NOT sourced --
+    tune by ear."""
+    lean = max([float(tags.get(t, 1)) for t in ("offbeat", "push", "bounce")])
+    p = min(0.45, 0.15 * lean)
+    cells = list(bar)
+    for h in (2, 6, 10, 14):
+        if cells[h] == "-" or rng.random() >= p:
+            continue
+        to = h + rng.choice((-1, 1))
+        if to <= 15 and all(cells[k] == "-" for k in (to - 1, to + 1)
+                            if k != h and 0 <= k <= 15):
+            cells[to], cells[h] = cells[h], "-"
+    return "".join(cells)
+
+
+def _dj_tags(spec):
+    """The DJ's tags on a dj_flow beat, else None (old beats unchanged)."""
+    return (spec.get("pattern_tags") or {}) if spec.get("dj_flow") else None
 
 
 _LIB = None
@@ -351,10 +411,12 @@ def _pick_pattern(lib, spec, rng, busy_cells, comp, near=None, avoid=()):
     return rng.choices(pool, weights=wts)[0]
 
 
-def _bend(bar, rng):
+def _bend(bar, rng, off=False):
     """One small change to a written bar, so no two beats play a library
     pattern exactly alike: slide a hit one 16th, drop one, or add one on a
-    free off-beat. Never touches step 0 or makes two hits adjacent."""
+    free off-beat. Never touches step 0 or makes two hits adjacent.
+    `off` (dj_flow): a slide moves a hit OFF the 8th grid when it can --
+    84% of library hits sat on the beat or the "and" (2026-10-31)."""
     hits = [i for i, ch in enumerate(bar) if ch != "-"]
     cells = list(bar)
     move = rng.choice(("slide", "slide", "drop", "add"))
@@ -368,6 +430,8 @@ def _bend(bar, rng):
         cells[k] = "-"
     elif move == "slide":
         movable = [h for h in hits if h != 0]
+        if off:
+            movable = [h for h in movable if h % 2 == 0] or movable
         k = rng.choice(movable) if movable else None
         if k is not None:
             to = k + rng.choice((-1, 1))
@@ -393,6 +457,11 @@ def _library_bars(spec, rng, nbars, comp, busy, avoid=(), trace=None,
         trace.extend([a["name"], b["name"]])
     rest_p = spec.get("rest_p", DEFAULT["rest_p"])
     bend_p = spec.get("bend_p", 0.5)
+    dj = spec.get("dj_flow")
+    if dj:                       # an off-beat / push DJ bends more often
+        tags = spec.get("pattern_tags") or {}
+        bend_p = min(0.9, bend_p * max(1.0, float(tags.get("offbeat", 1)),
+                                       float(tags.get("push", 1))))
     flow = spec.get("comp_flow")
     bars = []
     for i in range(nbars):
@@ -403,12 +472,14 @@ def _library_bars(spec, rng, nbars, comp, busy, avoid=(), trace=None,
             e = b if e is a else a
         bar = e["bars"][i % len(e["bars"])]
         if rng.random() < bend_p:
-            bar = _bend(bar, rng)
+            bar = _bend(bar, rng, off=bool(dj))
         if i != (bar0 if flow else 0) and rng.random() < rest_p:  # drop one
             idx = [k for k, ch in enumerate(bar) if ch in "xo."]
             if idx:
                 k = rng.choice(idx)
                 bar = bar[:k] + "-" + bar[k + 1:]
+        if dj:
+            bar = _loosen(bar, rng, spec.get("pattern_tags") or {})
         bars.append(_phrase(bar, i, rng, not spec.get("no_halfway"))
                     if flow else bar)
     return bars, a["hold"]
@@ -484,13 +555,18 @@ def gen_figure(spec, rng, nbars, busy=None, avoid=(), trace=None, bar0=0):
         # the figure the nine no-`chord_rhythm` legends have been stuck on
         # with the re-attacks missing.
         slo, shi = spec.get("swells", DEFAULT["swells"])
+        tags = spec.get("pattern_tags") or {}
         bars = []
         for b in range(nbars):
             s = ["-"] * 16
             if b == 0:
                 s[0] = "X"
-            for c in rng.sample(sorted(BEATS),
-                                min(rng.randint(slo, shi), len(BEATS))):
+            n = rng.randint(slo, shi)
+            if spec.get("dj_flow") and tags:     # held DJs swell less
+                n = _weighted(rng, [[k, max(float(tags.get(t, 1))
+                                            for t in ts)]
+                                    for k, ts in enumerate(PAD_TAGS)])
+            for c in rng.sample(sorted(BEATS), min(n, len(BEATS))):
                 if s[c] == "-":
                     s[c] = "o"
             bars.append("".join(s))
@@ -500,7 +576,8 @@ def gen_figure(spec, rng, nbars, busy=None, avoid=(), trace=None, bar0=0):
         shape = _weighted(rng, spec.get("shape", DEFAULT["shape"]))
         if spec.get("arp_flow"):
             return figure, arp_bars(rng, nbars, rest_p,
-                                    not spec.get("no_halfway")), shape
+                                    not spec.get("no_halfway"),
+                                    _dj_tags(spec)), shape
         step = max(int(spec.get("arp_step", DEFAULT["arp_step"])), 1)
         bars = []
         for _ in range(nbars):
@@ -516,7 +593,8 @@ def gen_figure(spec, rng, nbars, busy=None, avoid=(), trace=None, bar0=0):
     # the drums' way — chords answering the kit rather than doubling it.
     if figure == "comp" and spec.get("comp_flow"):
         return figure, comp_bars(rng, nbars, bar0, busy, rest_p,
-                                 not spec.get("no_halfway")), \
+                                 not spec.get("no_halfway"),
+                                 _dj_tags(spec)), \
             "hold:%g" % COMP_HOLD
     if spec.get("library"):
         got = _library_bars(spec, rng, nbars, figure == "comp", busy,

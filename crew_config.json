@@ -1060,7 +1060,7 @@
    ]
   ],
   "extras": {
-   "p": 0.72,
+   "p": 0.84,
    "nmax": 2,
    "pool": [
     [
@@ -1402,9 +1402,10 @@
    },
    "pattern_tags": {
     "stab": 2,
-    "offbeat": 1.5,
-    "push": 1.5,
-    "long": 0.7
+    "ghost": 1.5,
+    "sparse": 1.5,
+    "bounce": 0.7,
+    "long": 0.5
    },
    "chord_family": "grit"
   },
@@ -2110,9 +2111,10 @@
     "lean": {}
    },
    "pattern_tags": {
-    "push": 2,
     "ghost": 2,
-    "bounce": 1.5,
+    "long": 1.5,
+    "push": 1.2,
+    "bounce": 1,
     "stab": 0.7
    },
    "chord_family": "soul_jazz"
@@ -2861,10 +2863,11 @@
     "lean": {}
    },
    "pattern_tags": {
-    "stab": 2,
-    "offbeat": 1.5,
-    "push": 1.5,
-    "long": 0.7
+    "sparse": 2.5,
+    "offbeat": 2,
+    "stab": 1.2,
+    "long": 0.7,
+    "busy": 0.5
    },
    "chord_family": "grit",
    "bass_grammar": {
@@ -3503,11 +3506,11 @@
     "lean": {}
    },
    "pattern_tags": {
-    "long": 2.5,
-    "pad": 2,
-    "sparse": 1.5,
-    "stab": 0.5,
-    "busy": 0.5
+    "stab": 2,
+    "sparse": 2,
+    "offbeat": 1.5,
+    "long": 0.5,
+    "pad": 0.5
    },
    "chord_family": "dreamy"
   },
@@ -4293,10 +4296,11 @@
     "lean": {}
    },
    "pattern_tags": {
-    "push": 2,
-    "ghost": 2,
-    "bounce": 1.5,
-    "stab": 0.7
+    "push": 2.5,
+    "bounce": 2,
+    "offbeat": 1.2,
+    "busy": 1.2,
+    "ghost": 0.7
    },
    "chord_family": "soul_jazz"
   },
@@ -4944,11 +4948,11 @@
     "lean": {}
    },
    "pattern_tags": {
+    "long": 2,
     "sparse": 2,
-    "stab": 1.5,
-    "offbeat": 1.5,
-    "long": 1.2,
-    "bounce": 0.7
+    "pad": 1.2,
+    "stab": 1,
+    "busy": 0.5
    },
    "chord_family": "dark"
   },
@@ -5631,11 +5635,11 @@
     "lean": {}
    },
    "pattern_tags": {
-    "sparse": 2,
-    "stab": 1.5,
-    "offbeat": 1.5,
-    "long": 1.2,
-    "bounce": 0.7
+    "stab": 2,
+    "busy": 2,
+    "push": 1.5,
+    "offbeat": 1.2,
+    "sparse": 0.5
    },
    "chord_family": "dark"
   },
@@ -7018,9 +7022,9 @@
    },
    "pattern_tags": {
     "long": 2.5,
-    "pad": 2,
+    "offbeat": 2,
     "sparse": 1.5,
-    "stab": 0.5,
+    "pad": 1.5,
     "busy": 0.5
    },
    "chord_family": "dreamy"
@@ -7392,11 +7396,10 @@
     "lean": {}
    },
    "pattern_tags": {
+    "pad": 2.5,
     "long": 2.5,
-    "pad": 2,
-    "sparse": 1.5,
-    "stab": 0.5,
-    "busy": 0.5
+    "sparse": 1.2,
+    "busy": 0.7
    },
    "chord_family": "dreamy"
   },

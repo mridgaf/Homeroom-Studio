@@ -295,7 +295,19 @@ def _figure_hits(fig, s, kick_bars, scale, rng, fits, tag_w=None,
     return hits
 
 
-def plan_line(slots, kick_bars, spec, variant, fits, scale=()):
+def _approach(nxt, below, fits, scale, in_key):
+    """The note that slides into `nxt`: a half step away, or on an in_key
+    beat (one_chord) the nearest key note on that side."""
+    if not in_key:
+        return _pick(fits, *((nxt - 1, nxt + 1) if below
+                             else (nxt + 1, nxt - 1)), nxt - 1)
+    sc = set(scale)
+    lo = next(k for k in range(nxt - 1, nxt - 13, -1) if k % 12 in sc)
+    hi = next(k for k in range(nxt + 1, nxt + 13) if k % 12 in sc)
+    return _pick(fits, *((lo, hi) if below else (hi, lo)), lo)
+
+
+def plan_line(slots, kick_bars, spec, variant, fits, scale=(), in_key=False):
     """Pure planning pass: one figure per chord slot, then the cross-slot
     moves (walk's chromatic approach, push's tie into the next chord).
 
@@ -331,9 +343,8 @@ def plan_line(slots, kick_bars, spec, variant, fits, scale=()):
                     prev = max((x for x in fixed if isinstance(x[3], int)),
                                default=None, key=lambda x: (x[0], x[1]))
                     below = prev is None or prev[3] < nxt
-                    h = (h[0], h[1], h[2], _pick(
-                        fits, *((nxt - 1, nxt + 1) if below
-                                else (nxt + 1, nxt - 1)), nxt - 1))
+                    h = (h[0], h[1], h[2],
+                         _approach(nxt, below, fits, scale, in_key))
                 fixed.append(h)
             p["hits"] = fixed
         elif p["figure"] == "walk":
@@ -341,8 +352,7 @@ def plan_line(slots, kick_bars, spec, variant, fits, scale=()):
             prev = max((h for h in hits if h[0] == last), default=None,
                        key=lambda h: h[1])
             below = prev is None or prev[3] < nxt
-            a = _pick(fits, *((nxt - 1, nxt + 1) if below
-                              else (nxt + 1, nxt - 1)), nxt - 1)
+            a = _approach(nxt, below, fits, scale, in_key)
             p["hits"] = hits + [(last, 12, "x", a)]
         elif p["figure"] == "push":
             st = rng.choice((14, 15))

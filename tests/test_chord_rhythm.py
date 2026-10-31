@@ -414,3 +414,24 @@ def test_no_half_never_splits_two_chords_down_the_middle():
                 assert sum(c["bars"] for c in got) == nb
     finally:
         harmony.TURNAROUND_P = keep
+
+
+def test_dj_flow_follows_the_dj_and_leaves_old_beats_alone():
+    """dj_flow (2026-10-31): comp/arp/pad read the DJ's tags, hits move off
+    the 8th grid, and a beat without the stamp rolls exactly as before."""
+    sparse = {"sparse": 3, "long": 3}
+    busy = {"busy": 3, "push": 3, "offbeat": 3}
+    a = chord_rhythm.comp_bars(random.Random(3), 64, 0, {}, 0.0, tags=sparse)
+    b = chord_rhythm.comp_bars(random.Random(3), 64, 0, {}, 0.0, tags=busy)
+    n = lambda bars: sum(ch != "-" for x in bars for ch in x)
+    assert n(a) < n(b)
+    old = chord_rhythm.comp_bars(random.Random(3), 8, 0, {}, 0.1)
+    assert old == chord_rhythm.comp_bars(random.Random(3), 8, 0, {}, 0.1, tags=None)
+    odd = lambda bars: sum(ch != "-" for x in bars for i, ch in enumerate(x)
+                           if i % 2)
+    loose = [chord_rhythm._loosen("x-x---x---x---x-", random.Random(i), busy)
+             for i in range(200)]
+    assert odd(loose) > 0
+    for x in loose:                       # never two hits side by side
+        hits = [i for i, ch in enumerate(x) if ch != "-"]
+        assert all(q - p >= 2 for p, q in zip(hits, hits[1:]))

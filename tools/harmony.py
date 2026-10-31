@@ -137,7 +137,32 @@ def _chord(key, offset, quality, octave=3):
             "notes": key.voice(root_pc, quality, octave)}
 
 
-def arrange(key, chords, bars, rng, no_half=False):
+# ONE CHORD (owner 2026-10-31, beats stamped `one_chord`): "There shouldn't
+# really be any chord changes in such a short pattern", and every note stays
+# in the key. The loop plays ONE chord on the key's home note, the
+# turnaround is off, colour notes must be key notes, and the bass / melody /
+# riff scale drops the AVOID notes -- a key note a half step above a chord
+# tone (chord-scale theory, Hub ch.13 part 2: chord tones on the downbeats;
+# a half step above a chord tone is the classic clash).
+def home_chord(key, chords):
+    """The loop's one chord: the first of `chords` on the home note with
+    every note in the key, else the key's own home triad."""
+    sc = set(key.scale())
+    for c in chords:
+        if c["notes"][0] % 12 == key.pc and all(n % 12 in sc
+                                                for n in c["notes"]):
+            return c
+    return _chord(key, 0, key.triad(1)[1])
+
+
+def safe_scale(key, tones):
+    """The key's notes minus the avoid notes over a chord of `tones`."""
+    ct = {n % 12 for n in tones}
+    return tuple(pc for pc in key.scale()
+                 if pc in ct or (pc - 1) % 12 not in ct)
+
+
+def arrange(key, chords, bars, rng, no_half=False, turn_ok=True):
     """Lay `chords` (compose()'s list) over a `bars`-long loop.
 
     Returns a list of chord dicts in play order, each a COPY with "bars"
@@ -147,7 +172,7 @@ def arrange(key, chords, bars, rng, no_half=False):
     exactly halfway (4+4, 2+2); a 2-chord fallback splits 3/4 + 1/4."""
     n = len(chords)
     turn = None
-    if n <= 2 and rng.random() < TURNAROUND_P:
+    if turn_ok and n <= 2 and rng.random() < TURNAROUND_P:
         tonic_off = (chords[0]["notes"][0] - key.voice(key.pc, "major", 3)[0]) % 12
         pool = TURN_MINOR if chords[0]["quality"] in MINOR_QUALITIES \
             else TURN_MAJOR
@@ -322,9 +347,10 @@ UPGRADES = {
 }
 
 
-def colorize(key, chords, card, rng):
+def colorize(key, chords, card, rng, in_key=False):
     """Upgrade some of `chords` (compose()'s list) in place to richer
-    qualities on the same root. Returns how many changed."""
+    qualities on the same root. Returns how many changed. `in_key`
+    (one_chord): only qualities whose every note is in the key."""
     card = card or DEFAULT_COLOR
     depth = float(card.get("depth", DEFAULT_COLOR["depth"]))
     lean = card.get("lean") or {}
@@ -340,6 +366,10 @@ def colorize(key, chords, card, rng):
         opts = [(nq, w * float(lean.get(nq, 1))) for nq, w in
                 UPGRADES.get(base, [])]
         opts = [(nq, w) for nq, w in opts if w > 0]
+        if in_key:
+            sc = set(key.scale())
+            opts = [(nq, w) for nq, w in opts
+                    if all(n % 12 in sc for n in key.voice(root_pc, nq))]
         if not opts:
             continue
         nq = rng.choices([o for o, _ in opts], [w for _, w in opts])[0]

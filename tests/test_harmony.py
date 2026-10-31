@@ -237,3 +237,23 @@ def test_every_identity_has_a_colour_card_and_real_progressions():
             for p in sig["progressions"]:
                 p = p[0] if isinstance(p, list) else p
                 assert p in harmony.PROGRESSIONS, (name, p)
+
+
+def test_one_chord_stays_on_one_in_key_chord():
+    """one_chord (2026-10-31): one chord on the home note, colour and
+    passing notes all inside the key, no avoid note in the scale."""
+    import random as _r
+    from key_context import MODES
+    for mode in MODES:
+        key = KeyContext("D", mode)
+        sc = set(key.scale())
+        out = [harmony._chord(key, 1, "major"), harmony._chord(key, 0, "dom7")]
+        one = [harmony.home_chord(key, out)]
+        harmony.colorize(key, one, {"depth": 1.0}, _r.Random(1), in_key=True)
+        lay = harmony.arrange(key, one, 8, _r.Random(2), turn_ok=False)
+        assert len({c["chord"] for c in lay}) == 1
+        assert one[0]["notes"][0] % 12 == key.pc
+        assert all(n % 12 in sc for n in one[0]["notes"])
+        ct = {n % 12 for n in one[0]["notes"]}
+        for pc in harmony.safe_scale(key, one[0]["notes"]):
+            assert pc in ct or (pc - 1) % 12 not in ct
