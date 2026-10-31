@@ -92,7 +92,7 @@ ARP_KEEP_P = 0.5         # a bar keeps the last bar's cell (some repetition)
 ARP_RING = 4             # 16ths: longest an arp note rings into a gap
 
 
-def arp_bars(rng, nbars, rest_p):
+def arp_bars(rng, nbars, rest_p, tail=True):
     """Written arp bars for an arp_flow beat (see ARP_CELLS)."""
     bars, cell = [], None
     for b in range(nbars):
@@ -100,7 +100,7 @@ def arp_bars(rng, nbars, rest_p):
             cell = _weighted(rng, [[c, w] for c, w in ARP_CELLS])
         s = ["-"] * 16
         for c in cell:
-            if b % 2 == 1 and c >= 8:
+            if tail and b % 2 == 1 and c >= 8:
                 continue                  # the phrase-tail hole
             if c and rng.random() < rest_p:
                 continue
@@ -139,6 +139,43 @@ COMP_CELLS = (((0, 6), 2),            # 1, and-of-2 (jazz Charleston; not Hub)
 COMP_HOLD = 3            # 16ths: longest a comp hit rings
 PUSH = 14                # the "and" of 4
 
+# LENGTH FLOW (owner 2026-10-30, beats stamped `len_flow`): "a mixture of
+# chord and note lengths like a typical song". Every stab/comp hit used to
+# ring one fixed length (COMP_HOLD or `seg`, 1/3 to 3/4 of a beat). Now each
+# hit rolls its own: "short" (the pattern's hold), "half" (half the gap to
+# the next hit) or "ring" (held to the next hit -- a whole bar when the bar
+# has one hit). The downbeat and the push on the "and" of 4 lean long, the
+# middle hits lean short. Weights are NOT sourced -- tune by ear.
+LEN_W = {"land": (("ring", 5), ("half", 3), ("short", 2)),
+         "push": (("ring", 6), ("half", 2), ("short", 2)),
+         "mid": (("short", 5), ("half", 3), ("ring", 2))}
+
+
+def mix_lengths(hits, total, hold, rng, long=()):
+    """`hits` (sorted 16th positions across the slot, `total` 16ths long)
+    -> {hit: ring length in 16ths}. `hold` = the pattern's short length;
+    `long` hits always ring to the next hit. A slot with 2+ hits never
+    comes out all one length."""
+    out, kinds = {}, {}
+    for j, h in enumerate(hits):
+        gap = (hits[(j + 1) % len(hits)] - h) % total or total
+        if h in long:
+            kind = "ring"
+        else:
+            st = h % 16
+            pos = "land" if st == 0 or j == 0 else (
+                "push" if st >= PUSH else "mid")
+            kind = _weighted(rng, [list(x) for x in LEN_W[pos]])
+        kinds[h] = kind
+        out[h] = {"short": min(hold, gap), "half": max(min(hold, gap),
+                                                      gap / 2.0),
+                  "ring": gap}[kind]
+    if len(hits) > 1 and len(set(out.values())) == 1:
+        h = hits[0]                       # force one long, one short
+        gap = (hits[1] - h) % total or total
+        out[h] = gap if out[h] < gap else min(hold, gap)
+    return out
+
 
 def _kit_cells(busy):
     """Cells the kick and snare/clap hit (hats left out on purpose)."""
@@ -146,11 +183,14 @@ def _kit_cells(busy):
                         if k.startswith(("kick", "snare", "clap"))})
 
 
-def _phrase(bar, gb, rng):
-    """Phrase shape on a written bar at loop bar `gb` (comp_flow)."""
+def _phrase(bar, gb, rng, tail=True):
+    """Phrase shape on a written bar at loop bar `gb` (comp_flow).
+    `tail` False (no_halfway): no back-half rest, no push -- only the
+    late landing."""
     cells = list(bar)
     hits = [i for i, ch in enumerate(cells) if ch != "-"]
-    if gb % 2 == 1 and any(h < 8 for h in hits) and rng.random() < 0.5:
+    if tail and gb % 2 == 1 and any(h < 8 for h in hits) \
+            and rng.random() < 0.5:
         for h in hits:
             if h >= 8:
                 cells[h] = "-"            # the phrase-tail hole
@@ -158,12 +198,13 @@ def _phrase(bar, gb, rng):
     if gb % 2 == 1 and cells[0] != "-" and len(hits) > 1 \
             and rng.random() < 0.35:
         cells[0] = "-"                    # bar 2 lands late
-    if gb % 4 == 3 and all(cells[c] == "-" for c in (PUSH - 1, PUSH, PUSH + 1)):
+    if tail and gb % 4 == 3 and all(cells[c] == "-"
+                                    for c in (PUSH - 1, PUSH, PUSH + 1)):
         cells[PUSH] = "x"                 # push into the next phrase
     return "".join(cells)
 
 
-def comp_bars(rng, nbars, bar0, busy, rest_p):
+def comp_bars(rng, nbars, bar0, busy, rest_p, tail=True):
     """Written comp bars for a comp_flow slot starting at loop bar `bar0`."""
     kc = _kit_cells(busy)
     pool = [[c, w / (1.0 + len(set(c) & kc))] for c, w in COMP_CELLS]
@@ -179,7 +220,7 @@ def comp_bars(rng, nbars, bar0, busy, rest_p):
         bar = "".join(s)
         if rng.random() < 0.5:
             bar = _bend(bar, rng)
-        bars.append(_phrase(bar, bar0 + b, rng))
+        bars.append(_phrase(bar, bar0 + b, rng, tail))
     return bars
 
 
@@ -235,6 +276,10 @@ def spec_for(preset, free=False):
         spec["comp_flow"] = True
     if preset.get("groove_flow"):
         spec["groove_flow"] = True
+    if preset.get("len_flow"):
+        spec["len_flow"] = True
+    if preset.get("no_halfway"):
+        spec["no_halfway"] = True
     spec["figures"] = _with_arp_share(spec["figures"], share)
     # Pattern library (2026-10-11): new beats only, so every older beat
     # rebuilds exactly as it was made.
@@ -364,7 +409,8 @@ def _library_bars(spec, rng, nbars, comp, busy, avoid=(), trace=None,
             if idx:
                 k = rng.choice(idx)
                 bar = bar[:k] + "-" + bar[k + 1:]
-        bars.append(_phrase(bar, i, rng) if flow else bar)
+        bars.append(_phrase(bar, i, rng, not spec.get("no_halfway"))
+                    if flow else bar)
     return bars, a["hold"]
 
 
@@ -453,7 +499,8 @@ def gen_figure(spec, rng, nbars, busy=None, avoid=(), trace=None, bar0=0):
     if figure == "arp":
         shape = _weighted(rng, spec.get("shape", DEFAULT["shape"]))
         if spec.get("arp_flow"):
-            return figure, arp_bars(rng, nbars, rest_p), shape
+            return figure, arp_bars(rng, nbars, rest_p,
+                                    not spec.get("no_halfway")), shape
         step = max(int(spec.get("arp_step", DEFAULT["arp_step"])), 1)
         bars = []
         for _ in range(nbars):
@@ -468,7 +515,8 @@ def gen_figure(spec, rng, nbars, busy=None, avoid=(), trace=None, bar0=0):
     # stab / comp: the same cell picker, but comp is told to stay out of
     # the drums' way — chords answering the kit rather than doubling it.
     if figure == "comp" and spec.get("comp_flow"):
-        return figure, comp_bars(rng, nbars, bar0, busy, rest_p), \
+        return figure, comp_bars(rng, nbars, bar0, busy, rest_p,
+                                 not spec.get("no_halfway")), \
             "hold:%g" % COMP_HOLD
     if spec.get("library"):
         got = _library_bars(spec, rng, nbars, figure == "comp", busy,
@@ -550,6 +598,12 @@ def render_figure(bars, dur, bpm, notes, render_note, render_chord,
         cap = ARP_RING
     elif figure in ("stab", "comp") and spec.get("comp_flow"):
         cap = seg_dur / (beat_s / 4)      # the pattern's hold, in 16ths
+    if figure in ("stab", "comp") and spec.get("len_flow") and hits:
+        import random
+        mix = mix_lengths(hits, 16 * len(bars), seg_dur / (beat_s / 4),
+                          random.Random(seed * 7 + 3), long or ())
+        ring = {h: beat_s / 4 * v * 0.9 for h, v in mix.items()}
+        cap = long = None                 # mix_lengths covers both
     if cap and hits:
         total = 16 * len(bars)
         for j, h in enumerate(hits):

@@ -21,7 +21,9 @@ import numpy as np
 
 
 FLOW_VERSION = 1
-STRUCTURE_P = 0.75
+# owner 2026-10-30: no stop / thin_bar / melodic_drop on new beats. The
+# fill into bar 1 stays.
+STRUCTURE_P = 0.0
 FILL_P = 0.65
 DRUM_PREFIXES = ("kick", "snare", "clap", "hat", "perc", "rim", "bongo",
                  "conga", "shaker", "tom", "cym", "ride", "crash")

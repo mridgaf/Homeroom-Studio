@@ -758,72 +758,22 @@ def test_swap_rejects_a_lane_the_beat_lacks(machine_env):
 
 # --------------------------------------- space rules (owner 2026-07-17)
 
-def test_gaps_are_possible_but_rare():
-    """OWNER RULE 2026-08-01: "the gaps I want to be rare. One in six."
-
-    This test used to assert only that a fully silent bar CAN happen (owner
-    2026-07-29, which removed the old 'never a gap' floor). Measured under
-    that rule, 47% of beats had a completely silent bar and 90% had a hole
-    of some kind — in the drum stems, which is how he works in Reason, 8 of
-    12 beats dropped 17-61 dB. So the test now pins BOTH ends: silence is
-    still reachable (the 07-29 rule is not being quietly reinstated as a
-    floor), and it is rare (the 08-01 rule actually holds).
-
-    Rate is measured over whole beats, not bars, and the band is wide
-    because vary_preset rolls per beat — HOLE_P is 1/6, the observed rate
-    sits near 11-16%, and the assertions only catch a real drift back to
-    'every beat has a hole' or 'gaps are gone entirely'."""
+def test_no_holes_and_no_halfway_switch():
+    """OWNER 2026-10-30: "I don't want any halfway switch", then "all four"
+    -- vary_preset no longer drops a bar, thins a build, rests a back half
+    or plays one lane only in the A/B half. (Replaces the 2026-08-01 /
+    09-28 "gaps rare" and "every stop slams back" tests: there are no
+    stops left to slam.)"""
     import copy as _copy
-    saw_silence = False
-    holed = total = 0
     for name in ("Otto Grit", "Night Metro", "Glass Cat"):
         for v in range(80):
             p = _copy.deepcopy(CREW[name])
             pattern_gen.compose(p, name, v)
-            beat_machine.vary_preset(p, v, CREW[name]["num"],
-                                     tempo_locked=False)
-            backbone = [ln for ln in p["lanes"]
-                        if ln in beat_machine.BACKBONE]
-            drums = [ln for ln in p["lanes"]
-                     if not ln.startswith(("chord", "bass", "stamp"))]
-            total += 1
-            beat_has_hole = False
-            for b in range(crew.bars_of(p)):
-                if sum(sum(c != "-" for c in p["lanes"][ln][3][b])
-                       for ln in backbone) == 0:
-                    saw_silence = True
-                if sum(sum(c not in "-." for c in p["lanes"][ln][3][b])
-                       for ln in drums) == 0:
-                    beat_has_hole = True
-            holed += beat_has_hole
-    assert saw_silence, "the backbone can no longer go silent at all"
-    rate = holed / total
-    # OWNER RULE 2026-09-28: 1 in 20 (was 1 in 6)
-    assert rate < 0.10, "gaps are back to being common: %.0f%%" % (100 * rate)
-
-
-def test_every_stop_slams_back_in():
-    """OWNER RULE 2026-09-28: a stop must sound intentional -- the bar
-    after it comes back hard (its hits play as accents)."""
-    import copy as _copy
-    stops = 0
-    for name in ("Otto Grit", "Night Metro", "Glass Cat"):
-        for v in range(200):
-            p = _copy.deepcopy(CREW[name])
-            pattern_gen.compose(p, name, v)
             notes = beat_machine.vary_preset(p, v, CREW[name]["num"],
-                                              tempo_locked=False)
-            hole = [n for n in notes if "drops out" in n or "sit out" in n
-                    or "thins out" in n]
-            if not hole:
-                continue
-            stops += 1
-            assert "slam" in hole[0], hole
-            nb = int(hole[0].split("bar ")[-1].split()[0]) - 1
-            for ln, (_, _, _, bars) in p["lanes"].items():
-                if not ln.startswith(("chord", "bass", "stamp")):
-                    assert "x" not in bars[nb % len(bars)], (name, v, ln)
-    assert stops, "no stops at all in 600 beats"
+                                             tempo_locked=False)
+            moved = [n for n in notes if "drops out" in n or "sit out" in n
+                     or "thins out" in n or "only in the" in n]
+            assert not moved, (name, v, moved)
 
 
 def test_direction_parser_reads_his_words():

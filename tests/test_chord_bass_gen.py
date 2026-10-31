@@ -153,7 +153,22 @@ def test_keys_led_identities_get_more_full_chords_on_new_beats_only():
     assert 700 < c["full"] < 900
     # a beat stamped texture_flow 1 rolls the old odds: identical result
     assert all(riff_gen.roll(v, 0.1) == riff_gen.roll(v) for v in range(500))
-    assert riff_gen.VERSION == 2
+    assert riff_gen.VERSION >= 2
+
+
+def test_fuller_chords_half_full_three_notes_on_v3_beats():
+    # 2026-10-30, owner "Half + three notes": 170 beats came out 78%
+    # two-note. v3: full 50% (70% keys-led), thin texture = three notes
+    import riff_gen
+    from collections import Counter
+    assert riff_gen.VERSION == 3
+    for tf, want in ((None, 0.5), (0.25, 0.5), (0.4, 0.7)):
+        c = Counter(riff_gen.roll(v, riff_gen.full_chance(tf, 3))
+                    for v in range(2000))
+        assert abs(c["full"] / 2000 - want) < 0.05, (tf, c)
+    # v2 beats keep their odds, so they rebuild as made
+    assert riff_gen.full_chance(0.25, 2) == 0.25
+    assert riff_gen.three_notes([57, 60, 64, 67]) == [60, 64, 67]
 
 
 def test_no_guitar_tab_chords_on_new_beats():

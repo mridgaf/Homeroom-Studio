@@ -137,12 +137,14 @@ def _chord(key, offset, quality, octave=3):
             "notes": key.voice(root_pc, quality, octave)}
 
 
-def arrange(key, chords, bars, rng):
+def arrange(key, chords, bars, rng, no_half=False):
     """Lay `chords` (compose()'s list) over a `bars`-long loop.
 
     Returns a list of chord dicts in play order, each a COPY with "bars"
     added; a turnaround chord also carries "turnaround": True. Loop
-    lengths with no plan in BAR_PLANS fall back to the old even split."""
+    lengths with no plan in BAR_PLANS fall back to the old even split.
+    `no_half` (owner 2026-10-30): never the plan whose only change is
+    exactly halfway (4+4, 2+2); a 2-chord fallback splits 3/4 + 1/4."""
     n = len(chords)
     turn = None
     if n <= 2 and rng.random() < TURNAROUND_P:
@@ -158,6 +160,12 @@ def arrange(key, chords, bars, rng):
             turn = _chord(key, (o + tonic_off) % 12, q)
             turn["turnaround"] = True
     plans = BAR_PLANS.get((n, bars, turn is not None))
+    if plans and no_half:
+        plans = [(p, w) for p, w in plans
+                 if not (len(p) == 2 and p[0][1] * 2 == bars)] or plans
+    if not plans and no_half and n == 2 and bars >= 4:
+        a = bars * 3 // 4
+        return [dict(chords[0], bars=a), dict(chords[1], bars=bars - a)]
     if not plans:
         per = max(1, bars // n)
         out = []

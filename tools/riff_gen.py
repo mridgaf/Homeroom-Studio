@@ -23,6 +23,12 @@ signature["texture_full"] overrides the full-chord chance for identities
 whose researched listen line says keys/strings/choir carry the music.
 Beats stamped texture_flow 1 ignore it, so they rebuild as made.
 
+VERSION 3 (2026-10-30, owner: "Half + three notes", after 170 beats came
+out 78% two-note): full chords 50% for everyone, 70% for the identities
+whose texture_full is 0.4 (keys/strings/choir carry the music); the thin
+texture plays three notes (3rd + 5th + 7th, else the triad) instead of
+two. Beats stamped 2 or lower rebuild as made.
+
     ./.venv/bin/python tools/riff_gen.py      # self-check
 """
 from __future__ import annotations
@@ -31,7 +37,8 @@ import json
 import random
 from pathlib import Path
 
-VERSION = 2
+VERSION = 3
+FULL_V3, FULL_V3_KEYS = 0.50, 0.70   # v3 full-chord chance: all / keys-led
 TABLES = Path(__file__).resolve().parent.parent / "riff_tables.json"
 TEXTURES = (("full", 0.10), ("two", 0.30), ("riff", 0.30), ("loop", 0.30))
 BED_P = 0.5              # riff beats with a soft two-note bed under them
@@ -84,6 +91,20 @@ def two_notes(root_pos):
     if len(ns) <= 2:
         return ns
     return [ns[1], ns[3]] if len(ns) >= 4 else [ns[0], ns[1]]
+
+
+def full_chance(texture_full, version):
+    """The full-chord chance roll() gets for a beat stamped `version`."""
+    if version >= 3:
+        return FULL_V3_KEYS if (texture_full or 0) >= 0.4 else FULL_V3
+    return texture_full if version >= 2 else None
+
+
+def three_notes(root_pos):
+    """Three notes of a root-position chord: 3rd + 5th + 7th (the bass has
+    the root), else the triad as it stands."""
+    ns = sorted(root_pos)
+    return ns[1:4] if len(ns) >= 4 else ns
 
 
 def pick(variant, style):
@@ -152,6 +173,12 @@ if __name__ == "__main__":
     assert all(roll(v, 0.1) == roll(v) for v in range(500))
     assert two_notes([60, 63, 67, 70]) == [63, 70]
     assert two_notes([60, 64, 67]) == [60, 64]
+    assert three_notes([60, 63, 67, 70]) == [63, 67, 70]
+    assert three_notes([60, 64, 67]) == [60, 64, 67]
+    assert full_chance(0.25, 2) == 0.25 and full_chance(None, 1) is None
+    assert full_chance(None, 3) == 0.5 and full_chance(0.4, 3) == 0.7
+    c5 = Counter(roll(v, full_chance(None, 3)) for v in range(4000))
+    assert 0.46 < c5["full"] / 4000 < 0.54, c5
     riff = [[0.0, 0.5, 0, 110], [1.5, 0.5, 3, 80], [4.0, 1.0, 7, 60],
             [6.5, 0.5, 1, 40]]
     bars, p, ln = riff_bars(riff, 2, 0, {0, 3, 7}, {0, 2, 3, 5, 7, 8, 10}, 60)

@@ -35,8 +35,8 @@ def test_plan_is_deterministic_json_safe_and_never_mutes_bar_one():
 
 def test_all_moves_occur_across_variants_and_fill_is_in_last_beat():
     moves = [m for v in range(500) for m in ar.plan(v, 4)["moves"]]
-    assert {m["kind"] for m in moves} == {
-        "stop", "thin_bar", "melodic_drop", "fill"}
+    # owner 2026-10-30: no structural moves on new beats, only the fill
+    assert {m["kind"] for m in moves} == {"fill"}
     assert all((m["bar"], m["step"], m["end_step"]) == (3, 12, 16)
                for m in moves if m["kind"] == "fill")
 

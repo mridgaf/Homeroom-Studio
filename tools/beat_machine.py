@@ -317,9 +317,8 @@ BREAK_LANES = {"kick", "snare", "hat"}
 def vary_preset(preset, variant, num, tempo_locked, density=None):
     """Apply the per-beat variety plan to a (deep-copied) preset in place.
     Returns a list of plain-words notes describing what this beat does.
-    Owner rule 2026-07-17: room for his top line means SPARSENESS, never
-    silence — kick and snare play through every bar; quiet moments are
-    hats/colors resting and velocities softening. density (from the
+    (The 2026-07-17 "kick and snare play through every bar" rule and the
+    bar-1 kick restore were removed by the owner 2026-10-30.) density (from the
     notes-box directions) overrides the rolled profile for this beat."""
     rng = random.Random(num * 100003 + variant * 977)
     lanes = preset["lanes"]
@@ -504,10 +503,12 @@ def vary_preset(preset, variant, num, tempo_locked, density=None):
         # break beats, stay verbatim" means the arrangement stops moving
         # too — the figure IS the arrangement.
         t = ""
-    elif rng.random() < HOLE_P:
-        t = rng.choice(["thinbar", "frisson", "breath"])
     else:
-        t = "bshift"
+        # owner 2026-10-30: "I don't want any halfway switch", then "all
+        # four" -- the default "bshift" (one lane only in the A or B half,
+        # 19 in 20 beats) and the rare holes (thinbar / frisson / breath,
+        # 1 in 20) are all off. The branches below stay for the A/B benches.
+        t = ""
     if t == "thinbar":                       # a bar rests, canon breathes
         b = rng.choice(late)
         for ln in mutable:
@@ -527,18 +528,6 @@ def vary_preset(preset, variant, num, tempo_locked, density=None):
             bars[last] = bars[last].replace("x", "X")
             rewrite(ln, bars)
         notes.append(f"build: bar {last} thins out, bar {last + 1} slams")
-    elif t == "bshift" and nbars >= 2:       # a lane sits out a half
-        cands = [ln for ln in mutable if ln not in canon and
-                 sum(map(_hits, lanes[ln][3]))]
-        if cands:
-            ln = rng.choice(cands)
-            half = rng.choice(("A", "B"))
-            mid = nbars // 2
-            bars = barlist(ln)
-            for b in (range(mid) if half == "B" else range(mid, nbars)):
-                bars[b] = "-" * len(bars[b])
-            rewrite(ln, bars)
-            notes.append(f"{ln} only in the {half} section")
     # (the "quietbar" velocity dip that used to live here is gone —
     #  owner 2026-08-03, see the treatment roll above)
 
@@ -560,19 +549,8 @@ def vary_preset(preset, variant, num, tempo_locked, density=None):
         notes.append(f"lanes sit out the back half of bar {b + 1}, "
                      f"bar {b + 2} slams back")
 
-    # 4c. OWNER RULE 2026-08-01: bar 1 always has a kick. Separate from the
-    # gap rule and not covered by it — measured under 07-29, 1 beat in 20
-    # started with no kick at all and 1 in 50 with no drums at all, because
-    # the treatments above and the density pass could both empty bar 1. A
-    # loop that starts on nothing is not usable as a loop. Restores only the
-    # downbeat, and only when the whole bar came out empty, so a deliberately
-    # syncopated opening bar is left alone.
-    if "kick" in lanes:
-        kbars = barlist("kick")
-        if kbars and not _hits(kbars[0]):
-            kbars[0] = "X" + kbars[0][1:]
-            rewrite("kick", kbars)
-            notes.append("kick restored on the downbeat")
+    # 4c. (bar 1 always has a kick -- REMOVED, owner 2026-10-30: "Remove
+    #  it" when asked about the kick/snare-every-bar rule.)
 
     # 5. tempo lean (only when he didn't set a tempo himself). A
     # subgenre's tempo is part of its identity (owner rule 2026-07-19):
@@ -1629,6 +1607,14 @@ def add_bass_and_chords(preset, kit, sources, shots, variant, dirs, vnotes,
     # hits only get quieter, not darker. New beats only.
     preset.setdefault("no_eq", 1)
     preset.setdefault("dyn_flow", dynamics.VERSION)
+    # LENGTH FLOW (owner 2026-10-30): chord hits mix short, half and held
+    # lengths, and two-note beats may hold a chord (chord_rhythm.LEN_W).
+    # New beats only.
+    preset.setdefault("len_flow", 1)
+    # NO HALFWAY (owner 2026-10-30: "I don't want any halfway switch"):
+    # 2-chord loops never split exactly in half, and comp/arp chords drop
+    # the every-2nd-bar back-half rest and every-4th-bar push. New beats only.
+    preset.setdefault("no_halfway", 1)
     # An 808 beat plays NO bass line: the 808 bangs with the kick on its
     # own lane (_add_sample_lanes), one note, never following the chords
     # (owner 2026-09-23, reversing that morning's 808-plays-the-roots).
@@ -2445,7 +2431,8 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
         harmony.colorize(key, chords, sig.get("chord_color"),
                          random.Random(variant * 733 + 11))
         _frng = random.Random(variant * 541 + 23)
-        chords = harmony.arrange(key, chords, nb, _frng)
+        chords = harmony.arrange(key, chords, nb, _frng,
+                                 no_half=bool(preset.get("no_halfway")))
         voicing = harmony.voice_lead(chords, _frng)
     pref = sig.get("chord_source")
     # "arp" = broken-chord riff, "sustain" = held block. A weighted list
@@ -2502,8 +2489,8 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
     _tex, _riff = "full", None
     if preset.get("texture_flow"):
         import riff_gen
-        _tex = riff_gen.roll(variant, sig.get("texture_full")
-                             if preset["texture_flow"] >= 2 else None)
+        _tex = riff_gen.roll(variant, riff_gen.full_chance(
+            sig.get("texture_full"), preset["texture_flow"]))
         if preset.get("no_loop") and _tex != "full":  # no riffs, no loops
             _tex = "two"
         if _tex == "riff" and preset.get("no_midi"):   # riffs are MIDI
@@ -2527,8 +2514,12 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
         if _dyn:
             _grammar["dyn"] = _dyn
             _grammar["plain_soft"] = bool(preset.get("no_eq"))
-        if _tex == "two":            # sparse stabs, never held or arped
-            _grammar["figures"] = [["stab", 3], ["comp", 2]]
+        if preset.get("len_flow"):
+            _grammar["len_flow"] = True
+        if _tex == "two":            # sparse stabs, never arped
+            # len_flow (owner 2026-10-30): some chords held, too
+            _grammar["figures"] = [["stab", 3], ["comp", 2]] + (
+                [["pad", 1]] if preset.get("len_flow") else [])
     _tonic = 60 + key.pc             # where a riff's 0 sits (C4-B4)
     # same "only scan if it's actually on the table" guard as want_loop
     # above, for the owner's MIDI chord packs (tools/midi_packs.py) —
@@ -2779,7 +2770,9 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
             two = None
             if _tex == "two":
                 import riff_gen
-                two = _lift(riff_gen.two_notes(_base), _base)
+                two = _lift((riff_gen.three_notes
+                             if preset["texture_flow"] >= 3
+                             else riff_gen.two_notes)(_base), _base)
             # Skip the library patterns the last 3 beats of this DJ just
             # played: replay THEIR seeds, so the result depends only on
             # this beat's number and a rebuild still matches.
@@ -3683,7 +3676,8 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
         vnotes.append("texture: %s" % (
             "riff from %s%s" % (_riff["src"], " over a soft 2-note bed"
                                 if _riff["bed"] else "")
-            if _tex == "riff" else "two notes of each chord"
+            if _tex == "riff" else "%s notes of each chord" % (
+                "three" if preset.get("texture_flow", 0) >= 3 else "two")
             if _tex == "two" else "a sampled loop carries it"))
     harmony_info = {"key": str(key), "root": key_root, "mode": mode,
                     "progression": prog_name, "rhythm": _rhythm,

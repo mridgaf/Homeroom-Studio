@@ -339,3 +339,78 @@ def test_avoid_is_deterministic_for_a_rebuild():
     one = chord_rhythm.gen_figure(spec, random.Random(9), 4, avoid=("tresillo",))
     two = chord_rhythm.gen_figure(spec, random.Random(9), 4, avoid=("tresillo",))
     assert one == two
+
+
+# ---------------------------------------------------------------- len_flow
+
+def test_len_flow_mixes_short_and_held_hits():
+    """Owner 2026-10-30: chord lengths mix like a song. Over many slots,
+    every slot of 2+ hits has more than one length, and all three kinds
+    (short, half, ring) turn up."""
+    hold, seen = 1.6, set()
+    for s in range(200):
+        rng = random.Random(s)
+        hits = sorted(rng.sample(range(32), rng.randint(2, 6)))
+        out = chord_rhythm.mix_lengths(hits, 32, hold, random.Random(s))
+        assert set(out) == set(hits)
+        assert len(set(out.values())) > 1
+        for j, h in enumerate(hits):
+            gap = (hits[(j + 1) % len(hits)] - h) % 32 or 32
+            assert 0 < out[h] <= gap
+            seen.add("short" if out[h] == min(hold, gap) else
+                     "ring" if out[h] == gap else "half")
+    assert seen == {"short", "half", "ring"}
+
+
+def test_len_flow_needs_its_stamp():
+    assert "len_flow" not in spec_for({})
+    assert spec_for({"len_flow": 1})["len_flow"] is True
+
+
+def test_len_flow_hits_log_mixed_lengths():
+    """Through render_figure: a stab slot's logged hits differ in length,
+    and without the stamp they all ring the same."""
+    bars = ["X-----x---x---x-", "X-----x---x---x-"]
+    rc = lambda notes, secs: np.ones(int(secs * 1000) + 1)   # noqa: E731
+    lens = {}
+    for flow in (False, True):
+        log = []
+        chord_rhythm.render_figure(
+            bars, 4.0, 120, [60, 64, 67], None, rc, figure="stab",
+            spec=dict(DEFAULT, len_flow=flow), seed=5, sr=1000, log=log)
+        lens[flow] = {round(d, 3) for _t, d, _n, _l in log}
+    assert len(lens[False]) == 1
+    assert len(lens[True]) > 1
+
+
+# ---------------------------------------------------------------- no_halfway
+
+def test_no_halfway_drops_back_half_rests_and_pushes():
+    """Owner 2026-10-30: no halfway switch. With the stamp, comp and arp
+    bars never lose their back half on odd bars and never get the push."""
+    assert spec_for({"no_halfway": 1})["no_halfway"] is True
+    cell = "X-----x---x-----"
+    for s in range(200):
+        for gb in range(8):
+            out = chord_rhythm._phrase(cell, gb, random.Random(s), tail=False)
+            assert out[8:] == cell[8:]
+    for s in range(50):
+        for bar in chord_rhythm.arp_bars(random.Random(s), 4, 0.0, tail=False):
+            assert any(ch != "-" for ch in bar[8:])
+
+
+def test_no_half_never_splits_two_chords_down_the_middle():
+    import harmony
+    from key_context import KeyContext
+    key = KeyContext("C", "minor")
+    chords = [harmony._chord(key, 0, "minor"), harmony._chord(key, 5, "minor")]
+    harmony.TURNAROUND_P, keep = 0.0, harmony.TURNAROUND_P
+    try:
+        for nb in (4, 8):
+            for s in range(100):
+                got = harmony.arrange(key, chords, nb, random.Random(s),
+                                      no_half=True)
+                assert [c["bars"] for c in got] != [nb // 2, nb // 2]
+                assert sum(c["bars"] for c in got) == nb
+    finally:
+        harmony.TURNAROUND_P = keep

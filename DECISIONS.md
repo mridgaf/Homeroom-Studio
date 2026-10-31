@@ -9531,3 +9531,22 @@ just not loaded by default.
 - Owner: keep going through the list. Each identity got a `"<Name>": {"words": [...]}` block in loops_config.json (backup `loops_config.pre-allloops-2026-10-30.json`), words taken from instruments and moods its researched listen line names. Every word checked live (reaches a group or lead type).
 - Only two mood rows moved: Horror Rap now dark (low +2, high -2, glue 2.2, matches "dark minor"), Reggaeton Alt kept its dark row (dropped "spanish"/"dark" that flipped it clean). Others unchanged.
 - Limit: a words block can only add, not remove, so odd steers from the line (Doc Day "G-funk", Crate Prophet "electronic") stay. Words are drawn from the lines, not re-researched per loop; unheard, nothing rendered. Status: open.
+
+### [2026-10-30] Fuller chords: full 50% (keys-led 70%), thin texture plays three notes
+- Context: owner asked why beats still sound alike. Measured the 170 beats made 18:05-20:02 from their recipes: 158 different chord progressions, 130 kicks / 118 snares, but 78% "two" texture (no_loop + no_midi collapsed riff/loop into two-note), 68% held stabs, 97 beats share "gated" snare/clap space (9 of 16 identities). Owner picked "Fuller chords first", then "Half + three notes".
+- Change: riff_gen.VERSION 2 -> 3. `riff_gen.full_chance()`: v3 full 50%, 70% where texture_full >= 0.4; v2 keeps texture_full, v1 None. `riff_gen.three_notes()` (3rd+5th+7th, else triad) replaces two_notes for v3 "two" beats; card says "three notes". Old beats rebuild as made. Backups `tools/*.pre-fuller-2026-10-30.py`. ASSUMING the 0.25 group goes to 50% like everyone.
+- Tests: riff_gen self-check + texture tests pass (one test pinned VERSION == 2, loosened; new v3 test). Full suite not run, nothing rendered or heard.
+- Status: open: his ear. Next in line: gated reverb shared by 9 identities.
+
+### [2026-10-30] Mixed chord lengths (`len_flow`)
+- Context: owner asked for "a mixture of chord and note lengths like a typical song". Found every stab/comp hit rang one fixed length (1/3-3/4 beat), two-note beats could never hold, chords change only on whole bars.
+- Change: new beats stamped `len_flow` 1. `chord_rhythm.mix_lengths()`: each stab/comp hit rolls short / half-gap / ring-to-next-hit (downbeat + "and" of 4 lean long, middle hits short; a 2+ hit slot never all one length; groove_lock's `long` hits still ring). Two-note texture adds `pad` (held) at weight 1 beside stab 3 / comp 2. Weights (LEN_W) unsourced, tune by ear. Old beats rebuild as made.
+- Not done: chords changing mid-bar (owner picked it). Needs bass, answer melody, second/doubled parts and held support roles to change at the same moment or they clash -- bigger job, asked him before building.
+- Tests: 3 new in tests/test_chord_rhythm.py; chord/comp/groove/arp/chord-bass + crew stamp tests pass (80). Full suite not run, nothing rendered or heard.
+- Status: open: his ear.
+
+### [2026-10-30] No halfway switch, no drop-outs, no bar-1 kick floor
+- Context: owner: "I don't want any halfway switch anything like that"; picked "all four" + remove the kick/snare-every-bar rule.
+- Change: vary_preset: "bshift" (one lane only in A or B half, 19/20 beats) and the rare holes (thinbar/frisson/breath) are off (`t = ""`); bar-1 kick restore removed. arrangement.STRUCTURE_P 0.75 -> 0 (no stop/thin_bar/melodic_drop; the fill stays). New stamp `no_halfway` 1: harmony.arrange skips the exact-half 2-chord plans (4+4, 2+2; fallback 3/4+1/4), chord_rhythm drops the comp/arp every-2nd-bar back-half rest and every-4th-bar push (the comp's late landing stays). Old beats rebuild from saved lanes/plans/stamps.
+- Tests: two gap tests replaced by test_no_holes_and_no_halfway_switch; 2 no_halfway tests added. beat_machine + chord_rhythm + arrangement: 147 passed, 2 known minor (Otto dirt, Timberline chip). Nothing rendered or heard.
+- Status: open: his ear.
