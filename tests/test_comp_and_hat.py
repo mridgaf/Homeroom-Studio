@@ -118,3 +118,35 @@ def _hat_vs_snare(monkeypatch, flow):
 def test_hats_sound_quieter_than_the_snare(monkeypatch):
     assert _hat_vs_snare(monkeypatch, False) > 0       # loud before
     assert _hat_vs_snare(monkeypatch, True) <= crew.HAT_UNDER_DB + 0.3
+
+
+def _trim_db(monkeypatch, trim):
+    """Owner 2026-10-31: hats -3.5 dB, bass +4 dB on `mix_trim` beats."""
+    monkeypatch.setattr(crew, "TRUE_LEVELS", True)
+    p = copy.deepcopy(CREW["Cutz"])
+    p["space"] = ("dry", [])
+    p["sidechain"] = 0.0
+    p["hat_flow"] = 1
+    p["lanes"] = {"kick": (0.0, 1.0, (0, 0, 50, 1), ["X-------X-------"]),
+                  "snare": (0.0, 1.0, (0, 0, 50, 2), ["----X-------X---"]),
+                  "hat": (0.0, 1.0, (0, 0, 50, 3), ["x-x-x-x-x-x-x-x-"]),
+                  "bass": (0.0, 1.0, (0, 0, 50, 4), ["X---------------"])}
+    if trim:
+        p["mix_trim"] = 1
+    t = np.arange(SR // 10) / SR
+    env = np.exp(-t * 40)
+    kit = {"kick": np.sin(2 * np.pi * 60 * t) * env,
+           "snare": 0.3 * np.sin(2 * np.pi * 1500 * t) * env,
+           "hat": 0.02 * np.sin(2 * np.pi * 3000 * t) * env,
+           "bass": 0.02 * np.sin(2 * np.pi * 50 * t) * env}
+    _L, _R, _lufs, parts = render_crew_beat("Cutz", kit, preset=p,
+                                            want_parts=True)
+    st = {ln: sum(parts["stems"][ln]) / 2 for ln in ("kick", "hat", "bass")}
+    return {ln: 20 * np.log10(np.abs(st[ln]).max() / np.abs(st["kick"]).max())
+            for ln in ("hat", "bass")}
+
+
+def test_mix_trim_hats_down_bass_up(monkeypatch):
+    a, b = _trim_db(monkeypatch, False), _trim_db(monkeypatch, True)
+    assert abs(b["hat"] - a["hat"] - crew.HAT_TRIM_DB) < 0.2
+    assert abs(b["bass"] - a["bass"] - crew.BASS_TRIM_DB) < 0.2

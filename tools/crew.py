@@ -239,6 +239,14 @@ PERC_ROLES = ("perc", "rim", "bongo")
 # (the Hub gives no number) -- tune by ear. Only ever turns hats down.
 HAT_UNDER_DB = -6.0
 
+# OWNER TRIM (2026-10-31: "turn the hats down 3.5 dB and the bass up 4 dB").
+# Plain gains AFTER the governors, on beats stamped `mix_trim`, so the caps
+# above can't undo them. Bass = every low lane (_ducks_deep). The kick-on-top
+# PEAK cap (LOW_END_UNDER_DB) is re-applied after the boost; the -4 dB
+# loudness cap is what the boost deliberately overrides.
+HAT_TRIM_DB = -3.5
+BASS_TRIM_DB = 4.0
+
 
 def a_weighted(x, sr=SR):
     """`x` filtered by the A-weighting curve (IEC 61672), via FFT."""
@@ -2450,6 +2458,18 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False,
                         w = wet_side.get(ln)
                         if w is not None:
                             wet_side[ln] = w * g
+            if lows and p.get("mix_trim"):
+                g = 10 ** (BASS_TRIM_DB / 20.0)
+                for ln in lows:
+                    bufs[ln] = bufs[ln] * g
+                    if ln in wet_side:
+                        wet_side[ln] = wet_side[ln] * g
+                for ln in lows:           # kick still on top
+                    pk = _panned_pk(ln)
+                    if pk > cap:
+                        bufs[ln] = bufs[ln] * (cap / pk)
+                        if ln in wet_side:
+                            wet_side[ln] = wet_side[ln] * (cap / pk)
         # HATS, then PERCUSSION, BY LOUDNESS, even at true levels -- see
         # HAT_UNDER_DB and PERC_ROLES.
         if true_levels and not loop_bufs and (p.get("perc_flow")
@@ -2482,6 +2502,13 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False,
             if p.get("hat_flow") and hats and snares:
                 _cap(hats, max(_a_loud(l) for l in snares)
                      * 10 ** (min(HAT_UNDER_DB, 0.0) / 20.0))
+            # owner trim, before the perc cap so perc follows the hat down
+            if p.get("mix_trim"):
+                g = 10 ** (HAT_TRIM_DB / 20.0)
+                for ln in hats:
+                    bufs[ln] = bufs[ln] * g
+                    if ln in wet_side:
+                        wet_side[ln] = wet_side[ln] * g
             percs = [l for l in bufs if p.get("perc_flow")
                      and (kspec.get(l) or ("",))[0] in PERC_ROLES]
             refs = ([l for l in bufs if l.startswith(HAT_TIER)]

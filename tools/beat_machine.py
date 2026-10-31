@@ -1559,6 +1559,8 @@ def add_bass_and_chords(preset, kit, sources, shots, variant, dirs, vnotes,
     preset.setdefault("comp_flow", 1)
     # HAT FLOW (2026-10-19): hats capped by loudness (crew.HAT_UNDER_DB)
     preset.setdefault("hat_flow", 1)
+    # MIX TRIM (2026-10-31): hats -3.5 dB, bass +4 dB (crew.HAT_TRIM_DB)
+    preset.setdefault("mix_trim", 1)
     # ARRANGEMENT FLOW (2026-10-20): one optional structural move inside
     # the loop plus an optional fill into bar 1. New beats only.
     import arrangement

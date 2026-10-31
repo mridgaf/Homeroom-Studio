@@ -9564,3 +9564,8 @@ just not loaded by default.
 - Tests: harmony/bass/chord 75 passed; beat_machine+arrangement+melody 125 passed, 2 known minor (Otto dirt, Timberline chip); 5 that need a several-chord beat now opt out with `one_chord: 0` (12 Timberline "epic" setups) and pass; recipe test recomputes the one chord. Full suite not run, nothing rendered.
 - Not covered: sampled loops/MIDI (off on the Original side; Loops side still trusts loop key labels), and sample tuning in cents.
 - Status: open: his ear.
+### [2026-10-31] Hats -3.5 dB, bass +4 dB (`mix_trim`)
+- Owner: "Turn the hats down 3.5 dB and the bass up 4 dB. Unrendered tracks."
+- Change: new beats stamped `mix_trim` 1 (beat_machine). crew.HAT_TRIM_DB -3.5 on hat lanes (before the perc cap, so perc follows the hat down); crew.BASS_TRIM_DB +4 on every low lane (808/sub/bass line), applied after the -4 dB loudness cap. ASSUMING kick stays on top: the peak cap (bass never over the kick) is re-applied after the boost. Old beats unchanged. Backups tools/*.pre-mix-trim-2026-10-31.py.
+- Tests: 1 new in tests/test_comp_and_hat.py (measures -3.5 / +4 in stems); that file 8 passed. Nothing else run, nothing rendered.
+- Status: open: his ear.
