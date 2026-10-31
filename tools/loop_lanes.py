@@ -207,7 +207,108 @@ def _stretch(x, sr, ratio):
     return y.T.astype(np.float64)
 
 
-def build_lane(lane, path, bpm, sr, fx_bars=None):
+# CRATE DIGGER (owner 2026-10-31, PLAN-B-CRATE-DIGGER.md): on new beats
+# the lead loop may be cut at its hits and re-played in a new 2-bar order.
+# Saved in the beat's loop_state as "chop"; beats without it play whole.
+CHOP_ODDS = 0.5                  # owner: half of new loops beats chop
+RESAMPLE_ODDS = 0.25             # owner: 1 in 4 chopped beats chops the chop
+SAME_CHORD = 0.95                # Claude's pick, unheard: a bar this close to
+                                 # the first bar = same chord (measured: chord changes 0.55-0.92, repeats 0.94-0.99)
+PHRASE_BARS = 2
+# lens/grid in 16ths; nudge_ms = how far a hit may slide off the grid.
+# Claude's numbers from the plan's style table, not sourced, not heard.
+CHOP_STYLES = {
+    "stabs": {"lens": (1, 2), "grid": 2, "hits": (6, 10), "nudge_ms": 0},
+    "loose": {"lens": (2, 3, 4), "grid": 2, "hits": (5, 8), "nudge_ms": 30},
+    "held":  {"lens": None, "grid": 4, "hits": (2, 4), "nudge_ms": 0},
+}
+# ponytail: the one batch whose key the detector guessed (2026-09-18 synth
+# loops, ~46% right); owner: chop only pack-labelled keys. List any new
+# guessed batch here.
+GUESSED_KEY = re.compile(r"^synth\d+_", re.I)
+
+
+def chop_ok(e):
+    """A lead loop may be chopped: its key came from the pack's own label."""
+    return bool(e and e.get("key")) and not GUESSED_KEY.match(Path(e["path"]).name)
+
+
+def chop_roll(style, rng, lead):
+    """The "chop" block for a new beat's loop_state, or None (whole loop)."""
+    if style not in CHOP_STYLES or not chop_ok(lead) or rng.random() >= CHOP_ODDS:
+        return None
+    return {"style": style, "seed": rng.randrange(1 << 30),
+            "resample": rng.random() < RESAMPLE_ODDS}
+
+
+def _notes(seg, sr):
+    """Unit 12-note profile of a stretch of audio (octaves folded)."""
+    m = seg.mean(axis=1)
+    mag = np.abs(np.fft.rfft(m * np.hanning(len(m))))
+    f = np.fft.rfftfreq(len(m), 1.0 / sr)
+    band = (f >= 65.0) & (f <= 5000.0)
+    pcs = np.rint(69 + 12 * np.log2(f[band] / 440.0)).astype(int) % 12
+    v = np.bincount(pcs, weights=mag[band], minlength=12)
+    return v / (np.linalg.norm(v) or 1.0)
+
+
+def _chop_once(x, sr, bpm, style, rng):
+    """One 2-bar phrase (n, 2) from loop `x`: slices of ONE chord laid on
+    the 16th grid in this style. Tails wrap round the phrase (loop-safe)."""
+    st = CHOP_STYLES[style]
+    P = PHRASE_BARS * int(round(240.0 / bpm * sr))  # whole bars, as build_lane
+    six = P / (PHRASE_BARS * 16.0)                  # one 16th, in samples
+    # ONE chord: slices only from bars whose notes match the first bar's.
+    # A slice may run on through matching bars (a long held chop) and
+    # stops where a different bar starts. ponytail: judged per bar, so a
+    # chord change in the middle of a bar slips through; per-beat if heard.
+    bar = P // PHRASE_BARS
+    nb = max(1, len(x) // bar)
+    home = _notes(x[:bar], sr)
+    ok = [_notes(x[b * bar:(b + 1) * bar], sr) @ home >= SAME_CHORD
+          for b in range(nb)]
+    end, run_end = {}, nb * bar
+    for b in reversed(range(nb)):
+        run_end = run_end if ok[b] else b * bar
+        end[b] = run_end
+    starts = [s for s in ml.onset_starts(x.mean(axis=1), sr, min_dur=0.08)
+              if s < nb * bar and ok[s // bar]
+              and end[s // bar] - s > int(0.05 * sr)]
+    if not starts:
+        return None
+    end = {s: end[s // bar] for s in starts}
+    slots = list(range(0, PHRASE_BARS * 16, st["grid"]))
+    k = min(len(slots), rng.randint(*st["hits"]))
+    pos = sorted({0, *rng.sample(slots[1:], k - 1)})
+    out = np.zeros((P, 2))
+    fi, fo = int(0.002 * sr), int(0.005 * sr)       # de-click each slice
+    for i, p in enumerate(pos):
+        gap = (pos[i + 1] if i + 1 < len(pos) else PHRASE_BARS * 16) - p
+        n16 = gap if st["lens"] is None else min(gap, rng.choice(st["lens"]))
+        n = int(round(n16 * six))
+        s = rng.choice(starts)
+        seg = x[s:min(end[s], s + n)].copy()
+        n = len(seg)
+        seg[:fi] *= np.linspace(0, 1, fi)[:, None]
+        seg[-fo:] *= np.linspace(1, 0, fo)[:, None]
+        nudge = rng.uniform(-0.3, 1.0) * st["nudge_ms"] / 1000.0 * sr
+        at = int(round(p * six + nudge))
+        out[(at + np.arange(n)) % P] += seg
+    return out
+
+
+def chop(x, sr, bpm, spec):
+    """The chopped phrase for a saved "chop" block; None = play it whole."""
+    rng = random.Random(spec["seed"])
+    x = x[:, :2]                       # L/R only, as build_lane plays them
+    y = _chop_once(x, sr, bpm, spec["style"], rng)
+    if y is not None and spec.get("resample"):      # chop the printed chop
+        y2 = _chop_once(y, sr, bpm, spec["style"], rng)
+        y = y if y2 is None else y2
+    return y
+
+
+def build_lane(lane, path, bpm, sr, fx_bars=None, chop_spec=None):
     """(L, R) for one lane, exactly NBARS bars at `bpm`."""
     bar = int(round(240.0 / bpm * sr))
     total = NBARS * bar
@@ -233,6 +334,9 @@ def build_lane(lane, path, bpm, sr, fx_bars=None):
     x = _stretch(x, sr, bpm / src)
     nb = max(1, round(len(x) / bar))
     x = loop_mode.tile_to(x, nb * bar) if len(x) < nb * bar else x[:nb * bar]
+    if chop_spec:
+        y = chop(x, sr, bpm, chop_spec)
+        x = x if y is None else y
     L = loop_mode.tile_to(x[:, 0], total)
     R = loop_mode.tile_to(x[:, 1], total)
     return L, R
@@ -303,9 +407,17 @@ def drum_bpm(path, home_bpm):
 
 
 def render_bufs(state, sr):
-    """{lane: (L, R)} for every lane in the state."""
+    """{lane: (L, R)} for every lane in the state. A saved "chop" block
+    chops the lead loop, while that loop's key is pack-labelled (a swap
+    to an unlabelled loop plays it whole)."""
+    spec = state.get("chop")
+    lead = state["lanes"].get("leadloop")
+    if spec and not chop_ok(next((e for e in scan_all()["lead"]
+                                  if e["path"] == lead), None)):
+        spec = None
     return {ln: build_lane(ln, p, state["bpm"], sr,
-                           fx_bars=state["fx_bars"].get(ln))
+                           fx_bars=state["fx_bars"].get(ln),
+                           chop_spec=spec if ln == "leadloop" else None)
             for ln, p in state["lanes"].items()}
 
 

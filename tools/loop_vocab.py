@@ -71,6 +71,11 @@ def identity_words(name, preset=None):
     return words
 
 
+def chop_style(name):
+    """This identity's chop style (stabs/loose/held), or None."""
+    return (_cfg().get(name) or {}).get("chop")
+
+
 def finish(words, eq, glue):
     """(eq, glue) for a loop beat from the identity's words. ONE mood row
     (owner 2026-10-24): the group with the most distinct matching words,

@@ -197,3 +197,14 @@ def test_timekeeper_density_moves_between_variants():
         pattern_gen.compose(p, "Otto Grit", v)
         seen.add(round(variety.density(p["lanes"]["hat"][3])))
     assert len(seen) >= 2                  # sparse and busy hats both occur
+
+
+def test_looks_alike_needs_kick_and_snare_close():
+    """Owner 2026-10-31: re-compose only when BOTH kick and snare are near."""
+    from variety import looks_alike
+    k, s = ["X-------X-------"] * 8, ["----X-------X---"] * 8
+    lanes = {"kick": (0, 1, (), k), "snare": (0, 1, (), s)}
+    assert looks_alike(lanes, [(k, s)])
+    far = ["X--X--X---X--X--"] * 8
+    assert not looks_alike(lanes, [(far, s)])
+    assert not looks_alike(lanes, [])

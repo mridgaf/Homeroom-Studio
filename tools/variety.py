@@ -147,6 +147,48 @@ def _flavor(rec):
     return (must, tier)
 
 
+# ------------------------------------------------------ look-alike guard
+# Owner 2026-10-31 (Plan C), overruling 2026-07-21's "no rejection loops":
+# a new beat whose kick AND snare are both this close to one of the DJ's
+# last LOOKALIKE_LAST beats is re-composed, at most LOOKALIKE_REROLLS times.
+LOOKALIKE_LAST = 50
+LOOKALIKE_REROLLS = 3
+LOOKALIKE_KICK = 3.0     # mean moves per bar, = FLOORS["kick_min"]
+LOOKALIKE_SNARE = 2.0
+
+
+def recent_drums(root, dj, last=LOOKALIKE_LAST, scan=400):
+    """(kick bars, snare bars) of the DJ's newest beats; reads at most
+    `scan` recipes so a rarely-used DJ can't stall a generate."""
+    d = Path(root) / ".recipes"
+    files = sorted((f for f in d.glob("*.json") if f.stem.isdigit()),
+                   key=lambda f: int(f.stem), reverse=True)[:scan] \
+        if d.exists() else []
+    out = []
+    for f in files:
+        try:
+            r = json.loads(f.read_text())
+        except (OSError, ValueError):
+            continue
+        if r.get("loops_only") or (r.get("names") or [None])[0] != dj:
+            continue
+        lanes = (r.get("preset") or {}).get("lanes") or {}
+        if "kick" in lanes and "snare" in lanes:
+            out.append((list(lanes["kick"][3]), list(lanes["snare"][3])))
+        if len(out) >= last:
+            break
+    return out
+
+
+def looks_alike(lanes, recent):
+    if "kick" not in lanes or "snare" not in lanes:
+        return False
+    k, s = list(lanes["kick"][3]), list(lanes["snare"][3])
+    return any(pattern_moves(k, rk) < LOOKALIKE_KICK
+               and pattern_moves(s, rs) < LOOKALIKE_SNARE
+               for rk, rs in recent)
+
+
 # --------------------------------------------------------------- scoring
 
 

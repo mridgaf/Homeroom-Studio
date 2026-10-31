@@ -36,6 +36,8 @@ import inspect
 
 import numpy as np
 
+import real_groove
+
 sys.path.append(str(Path(__file__).parent))
 from pattern_gen import (DEFAULT_STYLE, LEGEND_OPEN_P, SOUND_OPEN_P, STYLE_VERSION,
                          free_beat)
@@ -1240,7 +1242,8 @@ def grit_lane(p, lanes):
 
 
 def _pick_path(shots, role, wants, secs, seed, must=None, avoid=(),
-               own_bank=False, flavor_match=False, open_bank=None):
+               own_bank=False, flavor_match=False, open_bank=None,
+               taste=None):
     """Like make_drum_beats.pick but returns the PATH so it can be locked.
     Tiers: must-word AND want-tag > must-word > want-tag > anything —
     the combined tier keeps a must="808" from grabbing an 808 *cowbell*
@@ -1264,7 +1267,11 @@ def _pick_path(shots, role, wants, secs, seed, must=None, avoid=(),
     beat passes pattern_gen.free_beat(variant) here, so every one of the
     24 DJs picks by its own taste on 70% of beats and from the whole role
     pool on the other 30%. None keeps the old switch below for everything
-    that is not a DJ beat (genre presets, the fixed bank, a manual swap)."""
+    that is not a DJ beat (genre presets, the fixed bank, a manual swap).
+
+    taste (owner 2026-10-31, Plan C): {sample folder: weight} from his
+    Favorites/Trash (tools/taste.py). The shuffle leans toward liked
+    folders; tiers, wants and avoid work exactly as before."""
     if open_bank is None:
         open_bank = OWNER_TASTE.get("open_soundbank") and not own_bank
     if open_bank:
@@ -1283,6 +1290,9 @@ def _pick_path(shots, role, wants, secs, seed, must=None, avoid=(),
     cands = shots.get(role, [])
     r = np.random.default_rng(seed)
     order = [cands[int(i)] for i in r.permutation(len(cands))]
+    if taste:
+        import taste as _taste
+        order = _taste.lean_order(order, taste, r)
 
     def has_must(e):
         return must in e["path"].lower()
@@ -1390,7 +1400,8 @@ def _resolve_secs(secs, num, variant):
     return secs
 
 
-def build_kit(shots, name, stamp_audio, variant=0, avoid=None, preset=None):
+def build_kit(shots, name, stamp_audio, variant=0, avoid=None, preset=None,
+              taste=None):
     """One beat's kit for a personality: fresh kick/snare/etc picked from
     the character's taste tags, different per `variant` (seeded, so any
     beat can be re-rendered identically). Kick sustain is also re-rolled
@@ -1419,7 +1430,7 @@ def build_kit(shots, name, stamp_audio, variant=0, avoid=None, preset=None):
                              must=must, avoid=avoid,
                              own_bank=bool(p.get("own_soundbank")),
                              flavor_match=bool(p.get("flavor_match")),
-                             open_bank=open_bank)
+                             open_bank=open_bank, taste=taste)
         if path:
             avoid.add(path)
         # sub_layer (2026-09-03): a preset can reinforce its KICK with a
@@ -1742,6 +1753,17 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False,
             events[lane] = evs
             continue
         snd = kit[lane]
+        # REAL FEEL (owner 2026-10-31, Plan A): a real drummer's timing and
+        # gentle accents per 16th step, plus each hit starting up to 1 ms
+        # into the sample so no two hits are identical. See real_groove.
+        _rf = p.get("real_feel") or {}
+        _rcls = real_groove.lane_class(lane) if _rf else None
+        if _rcls in (_rf.get("skip") or ()):
+            _rcls = None
+        _rtpl = real_groove.templates().get(_rf.get("key")) if _rcls else None
+        _rtrim = (np.random.default_rng(seed + 7919)
+                  if _rf and (_rcls or lane.startswith(tuple(PERC_LIKE)))
+                  else None)
         choke = not loop_bufs and (_ducks_deep(lane)
                                    or (lane == "kick" and _long_kick))
         drops_out = _bd_bar >= 0 \
@@ -1764,13 +1786,25 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False,
                 v = velocity("x" if ch == "r" else ch,
                              s if res == 16 else s // 2, wob) * g \
                     * grid_accent(res, s)
+                if _rtpl and res == 16:
+                    if not (s % 2 and feel.swing > 50):   # DJ swing wins
+                        t += real_groove.offset_s(_rtpl, _rcls, s, bpm)
+                    if ch in "Xx":                        # ghosts untouched
+                        v *= real_groove.accent(_rtpl, _rcls, s)
                 hits = (ratchet_times(t, bar_s / res) if ch == "r"
                         else [(t, 1.0)])
                 for th, hv in hits:
                     pos = int(max(th, 0.0) * SR)
-                    e = min(n, pos + len(snd))
+                    hit = snd
+                    if _rtrim is not None:
+                        k = int(_rtrim.integers(0, int(0.001 * SR) + 1))
+                        if k:
+                            hit = snd[k:].copy()
+                            f = min(16, len(hit))
+                            hit[:f] *= np.linspace(0.0, 1.0, f)
+                    e = min(n, pos + len(hit))
                     if 0 <= pos < n and v > 0:
-                        buf[pos:e] += snd[:e - pos] * v * hv
+                        buf[pos:e] += hit[:e - pos] * v * hv
                         ons.append(pos)
                         evs.append((pos / SR, v * hv))
                         if choke:

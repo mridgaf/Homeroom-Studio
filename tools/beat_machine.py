@@ -1561,6 +1561,17 @@ def add_bass_and_chords(preset, kit, sources, shots, variant, dirs, vnotes,
     preset.setdefault("hat_flow", 1)
     # MIX TRIM (2026-10-31): hats -3.5 dB, bass +4 dB (crew.HAT_TRIM_DB)
     preset.setdefault("mix_trim", 1)
+    # TASTE FLOW (2026-10-31, Plan C): this beat's kit leaned toward his
+    # Favorites' sample folders (generate -> taste.weights). Record only.
+    preset.setdefault("taste_flow", 1)
+    # REAL FEEL (2026-10-31, Plan A): a real drummer's timing + gentle
+    # accents, picked from the listen line (tools/real_groove.py). Stored as
+    # the template key so a rebuild plays the same drummer. New beats only.
+    if "real_feel" not in preset:
+        import real_groove
+        preset["real_feel"] = real_groove.pick(
+            preset.get("listen") or (CREW.get(dj) or {}).get("listen", ""),
+            random, dj)
     # ARRANGEMENT FLOW (2026-10-20): one optional structural move inside
     # the loop plus an optional fill into bar 1. New beats only.
     import arrangement
@@ -3769,6 +3780,17 @@ def _pick_loop_bed(dj_name, preset, variant, state=None, guests=()):
                                       preset.get("bpm") or 90,
                                       random.Random(f"{dj_name}|loops|{variant}"),
                                       groups=loop_vocab.groups_of(words))
+        # CRATE DIGGER (owner 2026-10-31): new beats may chop the lead loop
+        # in the host's style; saved in the state, so a rebuild plays it the
+        # same and older beats (no "chop") stay whole. Own rng: picks above
+        # are unchanged.
+        lead = next((e for e in loop_lanes.scan_all()["lead"]
+                     if e["path"] == state["lanes"].get("leadloop")), None)
+        spec = loop_lanes.chop_roll(loop_vocab.chop_style(dj_name),
+                                    random.Random(f"{dj_name}|chop|{variant}"),
+                                    lead)
+        if spec:
+            state["chop"] = spec
     bufs = loop_lanes.render_bufs(state, SR)
     note = "loops only, %d bars at %d BPM (drum loop's tempo), %s: %s" % (
         loop_lanes.NBARS, state["bpm"],
@@ -3776,6 +3798,10 @@ def _pick_loop_bed(dj_name, preset, variant, state=None, guests=()):
         else "keys ignored",
         "; ".join("%s '%s'" % (loop_lanes.LABELS[ln], Path(p).stem)
                   for ln, p in state["lanes"].items()))
+    if state.get("chop"):
+        note += "; lead chopped (%s%s)" % (
+            state["chop"]["style"],
+            ", chopped twice" if state["chop"].get("resample") else "")
     return state, bufs, loop_lanes.NBARS, note
 
 
@@ -3851,7 +3877,11 @@ def generate(names, tempo=None, notes="", root=ROOT, shots=None,
     # guard is gone (owner call 2026-07-21: variety comes from the
     # composition itself, not from rejection loops)
     status(f"Composing for {' x '.join(names)}…")
-    for _try in range(1):
+    # LOOK-ALIKES (owner 2026-10-31, Plan C): re-compose a beat whose
+    # drums sit too close to one of this DJ's recent beats (variety.py)
+    import variety
+    _recent = [] if loops_only else variety.recent_drums(root, names[0])
+    for _try in range(1 + (variety.LOOKALIKE_REROLLS if _recent else 0)):
         variant = random.randrange(2, 10000)
         # v6 time-signature roll (owner ruling 2026-07-18): 80% 4/4,
         # 10% real 3/4 or 6/8, 10% exotic grids inside 4/4. The notes
@@ -3917,6 +3947,10 @@ def generate(names, tempo=None, notes="", root=ROOT, shots=None,
         vnotes = evo_notes + style_notes + dnotes + vary_preset(
             preset, variant, CREW[names[0]]["num"],
             tempo_locked=bool(bpm), density=dirs["density"])
+        if not variety.looks_alike(preset.get("lanes") or {}, _recent):
+            break
+        if _try < variety.LOOKALIKE_REROLLS:
+            status("Too close to a recent beat, composing again…")
     rng = random.Random(variant)
     title = fresh_title(names, rng, root)
 
@@ -3943,9 +3977,12 @@ def generate(names, tempo=None, notes="", root=ROOT, shots=None,
         vnotes = [loop_note]
     elif len(names) == 1:
         status(f"Building the kit for {' x '.join(names)}…")
+        # YOUR EAR (owner 2026-10-31, Plan C): lean toward the sample
+        # folders his Favorites keep and away from his Trash (taste.py)
+        import taste
         kit, sources = build_kit(shots, names[0], stamps[names[0]][1],
                                  variant=variant, avoid=avoid,
-                                 preset=preset)
+                                 preset=preset, taste=taste.weights(root))
         sources["stamp"] = stamps[names[0]][0]
         # same resolution build_kit just did, kept for the beat's recipe
         spec_used = {ln: (r, m, w, _resolve_secs(s, preset["num"], variant))

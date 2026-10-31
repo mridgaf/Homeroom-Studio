@@ -486,6 +486,27 @@ def chop_onsets(x, sr, min_dur=0.15, max_dur=2.0):
     n = len(mono)
     if n == 0:
         return []
+    onsets = onset_starts(mono, sr, min_dur)
+    min_gap = int(min_dur * sr)
+    clips = []
+    for i, start in enumerate(onsets):
+        end = onsets[i + 1] if i + 1 < len(onsets) else n
+        end = min(end, start + int(max_dur * sr))
+        clip = mono[start:end]
+        if len(clip) < min_gap:
+            continue
+        fade = min(int(0.005 * sr), len(clip) // 4)
+        if fade:
+            clip = clip.copy()
+            clip[-fade:] *= np.linspace(1, 0, fade)
+        clips.append(clip)
+    return clips
+
+
+def onset_starts(mono, sr, min_dur=0.15):
+    """Sample index of every hit in `mono` (chop_onsets' detector), at
+    least `min_dur` apart; [0] when nothing rises."""
+    n = len(mono)
     fast_win = max(int(0.01 * sr), 1)                   # 10ms attack track
     slow_win = max(int(0.2 * sr), 1)                     # 200ms trailing floor
     fast = np.convolve(np.abs(mono), np.ones(fast_win) / fast_win, mode="same")
@@ -505,21 +526,7 @@ def chop_onsets(x, sr, min_dur=0.15, max_dur=2.0):
     for f in onset_frames:
         if not onsets or f - onsets[-1] >= min_gap:
             onsets.append(int(f))
-    if not onsets:
-        onsets = [0]
-    clips = []
-    for i, start in enumerate(onsets):
-        end = onsets[i + 1] if i + 1 < len(onsets) else n
-        end = min(end, start + int(max_dur * sr))
-        clip = mono[start:end]
-        if len(clip) < min_gap:
-            continue
-        fade = min(int(0.005 * sr), len(clip) // 4)
-        if fade:
-            clip = clip.copy()
-            clip[-fade:] *= np.linspace(1, 0, fade)
-        clips.append(clip)
-    return clips
+    return onsets or [0]
 
 
 def _report():
