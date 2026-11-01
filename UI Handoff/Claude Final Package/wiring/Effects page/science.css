@@ -1,0 +1,176 @@
+/* The Sound of Science — owner-approved mockup 14 (2026-10-16).
+   Notebook (Table of Elements + Flask tabs) beside a fully wood-framed
+   chalkboard. Palette, typewriter notebook, chalk filter and frame copied
+   from the live beat generator (tools/beat_machine.py homeroom layer). */
+:root {
+  --ink: #141414; --paper-y: #f8edb2; --rule: #8fa6c870; --margin: #d9776f;
+  --type: "Special Elite", "American Typewriter", "Courier New", monospace;
+  --a: #ff9a62; --b: #62c8ff; --blue-ink: #1d3a8a;
+}
+.defs { position: absolute; width: 0; height: 0; overflow: hidden; }
+header.top { max-width: 1560px; }
+.apptabs a, .apptabs .here { font-size: 26px; color: var(--lime); background: none; filter: url(#chalk); }
+.apptabs .here { border: 3px solid var(--lime); border-radius: 12px; background: none; }
+
+/* two near-equal columns */
+.cols { max-width: 1560px; margin: 0 auto; display: grid;
+        grid-template-columns: minmax(400px, 1fr) minmax(0, 1.1fr); gap: 4px; align-items: stretch; }
+
+/* ------------------------------------------------------------ notebook */
+.notebook { position: relative; padding: 20px 30px 290px 76px; border-radius: 6px 4px 4px 6px;
+  color: var(--ink); font-family: var(--type); min-height: 760px;
+  background: linear-gradient(90deg, transparent 60px, var(--margin) 60px 62px, transparent 62px),
+    repeating-linear-gradient(180deg, transparent 0 27px, var(--rule) 27px 28px), var(--paper-y);
+  box-shadow: 0 10px 30px #0006, inset 0 0 0 1px #0000000f; }
+.rings { position: absolute; left: -16px; top: 12px; bottom: 12px; width: 48px; pointer-events: none;
+  background: radial-gradient(circle at 36px 50%, #2c2e32 0 5px, transparent 5.6px) 0 0/48px 34px repeat-y,
+    linear-gradient(180deg, transparent 12px, #9a9a9a 12px, #e8e8e8 15px, #8a8a8a 18px, transparent 19px) 0 0/40px 34px repeat-y; }
+.nbtitle { font: 400 clamp(30px, 3vw, 46px) var(--type); color: #111; margin: 0 0 4px;
+  -webkit-text-stroke: 1.1px #111; text-shadow: 1px 1px 0 #00000038; line-height: 1.1; }
+.nbsub { font: 13px var(--type); color: #141414b0; margin: 4px 0 10px; }
+.page { display: none; } .page.on { display: block; animation: flip .28s ease-out; }
+@keyframes flip { from { opacity: 0; transform: perspective(900px) rotateY(-8deg); transform-origin: left; } }
+.formulas { display: flex; flex-wrap: wrap; gap: 6px 18px; font: 15px var(--type); color: var(--blue-ink);
+            margin: 0 0 6px; transform: rotate(-.6deg); }
+.formulas span { border-bottom: 2px solid #f6e04b; }
+
+/* the flask tabs stick out of the notebook's right edge */
+.tabs { position: absolute; right: 0; top: 120px; transform: translateX(100%); z-index: 5;
+        display: flex; flex-direction: column; gap: 8px; }
+.tab { border: 0; cursor: pointer; color: #141414; font: 18px var(--type); padding: 12px 8px 12px 10px;
+       width: 110px; text-align: left; white-space: nowrap; border-radius: 0 10px 10px 0;
+       box-shadow: 3px 3px 0 #0005; transition: width .15s; }
+.tab small { display: block; font: 11px var(--mono); opacity: .75; margin-top: 2px; }
+.tab.on { width: 122px; }
+.tab[data-p=stems] { background: #fff6c8; } .tab[data-p=A] { background: var(--a); } .tab[data-p=B] { background: var(--b); }
+.tab:focus-visible { outline: 2px solid #141414; outline-offset: 2px; }
+
+/* the Table of Elements: one square per stem */
+.stable { display: grid; grid-template-columns: repeat(auto-fill, minmax(118px, 1fr)); gap: 9px; margin-top: 6px; }
+.st { position: relative; aspect-ratio: 1/1.05; border: 2px solid #141414; border-radius: 4px; padding: 6px 8px;
+      cursor: pointer; display: flex; flex-direction: column; text-align: left; font: inherit; color: #141414;
+      transition: transform .1s; min-width: 0; }
+.st:hover { transform: translateY(-2px); box-shadow: 3px 3px 0 #0003; }
+.st .no { font: 12px var(--mono); }
+.st .sym { font: 400 40px var(--serif); line-height: 1; margin-top: 4px; }
+.st .nm { font: 14px var(--type); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.st .fxn { font: 10px var(--mono); color: #14141499; margin-top: auto; }
+.st .bus { position: absolute; right: 6px; top: 5px; font: 700 11px var(--mono); padding: 1px 6px;
+           border-radius: 8px; border: 1.5px solid #141414; background: #fff; }
+.st .bus.A { background: var(--a); } .st .bus.B { background: var(--b); } .st .bus.none { opacity: .6; }
+.st.muted { opacity: .45; }
+.drums { background: #ffe08a; } .low { background: #c9b6ff; } .mel { background: #b6f0c0; }
+.inA { background: var(--a); } .inB { background: var(--b); }
+.key { display: flex; flex-wrap: wrap; gap: 12px; font: 12px var(--type); margin-top: 10px; }
+.key i { display: inline-block; width: 12px; height: 12px; border: 1.5px solid #141414; margin-right: 4px; vertical-align: -2px; }
+
+/* a stem's own card */
+.scard { animation: flip .25s; }
+.scard .head { display: grid; grid-template-columns: 110px 1fr; gap: 16px; align-items: center; margin-bottom: 10px; }
+.scard .big { aspect-ratio: 1; border: 2.5px solid #141414; border-radius: 5px; padding: 6px 9px; display: flex; flex-direction: column; }
+.scard .big .sym { font: 400 50px var(--serif); line-height: 1; } .scard .big .no { font: 12px var(--mono); }
+.scard .big .nm { font: 14px var(--type); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.conn { font: 16px var(--type); margin: 6px 0; }
+.conn button { font: 15px var(--type); border: 1.5px solid #141414; border-radius: 16px; padding: 3px 12px;
+               margin: 0 6px 4px 0; background: #fffdf2; color: #141414; }
+.conn button.on { background: #141414; color: #fff; }
+.conn button.on.A { background: var(--a); color: #141414; } .conn button.on.B { background: var(--b); color: #141414; }
+.back { font: 14px var(--type); background: none; border: 0; color: var(--blue-ink); padding: 0; margin-bottom: 6px; }
+.lvl { display: flex; gap: 12px; align-items: center; font: 15px var(--type); margin: 4px 0 6px; }
+.lvl input { flex: 1; accent-color: #141414; } .lvl output { font: 13px var(--mono); min-width: 52px; }
+
+/* the ten knobs, re-inked for paper when they sit in the notebook */
+.notebook .knobgrid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px 14px; }
+.notebook .fx { display: grid; grid-template-columns: 76px 1fr; grid-template-rows: auto auto auto;
+                column-gap: 10px; align-items: center; justify-items: start; }
+.notebook .fx .dial { grid-row: 1 / 4; width: 72px; }
+.notebook .fxname { font: 18px var(--type); color: #141414; }
+.notebook .fxtip { font: 11.5px var(--type); color: #14141499; text-align: left; min-height: 0; }
+.notebook .dial .track { stroke: #14141426; }
+.notebook .dial .lit { stroke: #141414; }
+.notebook .fx:not(.on) .lit { stroke: #14141466; }
+.notebook .dial .cap { fill: #fffdf2; stroke: #141414; filter: none; }
+.notebook .dial .ptr rect { fill: #141414; }
+.notebook .dial .pct { color: #141414; font: 15px var(--type); }
+.notebook .sw { width: 66px; height: 22px; padding: 0 3px 0 8px; border: 1.5px solid #141414; color: #141414; background: #fff; }
+.notebook .sw b { font-size: 11px; } .notebook .sw i { width: 14px; height: 14px; background: #141414; }
+.notebook .fx.on .sw { background: var(--lime); border-color: #141414; }
+.notebook.busA .dial .lit { stroke: #d9531e; } .notebook.busB .dial .lit { stroke: #1479b8; }
+
+/* blue-ink scrawl filling the foot of the pad */
+.scrawls { position: absolute; left: 76px; right: 24px; bottom: 22px; height: 250px; font-family: var(--hand);
+           color: #1d3a8acc; pointer-events: none; }
+.scrawls span { position: absolute; white-space: nowrap; }
+.scrawls svg { position: absolute; stroke: #1d3a8a99; fill: none; stroke-width: 2; }
+
+/* ------------------------------------------------------------ chalkboard */
+main.board { max-width: none; margin: 0; min-width: 0; padding: 20px 26px 50px 140px; border-width: 18px; }
+.tray { left: -18px; right: -18px; bottom: -18px; }
+.sideq { position: absolute; left: 22px; top: 360px; font: 22px var(--hand); color: var(--chalk); opacity: .5;
+         writing-mode: vertical-rl; transform: rotate(180deg); filter: url(#chalk-text); }
+.sci-top { display: grid; grid-template-columns: 1fr auto; gap: 16px; align-items: start; }
+.sci-title { font: 400 clamp(36px, 3.6vw, 54px) "Permanent Marker", var(--hand); color: var(--chalk); margin: 0;
+             line-height: 1; filter: url(#chalk-text); }
+.sci-title span { color: var(--sun); }
+.sci-sub { font: 20px var(--hand); color: var(--chalk-dim); margin: 6px 0 0; filter: url(#chalk-text); }
+.bandel { width: 150px; border: 3px solid var(--chalk); border-radius: 6px; padding: 6px 8px; filter: url(#chalk);
+          text-align: center; position: relative; }
+.bandel .no { position: absolute; left: 8px; top: 4px; font: 13px var(--mono); }
+.bandel .ms2 { position: absolute; right: 8px; top: 4px; font: 13px var(--mono); color: var(--sun); }
+.bandel img { width: 84px; margin: 18px auto 4px; display: block; }
+.bandel b { font: 16px var(--hand); font-weight: 400; display: block; }
+/* the board is half the width the old full-width page had: let the
+   waveform drop to its own line rather than run out of the frame */
+.strip { border-width: 3px; border-color: var(--chalk); border-radius: 14px; flex-wrap: wrap; gap: 12px 16px; }
+.beatname { max-width: 220px; min-width: 0; }
+#wave { flex: 1 1 220px; min-width: 0; }
+.sendback { margin: 8px 0 0; font-size: 17px; padding: 3px 16px; }
+.hd { font: 30px var(--hand); margin: 14px 0 6px; display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; filter: url(#chalk-text); }
+.hd small { font: 16px var(--hand); color: var(--chalk-dim); }
+
+/* stems on the board */
+.lanes { border: 3px solid var(--chalk-dim); border-radius: 14px; padding: 4px 12px; }
+.lane { display: grid; grid-template-columns: minmax(80px, 1.1fr) minmax(60px, 2fr) 54px auto auto; gap: 10px;
+        align-items: center; padding: 5px 0; border-bottom: 2px dashed #ffffff22; font-size: 19px; }
+.lane:last-child { border: 0; }
+.lane .ln { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; cursor: pointer; }
+.lane input { accent-color: var(--lime); width: 100%; min-width: 0; }
+.lane .db { font: 12px var(--mono); color: var(--chalk-dim); text-align: right; }
+.ms, .routes { display: flex; gap: 5px; }
+.ms button { font: 12px var(--mono); border: 2px solid var(--chalk-dim); border-radius: 6px; padding: 1px 6px;
+             background: none; color: var(--chalk); }
+.ms button.active { background: var(--chalk); color: #141414; }
+.route { font: 18px var(--hand); width: 34px; height: 30px; border-radius: 9px; border: 2.5px solid var(--chalk-dim);
+         background: none; color: var(--chalk); }
+.route.on.A { background: var(--a); border-color: var(--a); color: #141414; }
+.route.on.B { background: var(--b); border-color: var(--b); color: #141414; }
+
+/* hidden staging spot for the knobs before a page claims them */
+.workspace > #knobs { display: none; }
+
+/* bottom bar: Lab lock | Control ⇄ Experiment | Reset experiment */
+.holdbtn { font-size: 22px; padding: 6px 18px; letter-spacing: 0; }
+.cleanbtn { font-size: 22px; padding: 10px 24px; letter-spacing: 0; }
+.dwlabel { font-size: 21px; }
+#dryWetVal { margin-right: 0; color: var(--sun); }
+.phscale { height: 10px; border-radius: 5px; margin: 4px 0 -2px;
+           background: linear-gradient(90deg, #e8443a, #f6a23b, #f6e04b, #9be22d, #36b3d9, #6d4fd6); filter: url(#chalk); }
+
+@media (max-width: 1100px) {
+  .cols { grid-template-columns: 1fr; }
+  .tabs { position: static; transform: none; flex-direction: row; margin: 0 0 12px; }
+  .tab, .tab.on { width: auto; border-radius: 10px; }
+  main.board { padding-left: 26px; }
+  .sideq { display: none; }
+  .notebook { min-height: 0; }
+}
+@media (max-width: 600px) {
+  .notebook { padding: 16px 16px 280px 56px; }
+  .notebook .knobgrid { grid-template-columns: 1fr; }
+  .apptabs a, .apptabs .here { font-size: 20px; padding: 3px 8px; }
+  .tab, .tab.on { padding: 8px 10px; font-size: 16px; }
+  main.board { padding: 14px 14px 50px; border-width: 10px; }
+  .sci-top { grid-template-columns: 1fr; } .bandel { display: none; }
+  .lane { grid-template-columns: 1fr auto auto; } .lane input, .lane .db { display: none; }
+  .scrawls svg { display: none; }
+}
