@@ -109,7 +109,7 @@ def _project_response(project_id, project):
         "project_id": project_id,
         "name": project["name"],
         "bpm": project.get("bpm"),
-        "base_on": project.get("base_on", True),
+        "base_on": project.get("base_on", False),
         "channels": [
             {"lane_id": lane_id, "label": ch["label"],
              "sample_rate": ch["sr"],
@@ -170,7 +170,7 @@ async def project_from_beat(body: dict):
         # opening, so a rejected preset just leaves this channel flat.
         try:
             ch["wet"] = _apply_channel_chain(L.copy(), R.copy(), sr, fx,
-                                              lane=lane_id,
+                                              lane=None,  # base clean-up off by default (owner 2026-10-31: made things quieter)
                                               pre_clean=ch["pre_clean"])
             ch["params"] = dict(fx)
         except (TypeError, ValueError):
@@ -202,7 +202,7 @@ async def project_from_upload(file: UploadFile = File(...)):
                              status_code=400)
     up = _new_channel(safe_name, L, R, sr)
     try:
-        up["wet"] = _apply_channel_chain(L.copy(), R.copy(), sr, {}, lane="upload")
+        up["wet"] = _apply_channel_chain(L.copy(), R.copy(), sr, {}, lane=None)
     except (TypeError, ValueError):
         pass
     PROJECTS[project_id] = {
@@ -463,7 +463,7 @@ def _apply_channel_chain(L, R, sr, p, ir=None, conv_scale=1.0, lane=None,
 
 def _base_lane(project, lane_id):
     """lane id to hand the chain, or None when the Base switch is off."""
-    return lane_id if project.get("base_on", True) else None
+    return lane_id if project.get("base_on", False) else None
 
 
 @app.post("/api/project/{project_id}/base")
@@ -473,7 +473,7 @@ async def base_switch(project_id: str, body: dict):
     project = PROJECTS.get(project_id)
     if project is None:
         return JSONResponse({"error": "unknown project_id"}, status_code=404)
-    on = bool(body.get("on", True))
+    on = bool(body.get("on", False))
     project["base_on"] = on
     for lane_id, ch in project["channels"].items():
         L, R = ch["dry"]

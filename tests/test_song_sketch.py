@@ -234,3 +234,16 @@ def test_options_carry_every_type_and_effect_choice():
         for fx in ["built_in", "random", *dsp.GENRES]:
             assert opts["plans"][f"{k}|{fx}"]
     assert len(opts["plans"]["radio|random"]) == len(opts["styles"]) == len(dsp.STYLES)
+
+
+def test_sketch_matches_beat_level_but_never_clips():
+    # owner 2026-10-31: sketches were ~4 dB quieter than the beat
+    sr = 44100
+    t = np.arange(sr * 2) / sr
+    a = (0.05 * np.sin(2 * np.pi * 110 * t)).astype(np.float32)
+    ch = {"x": {"dry": (a, a), "sr": sr}}
+    r = {"bpm": 120, "amount": 0, "sections": [{"scene": "full", "lanes": {}}] * 4}
+    _, _, orig, _ = dsp.render(ch, r, ref_rms=0.1)
+    assert abs(float(np.sqrt(np.mean(orig ** 2))) - 0.1) < 0.002
+    _, _, _, m = dsp.render(ch, r, ref_rms=5.0)
+    assert m["peak_dbfs"] <= -0.99

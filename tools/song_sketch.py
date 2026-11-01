@@ -69,7 +69,7 @@ def rows_for(rows):
     return out
 
 
-def build(no, bpm, rows, solo_audio, recipe, root=None):
+def build(no, bpm, rows, solo_audio, recipe, root=None, ref_rms=None):
     """Render the sketch. `rows` come from rows_for(); solo_audio(lane)
     returns that row's (L, R). Returns the saved folder's id + metadata."""
     lanes = [r["lane"] for r in rows]
@@ -90,7 +90,7 @@ def build(no, bpm, rows, solo_audio, recipe, root=None):
     if not dsp.SONG_MIN <= song_s <= dsp.SONG_MAX:     # owner 2026-10-21
         raise ValueError("A sketch is a whole song: 2:30 to 4:00 (this one "
                          "is %d:%02d)." % divmod(round(song_s), 60))
-    stems, mix, original, meta = dsp.render(channels, recipe)
+    stems, mix, original, meta = dsp.render(channels, recipe, ref_rms)
     label = {r["lane"]: r["label"] for r in rows}
     root = Path(root or OUT_ROOT)
     token = "Beat %d %s" % (int(no), datetime.now().strftime("%Y-%m-%d %H.%M.%S"))

@@ -622,7 +622,7 @@ def reverse_swell(piece, sr, amount):
     return _fade_edges(rev, sr)
 
 
-def render(channels, recipe):
+def render(channels, recipe, ref_rms=None):
     """Return (stems, mix, repeated_original, metadata), all float32 stereo.
 
     Inputs are original dry channel arrays. Source loops keep their native
@@ -739,7 +739,13 @@ def render(channels, recipe):
     # One fixed attenuation across BOTH previews and ALL stems. No loudness
     # boost, hidden master compression, or per-stem normalizing that breaks sums.
     peak = max(float(np.max(np.abs(mix))), float(np.max(np.abs(original))), 1e-12)
-    gain = min(1.0, 10 ** (-1 / 20) / peak)
+    gain = 1.0
+    if ref_rms:
+        # owner 2026-10-31: sketches came out ~4 dB under the beat, because
+        # the stems add up quieter than the finished beat. Bring the looped
+        # original to the beat's own average level; the -1 dB cap still wins.
+        gain = ref_rms / max(float(np.sqrt(np.mean(original ** 2))), 1e-12)
+    gain = min(gain, 10 ** (-1 / 20) / peak)
     for x in stems.values():
         x *= gain
     mix *= gain

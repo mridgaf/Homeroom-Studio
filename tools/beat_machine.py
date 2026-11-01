@@ -5270,6 +5270,16 @@ def sketch_stage_dir(number, root=None):
             / f"Beat {int(number)} (sketch mix) Stems")
 
 
+def _beat_rms(no):
+    """The finished beat's average level, for Song Sketch to match."""
+    import soundfile as sf
+    w = beat_wav(no)
+    if w is None:
+        return None
+    x, _ = sf.read(str(w), dtype="float32", always_2d=True)
+    return float(np.sqrt(np.mean(x ** 2))) or None
+
+
 def _sketch_folder(no, src):
     """The stems Song Sketch reads: the beat's own, or (src="effects") the
     copy the Effects page just left."""
@@ -8221,14 +8231,17 @@ __BREAKS__
    knob.addEventListener('pointerdown', (e) => {
      knob.setPointerCapture(e.pointerId);
      const y0 = e.clientY, v0 = v;
-     const move = (ev) => setV(v0 + (y0 - ev.clientY) * 0.25);  // 192 px = full sweep
+     // owner 2026-10-31: a knob moves ONLY while the button is held. No
+     // wheel turning (scrolling past a knob turned it), and any lost
+     // release ends the drag so a knob never follows the cursor.
+     const move = (ev) => ev.buttons & 1 ? setV(v0 + (y0 - ev.clientY) * 0.25) : up();  // 192 px = full sweep
      const up = () => { knob.removeEventListener('pointermove', move);
-                        knob.removeEventListener('pointerup', up); };
+                        knob.removeEventListener('pointerup', up);
+                        knob.removeEventListener('lostpointercapture', up); };
      knob.addEventListener('pointermove', move);
      knob.addEventListener('pointerup', up);
+     knob.addEventListener('lostpointercapture', up);
    });
-   knob.addEventListener('wheel', (e) => { e.preventDefault();
-     setV(v - Math.sign(e.deltaY)); }, { passive: false });
    knob.addEventListener('keydown', (e) => {
      const d = { ArrowUp: 1, ArrowRight: 1, ArrowDown: -1, ArrowLeft: -1 }[e.key];
      if (d) { e.preventDefault(); setV(v + d * STEP * 2); }
@@ -8261,14 +8274,14 @@ __BREAKS__
    pk.addEventListener('pointerdown', (e) => {
      pk.setPointerCapture(e.pointerId);
      const y0 = e.clientY, p0 = pv;
-     const move = (ev) => setP(p0 + (y0 - ev.clientY));   // 200 px = full sweep
+     const move = (ev) => ev.buttons & 1 ? setP(p0 + (y0 - ev.clientY)) : up();   // 200 px = full sweep
      const up = () => { pk.removeEventListener('pointermove', move);
-                        pk.removeEventListener('pointerup', up); };
+                        pk.removeEventListener('pointerup', up);
+                        pk.removeEventListener('lostpointercapture', up); };
      pk.addEventListener('pointermove', move);
      pk.addEventListener('pointerup', up);
+     pk.addEventListener('lostpointercapture', up);
    });
-   pk.addEventListener('wheel', (e) => { e.preventDefault();
-     setP(pv - Math.sign(e.deltaY) * 5); }, { passive: false });
    pk.addEventListener('keydown', (e) => {
      const d = { ArrowUp: 1, ArrowRight: 1, ArrowDown: -1, ArrowLeft: -1 }[e.key];
      if (d) { e.preventDefault(); setP(pv + d * 5); }
@@ -8473,7 +8486,7 @@ __BREAKS__
        const typeSel = types.length > 1 ? mk('Instrument type') : null;
        const tempoSel = timed ? mk('Tempo') : null;
        if (typeSel) typeSel.innerHTML =
-         '<option value="">' + (s.voices ? 'pick a type&hellip;' : 'every type') +
+         '<option value="">every type' +
          '</option>' + types.map(t => '<option>' + esc(t) + '</option>').join('');
        const ofType = () => cands.filter(c =>
          !typeSel || !typeSel.value || c.type === typeSel.value);
@@ -8489,9 +8502,6 @@ __BREAKS__
        };
        const fillSounds = () => {
          let html = '<option value="">keep this one</option>';
-         if (s.voices && typeSel && !typeSel.value) {   // type comes first
-           sel.innerHTML = html; return;
-         }
          const list = ofType().filter(c =>
            !tempoSel || !tempoSel.value || bin(c) === tempoSel.value);
          list.filter(c => c.any).forEach(c => {
@@ -9587,7 +9597,8 @@ def run_web(port=None):
                         got = song_sketch.build(
                             no, bpm, rows,
                             lambda ln: _solo_audio(no, ln, folder=sf),
-                            data.get("recipe") or {})
+                            data.get("recipe") or {},
+                            ref_rms=_beat_rms(no))
                     self._json({"ok": True, **got})
                 except Exception as e:
                     self._json({"ok": False, "error": str(e)})

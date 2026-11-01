@@ -1608,6 +1608,10 @@ def test_base_layer_cuts_rumble_and_centres_bass_on_load_and_switches_off():
     x = 0.2 * np.sin(2 * np.pi * 15 * t) + 0.2 * np.sin(2 * np.pi * 80 * t)
     pid = _stereo_upload(x, -x).json()["project_id"]          # anti-phase: no mono content
     ch = server.PROJECTS[pid]["channels"]["upload"]
+    # off by default since 2026-10-31 (owner: it made things quieter)
+    assert server.PROJECTS[pid].get("base_on", False) is False
+    assert np.abs(ch["wet"][0] - ch["dry"][0]).max() < 1e-3
+    client.post(f"/api/project/{pid}/base", json={"on": True})
     wL, wR = ch["wet"]
     assert np.abs(wL - wR).max() < 1e-3                       # bass now centred
     assert not np.allclose(wL, ch["dry"][0], atol=1e-2)       # and it was processed
@@ -1623,6 +1627,7 @@ def test_base_layer_trims_hot_stem_and_level_matches_after_effects():
     t = np.arange(sr * 2) / sr
     x = 0.95 * np.sin(2 * np.pi * 1000 * t)
     pid = _stereo_upload(x, x).json()["project_id"]
+    client.post(f"/api/project/{pid}/base", json={"on": True})
     assert client.post(f"/api/project/{pid}/channel/upload/process",
                        json={"sat_mix": 0.6, "sat_drive_db": 12.0}).status_code == 200
     wL = server.PROJECTS[pid]["channels"]["upload"]["wet"][0]

@@ -271,13 +271,13 @@ document.addEventListener("keydown", e => {
 const baseBtn = document.getElementById("baseBtn");
 const baseState = {};  // projectId -> false when switched off
 function baseShow() {
-  const on = baseState[projectId] !== false;
+  const on = baseState[projectId] === true;  // off by default (owner 2026-10-31)
   baseBtn.setAttribute("aria-pressed", on);
   baseBtn.textContent = on ? "🧼 Base clean-up: ON" : "🧼 Base clean-up: OFF";
 }
 baseBtn.addEventListener("click", async () => {
   if (!projectId) return;
-  const want = baseState[projectId] === false;  // currently off -> turn on
+  const want = baseState[projectId] !== true;  // currently off -> turn on
   baseBtn.disabled = true;
   try {
     const r = await fetch(`/api/project/${projectId}/base`, {

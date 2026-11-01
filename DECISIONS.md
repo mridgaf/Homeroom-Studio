@@ -9589,3 +9589,17 @@ just not loaded by default.
 - Claude's numbers, unsourced, unheard: SAME_CHORD 0.95, slice lengths/hit counts per style, 30 ms Dilla slide.
 - Tests: tests/test_loop_chop.py (5; fails with the chord gate, held length or Dilla slide broken) + loop/melodic/vocab 36 passed; loops beat + chord tests 64 passed. Full suite not run, nothing rendered or heard.
 - Status: open: his ear on a new Loops batch.
+### [2026-10-31] Stem rack: knobs move only on click-drag; chord rows list sounds without a type first
+- Owner: "it doesn't allow me to change the chords or the bass"; knobs "drag up and down" when the cursor goes over them.
+- Knobs (volume + pan): wheel turning removed (scrolling past a knob turned it); a drag ends on release OR lost capture OR a move with no button held, so a knob can never follow the cursor. Click-drag, arrow keys, double-click reset unchanged.
+- Chord rows: the sound list was empty ("keep this one") until a type was picked, so it looked locked. Now lists every sound; type dropdown says "every type" and still narrows it. Bass row already worked.
+- NOT changed: effected beats ("FX" copies, e.g. 4487/4488) still allow no sound swaps on ANY row (2026-10 owner choice) -- asked him whether to open that up.
+- Checked in a test copy on port 8779 (beat 4483): wheel/hover 0 change, drag +5 dB, after release 0 change; chord rows 2448 sounds. test_lane_pan 3 passed. His open page on 8770 needs a restart to get it. Backup tools/beat_machine.pre-knob-click-2026-10-31.py.
+- Status: open: his use.
+### [2026-10-31] Song Sketch matches the beat's level; Effects page Base clean-up OFF by default
+- Owner: sketches "sound much quieter"; Effects page "bass effects ... make everything sound quieter" -> clickable answer: the Base clean-up layer.
+- Cause (measured, beat 4487, no render): sketch builds from the summed stems, which sat ~4 dB under the finished beat (rms -21.4 vs -17.4; sketch peaks -6.6). The sketch code only ever turned DOWN.
+- Fix: song_sketch_dsp.render(ref_rms=) brings original.wav to the beat's own average level; same gain on sketch.wav + every stem (sums still add up); -1 dBFS peak cap still wins. beat_machine._beat_rms feeds it. Expected on 4487: about +4 dB, peak ~-2.6.
+- Base clean-up (sound_engine/base_layer: -6 dB headroom trim + level match, low cuts, mono bass) now OFF on load and on uploads; the 🧼 button still turns it on for A/B.
+- Tests: test_song_sketch 83 passed (new level-match test), test_sound_engine 119 passed (2 base tests now switch it on first). Nothing rendered or heard. Backups *.pre-match-level-2026-10-31.*, *.pre-sketch-level-2026-10-31.py, sound_engine *.pre-base-off-2026-10-31.*.
+- Status: open: his ear on the next sketch / Effects visit. Running Beat Machine + Sound Engine need a restart.
