@@ -1,76 +1,113 @@
-/* Song Sketch board - lives on the chalkboard (right side of the Beat Machine).
-   Uses the page's own chalk tokens (--chalk, --sun, --hand) and #chalk filters. */
+/* Song Sketch workspace (2026-11-01 handoff look). Uses the page's tokens:
+   --panel, --line, --lead, --orange/--green/--violet/--blue. */
 [hidden] { display: none !important; }
-.board.sketching .boardtop,
-.board.sketching hr.chalkline,
-.board.sketching #work,
-.board.sketching #tracklist,
-.board.sketching #empty { display: none !important; }
+.board.sketching > :not(#sketchboard) { display: none !important; }
+body.sketching .nowbar { display: none; }
+body.sketching { padding-bottom: 18px; }
 
-#sketchboard { color: var(--chalk); font-family: var(--hand); min-width: 0; padding-bottom: 10px; }
-#sketchboard .skhead { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
-#sketchboard h2 { margin: 0; font: 400 40px var(--hand); color: var(--sun); filter: url(#chalk-text);
-                  line-height: 1.05; flex: 1; min-width: 200px; }
-#sketchboard h2 small { display: block; font-size: 19px; color: var(--chalk-dim); }
-#sketchboard .skbtn { font: 22px var(--hand); color: var(--chalk); background: none; cursor: pointer;
-                      border: 3px solid var(--chalk); border-radius: 12px; padding: 6px 16px; filter: url(#chalk); }
-#sketchboard .skbtn:hover:not(:disabled) { background: #ffffff14; }
-#sketchboard .skbtn:disabled { opacity: .45; cursor: default; }
-#sketchboard .skbtn.sun { background: var(--sun); color: #141414; border-color: var(--sun); }
-#sketchboard .skbtn.on { border-color: var(--lime); color: var(--lime); }
-#sketchboard hr { border: 0; height: 3px; background: var(--chalk); opacity: .85; margin: 12px 0 14px;
-                  border-radius: 2px; filter: url(#chalk); }
-#sketchboard h3 { margin: 16px 0 6px; font: 400 24px var(--hand); color: var(--lime); filter: url(#chalk-text); }
-#sketchboard .sknote { color: var(--chalk-dim); font-size: 17px; margin: 4px 0 0; min-height: 22px; }
-#sketchboard .row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+#sketchboard { grid-column: 1 / -1; display: flex; flex-direction: column; gap: 14px; min-width: 0; }
+#sketchboard .skhead { display: flex; align-items: center; justify-content: space-between; gap: 14px; flex-wrap: wrap; margin-top: -4px; }
+#sketchboard .sktitle { font: 500 24px var(--serif); letter-spacing: .03em; }
+#sketchboard .sknote { color: var(--dimmer); font-size: 12.5px; margin: 6px 0 0; }
+#sketchboard .btn.on { border-color: var(--lead); color: var(--lead); box-shadow: inset 0 0 0 1px var(--lead); }
+#sketchboard .btn.big { padding: 14px 26px; font-size: 17px; }
 
-#sketchboard .secs { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 12px; }
-#sketchboard .sec { border: 3px solid var(--chalk-dim); border-radius: 14px; padding: 8px 12px 10px;
-                    filter: url(#chalk); min-width: 0; }
-#sketchboard .sec b { font: 400 22px var(--hand); color: var(--sun); }
-#sketchboard .sec p { margin: 4px 0 8px; color: var(--chalk-dim); font-size: 16px; min-height: 40px; }
-#sketchboard label.lbl { display: block; font-size: 15px; color: var(--chalk-dim); margin-top: 6px; }
-#sketchboard select { width: 100%; background-color: #1d1d1d; color: var(--chalk); font: 18px var(--hand);
-                      border: 2px solid var(--chalk-dim); border-radius: 8px; padding: 3px 6px; }
-#sketchboard .amt { display: flex; align-items: center; gap: 10px; font-size: 18px; }
-#sketchboard input[type=range] { accent-color: var(--lime); }
+/* 1 + 2 */
+#sketchboard .sktop { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); gap: 14px; }
+#sketchboard .sktop .panel { border-top: 2px solid var(--lead); }
+#sketchboard .sktop .panel:nth-child(2) .num { border-color: var(--u1); }
+#sketchboard .skrow { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+#sketchboard .skrow .sknote { flex: 1 1 200px; margin: 0; }
 
-#sketchboard .lanes { border: 3px solid var(--chalk-dim); border-radius: 14px; padding: 4px 12px; filter: url(#chalk); }
-#sketchboard .ln { display: grid; grid-template-columns: 1fr 130px; gap: 10px; align-items: center;
-                   padding: 5px 0; border-bottom: 2px dashed #ffffff22; font-size: 19px; }
-#sketchboard .ln:last-child { border: 0; }
-#sketchboard .ln span { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+/* the grid */
+#sketchboard .skmid { display: grid; grid-template-columns: minmax(0, 1fr) 280px; gap: 14px; align-items: start; }
+#sketchboard .lgridwrap { overflow-x: auto; padding: 12px; }
+#sketchboard .skgridhead { margin: 0 0 8px; color: var(--dim); }
+#sketchboard .skgridhead b { color: var(--text); font-weight: 500; }
+#sketchboard #sklen.bad { color: var(--bad); }
+#sketchboard .lgrid { display: grid; gap: 6px; min-width: max-content; }
+#sketchboard .gh { display: flex; flex-direction: column; gap: 4px; padding: 8px; background: var(--panel2);
+                   border-radius: 6px; border-top: 3px solid var(--sc, var(--line2)); min-width: 0; }
+#sketchboard .gh.s0 { --sc: var(--orange); } #sketchboard .gh.s1 { --sc: var(--violet); }
+#sketchboard .gh.s2 { --sc: var(--blue); }   #sketchboard .gh.s3 { --sc: var(--green); }
+#sketchboard .gcorner { border-top: 0; background: none; justify-content: flex-end; }
+#sketchboard .gcorner b { font-size: 17px; font-weight: 500; }
+#sketchboard .gcorner span { color: var(--dim); font-size: 12.5px; }
+#sketchboard .ghtop { display: flex; align-items: center; justify-content: space-between; gap: 6px; }
+#sketchboard .ghtop b { font-weight: 500; font-size: 15px; }
+#sketchboard .gh select { font-size: 12px; padding: 4px 24px 4px 7px; width: 100%; }
+#sketchboard .gh .bars { width: auto; }
+#sketchboard .gh p { margin: 0; font-size: 11px; color: var(--dimmer); line-height: 1.3; }
+#sketchboard .gl { display: grid; grid-template-columns: 36px minmax(0, 1fr) 104px; align-items: center; gap: 8px; min-width: 0; }
+#sketchboard .glname { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+#sketchboard .gl select { font-size: 12px; padding: 5px 24px 5px 7px; width: 100%; }
+#sketchboard .code { width: 34px; height: 34px; border: 1.5px solid var(--bg1); color: var(--bg1); border-radius: 5px;
+                     display: grid; place-items: center; font: 700 16px var(--sans); }
 
-#sketchboard .skplay { border: 3px solid var(--chalk); border-radius: 14px; padding: 10px 14px; margin-top: 8px;
-                       filter: url(#chalk); }
-#sketchboard .skbar { display: flex; gap: 6px; margin: 10px 0 4px; }
-#sketchboard .skbar button { flex: 1 1 0; min-width: 0; background: none; color: var(--chalk-dim); cursor: pointer;
-                             border: 2px solid var(--chalk-dim); border-radius: 8px; font: 15px var(--hand);
-                             padding: 2px 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-#sketchboard .skbar button.now { border-color: var(--sun); color: var(--sun); }
-#sketchboard .skseek { width: 100%; }
-#sketchboard .skstatus { font-size: 18px; margin-top: 8px; }
-#sketchboard .skstatus.bad { color: #ff8a8a; white-space: pre-wrap; }
-#sketchboard .skwarn { color: var(--sun); font-size: 16px; }
-#sketchboard a { color: var(--lime); }
+/* lane colour pairs: background / marks, never the same hue */
+#sketchboard .l0 { --bg1: var(--orange); --mk: var(--blue); }
+#sketchboard .l1 { --bg1: var(--violet); --mk: var(--green); }
+#sketchboard .l2 { --bg1: var(--blue);   --mk: var(--orange); }
+#sketchboard .l3 { --bg1: var(--green);  --mk: var(--violet); }
+#sketchboard .gc { position: relative; min-height: 40px; border: 0; border-radius: 4px; padding: 4px 8px 12px;
+  background: var(--bg1); color: #0b0b0b; font: 600 11.5px var(--sans); text-align: left; cursor: pointer; overflow: hidden; }
+#sketchboard .gc::after { content: ""; position: absolute; left: 6px; right: 6px; bottom: 4px; height: 5px;
+  background: repeating-linear-gradient(90deg, var(--mk) 0 3px, transparent 3px 7px); }
+#sketchboard .gc span { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+#sketchboard .gc:hover { filter: brightness(1.08); }
+#sketchboard .gc.off { opacity: .35; }
+#sketchboard .gc.muted { background: var(--well); color: var(--dim); border: 1px solid var(--line2); text-align: center; }
+#sketchboard .gc.muted::after { display: none; }
+#sketchboard .gc.picked { outline: 2px solid var(--text); outline-offset: 2px; }
 
-/* 2:30 song: effect-move chips under each section */
-#sketchboard .mvs { display: flex; flex-wrap: wrap; gap: 2px 8px; font-size: 12px; }
-#sketchboard .mvs label { white-space: nowrap; cursor: pointer; }
+/* cell editor */
+#sketchboard .skside { position: sticky; top: 12px; }
+#sketchboard .sidehead { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+#sketchboard .sidehead b { flex: 1; font-weight: 500; font-size: 16px; }
+#sketchboard .sidehead .x { background: none; border: 0; font-size: 22px; color: var(--dim); }
+#sketchboard .skside h4 { margin: 14px 0 6px; font-weight: 500; font-size: 14px; border-top: 1px solid var(--line); padding-top: 12px; }
+#sketchboard .chk { display: flex; align-items: flex-start; gap: 8px; padding: 4px 0; cursor: pointer; font-size: 13.5px; }
+#sketchboard .chk input { accent-color: var(--lead); margin-top: 3px; }
+#sketchboard .chk.big input { width: 18px; height: 18px; }
+#sketchboard .chk small { display: block; color: var(--dim); font-size: 12px; }
+#sketchboard .moves { display: grid; grid-template-columns: 1fr 1fr; gap: 0 8px; }
 
-/* lane x section grid */
-#sketchboard .lgridwrap { overflow-x: auto; padding-bottom: 6px; }
-#sketchboard .lgrid { display: grid; gap: 3px; min-width: max-content; font-size: 12px; }
-#sketchboard .lgrid .gh p { margin: 2px 0 0; font-size: 11px; opacity: .75; }
-#sketchboard .lgrid .gl { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; align-self: center; }
-#sketchboard .lgrid .gc { position: relative; min-height: 26px; padding: 3px 5px; border: 1px dashed rgba(128,128,128,.55);
-  border-radius: 4px; cursor: pointer; overflow: visible; }
-#sketchboard .lgrid .gc span { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-#sketchboard .lgrid .gc.off { opacity: .35; }
-#sketchboard .gpop { position: absolute; z-index: 20; top: 100%; left: 0; width: 170px; padding: 6px 8px;
-  background: #222; color: #fff; border-radius: 6px; box-shadow: 0 4px 14px rgba(0,0,0,.5); }
-#sketchboard .gpop label { display: block; white-space: nowrap; cursor: pointer; }
-/* 2026-10-21: a lane that sits out a section (drum variation), and the length check */
-#sketchboard .lgrid .gc.muted { text-decoration: line-through; opacity: .55; border-style: dotted; }
-#sketchboard .lgrid .gh select.bars, #sketchboard .lgrid .gh select.half { width: auto; margin-top: 3px; }
-#sketchboard #sklen.bad { color: #e07a5f; }
+/* footer: amount + build */
+#sketchboard .skfoot { display: flex; align-items: center; gap: 22px; flex-wrap: wrap; padding: 10px 10px 10px 18px; }
+#sketchboard .skfoot > .sknote { margin: 0; flex: 1 1 200px; }
+#sketchboard .amt { display: flex; align-items: center; gap: 10px; }
+#sketchboard .amt input { accent-color: var(--lead); width: 150px; }
+#sketchboard .amt output { font: 13px var(--mono); color: var(--dim); min-width: 38px; }
+#sketchboard .skstatus { color: var(--green); font-size: 13px; }
+#sketchboard .skstatus.bad { color: var(--bad); white-space: pre-wrap; }
+#sketchboard .okdot { display: inline-block; width: 9px; height: 9px; border-radius: 50%; background: var(--green); margin-right: 7px; }
+
+/* listen */
+#sketchboard .sklisten { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+#sketchboard .sklisten .art { width: 64px; height: 64px; }
+#sketchboard .skwho { display: flex; flex-direction: column; min-width: 90px; }
+#sketchboard .skwho b { font-weight: 500; font-size: 17px; }
+#sketchboard .skwho small { color: var(--dim); }
+#sketchboard .skpp { width: 54px; height: 54px; border-radius: 50%; border: 2px solid var(--text); background: none; font-size: 16px; }
+#sketchboard .skpp.on { border-color: var(--lead); color: var(--lead); }
+#sketchboard .seg { display: inline-flex; background: var(--well); border: 1px solid var(--line2); border-radius: 7px; padding: 3px; }
+#sketchboard .seg button { background: none; border: 0; padding: 7px 16px; border-radius: 5px; color: var(--dim); border-bottom: 2px solid transparent; }
+#sketchboard .seg button[aria-pressed=true] { color: var(--text); background: var(--panel2); border-bottom-color: var(--lead); }
+#sketchboard .skbarwrap { flex: 1 1 320px; display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+#sketchboard .skbar { display: flex; gap: 2px; }
+#sketchboard .skbar button { min-width: 0; background: none; border: 0; padding: 0; color: var(--dim); font-size: 11.5px;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-align: center; }
+#sketchboard .skbar button b { display: block; height: 6px; border-radius: 3px; background: var(--sc); margin-bottom: 4px; opacity: .55; }
+#sketchboard .skbar button.now { color: var(--text); }
+#sketchboard .skbar button.now b { opacity: 1; }
+#sketchboard .skbar .s0 { --sc: var(--orange); } #sketchboard .skbar .s1 { --sc: var(--violet); }
+#sketchboard .skbar .s2 { --sc: var(--blue); }   #sketchboard .skbar .s3 { --sc: var(--green); }
+#sketchboard .skseek { width: 100%; accent-color: var(--lead); }
+#sketchboard .skwarn { color: var(--orange); font-size: 13px; }
+
+@media (max-width: 1100px) {
+  #sketchboard .sktop, #sketchboard .skmid { grid-template-columns: 1fr; }
+  #sketchboard .skside { position: static; }
+}
+/* the instrument column stays put while the sections scroll sideways */
+#sketchboard .gl, #sketchboard .gcorner { position: sticky; left: 0; z-index: 2; background: var(--panel); padding-right: 6px; }

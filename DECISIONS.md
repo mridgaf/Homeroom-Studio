@@ -19,6 +19,14 @@ entries.
 ---
 
 ## Log
+
+### [2026-11-01] Homeroom "Chemistry" UI built from the approved handoff
+- Context: owner approved the UI Handoff/Claude Final Package mockups; chose Homeroom Studio (not Beat Lab Codex) as the place to build it.
+- Decision/change: tools/beat_machine.py page re-done (black panels, HOMEROOM wordmark, 4 accents, class tabs with portrait placeholders, flask tempo tied to TEMPO_LO..HI, Loops only swaps accent roles + words, Pass/Fail, Elements tiles from /stems following selection, toolbar pop-ups, now-playing bar). tools/sketch_ui/sketch.js+css re-laid out as the grid mockup (same /sketch recipe, one Echo/reverb amount, move checkboxes in a side panel). Effects page rebuilt to the Physics mockup (same day, owner said yes): new index.html layout + physics.js + physics.css; stems list / selected stem (level+pan knobs, M/S, bus) / one effect at a time with a REAL EQ curve from the filters / effects list with on-lights / bottom bar (load, browse, Bus A+B levels, Master dry/wet, Hold, Base clean-up, Reset). science.css no longer loaded; Flask->Bus wording. No phase (Ø) button, no meters, no compressor graph: none exist in the engine. Backups: *.pre-homeroom-ui-2026-11-01.*, index/science/effects *.pre-physics-2026-11-01.*, index.pre-physics-layout-2026-11-01.html.
+- Reasoning: look + layout only, every id/endpoint kept; Effects mockup's graphs/columns would mean rewriting science.js, left for a later pass.
+- Verify by: owner uses it after restarting the Beat Machine. Checked live on a test copy (port 8790): load, select, play, nowbar, Stems, tiles, Loops toggle, tempo flask, Sketch grid + cell editor, Effects page: stem select, level knob, mute, EQ light + curve, panel switch, Bus A page, Whole beat. NOT checked: Make the sketch / Listen bar (would render), Generate.
+- Status: open
+- Outcome:
 ### [2026-10-26] Kronos: own kit copy + what the unit accepts
 - Context: wanted kick saturation and snare reverb done inside the Kronos, on copies only.
 - Decision/change: USER-G drum kit 00 (kit 136) = copy of stored kit 4; program USER-G 000 saved pointing at it (kit number byte at program offset 2776). Scratch program USER-G 127. Read Global settings (SysEx on, DrumKit unprotected). Restored kit 4 edit buffer to match stored (0 differing bytes). Tools: kronos_global.py, kronos_probe.py, kronos_kit_test.py, kronos_find_kitbyte.py, kronos_repoint.py.
@@ -9603,3 +9611,9 @@ just not loaded by default.
 - Base clean-up (sound_engine/base_layer: -6 dB headroom trim + level match, low cuts, mono bass) now OFF on load and on uploads; the 🧼 button still turns it on for A/B.
 - Tests: test_song_sketch 83 passed (new level-match test), test_sound_engine 119 passed (2 base tests now switch it on first). Nothing rendered or heard. Backups *.pre-match-level-2026-10-31.*, *.pre-sketch-level-2026-10-31.py, sound_engine *.pre-base-off-2026-10-31.*.
 - Status: open: his ear on the next sketch / Effects visit. Running Beat Machine + Sound Engine need a restart.
+### [2026-10-31] One browser tab: Effects opens in the same tab
+- Owner: "doesn't open a new page tab every time ... Just one tab open at a time."
+- Cause: Beat Machine's Effects + Rebuild buttons did window.open(_blank); Effects' Send back / Sketch then loaded Beat Machine in THAT tab, so a second Beat Machine tab piled up each round trip.
+- Fix: openEffects() and rebuild() now navigate this tab (location.href). Effects side already reused its tab. Sketch is an in-page panel (no tab). Engine started from Beat Machine already runs with SOUND_ENGINE_NO_BROWSER.
+- Checked: test copy on 8790 -> Effects button loaded Effects in the same tab (only tab). Didn't click Send back/Sketch (they write beats). Backup tools/beat_machine.pre-one-tab-2026-10-31.py. Running page on 8770 needs a restart.
+- Status: open: his use.

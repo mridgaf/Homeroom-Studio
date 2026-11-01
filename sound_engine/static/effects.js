@@ -162,7 +162,7 @@ targetEl.addEventListener("change", () => {
 holdBtn.addEventListener("click", () => {
   held = !held;
   holdBtn.setAttribute("aria-pressed", held);
-  holdBtn.textContent = held ? "🔒 Locked" : "🔒 Lab lock";
+  holdBtn.textContent = held ? "Held" : "Hold";
   document.getElementById("workspace").classList.toggle("held", held);
   dryWetEl.disabled = held;
   document.getElementById("cleanBtn").disabled = held;
@@ -273,7 +273,7 @@ const baseState = {};  // projectId -> false when switched off
 function baseShow() {
   const on = baseState[projectId] === true;  // off by default (owner 2026-10-31)
   baseBtn.setAttribute("aria-pressed", on);
-  baseBtn.textContent = on ? "🧼 Base clean-up: ON" : "🧼 Base clean-up: OFF";
+  baseBtn.textContent = on ? "Base clean-up: ON" : "Base clean-up: OFF";
 }
 baseBtn.addEventListener("click", async () => {
   if (!projectId) return;

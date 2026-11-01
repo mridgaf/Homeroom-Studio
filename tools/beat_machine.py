@@ -6535,964 +6535,610 @@ _PAGE = r"""<!doctype html><html><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Homeroom Studios</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Patrick+Hand&family=Permanent+Marker&family=Anton&family=Space+Mono:wght@400;700&family=Special+Elite&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600&family=Inter:wght@400;500;600;700&display=swap">
 <style>
  /* ---------------------------------------------------------------
-    Homeroom Studio — reskinned 2026-08-06 to mockup D ("Show Flyer"):
-    paper + halftone, blue ink, yellow highlight, poster-condensed type.
-    Owner picked D after reviewing A-G, then asked for it live on both
-    rooms (Beat Machine + Reason Voice). Same palette shape as before —
-    the mark's yellow scrawl and blue square carry every accent — just
-    flipped from dark xerox paper to light flyer stock.
-    ---------------------------------------------------------------- */
+    Homeroom Studios -- "Chemistry" look (owner-approved handoff,
+    2026-11-01, UI Handoff/Claude Final Package). Matte black panels,
+    ivory serif wordmark, four accents. Loops only swaps the accent
+    ROLES (green leads instead of orange); the palette never changes.
+    --------------------------------------------------------------- */
  :root {
-   --paper:   #f4ecc4;
-   --card:    #fffef4;
-   --card2:   #ffffff;
-   --line:    #00000026;
-   --line2:   #00000045;
-   --text:    #171717;
-   --dim:     #17171799;
-   --dimmer:  #17171766;
-   /* owner ask 2026-09-29: swap the blue ink for black + yellow-family
-      accents. --hi (band yellow) and --no (red, trash/errors) are
-      unchanged on purpose — --hi was already the action/selection
-      color, and --no is a functional safety color, not decoration. */
-   --hi:      #e8d810;   /* unchanged: band yellow — actions, keeps, selection */
-   --hi-ink:  #16150a;
-   --blue:    #8a6d00;   /* was band blue; dark mustard now — black+yellow palette (owner ask 2026-09-29) */
-   --co:      #b8860b;   /* legend picks — goldenrod: keeps a visually distinct 3rd shade from crew's --hi and genre's --ch */
-   --no:      #ff4d4d;   /* trash + real errors only — kept red on purpose, it's a safety signal not decoration */
-   --ch:      #8a6d00;   /* genre picks — dark mustard; dashed border still sets it apart from legend's solid goldenrod border */
-   --display: "Anton", Impact, "Haettenschweiler", sans-serif;
-   --mono:    "Space Mono", ui-monospace, "SF Mono", Menlo, monospace;
-   --graffiti: "Blackboard Graffiti", "Marker Felt", "Chalkboard SE", var(--display);
+   --orange: #FF5A12; --green: #7CFF32; --violet: #A66CFF; --blue: #4E8DFF;
+   --bg: #08090b; --panel: #111215; --panel2: #16171b; --well: #0c0d10;
+   --line: #24262c; --line2: #33363e;
+   --text: #ece6d6; --dim: #a7a7ad; --dimmer: #74767e; --bad: #ff7b6b;
+   /* roles: Beat mode */
+   --lead: var(--orange); --wave: var(--green);
+   --u1: var(--violet); --u2: var(--blue);
+   --c0: var(--orange); --c1: var(--violet); --c2: var(--blue); --c3: var(--green);
+   --ink-on-lead: #0b0b0b;
+   --serif: "Cinzel", "Trajan Pro", Georgia, serif;
+   --sans: "Inter", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+   --mono: ui-monospace, "SF Mono", Menlo, monospace;
+   --r: 10px;
+   --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .05 0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
  }
- @font-face {
-   font-family: "Blackboard Graffiti";
-   src: url("data:font/woff2;base64,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") format("woff2");
-   font-display: swap;
+ /* Loops only: same four colours, different jobs */
+ body.loops {
+   --lead: var(--green); --wave: var(--orange);
+   --u1: var(--blue); --u2: var(--violet);
+   --c0: var(--green); --c1: var(--blue); --c2: var(--violet); --c3: var(--orange);
  }
  * { box-sizing: border-box; }
- html { -webkit-text-size-adjust: 100%; }
- @import url('https://fonts.googleapis.com/css2?family=Anton&family=Space+Mono:wght@400;700&display=swap');
- body {
-   font-family: -apple-system, "Helvetica Neue", Helvetica, Arial, sans-serif;
-   margin: 0; padding: 0 24px 90px;
-   background: radial-gradient(circle, #00000014 1px, transparent 1.4px) 0 0/16px 16px,
-               var(--paper);
-   color: var(--text); line-height: 1.5;
-   -webkit-font-smoothing: antialiased;
- }
- /* photocopy grain — one inline SVG, no downloads, sits over everything */
- body::before {
-   /* no mix-blend-mode: a full-screen blended layer makes the whole page
-      recomposite on every scroll, and plain low opacity looks the same */
-   content: ""; position: fixed; inset: 0; z-index: 9; pointer-events: none;
-   opacity: .035;
-   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
- }
- .wrap { max-width: 1120px; margin: 0 auto; position: relative; z-index: 1; }
+ [hidden] { display: none !important; }
+ html, body { margin: 0; }
+ body { background: var(--bg) var(--grain); color: var(--text); font: 14px/1.4 var(--sans);
+        min-height: 100vh; display: grid; grid-template-columns: 96px minmax(0, 1fr);
+        padding-bottom: 84px; }
+ button, select, input { font: inherit; color: inherit; }
+ button { cursor: pointer; }
+ :focus-visible { outline: 2px solid var(--lead); outline-offset: 2px; }
+ svg.ic { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.8;
+          stroke-linecap: round; stroke-linejoin: round; flex: none; }
 
- /* ------------------------------------------------------- masthead */
- /* the masthead is the band's blue square, blown up: the mark sits on
-    the same field it was drawn on, so his logo lands in it seamlessly */
- .board { background: var(--blue); border-radius: 18px; margin: 22px 0 0;
-          padding: 26px 30px; position: relative; overflow: hidden; }
- .board::after {                       /* chalk-dust wash, keeps it flat-free */
-   /* thrown to the RIGHT on purpose: the logo's own blue is exactly
-      --blue, so any highlight behind it turns the artwork into a
-      visible square instead of letting it melt into the board */
-   content: ""; position: absolute; inset: 0; pointer-events: none;
-   background: radial-gradient(110% 90% at 92% 0%, #ffffff1c, transparent 58%); }
- header { display: grid; grid-template-columns: auto minmax(0, 1fr);
-          gap: 0 20px; align-items: center; position: relative; z-index: 1; }
- /* MAKE / STUDIO — one app, two rooms (packaging step 5). Plain links on
-    purpose; no iframes until the simple version has been lived with. */
- .apptabs { position: absolute; top: 0; right: 0; z-index: 2; display: flex; }
- .apptabs a, .apptabs .here {
-   font-family: var(--display); font-weight: 700; font-size: 13.5px;
-   letter-spacing: .13em; text-transform: uppercase;
-   padding: 10px 20px 12px; text-decoration: none; }
- .apptabs .here { background: var(--hi); color: var(--hi-ink);
-                  border-radius: 0 0 0 14px; }
- .apptabs a { color: #ffffffb8; background: #00000026;
-              border-radius: 0 18px 0 0; }
- .apptabs a:hover { color: #fff; background: #00000042; }
- .mark { width: 108px; height: 108px; flex: none; display: grid;
-         place-items: center; overflow: hidden; background: var(--blue); }
- .mark img { width: 100%; height: 100%; object-fit: contain; }
- .mark span { font-family: var(--display); font-weight: 700; font-size: 25px;
-              letter-spacing: .04em; color: var(--hi); }
- /* no band name in type up here — the mark already says it (owner
-    2026-07-18: "I agree about the redundant title, don't use it") */
- h1 { font-family: var(--graffiti); font-weight: 700;
-      font-size: clamp(38px, 6vw, 66px); line-height: .86;
-      letter-spacing: .012em; margin: 0; text-transform: uppercase;
-      color: #fff; }
- .scrawl { display: block; width: min(330px, 80%); height: 13px;
-           margin: 8px 0 0; overflow: visible; }
- .scrawl path { fill: none; stroke: var(--hi); stroke-width: 5;
-                stroke-linecap: round; }
- .tag { grid-column: 2; margin: 12px 0 0; color: #ffffffc4;
-        max-width: 62ch; font-size: 14.5px; }
+ /* ------------------------------------------------ sidebar */
+ .side { position: sticky; top: 0; height: 100vh; background: #0a0b0d;
+         border-right: 1px solid var(--line); display: flex; flex-direction: column;
+         align-items: stretch; gap: 4px; padding: 14px 0; }
+ .side .logo { display: grid; place-items: center; padding: 4px 0 18px; color: var(--text); }
+ .side .logo svg { width: 46px; height: 54px; }
+ .side a:not(.logo), .side button { display: flex; flex-direction: column; align-items: center; gap: 6px;
+         padding: 14px 4px; color: var(--dim); text-decoration: none; background: none; border: 0;
+         border-left: 3px solid transparent; font-size: 12.5px; text-align: center; }
+ .side a:not(.logo):hover, .side button:hover { color: var(--text); background: #ffffff08; }
+ .side .here { color: var(--lead) !important; border-left-color: var(--lead) !important;
+               background: color-mix(in srgb, var(--lead) 12%, transparent) !important; }
+ .side svg.ic { width: 28px; height: 28px; stroke-width: 1.6; }
 
- /* -------------------------------------------------- section heads */
- h2.box { font-family: var(--display); font-weight: 700; font-size: 20px;
-          letter-spacing: .1em; text-transform: uppercase;
-          margin: 34px 0 12px; display: flex; align-items: center; gap: 11px; }
- h2.box::before {                       /* stencil bars */
-   content: ""; width: 26px; height: 13px; flex: none; border-radius: 2px;
-   background: repeating-linear-gradient(90deg, var(--hi) 0 4px,
-               transparent 4px 8px);
- }
- h2.box small { font-family: -apple-system, sans-serif; font-weight: 400;
-                font-size: 12.5px; letter-spacing: .02em; color: var(--dimmer);
-                text-transform: none; }
+ /* ------------------------------------------------ masthead */
+ .main { min-width: 0; padding: 0 22px 18px; }
+ .mast { display: flex; align-items: center; padding: 16px 0 12px; }
+ .word { display: inline-flex; flex-direction: column; align-items: center; color: var(--text); }
+ .word .hr { font: 600 38px/1 var(--serif); letter-spacing: .16em; display: flex; align-items: center; gap: 20px; }
+ .word .hr::before, .word .hr::after { content: ""; width: 62px; height: 1.5px; background: currentColor; opacity: .8; }
+ .word .st { font: 500 11px/1 var(--serif); letter-spacing: .62em; margin-top: 8px; display: flex;
+             align-items: center; gap: 12px; padding-left: .62em; }
+ .word .st::before, .word .st::after { content: ""; width: 60px; height: 1px; background: currentColor; opacity: .6; }
 
- /* ------------------------------------------------------ DJ crates */
- .djs { display: grid; grid-template-columns: repeat(auto-fill, minmax(212px, 1fr));
-        gap: 9px; }
- .dj { position: relative; display: flex; align-items: center; gap: 10px;
-       padding: 11px 13px; border: 1px solid var(--line); border-radius: 11px;
-       background: var(--card); cursor: pointer; user-select: none;
-       transition: border-color .13s, background .13s, transform .13s; }
- .dj:hover { border-color: var(--line2); transform: translateY(-1px); }
- .dj input { position: absolute; opacity: 0; pointer-events: none; }
- .dj .dot { width: 11px; height: 11px; border-radius: 50%; flex: none;
-            border: 2px solid var(--line2); transition: all .13s; }
- .dj .who { flex: 1; min-width: 0; }
- .dj .name { display: block; font-family: var(--display); font-weight: 600;
-             font-size: 18.5px; line-height: 1.12; letter-spacing: .028em;
-             text-transform: uppercase; white-space: nowrap; overflow: hidden;
-             text-overflow: ellipsis; }
- .dj .built { display: block; font-size: 11.5px; color: var(--dimmer);
-              white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
- .dj .bpm { font-family: var(--mono); font-size: 10.5px; color: var(--dimmer);
-            border: 1px solid var(--line); border-radius: 5px;
-            padding: 2px 5px; flex: none; }
- .dj .ord { position: absolute; top: -7px; right: -7px; width: 21px;
-            height: 21px; border-radius: 50%; display: none;
-            place-items: center; font-family: var(--mono); font-size: 11px;
-            font-weight: 700; background: var(--hi); color: var(--hi-ink); }
- .dj:has(input:checked) { border-color: var(--hi); background: #e8d81014; }
- .dj:has(input:checked) .dot { background: var(--hi); border-color: var(--hi); }
- .dj:has(input:checked) .ord { display: grid; }
- .dj.legend:has(input:checked) { border-color: var(--co); background: #00000014; }
- .dj.legend:has(input:checked) .dot { background: var(--co); border-color: var(--co); }
- .dj.legend:has(input:checked) .ord { background: var(--co); color: #fff; }
- /* the third box gets CHALK rather than a fourth hue — the mark only
-    owns yellow and blue, and chalk on a board is the one other colour
-    this band already has (crew = yellow scrawl, legends = blue, styles
-    = chalk). */
- .dj.genre:has(input:checked) { border-color: var(--ch); border-style: dashed; background: #0000000c; }
- .dj.genre:has(input:checked) .dot { background: var(--ch); border-color: var(--ch); }
- .dj.genre:has(input:checked) .ord { background: var(--ch); color: #16150a; }
- .dj.genre .built { font-style: italic; }
+ /* ------------------------------------------------ panels */
+ .board { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.55fr); gap: 14px; }
+ .panel { background: var(--panel) var(--grain); border: 1px solid var(--line); border-radius: 12px;
+          padding: 16px 18px; min-width: 0; }
+ .board > .cls, .board > .params { border-top: 2px solid var(--lead); }
+ .panel h2 { margin: 0 0 12px; display: flex; align-items: center; gap: 14px;
+             font: 500 20px var(--sans); color: var(--text); }
+ .num { width: 40px; height: 40px; border-radius: 50%; border: 2px solid var(--lead);
+        display: grid; place-items: center; font: 500 21px var(--sans); color: var(--text); flex: none; }
+ label, .lbl { color: var(--text); font-size: 14px; }
+ select, input[type=text], input[type=number] {
+   background: var(--well); border: 1px solid var(--line2); border-radius: 6px; padding: 8px 10px;
+   color: var(--text); min-width: 0; }
+ select { appearance: none; -webkit-appearance: none; padding-right: 30px;
+   background-image: linear-gradient(45deg, transparent 50%, var(--dim) 50%), linear-gradient(135deg, var(--dim) 50%, transparent 50%);
+   background-position: calc(100% - 15px) 52%, calc(100% - 10px) 52%; background-size: 5px 5px; background-repeat: no-repeat; }
+ select:focus, input:focus { border-color: var(--lead); outline: none; }
+ .hint { color: var(--dimmer); font-size: 12.5px; margin: 6px 0 0; }
+ .hint.bad, .bad { color: var(--bad); }
 
- /* ------------------------------------------------------- controls */
- .panel { margin-top: 24px; padding: 20px 22px; border: 1px solid var(--line);
-          border-radius: 14px; background: var(--card); }
- .fields { display: grid; grid-template-columns: 132px 132px 1fr; gap: 16px; }
- .field label { display: block; font-family: var(--display); font-weight: 600;
-                font-size: 12.5px; letter-spacing: .11em; text-transform: uppercase;
-                color: var(--dim); margin-bottom: 6px; }
- .field input, .field select { width: 100%; font-size: 15px; padding: 10px 12px;
-                border-radius: 9px; border: 1px solid var(--line2);
-                background: var(--card2); color: var(--text); font-family: inherit; }
- .field input:focus, .field select:focus { outline: none; border-color: var(--hi); }
- .field.quick { margin-top: 16px; }
- .field .hint { font-size: 11.5px; color: var(--dimmer); margin-top: 5px; }
- .fire { display: flex; align-items: center; gap: 16px; margin-top: 18px;
-         flex-wrap: wrap; }
- #go { position: relative; font-family: var(--display); font-weight: 700;
-       font-size: 21px; letter-spacing: .07em; text-transform: uppercase;
-       padding: 13px 30px; border: 0; border-radius: 10px;
-       background: var(--hi); color: var(--hi-ink); cursor: pointer;
-       transition: transform .1s; }
- #go::after {                            /* sticker shadow, marker-ish */
-   content: ""; position: absolute; inset: 0; border-radius: 10px;
-   border: 2px solid var(--text); opacity: .17;
-   transform: translate(4px, 4px) rotate(-.5deg); pointer-events: none; }
- #go:hover:not(:disabled) { transform: translate(-1px, -1px); }
- #go:disabled { opacity: .45; cursor: default; }
- #hosthint { color: var(--dim); font-size: 13.5px; flex: 1; min-width: 180px; }
+ /* step 1: class tabs + portraits */
+ .tabs { display: grid; grid-template-columns: 1fr 1fr; background: var(--well); border: 1px solid var(--line);
+         border-radius: 6px; padding: 3px; margin-bottom: 12px; }
+ .tabs button { background: none; border: 0; padding: 8px 6px; color: var(--dim); border-radius: 4px;
+                border-bottom: 3px solid transparent; }
+ .tabs button[aria-selected=true] { color: var(--text); background: var(--panel2); border-bottom-color: var(--lead); }
+ .roster .djs { display: flex; gap: 12px; overflow-x: auto; padding: 4px 2px 8px; scroll-snap-type: x proximity; }
+ .roster .dj { flex: none; width: 92px; display: flex; flex-direction: column; align-items: center; gap: 6px;
+               cursor: pointer; position: relative; scroll-snap-align: start; text-align: center; }
+ .roster .dj input { position: absolute; opacity: 0; pointer-events: none; }
+ .roster .dj .dot { width: 82px; height: 82px; border-radius: 50%; border: 2px solid var(--line2);
+   background: #1a1b20 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 80'%3E%3Ccircle cx='40' cy='31' r='14' fill='%233a3c44'/%3E%3Cpath d='M14 76c3-17 13-25 26-25s23 8 26 25z' fill='%233a3c44'/%3E%3C/svg%3E") center/100% no-repeat;
+   transition: border-color .15s, box-shadow .15s; }
+ .roster .dj:hover .dot { border-color: var(--dim); }
+ .roster .dj input:checked ~ .dot { border: 3px solid var(--lead); box-shadow: 0 0 0 3px color-mix(in srgb, var(--lead) 25%, transparent); }
+ .roster .dj input:focus-visible ~ .dot { outline: 2px solid var(--lead); outline-offset: 3px; }
+ .roster .dj .who { display: flex; flex-direction: column; font-size: 12px; line-height: 1.2; }
+ .roster .dj .name { color: var(--text); }
+ .roster .dj .built { color: var(--dimmer); font-size: 11px; }
+ .roster .dj .bpm { display: none; }
+ .roster .dj .ord { position: absolute; top: 0; right: 4px; min-width: 22px; height: 22px; border-radius: 11px;
+   background: var(--lead); color: var(--ink-on-lead); font: 700 12px/22px var(--sans); text-align: center; }
+ .roster .dj .ord:empty { display: none; }
+ .popnote { color: var(--dimmer); font-size: 12px; margin: 4px 0 0; }
+ #hosthint { display: block; color: var(--lead); font-size: 12.5px; min-height: 18px; margin-top: 4px; }
 
- /* the working strip — replaces the old green wall of filenames */
- #work { margin-top: 16px; display: none; }
+ /* step 2: parameters */
+ .params { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; gap: 8px 20px; align-items: start; }
+ .params h2 { grid-column: 1 / -1; }
+ .pgrid { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 10px 16px; }
+ .fld { display: flex; flex-direction: column; gap: 5px; min-width: 0; }
+ .fld.wide { grid-column: 1 / -1; }
+ .fld.cnt { grid-row: span 2; }
+ .fld small { color: var(--dimmer); font-size: 12px; }
+ .spin { display: flex; align-items: center; gap: 8px; }
+ .spin input[type=number] { width: 76px; text-align: center; font: 600 22px var(--sans); padding: 6px; -moz-appearance: textfield; }
+ .spin input::-webkit-inner-spin-button, .spin input::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+ .arrows { display: flex; flex-direction: column; gap: 4px; }
+ .arrows button { width: 32px; height: 22px; border: 1px solid var(--line2); background: var(--well);
+                  border-radius: 5px; font-size: 10px; color: var(--text); }
+ .arrows button:hover, .pm button:hover { border-color: var(--lead); }
+ /* the style picker: a multi-pick dropdown of the genre cards */
+ .pick { position: relative; }
+ .picker { display: flex; align-items: center; gap: 6px; min-height: 38px; background: var(--well);
+           border: 1px solid var(--line2); border-radius: 6px; padding: 4px 30px 4px 8px; cursor: pointer; position: relative; }
+ .pick.open .picker { border-color: var(--lead); }
+ .chev { position: absolute; right: 12px; top: 50%; width: 7px; height: 7px; border: solid var(--dim);
+         border-width: 0 1.5px 1.5px 0; transform: translateY(-70%) rotate(45deg); }
+ .chips { display: flex; flex-wrap: wrap; gap: 4px; min-width: 0; }
+ .chips .ph { color: var(--dimmer); }
+ .chip { display: inline-flex; align-items: center; gap: 5px; background: var(--panel2); border: 1px solid var(--line2);
+         border-radius: 4px; padding: 1px 4px 1px 6px; font-size: 12.5px; }
+ .chip b { color: var(--lead); }
+ .chip .x { color: var(--dim); padding: 0 3px; cursor: pointer; }
+ .pop { display: none; position: absolute; z-index: 40; top: calc(100% + 4px); left: 0; width: min(420px, 90vw);
+        max-height: 360px; overflow: auto; background: var(--panel2); border: 1px solid var(--line2);
+        border-radius: 8px; padding: 8px; box-shadow: 0 14px 40px #000a; }
+ .pick.open .pop { display: block; }
+ .pop .dj { display: grid; grid-template-columns: 18px 1fr auto 20px; align-items: center; gap: 8px;
+            padding: 7px 8px; border-radius: 6px; cursor: pointer; }
+ .pop .dj:hover { background: #ffffff0a; }
+ .pop .dj input { accent-color: var(--lead); margin: 0; }
+ .pop .dj .dot { display: none; }
+ .pop .dj .who { display: flex; flex-direction: column; min-width: 0; }
+ .pop .dj .built { color: var(--dimmer); font-size: 12px; }
+ .pop .dj .bpm { color: var(--dim); font: 12px var(--mono); }
+ .pop .dj .bpm::after { content: " bpm"; }
+ .pop .dj .ord { color: var(--lead); font-weight: 700; text-align: right; }
+ /* tempo flask */
+ .tempo { display: flex; align-items: center; gap: 12px; padding-left: 18px; border-left: 1px solid var(--line); }
+ .flask { width: 104px; height: 140px; flex: none; }
+ .flask .glass { fill: #ffffff07; stroke: var(--text); stroke-width: 2.5; stroke-linejoin: round; }
+ .flask .liq { fill: var(--lead); transition: y .35s ease, height .35s ease; }
+ .flask .shine { fill: #ffffff22; }
+ .flask .tk line { stroke: #0b0b0bcc; stroke-width: 1.4; }
+ .flask .tk text { fill: #0b0b0b; font: 600 9.5px var(--sans); }
+ .flask .tk.dry line { stroke: var(--dim); }
+ .flask .tk.dry text { fill: var(--dim); }
+ .flask.auto .liq { opacity: .25; }
+ .bpmbox { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+ .tspin { flex-direction: column; gap: 4px; }
+ #tempo { width: 92px; text-align: center; font: 600 32px/1 var(--sans); background: none; border: 1px solid transparent; padding: 2px; }
+ #tempo:hover { border-color: var(--line2); }
+ #tempo::placeholder { color: var(--dim); font-size: 24px; }
+ .tspin .unit { font-size: 14px; color: var(--text); margin-top: -2px; }
+ .pm { display: flex; gap: 12px; margin-top: 4px; }
+ .pm button { width: 38px; height: 38px; border-radius: 50%; border: 1.5px solid var(--dim); background: none;
+              font-size: 20px; line-height: 1; color: var(--text); }
+ .toggle { display: flex; align-items: center; gap: 10px; cursor: pointer; }
+ .toggle input { position: absolute; opacity: 0; pointer-events: none; }
+ .toggle .sw { width: 40px; height: 22px; border-radius: 11px; background: var(--line2); position: relative; flex: none; transition: background .15s; }
+ .toggle .sw::after { content: ""; position: absolute; top: 3px; left: 3px; width: 16px; height: 16px; border-radius: 50%; background: var(--text); transition: left .15s; }
+ .toggle input:checked + .sw { background: var(--lead); }
+ .toggle input:checked + .sw::after { left: 21px; background: #0b0b0b; }
+ .toggle input:focus-visible + .sw { outline: 2px solid var(--lead); outline-offset: 2px; }
+ .toggle b { display: block; font-weight: 500; }
+ .toggle small { color: var(--dim); font-size: 13px; }
+ #go { align-self: center; min-width: 170px; min-height: 96px; border: 0; border-radius: 8px; background: var(--lead);
+       color: var(--ink-on-lead); font: 700 19px var(--sans); display: flex; flex-direction: column; align-items: center;
+       justify-content: center; gap: 8px; padding: 12px 18px; box-shadow: 0 6px 26px color-mix(in srgb, var(--lead) 30%, transparent); }
+ #go svg.ic { width: 34px; height: 34px; }
+ #go:hover:not(:disabled) { filter: brightness(1.08); }
+ #go:disabled { opacity: .55; cursor: progress; }
+
+ /* toolbar: library, breaks, saved, famous, reference */
+ .tools { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr));
+          background: var(--panel) var(--grain); border: 1px solid var(--line); border-radius: 10px; }
+ .tool { position: relative; min-width: 0; }
+ .tool + .tool { border-left: 1px solid var(--line); }
+ .tool > summary { list-style: none; display: flex; align-items: center; justify-content: center; gap: 12px;
+                   padding: 13px 10px; cursor: pointer; font-size: 15px; color: var(--text); border-radius: 10px; }
+ .tool > summary::-webkit-details-marker { display: none; }
+ .tool > summary:hover { background: #ffffff07; }
+ .tool > summary svg.ic { width: 26px; height: 26px; color: var(--u2); }
+ .tool:nth-child(2n) > summary svg.ic { color: var(--u1); }
+ .tool[open] > summary { background: #ffffff0a; }
+ .tool.set > summary::after { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--lead); }
+ .tpop { position: absolute; z-index: 30; top: calc(100% + 6px); left: 0; width: max(100%, 340px); background: var(--panel2);
+         border: 1px solid var(--line2); border-radius: 10px; padding: 14px; box-shadow: 0 18px 44px #000b;
+         display: flex; flex-direction: column; gap: 10px; }
+ .tool:nth-last-child(-n+2) .tpop { left: auto; right: 0; }
+ .tpop .note { color: var(--dimmer); font-size: 12px; }
+ .tpop .row { display: flex; gap: 8px; align-items: end; flex-wrap: wrap; }
+ .tpop .row .fld { flex: 1 1 140px; }
+ .btn { background: var(--panel2); border: 1px solid var(--line2); border-radius: 7px; padding: 8px 14px;
+        display: inline-flex; align-items: center; gap: 8px; color: var(--text); }
+ .btn:hover:not(:disabled) { border-color: var(--dim); }
+ .btn.lead { background: var(--lead); color: var(--ink-on-lead); border-color: var(--lead); font-weight: 600; }
+ .btn:disabled { opacity: .45; cursor: default; }
+ #refdrop { border: 1.5px dashed var(--line2); border-radius: 8px; padding: 12px; display: flex; gap: 12px;
+            align-items: center; cursor: pointer; color: var(--text); }
+ #refdrop.over, #refdrop:hover { border-color: var(--lead); }
+ #refdrop.busy { cursor: progress; color: var(--dim); }
+ #refdrop small { display: block; color: var(--dimmer); font-size: 12px; }
+ #refline button { margin-left: 6px; background: var(--well); border: 1px solid var(--line2); border-radius: 5px; padding: 1px 7px; color: var(--text); }
+ #pullmsg { color: var(--bad); font-size: 12.5px; }
+
+ /* busy banner */
+ #work { grid-column: 1 / -1; display: none; background: var(--panel); border: 1px solid var(--line);
+         border-left: 3px solid var(--lead); border-radius: 8px; padding: 10px 14px; }
  #work.on { display: block; }
- #workbar { height: 4px; border-radius: 3px; background: var(--line);
-            overflow: hidden; }
- #workbar i { display: block; height: 100%; width: 34%; border-radius: 3px;
-              background: var(--hi); animation: slide 1.15s ease-in-out infinite; }
- @keyframes slide { 0% { margin-left: -34%; } 100% { margin-left: 100%; } }
- #worktext { margin-top: 9px; font-size: 13.5px; color: var(--dim); }
+ #work.bad { border-left-color: var(--bad); }
+ #work.bad #worktext { color: var(--bad); }
+ #workbar { height: 3px; background: var(--line); border-radius: 2px; overflow: hidden; margin-bottom: 8px; }
+ #workbar i { display: block; height: 100%; width: 35%; background: var(--lead); animation: slide 1.4s ease-in-out infinite; }
  #work.bad #workbar { display: none; }
- #work.bad #worktext { color: var(--no); white-space: pre-wrap; }
+ @keyframes slide { from { transform: translateX(-100%); } to { transform: translateX(300%); } }
 
- /* ------------------------------------------- reference track (sec. 5) */
- #refdrop { border: 1.5px dashed var(--line2); border-radius: 10px;
-            padding: 11px 12px; text-align: center; font-size: 12.5px;
-            color: var(--dim); cursor: default;
-            transition: background .12s, border-color .12s, color .12s; }
- #refdrop.over, #refdrop.busy { border-color: var(--co); color: var(--co);
-                                background: #7d8cff14; }
- /* the row is its own grid: the two key dropdowns need more than the
-    132px column the tempo box sits in, and the drop target needs the
-    rest of the width or its one sentence wraps into three lines. */
- .refrow { grid-template-columns: 264px 1fr; }
- #refline { min-height: 15px; }
- #refline b { color: var(--ink); }
- #refline button { font-size: 11px; padding: 1px 7px; margin-left: 5px;
-                   vertical-align: baseline; }
-
- #empty { padding: 34px 0 10px; text-align: center; position: relative; }
- #empty .ghost { width: 132px; margin: 0 auto 4px; opacity: .13;
-                 transform: rotate(-3deg); }
- #empty .ghost img { width: 100%; display: block; }
- #empty .scribble { font-family: var(--display); font-weight: 700;
-                    font-size: 38px; letter-spacing: .04em; color: #00000012;
-                    text-transform: uppercase; transform: rotate(-2.5deg);
-                    display: inline-block; }
- #empty p { color: var(--dimmer); font-size: 13.5px; margin: 6px 0 0; }
-
- /* ------------------------------------------------------ the track */
- .track { position: relative; border: 1px solid var(--line); border-radius: 13px;
-          background: var(--card); margin: 9px 0; overflow: hidden;
-          transition: border-color .13s; }
- .track.dragging { opacity: .35; }
- .track.loc-favorites { border-color: #e8d81066; }
- .track.loc-trash { border-color: #ff4d4d55; opacity: .62; }
- .thead { display: flex; align-items: center; gap: 13px; padding: 12px 14px;
-          cursor: grab; }
- .thead .no { font-family: var(--display); font-weight: 700; font-size: 27px;
-              color: var(--dimmer); flex: none; min-width: 46px; }
- .track.loc-favorites .thead .no { color: var(--hi); }
+ /* ------------------------------------------------ beat list */
+ .lower { grid-column: 1 / -1; display: grid; grid-template-columns: minmax(0, 1.95fr) minmax(280px, 1fr); gap: 14px; align-items: start; }
+ #tracklist { display: flex; flex-direction: column; gap: 10px; }
+ #tracklist.loading::before { content: "Cooking\2026"; display: block; padding: 22px; border: 1px dashed var(--line2);
+   border-radius: var(--r); color: var(--dim); animation: pulse 1.4s ease-in-out infinite; }
+ @keyframes pulse { 50% { opacity: .45; } }
+ .track { background: var(--panel) var(--grain); border: 1px solid var(--line); border-radius: var(--r); padding: 12px 14px;
+          cursor: default; transition: border-color .15s; }
+ .track:hover { border-color: var(--line2); }
+ .track.sel { border: 2px solid var(--lead); padding: 11px 13px; box-shadow: 0 0 0 4px color-mix(in srgb, var(--lead) 10%, transparent); }
+ .track.loc-trash { opacity: .62; }
+ .thead { display: grid; grid-template-columns: 76px minmax(0, 1fr); gap: 14px; align-items: center; }
+ .art { width: 76px; height: 76px; border-radius: 6px; display: grid; place-items: center; position: relative; overflow: hidden;
+        background: radial-gradient(circle at 30% 30%, var(--ac) 0 18%, transparent 19%),
+                    radial-gradient(circle at 70% 64%, color-mix(in srgb, var(--ac) 70%, #000) 0 24%, transparent 25%),
+                    radial-gradient(circle at 62% 26%, #ece6d633 0 10%, transparent 11%), #15161a;
+        border: 1px solid var(--line2); }
+ .art b { font: 600 18px var(--serif); color: var(--text); text-shadow: 0 1px 6px #000; }
+ .c0 { --ac: var(--c0); } .c1 { --ac: var(--c1); } .c2 { --ac: var(--c2); } .c3 { --ac: var(--c3); }
+ .tmain { min-width: 0; display: flex; flex-direction: column; gap: 3px; }
+ .trow1 { display: flex; align-items: flex-start; gap: 10px; }
  .tmeta { flex: 1; min-width: 0; }
- .tname { display: block; font-family: var(--display); font-weight: 600; font-size: 19px;
-          letter-spacing: .026em; text-transform: uppercase;
-          white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
- .tsub { display: block; font-size: 11.5px; color: var(--dimmer); font-family: var(--mono);
-         white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
- /* the browser's own audio control is a white pill — it wrecked the
-    page, and it can't be restyled, so the track gets its own transport */
- .thead audio { display: none; }
- .player { display: flex; align-items: center; gap: 10px; flex: none;
-           width: 238px; }
- .pp { width: 33px; height: 33px; flex: none; border-radius: 50%;
-       border: 1px solid var(--line2); background: #0000000a;
-       color: var(--text); cursor: pointer; font-size: 11px;
-       display: grid; place-items: center; transition: all .12s; }
- .pp:hover { background: #0000001c; }
- .pp.on { background: var(--hi); border-color: var(--hi); color: var(--hi-ink); }
- .bar { flex: 1; height: 5px; border-radius: 3px; background: var(--line2);
-        cursor: pointer; position: relative; }
- .bar i { position: absolute; left: 0; top: 0; bottom: 0; width: 0;
-          background: var(--hi); border-radius: 3px; }
- .time { font-family: var(--mono); font-size: 10.5px; color: var(--dimmer);
-         min-width: 36px; text-align: right; }
- .acts { display: flex; gap: 4px; flex: none; }
- .acts button, .stembtn { font-size: 14px; line-height: 1; padding: 7px 9px;
-       border: 1px solid var(--line); border-radius: 8px; cursor: pointer;
-       background: #00000008; color: var(--text); transition: all .12s; }
- .acts button:hover { background: #00000017; }
- .acts button.on-fav   { border-color: var(--hi); color: var(--hi); }
- .acts button.on-trash { border-color: var(--no); color: var(--no); }
- .stembtn { font-family: var(--display); font-weight: 600; font-size: 12.5px;
-            letter-spacing: .09em; text-transform: uppercase; padding: 8px 12px;
-            white-space: nowrap; }
- .stembtn.open { background: var(--hi); color: var(--hi-ink); border-color: var(--hi); }
+ .tname { display: block; font-size: 19px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+ .tsub { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 2px; }
+ .tag { font-size: 11.5px; letter-spacing: .04em; text-transform: uppercase; padding: 1px 8px; border-radius: 4px;
+        background: color-mix(in srgb, var(--u2) 18%, transparent); color: color-mix(in srgb, var(--u2) 55%, #fff); }
+ .tag:empty { display: none; }
+ .tag.tloc { background: color-mix(in srgb, var(--u1) 20%, transparent); color: color-mix(in srgb, var(--u1) 55%, #fff); }
+ .tmetaline { color: var(--dim); font-size: 13.5px; }
+ .acts { display: flex; align-items: center; gap: 4px; flex: none; }
+ .acts > button { display: inline-flex; align-items: center; gap: 7px; background: none; border: 1px solid transparent;
+                  border-radius: 7px; padding: 4px 8px; color: var(--text); }
+ .acts > button:hover { border-color: var(--line2); }
+ .acts svg.ic { width: 26px; height: 26px; stroke-width: 1.5; }
+ .acts .pass.on-fav { color: var(--green); border-color: color-mix(in srgb, var(--green) 50%, transparent); }
+ .acts .fail.on-trash { color: var(--bad); border-color: color-mix(in srgb, var(--bad) 50%, transparent); }
+ .more { position: relative; }
+ .morebtn { background: none; border: 0; font-size: 20px; letter-spacing: 1px; padding: 2px 8px; color: var(--text); }
+ .menu { display: none; position: absolute; right: 0; top: 100%; z-index: 20; background: var(--panel2);
+         border: 1px solid var(--line2); border-radius: 8px; padding: 6px; min-width: 220px; box-shadow: 0 10px 30px #000a; }
+ .more.open .menu { display: block; }
+ .menu button { display: block; width: 100%; text-align: left; background: none; border: 0; padding: 8px 10px; border-radius: 5px; color: var(--text); }
+ .menu button:hover { background: #ffffff0d; }
+ .player .bar { display: block; position: relative; height: 34px; cursor: pointer; }
+ .player .bar canvas { width: 100%; height: 100%; display: block; }
+ .player .bar i { position: absolute; left: 0; bottom: 0; height: 2px; background: var(--wave); width: 0; }
+ .player .bar.has-wave i { display: none; }
+ .trow3 { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-top: 2px; }
+ .pp { width: 40px; height: 40px; border-radius: 50%; border: 2px solid var(--text); background: none; flex: none;
+       display: grid; place-items: center; font-size: 13px; color: var(--text); }
+ .pp.on { border-color: var(--lead); color: var(--lead); }
+ .stembtn { display: inline-flex; align-items: center; gap: 9px; background: var(--panel2); border: 1px solid var(--line2);
+            border-radius: 7px; padding: 7px 18px; color: var(--text); font-size: 13.5px; }
+ .stembtn:hover:not(:disabled) { border-color: var(--dim); }
+ .stembtn.open { border-color: var(--lead); color: var(--lead); }
+ .stembtn:disabled { opacity: .4; cursor: default; }
+ .time { margin-left: auto; color: var(--dim); font: 13px var(--mono); }
+ .theory { display: none !important; }
 
- /* ------------------------------------- why this beat works (step 3) */
- .theory { display: none; border-top: 1px solid var(--line);
-           padding: 9px 14px 11px; background: #00000005; }
- .tline { font-family: var(--mono); font-size: 11.5px; color: var(--dimmer);
-          display: flex; flex-wrap: wrap; gap: 7px; align-items: baseline; }
- .tline b { color: var(--hi); font-weight: 700; }
- .tline i { color: var(--line); font-style: normal; }
- .tline .rom { color: var(--dim); }
- .twhy { margin-top: 6px; font-size: 12.5px; line-height: 1.5;
-         color: var(--dim); max-width: 66ch; }
-
- /* -------------------------------------------------- the stem rack */
- .rack { display: none; border-top: 1px solid var(--line);
-         background: #0000000d; padding: 4px 14px 14px; }
+ /* the stem rack, inside a beat card */
+ .rack { display: none; border-top: 1px solid var(--line); margin-top: 12px; padding-top: 6px; }
  .rack.open { display: block; }
- .lane { display: grid; grid-template-columns: 74px 1fr auto auto auto;
-         gap: 12px; align-items: center; padding: 10px 0;
-         border-bottom: 1px solid #0000000c; }
- .lane:last-of-type { border-bottom: 0; }
- .lane .who2 { display: flex; align-items: center; gap: 7px; }
- .lane .swatch { width: 3px; height: 17px; border-radius: 2px;
-                 background: var(--co); flex: none; }
+ .lane { display: grid; grid-template-columns: 110px minmax(0, 1fr) auto auto auto; gap: 12px; align-items: center;
+         padding: 8px 4px; border-bottom: 1px solid var(--line); border-radius: 6px; }
+ .lane.flash { background: color-mix(in srgb, var(--lead) 14%, transparent); }
+ .lane .who2 { display: flex; align-items: center; gap: 8px; }
+ .lane .swatch { width: 3px; height: 18px; border-radius: 2px; background: var(--line2); }
+ .lane.changed .swatch, .lane.trimmed .swatch { background: var(--lead); }
  .lane.locked .swatch { background: var(--dimmer); }
- .lane.changed .swatch { background: var(--hi); }
- .lane .lname { font-family: var(--display); font-weight: 600; font-size: 14px;
-                letter-spacing: .1em; text-transform: uppercase; }
+ .lane .lname { font-weight: 600; font-size: 12.5px; letter-spacing: .05em; }
  .lane .what { min-width: 0; }
- .lane .sample { display: block; font-size: 13px; white-space: nowrap;
-                 overflow: hidden; text-overflow: ellipsis; }
- .lane .pack { display: block; font-size: 11px; color: var(--dimmer);
-               font-family: var(--mono); white-space: nowrap;
-               overflow: hidden; text-overflow: ellipsis; }
- .lane.changed .sample { color: var(--hi); }
- .lane .picks { display: flex; align-items: center; gap: 6px; flex: none; }
- .lane select { appearance: none; -webkit-appearance: none;
-       font-family: inherit; font-size: 12.5px; max-width: 250px;
-       padding: 7px 26px 7px 10px; border-radius: 8px;
-       border: 1px solid var(--line2); background: var(--card2);
-       color: var(--text); cursor: pointer;
-       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='7'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23171717' stroke-width='1.6' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
-       background-repeat: no-repeat; background-position: right 9px center; }
- .lane select:focus { outline: none; border-color: var(--hi); }
- /* type + tempo steps (2026-09-28) sit before the sound list, narrower */
- .lane .picks { flex-wrap: wrap; justify-content: flex-end; }
+ .lane .sample { display: block; font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+ .lane .pack { display: block; font-size: 11.5px; color: var(--dimmer); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+ .lane.changed .sample { color: var(--lead); }
+ .lane .picks { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
+ .lane select { padding: 5px 26px 5px 8px; font-size: 12.5px; max-width: 220px; }
  .lane select:not(.snd) { max-width: 140px; }
- .lane.changed select { border-color: var(--hi); }
- .lane .mini { font-size: 13px; line-height: 1; padding: 7px 8px;
-       border: 1px solid var(--line); border-radius: 8px; cursor: pointer;
-       background: #00000008; color: var(--text); }
- .lane .mini:hover { background: #00000017; }
- .lane .mini.playing { border-color: var(--co); color: var(--co); }
+ .lane.changed select { border-color: var(--lead); }
+ .lane .mini { font-size: 13px; line-height: 1; padding: 7px 8px; background: var(--well); border: 1px solid var(--line2);
+               border-radius: 6px; color: var(--text); }
+ .lane .mini:hover { border-color: var(--dim); }
+ .lane .mini.playing { border-color: var(--lead); color: var(--lead); }
  .lane .lock { font-size: 11.5px; color: var(--dimmer); font-style: italic; }
-
- /* the stem faders — one per lane, so the rack reads down like a mixer */
- /* volume: 1 dB arrows, not a slider (owner 2026-07-25 — the slider
-    jumped and left gaps). The dB readout doubles as the reset button. */
- .lane .vol { display: flex; align-items: center; gap: 2px; flex: none; }
- .lane .vol .knob { width: 38px; height: 38px; flex: none; cursor: ns-resize;
-       touch-action: none; user-select: none; -webkit-user-select: none;
-       border-radius: 50%; }
+ .lane .vol { display: flex; align-items: center; gap: 3px; }
+ .lane .vol .knob { width: 38px; height: 38px; cursor: ns-resize; touch-action: none; border-radius: 50%; }
  .lane .vol .knob svg { width: 100%; height: 100%; display: block; }
  .lane .vol .ktrack { fill: none; stroke: var(--line2); stroke-width: 9; stroke-linecap: round; }
- .lane .vol .klit { fill: none; stroke: var(--hi); stroke-width: 10; stroke-linecap: round; }
- .lane .vol .kcap { fill: var(--card2); stroke: var(--line2); stroke-width: 3; }
+ .lane .vol .klit { fill: none; stroke: var(--lead); stroke-width: 10; stroke-linecap: round; }
+ .lane .vol.pan .klit { stroke: var(--u2); }
+ .lane .vol .kcap { fill: var(--panel2); stroke: var(--line2); stroke-width: 3; }
  .lane .vol .kptr rect { fill: var(--text); }
- .lane .vol .knob:hover .kcap { stroke: var(--hi); }
- .lane .vol .knob:focus-visible { outline: 2px solid var(--hi); outline-offset: 1px; }
- .lane .vol .db { font-family: var(--mono); font-size: 12px;
-       color: var(--dimmer); width: 40px; text-align: center;
-       cursor: pointer; user-select: none; }
- .lane.trimmed .vol .db { color: var(--hi); }
- .lane.trimmed .swatch { background: var(--hi); }
- /* a stem staged for removal reads as struck-through and faded */
- /* the ban prompt: three real buttons, because a ban cannot be
-    undone from this page and confirm() has no safe third answer */
- .banask { grid-column: 1 / -1; display: flex; flex-wrap: wrap;
-   align-items: center; gap: 7px; margin-top: 6px; padding: 7px 9px;
-   border-radius: 7px; background: #3a2020; color: #f4e6e6;
-   font-size: 13px; }
+ .lane .vol .knob:hover .kcap { stroke: var(--dim); }
+ .lane .vol .db { font: 12px var(--mono); min-width: 34px; text-align: left; color: var(--dim); cursor: pointer; }
+ .lane.trimmed .vol .db { color: var(--lead); }
+ .lane.dropped .who2, .lane.dropped .what, .lane.dropped .vol { opacity: .3; text-decoration: line-through; }
+ .banask { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; font-size: 12.5px; color: var(--dim); }
  .banask span { flex: 1 1 220px; }
- .lane.dropped .who2, .lane.dropped .what, .lane.dropped .vol {
-   opacity: .35; text-decoration: line-through; }
+ .rackfoot { display: flex; align-items: center; gap: 10px; padding: 12px 0 2px; flex-wrap: wrap; }
+ .rackfoot .staged { font-size: 12.5px; color: var(--dim); flex: 1 1 260px; }
+ .rackfoot .staged b { color: var(--lead); font-weight: 600; }
+ .rackfoot button { background: var(--panel2); border: 1px solid var(--line2); border-radius: 7px; padding: 7px 12px; color: var(--text); }
+ .rackfoot button:hover:not(:disabled) { border-color: var(--dim); }
+ .rackfoot button:disabled { opacity: .4; cursor: default; }
+ .rackfoot .rebuild:not(.toeffects) { background: var(--lead); border-color: var(--lead); color: var(--ink-on-lead); font-weight: 600; }
+ .rackmsg { font-size: 12.5px; color: var(--dim); }
 
- .rackfoot { display: flex; align-items: center; gap: 14px; padding: 13px 0 3px;
-             border-top: 1px solid var(--line); margin-top: 4px; flex-wrap: wrap; }
- .rackfoot .staged { font-size: 12.5px; color: var(--dim); flex: 1;
-                     min-width: 150px; }
- .rackfoot .staged b { color: var(--hi); }
- .rebuild { font-family: var(--display); font-weight: 700; font-size: 14.5px;
-       letter-spacing: .08em; text-transform: uppercase; padding: 10px 20px;
-       border: 0; border-radius: 9px; background: var(--hi); color: var(--hi-ink);
-       cursor: pointer; }
- .chunk { font-family: var(--display); font-weight: 700; font-size: 13px;
-   background: none; border: 1px solid var(--dim); border-radius: 6px;
-   color: var(--ink); padding: 5px 10px; cursor: pointer; }
- .chunk:disabled { color: var(--dimmer); border-color: var(--dimmer);
-   cursor: default; }
- .rebuild:disabled { background: #00000010; color: var(--dimmer); cursor: default; }
- .undo { background: none; border: 0; color: var(--dim); font-size: 12.5px;
-         cursor: pointer; text-decoration: underline; padding: 6px; }
- /* secondary to Rebuild: rolling stages changes, it doesn't print a beat */
- .rollall { font-family: var(--display); font-weight: 700; font-size: 12.5px;
-       letter-spacing: .06em; text-transform: uppercase; padding: 9px 15px;
-       border: 1px solid #00000026; border-radius: 9px; background: none;
-       color: var(--text); cursor: pointer; white-space: nowrap; }
- .rollall:hover { border-color: var(--hi); color: var(--hi); }
- .rackmsg { font-size: 12.5px; color: var(--no); padding: 4px 0 0;
-            white-space: pre-wrap; }
+ /* empty state */
+ #empty { display: none; text-align: center; padding: 40px 20px; border: 1px dashed var(--line2); border-radius: var(--r); color: var(--dim); }
+ #empty.err { border-color: var(--bad); color: var(--bad); }
+ #empty .ghost img { width: 90px; opacity: .25; filter: grayscale(1); }
+ #empty .scribble { display: block; font: 500 20px var(--serif); letter-spacing: .08em; color: var(--text); margin: 8px 0 4px; }
 
- /* -------------------------------------------------------- pull-up */
- .pullup { display: flex; align-items: flex-end; gap: 12px; flex-wrap: wrap; }
- .pullup .field { width: 130px; }
- .pullup button { font-family: var(--display); font-weight: 600; font-size: 14px;
-       letter-spacing: .08em; text-transform: uppercase; padding: 11px 20px;
-       border: 1px solid var(--co); border-radius: 9px; background: #b8860b1f;
-       color: var(--co); cursor: pointer; }
- .pullup .note { flex: 1; min-width: 200px; font-size: 12.5px;
-                 color: var(--dimmer); }
- #pullmsg { font-size: 13px; color: var(--no); margin-top: 9px; }
+ /* ------------------------------------------------ elements table */
+ .elements { position: sticky; top: 12px; max-height: calc(100vh - 110px); display: flex; flex-direction: column; padding: 14px; }
+ .elements h2 { margin: 0 0 4px; font-size: 19px; }
+ .elements h2 #elcount { color: var(--dim); font-weight: 400; }
+ #elmeta { font-size: 12.5px; color: var(--dim); margin-bottom: 10px; }
+ #elmeta .eltitle { color: var(--text); font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+ #elmeta .tline { margin-top: 4px; color: var(--text); }
+ #elmeta .tline i { color: var(--dimmer); font-style: normal; margin: 0 6px; }
+ #elmeta .rom { font-family: var(--mono); font-size: 12px; }
+ #elmeta .twhy { margin-top: 3px; color: var(--dimmer); }
+ .tiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); gap: 8px; overflow-y: auto;
+          padding-right: 4px; min-height: 0; }
+ .tile { aspect-ratio: 1 / 1.08; display: flex; flex-direction: column; align-items: center; justify-content: center;
+         gap: 1px; padding: 6px 4px; position: relative; background: color-mix(in srgb, var(--ac) 7%, var(--well));
+         border: 1.5px solid var(--ac); border-radius: 6px; color: var(--text); min-width: 0; }
+ .tile:hover { background: color-mix(in srgb, var(--ac) 16%, var(--well)); }
+ .tile.locked { border-style: dashed; }
+ .tile .tn { position: absolute; top: 4px; left: 7px; font: 600 11.5px var(--sans); color: var(--ac); }
+ .tile .tc { font: 700 30px/1 var(--sans); color: var(--ac); letter-spacing: -.01em; }
+ .tile .tl { font-size: 12.5px; max-width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+ .tile .ts { font-size: 10.5px; color: var(--dimmer); max-width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
- @media (max-width: 720px) {
-   .fields { grid-template-columns: 1fr 1fr; }
-   .refrow { grid-template-columns: 1fr; }
-   .fields .field:last-child { grid-column: 1 / -1; }
-   .thead audio { width: 100%; order: 9; }
-   .thead { flex-wrap: wrap; }
-   .lane { grid-template-columns: 1fr; gap: 7px; }
-   .zones { grid-template-columns: 1fr; }
+ /* ------------------------------------------------ now playing */
+ .nowbar { position: fixed; left: 0; right: 0; bottom: 0; height: 76px; z-index: 50; background: #0a0b0d;
+           border-top: 1px solid var(--line); display: grid; grid-template-columns: minmax(180px, 260px) minmax(0, 1fr) auto auto;
+           align-items: center; gap: 22px; padding: 0 18px; }
+ .nowbar .nhead { display: flex; align-items: center; gap: 12px; min-width: 0; }
+ .nowbar .art { width: 54px; height: 54px; }
+ .nowbar .art b { font-size: 13px; }
+ .nowbar .ntitle { min-width: 0; }
+ .nowbar .ntitle b { display: block; font-weight: 500; font-size: 15px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+ .nowbar .ntitle small { color: var(--dim); font-size: 12.5px; }
+ .nprog { display: flex; align-items: center; gap: 12px; min-width: 0; }
+ .ntrack { flex: 1; height: 6px; background: var(--line2); border-radius: 3px; overflow: hidden; }
+ .ntrack i { display: block; height: 100%; width: 0; background: var(--lead); border-radius: 3px; }
+ #ntime { font: 12.5px var(--mono); color: var(--dim); white-space: nowrap; }
+ .nctl { display: flex; align-items: center; gap: 14px; }
+ .nctl button { background: none; border: 0; color: var(--text); padding: 4px; display: grid; place-items: center; }
+ .nctl svg.ic { width: 24px; height: 24px; }
+ .nctl #npp { width: 54px; height: 54px; border-radius: 50%; border: 2px solid var(--text); font-size: 16px; }
+ .nctl #npp.on { border-color: var(--lead); color: var(--lead); }
+ .nqueue { display: flex; gap: 8px; max-width: 30vw; overflow-x: auto; }
+ .nqueue button { padding: 0; border: 2px solid transparent; border-radius: 7px; background: none; }
+ .nqueue button.now { border-color: var(--lead); }
+ .nqueue .art { width: 42px; height: 42px; }
+ .nqueue .art b { font-size: 11px; }
+
+ #toast { position: fixed; left: 50%; bottom: 92px; transform: translateX(-50%); z-index: 60; background: var(--panel2);
+          border: 1px solid var(--line2); border-radius: 8px; padding: 10px 14px; display: flex; gap: 14px; align-items: center;
+          box-shadow: 0 10px 30px #000a; }
+ #toast button { background: var(--lead); color: var(--ink-on-lead); border: 0; border-radius: 6px; padding: 5px 12px; font-weight: 600; }
+
+ /* ------------------------------------------------ narrower windows */
+ @media (max-width: 1240px) {
+   .board { grid-template-columns: 1fr; }
+   .params { grid-template-columns: minmax(0, 1fr) auto; }
+   #go { grid-column: 1 / -1; min-height: 60px; flex-direction: row; }
  }
-
-  /* ---------------------------------------------------------------
-     Homeroom Studios (design handoff 2026-10-04, design-reference.png):
-     charcoal page, yellow ruled spiral notebook on the left (black
-     typewriter lettering), wood-framed chalkboard on the right (chalk
-     lettering, lime green + yellow accents, rough chalk edges).
-     Built in CSS, live text and real controls - no screenshot behind them.
-     Replaces the 2026-10-03 "09 charcoal" layer (backup:
-     tools/beat_machine.pre-homeroom-studios-2026-10-04.py).
-     --------------------------------------------------------------- */
-  :root {
-    --page: #2c2e32; --ink: #141414; --paper-y: #f8edb2; --rule: #8fa6c870;
-    --margin: #d9776f; --chalk: #f2f1ea; --chalk-dim: #f2f1eaa6;
-    --lime: #9be22d; --sun: #f6e04b; --wood: #7b3f1d;
-    --type: "Special Elite", "American Typewriter", "Courier New", monospace;
-    --hand: "Patrick Hand", "Chalkboard SE", "Comic Sans MS", var(--mono);
-  }
-  body { background: var(--page); color: #fff; padding: 0 22px 60px; }
-  body::before { display: none; }
-  .wrap { max-width: 1500px; }
-  [hidden] { display: none !important; }
-  .defs { position: absolute; width: 0; height: 0; overflow: hidden; }
-  .sr { position: absolute; width: 1px; height: 1px; overflow: hidden;
-        clip: rect(0 0 0 0); white-space: nowrap; }
-  /* one chalk look for every outline, number, button and icon: a rough
-     edge (displacement) plus a little grain. Subtle on purpose. */
-  .chalky { filter: url(#chalk); }
-  .chalktext { filter: url(#chalk-text); }
-
-  /* ------------------------------------------------------- top bar */
-  header.top { display: flex; justify-content: flex-end; padding: 22px 8px 16px; }
-  .apptabs { position: static; display: flex; align-items: center; gap: 22px; }
-  .apptabs a, .apptabs .profile {
-    font-family: var(--hand); font-size: 30px; line-height: 1; font-weight: 400;
-    letter-spacing: .02em; text-transform: none; text-decoration: none;
-    color: var(--lime); background: none; border-radius: 0; padding: 6px 10px;
-    filter: url(#chalk); }
-  .apptabs a.here { border: 3px solid var(--lime); border-radius: 12px; padding: 5px 24px;
-                    background: none; color: var(--lime); font-family: var(--hand);
-                    font-size: 30px; letter-spacing: .02em; text-transform: none; }
-  .apptabs a:hover { background: #9be22d1c; }
-  .apptabs a:focus-visible, .apptabs .profile:focus-visible, .board button:focus-visible,
-  .board input:focus-visible, .board summary:focus-visible, .board select:focus-visible {
-    outline: 3px dashed var(--sun); outline-offset: 3px; }
-  .apptabs .profile { border: 0; cursor: default; padding: 0; width: 48px; height: 48px;
-                      display: grid; place-items: center; border-radius: 50%; }
-  .apptabs .profile svg { width: 48px; height: 48px; stroke: currentColor; fill: none;
-                          stroke-width: 3; stroke-linecap: round; }
-
-  .cols { display: grid; grid-template-columns: minmax(330px, 2fr) minmax(0, 3fr);
-          gap: 4px; align-items: stretch; }
-
-  /* --------------------------------------------------------- notebook */
-  .left.notebook {
-    --card: #fff; --card2: #fff; --line: #14141426; --line2: #14141459;
-    --text: #141414; --dim: #141414b8; --dimmer: #14141488; --co: #6b5200;
-    --ch: #4a3a00;
-    position: relative; padding: 22px 26px 30px 76px;
-    border-radius: 6px 4px 4px 6px;
-    background:
-      linear-gradient(90deg, transparent 60px, var(--margin) 60px 62px, transparent 62px),
-      repeating-linear-gradient(180deg, transparent 0 27px, var(--rule) 27px 28px),
-      var(--paper-y);
-    box-shadow: 0 10px 30px #0006, inset 0 0 0 1px #0000000f;
-    color: var(--text); font-family: var(--type);
-  }
-  .rings { position: absolute; left: -16px; top: 12px; bottom: 12px; width: 48px;
-           pointer-events: none;
-           background:
-             radial-gradient(circle at 36px 50%, #2c2e32 0 5px, transparent 5.6px) 0 0/48px 34px repeat-y,
-             linear-gradient(180deg, transparent 12px, #9a9a9a 12px, #e8e8e8 15px,
-                             #8a8a8a 18px, transparent 19px) 0 0/40px 34px repeat-y; }
-  .nbtitle { font-family: var(--type); color: #111; font-weight: 400;
-             font-size: clamp(34px, 3.4vw, 52px); letter-spacing: -.01em;
-             text-transform: none; line-height: 1.1; margin: 0 0 8px; transform: none;
-             -webkit-text-stroke: 1.2px #111; text-shadow: 1px 1px 0 #00000038; }
-  .nblabel { display: block; font-family: var(--type); font-size: 19px;
-             color: var(--ink); margin: 11px 0 4px; line-height: 1.2; }
-  .notebook .hint { font-family: var(--type); font-size: 11.5px; color: var(--dimmer);
-                    margin-top: 4px; }
-  .notebook select, .notebook input[type=text], .notebook input[type=number],
-  .picker {
-    width: 100%; font-family: var(--type); font-size: 16px; color: var(--ink);
-    background: #fffdf2d9; border: 1.5px solid #8b8573; border-radius: 7px;
-    padding: 7px 12px; line-height: 1.3; }
-  .notebook select { appearance: none; -webkit-appearance: none; padding-right: 34px; cursor: pointer;
-    background: #fffdf2d9 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='9'%3E%3Cpath d='M1.5 1.5l5.5 5.5 5.5-5.5' stroke='%23141414' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat right 12px center; }
-  .notebook select:focus-visible, .notebook input:focus-visible,
-  .picker:focus-visible, .drawer summary:focus-visible, #refdrop:focus-visible {
-    outline: 2px solid #141414; outline-offset: 2px; }
-  .row { display: grid; grid-template-columns: 74px minmax(0, 1fr); gap: 10px;
-         align-items: center; margin-top: 12px; }
-  .row > label { font-size: 19px; color: var(--ink); }
-  .keyrow select { max-width: 190px; }
-
-  /* The Back of the Class / The Legends / Styles: a dropdown that still takes many picks */
-  .pick { position: relative; }
-  .picker { display: flex; align-items: center; gap: 8px; min-height: 42px;
-            cursor: pointer; text-align: left; padding: 5px 10px 5px 12px; }
-  .picker .chips { flex: 1; display: flex; flex-wrap: wrap; gap: 5px; min-width: 0; }
-  .picker .ph { color: var(--dim); }
-  .chip { display: inline-flex; align-items: center; gap: 5px; border-radius: 5px;
-          padding: 1px 2px 1px 7px; font-size: 14.5px; background: var(--sun); color: #16150a; }
-  .pick[data-kind=legends] .chip { background: #f1c75e; }
-  .pick[data-kind=styles] .chip { background: #fff7c2; outline: 1.5px dashed #4a3a00; }
-  .chip b { font-family: var(--mono); font-size: 11px; }
-  .chip .x { border: 0; background: none; cursor: pointer; font-size: 17px;
-             line-height: 1; padding: 0 5px; color: inherit; border-radius: 4px; }
-  .chip .x:hover { background: #0000001a; }
-  .chev { flex: none; width: 14px; height: 9px; transition: transform .15s;
-          background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='9'%3E%3Cpath d='M1.5 1.5l5.5 5.5 5.5-5.5' stroke='%23141414' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/contain no-repeat; }
-  .pick.open .chev { transform: rotate(180deg); }
-  .pop { display: none; position: absolute; z-index: 20; left: 0; right: 0;
-         top: calc(100% + 4px); max-height: min(400px, 62vh); overflow: auto;
-         background: #fffdf0; border: 1.5px solid #8b8573; border-radius: 9px;
-         box-shadow: 0 14px 30px #0005; padding: 10px; }
-  .pick.open .pop { display: block; }
-  .pop .popnote { font-family: var(--type); font-size: 11.5px; color: var(--dimmer);
-                  margin: 0 2px 8px; }
-  .pop .djs { grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 7px; }
-  .notebook .dj { padding: 8px 11px; }
-  .notebook .dj .name { font-family: var(--type); font-size: 15.5px; font-weight: 400;
-                        text-transform: none; letter-spacing: 0; }
-
-  /* reference track */
-  .notebook #refdrop { display: flex; align-items: center; justify-content: center; gap: 14px;
-         border: 1.5px dashed #6f6a5a; border-radius: 8px; background: #fffdf29a;
-         padding: 12px 14px; cursor: pointer; text-align: left; font-size: 13.5px;
-         color: var(--ink); }
-  #refdrop svg { width: 36px; height: 36px; flex: none; stroke: var(--ink); fill: none;
-                 stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
-  #refdrop small { display: block; font-family: var(--type); font-size: 11.5px; color: var(--dim); }
-  .notebook #refdrop.over, .notebook #refdrop.busy { background: #f6e04b66; border-color: var(--ink); }
-  .notebook #refline { min-height: 16px; }
-  .notebook #refline.bad { color: #b3261e; }
-  .notebook #refline button { font-family: var(--type); font-size: 12px; padding: 0 8px;
-         margin-left: 5px; border: 1px solid #8b8573; border-radius: 5px; background: #fff;
-         color: var(--ink); cursor: pointer; }
-
-  /* the three drawers: pattern library, breaks, find a saved beat */
-  .drawer { margin-top: 8px; background: #fffdf2b3; border: 1.5px solid #bdb59a; border-radius: 7px; }
-  .drawers { margin-top: 16px; }
-  .drawer summary { list-style: none; cursor: pointer; display: flex; align-items: center;
-                    gap: 12px; padding: 4px 12px 4px 8px; font-size: 19px; color: var(--ink); min-height: 50px; }
-  .drawer summary::-webkit-details-marker { display: none; }
-  .drawer summary::after { content: ""; margin-left: auto; width: 14px; height: 9px;
-          transition: transform .15s;
-          background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='9'%3E%3Cpath d='M1.5 1.5l5.5 5.5 5.5-5.5' stroke='%23141414' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/contain no-repeat; }
-  .drawer[open] summary::after { transform: rotate(180deg); }
-  .drawer summary svg { width: 40px; height: 40px; flex: none; stroke: #141414; fill: none;
-                        stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round;
-                        filter: url(#ink); }
-  .drawer .inner { padding: 2px 12px 14px; }
-  .drawer .inner > .hint { margin: 0 0 10px; }
-  .notebook .field label { font-family: var(--type); font-size: 14px; text-transform: none;
-                           letter-spacing: 0; color: var(--ink); font-weight: 400; }
-  .notebook .pullup { gap: 10px; align-items: flex-end; }
-  .notebook .pullup .field { width: auto !important; flex: 1 1 160px; }
-  .notebook .pullup button {
-         font-family: var(--type); font-size: 15px; font-weight: 400; letter-spacing: 0;
-         text-transform: none; padding: 8px 18px; border: 1.5px solid var(--ink);
-         border-radius: 7px; background: var(--sun); color: #16150a; cursor: pointer; }
-  .notebook .pullup button:disabled { opacity: .5; cursor: default; }
-  .notebook .pullup .note { flex-basis: 100%; font-family: var(--type); font-size: 11.5px; }
-  #pullmsg { color: #b3261e; font-family: var(--type); font-size: 13px; }
-
-  /* ------------------------------------------------------- chalkboard */
-  .right.board {
-    --card: transparent; --card2: #1d1d1d; --line: #ffffff2e; --line2: #ffffff59;
-    --text: var(--chalk); --dim: var(--chalk-dim); --dimmer: #f2f1ea73; --co: var(--sun);
-    --ink: var(--chalk);
-    position: relative; min-width: 0; color: var(--chalk); font-family: var(--hand);
-    padding: 0 24px 56px;
-    background:
-      radial-gradient(120% 80% at 30% 15%, #ffffff0b, transparent 60%),
-      radial-gradient(60% 50% at 80% 95%, #ffffff07, transparent 70%),
-      #141414;
-    border: 16px solid var(--wood);
-    border-image: linear-gradient(135deg, #8d4c26, #5e2e12 35%, #93522a 65%, #5a2c11) 1;
-    box-shadow: 0 10px 30px #0008, inset 0 0 50px #000c;
-  }
-  .tray { position: absolute; left: -16px; right: -16px; bottom: -16px; height: 20px;
-          background: linear-gradient(#a3622f, #5e2e12); box-shadow: 0 5px 9px #0007; }
-  .tray i, .tray b { position: absolute; bottom: 14px; border-radius: 3px; }
-  .tray i { width: 58px; height: 9px; background: linear-gradient(#fff, #cfcfcf); left: 70px; }
-  .tray i + i { left: 146px; width: 44px; }
-  .tray b { width: 120px; height: 16px; right: 34%; background: linear-gradient(#3a3a3a 0 55%, #b98b54 55%); }
-
-  /* the header: TWO EQUAL columns - the face of controls | the logo */
-  .boardtop { display: grid; grid-template-columns: 1fr 1fr; align-items: stretch; }
-  .face { display: flex; flex-direction: column; align-items: center;
-          padding: 22px 22px 18px 0; border-right: 3px solid var(--chalk-dim); min-width: 0; }
-  .eyes { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; width: 100%; max-width: 460px;
-          align-items: end; }
-  .eye { min-width: 0; }
-  .eye > label { display: block; font-size: 26px; line-height: 1.1; margin: 0 0 6px 2px;
-                 color: var(--chalk); font-family: var(--hand); filter: url(#chalk-text); }
-  .spin { display: flex; align-items: center; height: 78px; width: 100%;
-          border: 3px solid var(--chalk); border-radius: 14px; background: none;
-          padding: 0 4px 0 8px; filter: url(#chalk); }
-  .spin input { flex: 1; min-width: 0; width: 100%; background: none; border: 0; color: var(--lime);
-                font-family: var(--hand); font-size: 56px; line-height: 1; text-align: center;
-                padding: 0; -moz-appearance: textfield; text-shadow: 0 0 1px #9be22d88; }
-  .spin input::placeholder { color: #9be22d66; font-size: 34px; }
-  .spin input:focus { outline: none; }
-  .spin:focus-within { box-shadow: 0 0 0 3px #f6e04b66; }
-  .spin input::-webkit-inner-spin-button, .spin input::-webkit-outer-spin-button {
-          -webkit-appearance: none; margin: 0; }
-  .spin .unit { font-size: 18px; color: var(--chalk); padding: 6px 4px 0 0; }
-  .spin .arrows { display: flex; flex-direction: column; justify-content: center; gap: 4px; }
-  .spin .arrows button { width: 34px; height: 30px; background: none; border: 0; padding: 0;
-          color: var(--sun); cursor: pointer; font-size: 24px; line-height: 1; border-radius: 6px; }
-  .spin .arrows button:hover { background: #f6e04b22; }
-  .nose { display: flex; flex-direction: column; align-items: center; gap: 3px;
-          margin-top: 14px; cursor: pointer; font-size: 22px; color: var(--chalk); }
-  .nose span { filter: url(#chalk-text); }
-  .nose input { appearance: none; -webkit-appearance: none; width: 38px; height: 38px; margin: 0;
-          border: 3px solid var(--chalk); border-radius: 7px; background: none; cursor: pointer;
-          display: grid; place-content: center; filter: url(#chalk); }
-  .nose input:checked::before { content: "\2713"; color: var(--lime); font-size: 34px; line-height: 1;
-          font-family: var(--hand); }
-  #go { margin-top: 12px; min-width: 232px; height: 64px; padding: 0 28px;
-        font-family: var(--hand); font-size: 44px; font-weight: 400; line-height: 1; letter-spacing: .01em;
-        text-transform: none; background: none; color: var(--chalk); cursor: pointer;
-        border: 3px solid var(--chalk); border-radius: 12px; box-shadow: none; transform: none;
-        filter: url(#chalk); }
-  #go::after { display: none; }
-  #go:hover:not(:disabled) { background: #ffffff14; transform: none; }
-  #go:disabled { opacity: .5; cursor: default; }
-  #hosthint { display: block; margin-top: 8px; min-height: 0; color: var(--sun); font-size: 17px;
-              text-align: center; flex: none; min-width: 0; }
-  #hosthint:empty { display: none; }
-  .logocol { display: grid; place-items: center; padding: 18px 0 18px 22px; min-width: 0; }
-  .boardlogo { width: min(88%, 330px); height: auto; aspect-ratio: 870 / 785; display: block;
-               object-fit: contain; filter: url(#chalk); }
-  hr.chalkline { border: 0; height: 3px; background: var(--chalk); opacity: .9;
-                 border-radius: 2px; margin: 0 -24px 14px; filter: url(#chalk); }
-  .board #work { margin: 0 0 6px; }
-  .board #workbar { background: #ffffff22; }
-  .board #workbar i { background: var(--sun); }
-  .board #worktext { font-family: var(--hand); font-size: 18px; color: var(--chalk); }
-  .board #work.bad #worktext { color: #ff8a7a; }
-
-  /* the beat cards */
-  .board .track { position: relative; border: 0; background: none; margin: 12px 0; overflow: visible; }
-  .board .track::before { content: ""; position: absolute; inset: 0; border: 2.5px solid #ffffffd4;
-          border-radius: 12px; pointer-events: none; filter: url(#chalk); }
-  .board .track.loc-favorites::before { border-color: var(--sun); }
-  .board .track.loc-trash::before { border-color: #ff6b6b; }
-  .board .track.loc-trash .thead { opacity: .6; }
-  .board .thead { display: grid; grid-template-columns: minmax(0, 1fr) auto;
-          grid-template-areas: "meta acts" "player player"; gap: 4px 14px;
-          padding: 10px 16px 12px; cursor: default; }
-  .board .thead .no { display: none; }
-  .board .tmeta { grid-area: meta; }
-  .board .tname { font-family: var(--hand); font-size: 38px; font-weight: 400; text-transform: none;
-          letter-spacing: 0; color: var(--sun); line-height: 1.05; filter: url(#chalk-text);
-          -webkit-text-stroke: .5px var(--sun); }
-  .board .tname u { text-decoration: none; }
-  .board .tsub { font-family: var(--hand); font-size: 19px; color: var(--chalk); filter: url(#chalk-text); }
-  .board .tsub .who { opacity: .6; font-size: 16px; }
-  .board .tloc { color: var(--sun); margin-left: 6px; }
-  .board .player { grid-area: player; width: auto; gap: 14px; }
-  .board .pp { width: 56px; height: 56px; background: var(--sun); color: #141414; border: 0;
-               font-size: 20px; border-radius: 50%; filter: url(#chalk); padding: 0 0 0 3px; }
-  .board .pp.on { padding: 0; }
-  .board .pp:hover { filter: url(#chalk) brightness(1.08); }
-  .player .sep { width: 2px; height: 46px; background: var(--chalk-dim); flex: none; }
-  .board .bar { height: 5px; align-self: center; background: var(--line2); }
-  .board .bar.has-wave { height: 48px; background: none; border-radius: 0; }
-  .bar canvas { display: none; width: 100%; height: 100%; }
-  .bar.has-wave canvas { display: block; }
-  .bar.has-wave i { display: none; }
-  .board .time { font-family: var(--hand); font-size: 16px; color: var(--chalk);
-                 min-width: 88px; }
-  .board .acts { grid-area: acts; align-items: center; gap: 10px; }
-  .board .acts .star, .board .acts .eraser { border: 0; background: none; padding: 4px; cursor: pointer;
-          display: grid; place-items: center; border-radius: 8px; }
-  .board .acts .star:hover, .board .acts .eraser:hover { background: #ffffff14; }
-  .star svg, .eraser svg { width: 34px; height: 34px; stroke-linejoin: round; pointer-events: none;
-          display: block; filter: url(#chalk); }
-  .star svg { fill: var(--sun); stroke: var(--sun); stroke-width: 1.6; }
-  .eraser svg { fill: none; stroke: var(--chalk); stroke-width: 1.9; }
-  .board .acts .star.on-fav { background: #f6e04b2e; box-shadow: 0 0 0 2px var(--sun) inset; }
-  .board .acts .eraser.on-trash { background: #ff6b6b2e; box-shadow: 0 0 0 2px #ff6b6b inset; }
-  .board .acts .stembtn { font-family: var(--hand); font-size: 20px; font-weight: 400;
-          text-transform: none; letter-spacing: 0; border: 2.5px solid var(--chalk);
-          border-radius: 9px; padding: 6px 16px; background: none; color: var(--chalk);
-          display: inline-flex; gap: 9px; align-items: center; cursor: pointer; filter: url(#chalk); }
-  .board .acts .stembtn:hover { background: #ffffff14; }
-  .board .acts .stembtn.open { background: var(--sun); color: #111; border-color: var(--sun); }
-  .stembtn svg { width: 22px; height: 22px; pointer-events: none; stroke: currentColor;
-                 fill: none; stroke-width: 1.8; stroke-linejoin: round; }
-  .more { position: relative; }
-  .board .acts .morebtn { border: 0; background: none; color: var(--chalk); font-size: 26px;
-          line-height: 1; padding: 2px 6px 8px; letter-spacing: 1px; border-radius: 6px; cursor: pointer; }
-  .board .acts .morebtn:hover { background: #ffffff14; }
-  .menu { display: none; position: absolute; right: 0; top: calc(100% + 6px); z-index: 15;
-          background: #1c1c1c; border: 1.5px solid #ffffff59; border-radius: 9px; padding: 6px;
-          min-width: 230px; box-shadow: 0 12px 26px #000a; }
-  .more.open .menu { display: block; }
-  .board .acts .menu button { display: flex; width: 100%; gap: 10px; align-items: center;
-          background: none; border: 0; color: var(--chalk); font-family: var(--hand);
-          font-size: 18px; padding: 7px 10px; border-radius: 6px; text-align: left; cursor: pointer; }
-  .board .acts .menu button:hover { background: #ffffff17; }
-  .board .theory { background: none; border-top: 1px dashed #ffffff33; }
-  .board .tline b { color: var(--sun); }
-
-  /* stem rack on the board */
-  .board .rack { background: #ffffff07; border-top-color: #ffffff22; border-radius: 0 0 10px 10px; }
-  .board .lane { border-bottom-color: #ffffff14; }
-  .board .lane select { background-color: #1d1d1d; color: var(--chalk);
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='7'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23f2f1ea' stroke-width='1.6' fill='none'/%3E%3C/svg%3E"); }
-  .board .rollall { border-color: #ffffff40; }
-  .board .chunk { color: var(--chalk); }
-
-  /* empty / loading / error states + the undo toast */
-  .board #empty { padding: 18px 0 8px; }
-  .board #empty .ghost { width: 120px; opacity: .16; }
-  .board #empty .scribble { font-family: var(--hand); color: #ffffff2b; text-transform: none;
-                            font-size: 42px; font-weight: 400; }
-  .board #empty p { color: var(--chalk-dim); font-family: var(--hand); font-size: 18px; }
-  .board #empty.err p { color: #ff8a7a; }
-  #tracklist.loading::before { content: "chalking up your beats\2026"; display: block;
-          padding: 38px 0; margin: 10px 0; text-align: center; border: 2px dashed #ffffff47;
-          border-radius: 10px; color: var(--chalk-dim); font-family: var(--hand); font-size: 22px;
-          animation: chalkpulse 1.4s ease-in-out infinite; }
-  #tracklist.loading + #empty { display: none !important; }
-  @keyframes chalkpulse { 50% { opacity: .45; } }
-  #toast { position: fixed; left: 50%; bottom: 26px; transform: translateX(-50%); z-index: 40;
-           display: flex; align-items: center; gap: 16px; padding: 10px 18px; max-width: 92vw;
-           background: #1c1c1c; color: var(--chalk); border: 2px solid var(--chalk-dim);
-           border-radius: 10px; font-family: var(--hand); font-size: 19px; box-shadow: 0 12px 26px #000a; }
-  #toast button { font-family: var(--hand); font-size: 19px; color: #141414; background: var(--sun);
-           border: 0; border-radius: 7px; padding: 3px 16px; cursor: pointer; }
-
-  @media (max-width: 1080px) { .cols { grid-template-columns: 1fr; gap: 26px; } }
-  @media (max-width: 640px) {
-    body { padding: 0 16px 50px; }
-    header.top { padding: 14px 4px 14px; justify-content: center; }
-    .apptabs { gap: 10px; }
-    .apptabs a { font-size: 24px; }
-    .left.notebook { padding: 18px 14px 22px 46px;
-      background:
-        linear-gradient(90deg, transparent 36px, var(--margin) 36px 38px, transparent 38px),
-        repeating-linear-gradient(180deg, transparent 0 27px, var(--rule) 27px 28px),
-        var(--paper-y); }
-    .rings { left: -12px; width: 40px; }
-    .row, .keyrow { grid-template-columns: 1fr; gap: 4px; }
-    .right.board { border-width: 10px; padding: 0 12px 46px; }
-    .tray { left: -10px; right: -10px; bottom: -10px; height: 16px; }
-    .boardtop { grid-template-columns: 1fr; }
-    .face { border-right: 0; border-bottom: 3px solid var(--chalk-dim); padding: 16px 0; }
-    .logocol { padding: 14px 0; }
-    .boardlogo { width: min(60%, 220px); }
-    .spin { height: 64px; }
-    .spin input { font-size: 42px; }
-    hr.chalkline { display: none; }
-    .board .thead { grid-template-areas: "meta" "acts" "player"; grid-template-columns: 1fr; }
-    .board .pp { width: 46px; height: 46px; }
-    .player .sep { display: none; }
-    .board .time { min-width: 66px; font-size: 14px; }
-    .menu { right: auto; left: 0; }
-  }
-  @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+ @media (max-width: 900px) {
+   body { grid-template-columns: 1fr; }
+   .side { position: static; height: auto; flex-direction: row; justify-content: center; padding: 6px; }
+   .side .logo { padding: 0 10px; }
+   .lower { grid-template-columns: 1fr; }
+   .elements { position: static; max-height: none; }
+   .tools { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+   .tool + .tool { border-left: 0; }
+   .params { grid-template-columns: 1fr; }
+   .tempo { border-left: 0; padding-left: 0; }
+   .lane { grid-template-columns: 1fr; }
+   .nowbar { grid-template-columns: minmax(0, 1fr) auto; }
+   .nprog, .nqueue { display: none; }
+   .word .hr { font-size: 28px; }
+ }
 </style></head><body>
-<!-- one shared chalk look: rough edges + a little grain (see .chalky). #ink is
-     the lighter version for the black notebook icons. -->
-<svg class="defs" aria-hidden="true" focusable="false">
-  <defs>
-    <filter id="chalk" x="-4%" y="-6%" width="108%" height="112%" color-interpolation-filters="sRGB">
-      <feTurbulence type="fractalNoise" baseFrequency="0.07 0.09" numOctaves="2" seed="4" result="warp"/>
-      <feDisplacementMap in="SourceGraphic" in2="warp" scale="3" xChannelSelector="R" yChannelSelector="G" result="rough"/>
-      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="9" result="dust"/>
-      <feColorMatrix in="dust" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  4 0 0 0 -0.8" result="grain"/>
-      <feComposite in="rough" in2="grain" operator="in"/>
-    </filter>
-    <filter id="chalk-text" x="-2%" y="-8%" width="104%" height="116%" color-interpolation-filters="sRGB">
-      <feTurbulence type="fractalNoise" baseFrequency="0.12" numOctaves="2" seed="2" result="warp"/>
-      <feDisplacementMap in="SourceGraphic" in2="warp" scale="1.6" xChannelSelector="R" yChannelSelector="G" result="rough"/>
-      <feTurbulence type="fractalNoise" baseFrequency="0.95" numOctaves="2" seed="5" result="dust"/>
-      <feColorMatrix in="dust" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  3.5 0 0 0 -0.65" result="grain"/>
-      <feComposite in="rough" in2="grain" operator="in"/>
-    </filter>
-    <filter id="ink" x="-4%" y="-4%" width="108%" height="108%" color-interpolation-filters="sRGB">
-      <feTurbulence type="fractalNoise" baseFrequency="0.09" numOctaves="2" seed="7" result="warp"/>
-      <feDisplacementMap in="SourceGraphic" in2="warp" scale="1.4" xChannelSelector="R" yChannelSelector="G"/>
-    </filter>
-  </defs>
-</svg>
-<div class="wrap">
+<nav class="side" aria-label="Main">
+  <a class="logo" href="/" aria-label="Homeroom Studios">
+    <svg viewBox="0 0 46 54" aria-hidden="true"><path d="M23 2 L43 8 V28 C43 40 34 48 23 52 C12 48 3 40 3 28 V8 Z" fill="none" stroke="currentColor" stroke-width="2"/>
+      <text x="23" y="24" text-anchor="middle" font-family="Cinzel, Georgia, serif" font-size="13" fill="currentColor">H</text>
+      <line x1="13" y1="28.5" x2="33" y2="28.5" stroke="currentColor" stroke-width="1"/>
+      <text x="23" y="42" text-anchor="middle" font-family="Cinzel, Georgia, serif" font-size="13" fill="currentColor">S</text></svg></a>
+  <a class="here" href="/" aria-current="page">
+    <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 3h6M10 3v6L4.5 19a1.5 1.5 0 0 0 1.3 2h12.4a1.5 1.5 0 0 0 1.3-2L14 9V3"/><path d="M7 15h10"/></svg>Beat Making</a>
+  <button type="button" id="side-saved">
+    <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6.5A1.5 1.5 0 0 1 4.5 5H9l2 2.5h8.5A1.5 1.5 0 0 1 21 9v9.5a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 18.5z"/></svg>My Beats</button>
+  <a href="http://localhost:8765" title="The studio half: recipes, patches, Reason. Same launcher starts it.">
+    <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5.5C5.5 4 9 4 12 6c3-2 6.5-2 9-.5V19c-2.5-1.5-6-1.5-9 .5-3-2-6.5-2-9-.5z"/><path d="M12 6v13.5"/></svg>Get Schooled</a>
+</nav>
 
-<header class="top">
-  <nav class="apptabs" aria-label="Main">
-    <a class="here" href="/" aria-current="page" title="You're here &mdash; making beats">Create</a>
-    <a href="http://localhost:8765"
-       title="The studio half &mdash; recipes, patches, Reason. Same launcher starts it.">Get Schooled</a>
-    <button type="button" class="profile" aria-label="Profile (not set up yet)" aria-disabled="true"
-            title="Profile &mdash; this app has no accounts yet"><svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="20"/><circle cx="24" cy="19" r="7"/><path d="M10.5 37c2.6-6 7.4-9 13.5-9s10.9 3 13.5 9"/></svg></button>
-  </nav>
-</header>
+<div class="main">
+<header class="mast"><div class="word" aria-label="Homeroom Studios"><span class="hr">HOMEROOM</span><span class="st">STUDIOS</span></div></header>
 
-<div class="cols">
-  <section class="left notebook">
-    <div class="rings" aria-hidden="true"></div>
-    <h1 class="nbtitle">Homeroom Studios</h1>
-
-    <div class="pick" data-kind="crew">
-      <label class="nblabel" id="lbl-crew">The Back of the Class</label>
-      <div class="picker" role="button" tabindex="0" aria-haspopup="true"
-           aria-expanded="false" aria-labelledby="lbl-crew">
-        <span class="chips"><span class="ph">Pick DJs &mdash; __CREWCOUNT__ personalities</span></span>
-        <span class="chev" aria-hidden="true"></span></div>
-      <div class="pop"><p class="popnote">Tick one for a solo beat. Tick more for a collab &mdash;
-        it lands in the folder of whoever you tick <b>first</b>. Ask for four or more and
-        a quarter come back as straight, traditional hip hop.</p>
-        <div class="djs">__CREW__</div></div>
+<div class="board">
+  <section class="panel cls" aria-labelledby="h-class">
+    <h2 id="h-class"><span class="num">1</span>Choose your class</h2>
+    <div class="tabs" role="tablist">
+      <button type="button" role="tab" id="tab-crew" data-tab="crew" aria-selected="true">The Back of the Class</button>
+      <button type="button" role="tab" id="tab-legends" data-tab="legends" aria-selected="false">The Legends</button>
     </div>
-
-    <div class="pick" data-kind="legends">
-      <label class="nblabel" id="lbl-legends">The Legends</label>
-      <div class="picker" role="button" tabindex="0" aria-haspopup="true"
-           aria-expanded="false" aria-labelledby="lbl-legends">
-        <span class="chips"><span class="ph">Choose a signature style</span></span>
-        <span class="chev" aria-hidden="true"></span></div>
-      <div class="pop"><div class="djs">__LEGENDS__</div></div>
-    </div>
-
-    <div class="pick" data-kind="styles">
-      <label class="nblabel" id="lbl-styles">Styles</label>
-      <div class="picker" role="button" tabindex="0" aria-haspopup="true"
-           aria-expanded="false" aria-labelledby="lbl-styles">
-        <span class="chips"><span class="ph">Subgenres, played by the rules</span></span>
-        <span class="chev" aria-hidden="true"></span></div>
-      <div class="pop"><div class="djs">__GENRES__</div></div>
-    </div>
-
-    <!-- Quick directions + Famous beats still feed the same notes text the
-         old Directions box held (syncNotes, below), so the parser and the
-         README trail are unchanged. The big typing box itself is gone. -->
-    <input type="hidden" id="notes" value="">
-
-    <label class="nblabel" for="quick">Quick directions</label>
-    <select id="quick">
-      <option value="">e.g. dark, melodic, aggressive&hellip;</option>
-      <option value="no chords">no chords &mdash; drums only, old style</option>
-      <option value="sparse">sparse &mdash; thin everything out</option>
-      <option value="sparse, no hi hats">sparse, no hi hats &mdash; thin, and no hats at all</option>
-      <option value="sparse, halftime, dark">sparse, halftime, dark &mdash; thin, half-time, dark chords</option>
-      <option value="no hi hats, dusty, vinyl">no hi hats, dusty, vinyl &mdash; no hats, dusty vinyl sounds</option>
-      <option value="halftime, deep, no claps">halftime, deep, no claps &mdash; half-time, deep kit, claps off</option>
-      <option value="waltz, jazzy">waltz, jazzy &mdash; 3/4 time, jazz chords</option>
-      <option value="no swing, tight, punchy">no swing, tight, punchy &mdash; dead straight grid</option>
-      <option value="washed, dreamy chords">washed, dreamy chords &mdash; big reverb, dreamy chords</option>
-      <option value="long 808, boomy, room">long 808, boomy, room &mdash; sustained 808, roomy</option>
-      <option value="no 808, acoustic, dry">no 808, acoustic, dry &mdash; short real kick, no reverb</option>
-      <option value="no perc">no perc &mdash; percussion off</option>
-      <option value="crisp">crisp &mdash; crisp, clear samples</option>
-      <option value="dusty">dusty &mdash; dusty, aged samples</option>
-    </select>
-
-    <label class="nblabel" for="famous">Famous beats</label>
-    <select id="famous">
-      <option value="">e.g. a famous drum break&hellip;</option>
-      <option value="break">surprise me &mdash; any of them</option>
-__BREAKS__
-    </select>
-
-    <div class="row keyrow"><label for="key">Key</label>
-      <select id="key"><option value="">any key</option>__KEYOPTS__</select></div>
-
-    <label class="nblabel" id="lbl-ref">Reference track</label>
-    <div id="refdrop" role="button" tabindex="0" aria-labelledby="lbl-ref refdrop-hint">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V4M7.5 8.5L12 4l4.5 4.5M5 14v5h14v-5"/></svg>
-      <span>Drop a track here or click to upload
-        <small id="refdrop-hint">MP3, WAV, M4A, AIFF, FLAC (max 300 MB) &mdash; matches its tempo and key</small></span></div>
-    <input type="file" id="reffile" accept=".mp3,.wav,.m4a,.aif,.aiff,.flac,audio/*" hidden>
-    <div class="hint" id="refline" role="status">nothing dropped yet</div>
-
-    <div class="drawers">
-      <details class="drawer">
-        <summary><svg viewBox="0 0 40 40" aria-hidden="true"><rect x="5" y="5" width="8" height="8" rx="1.5"/><rect x="16" y="5" width="8" height="8" rx="1.5"/><rect x="27" y="5" width="8" height="8" rx="1.5"/><rect x="5" y="16" width="8" height="8" rx="1.5"/><rect x="16" y="16" width="8" height="8" rx="1.5"/><rect x="27" y="16" width="8" height="8" rx="1.5"/><rect x="5" y="27" width="8" height="8" rx="1.5"/><rect x="16" y="27" width="8" height="8" rx="1.5"/><rect x="27" y="27" width="8" height="8" rx="1.5"/></svg>Pattern library</summary>
-        <div class="inner"><p class="hint">every transcribed groove, by genre &mdash; drums only, no chords or bass</p>
-          <div class="pullup">
-            <div class="field"><label for="libgenre">Genre</label>
-              <select id="libgenre">__LIBGENRES__</select></div>
-            <div class="field"><label for="libpattern">Pattern</label>
-              <select id="libpattern"></select></div>
-            <button id="libgo">Play it</button>
-            <div class="note">renders standalone, drops onto the chalkboard &mdash; roll again for a new kit on the same rhythm</div>
-          </div></div>
-      </details>
-      <details class="drawer">
-        <summary><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M7 4l17 16M33 4L16 20"/><circle cx="7" cy="4" r="1.8"/><circle cx="33" cy="4" r="1.8"/><ellipse cx="20" cy="24" rx="13" ry="4.5"/><path d="M7 24v7c0 2.5 5.8 4.5 13 4.5S33 33.5 33 31v-7M12 28.5l2 5M20 29v6M28 28.5l-2 5"/></svg>Breaks</summary>
-        <div class="inner"><p class="hint">famous figures + funk breaks &mdash; kept separate, played verbatim</p>
-          <div class="pullup">
-            <div class="field"><label for="libbreak">Break</label>
-              <select id="libbreak">__LIBBREAKS__</select></div>
-            <button id="libbreakgo">Play it</button>
-            <div class="note">saved to its own Breaks folder, never mixed into a genre</div>
-          </div></div>
-      </details>
-      <details class="drawer">
-        <summary><svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="24" cy="13" r="9"/><circle cx="24" cy="13" r="2.5"/><path d="M4 18h5M31 18h5"/><path d="M5 21h30v14H5z"/><path d="M5 26h30M5 31h30"/><circle cx="14" cy="17" r="5.5"/><circle cx="14" cy="17" r="1.2"/></svg>Find a saved beat</summary>
-        <div class="inner">
-          <div class="pullup">
-            <div class="field"><label for="viewsrc">Show on the chalkboard</label>
-              <select id="viewsrc">
-                <option value="batch">This batch</option>
-                <option value="favorites">Favorites</option>
-                <option value="dj">DJ folder</option>
-                <option value="trash">Trash (recover a failed beat)</option>
-              </select></div>
-            <div class="field"><label for="pullno">Beat number</label>
-              <input type="number" id="pullno" min="1" placeholder="316"></div>
-            <button id="pullgo">Open it</button>
-            <span class="note">Puts an older beat on the chalkboard so you can play it,
-            open its stems, and swap sounds. (Beats made from July&nbsp;16 on.)</span>
-          </div>
-          <div id="pullmsg" role="status"></div></div>
-      </details>
-    </div>
+    <div class="roster" data-kind="crew" role="tabpanel" aria-labelledby="tab-crew"><div class="djs">__CREW__</div></div>
+    <div class="roster" data-kind="legends" role="tabpanel" aria-labelledby="tab-legends" hidden><div class="djs">__LEGENDS__</div></div>
+    <p class="popnote">Pick one for a solo beat. Pick more for a collab &mdash; it lands in the folder of whoever you pick
+      <b>first</b>. Ask for four or more and a quarter come back as straight, traditional hip hop.</p>
+    <span id="hosthint" role="status"></span>
   </section>
 
-  <aside class="right board">
-    <div class="boardtop">
-      <div class="face">
-        <div class="eyes">
-          <div class="eye"><label for="tempo">Tempo</label>
-            <div class="spin"><input type="text" id="tempo" inputmode="numeric" placeholder="auto"
-                title="Leave blank to use the DJ's home tempo">
-              <span class="unit">BPM</span>
-              <span class="arrows"><button type="button" data-for="tempo" data-d="1" aria-label="Tempo up">&#9650;</button><button type="button" data-for="tempo" data-d="-1" aria-label="Tempo down">&#9660;</button></span></div></div>
-          <div class="eye"><label for="count">Number of beats</label>
-            <div class="spin"><input type="number" id="count" value="1" min="1" max="10"
-                title="Up to 10">
-              <span class="arrows"><button type="button" data-for="count" data-d="1" aria-label="One more beat">&#9650;</button><button type="button" data-for="count" data-d="-1" aria-label="One fewer beat">&#9660;</button></span></div></div>
-        </div>
-        <label class="nose" title="Build the whole beat from loop material instead of one-shots">
-          <input type="checkbox" id="loopsonly"><span>Loops only</span></label>
-        <button type="button" id="go" aria-label="Test &mdash; make the beats">Test</button>
-        <span id="hosthint" role="status"></span>
+  <section class="panel params" aria-labelledby="h-params">
+    <h2 id="h-params"><span class="num">2</span>Set your parameters</h2>
+    <div class="pgrid">
+      <div class="fld"><label for="key">Key</label>
+        <select id="key"><option value="">any key</option>__KEYOPTS__</select></div>
+      <div class="fld cnt"><label for="count">Number of beats</label>
+        <div class="spin"><input type="number" id="count" value="1" min="1" max="10" title="1 to 10">
+          <span class="arrows"><button type="button" data-for="count" data-d="1" aria-label="One more beat">&#9650;</button><button type="button" data-for="count" data-d="-1" aria-label="One fewer beat">&#9660;</button></span></div>
+        <small>1&ndash;10 beats</small></div>
+      <div class="fld pick" data-kind="styles">
+        <span class="lbl" id="lbl-styles">Style</span>
+        <div class="picker" role="button" tabindex="0" aria-haspopup="true" aria-expanded="false" aria-labelledby="lbl-styles">
+          <span class="chips"><span class="ph">Any &mdash; pick subgenres, played by the rules</span></span>
+          <span class="chev" aria-hidden="true"></span></div>
+        <div class="pop"><div class="djs">__GENRES__</div></div>
       </div>
-      <div class="logocol">
-        <img class="boardlogo" src="/brand?name=logo-chalk.png" alt="The Back of the Class"
-             onerror="this.style.visibility='hidden'">
+      <!-- Directions + Famous beats feed the SAME hidden notes text the old
+           Directions box held (syncNotes), so parsing is unchanged. -->
+      <input type="hidden" id="notes" value="">
+      <div class="fld wide"><label for="quick">Directions</label>
+        <select id="quick">
+          <option value="">e.g. dark, melodic, aggressive&hellip;</option>
+          <option value="no chords">no chords &mdash; drums only, old style</option>
+          <option value="sparse">sparse &mdash; thin everything out</option>
+          <option value="sparse, no hi hats">sparse, no hi hats &mdash; thin, and no hats at all</option>
+          <option value="sparse, halftime, dark">sparse, halftime, dark &mdash; thin, half-time, dark chords</option>
+          <option value="no hi hats, dusty, vinyl">no hi hats, dusty, vinyl &mdash; no hats, dusty vinyl sounds</option>
+          <option value="halftime, deep, no claps">halftime, deep, no claps &mdash; half-time, deep kit, claps off</option>
+          <option value="waltz, jazzy">waltz, jazzy &mdash; 3/4 time, jazz chords</option>
+          <option value="no swing, tight, punchy">no swing, tight, punchy &mdash; dead straight grid</option>
+          <option value="washed, dreamy chords">washed, dreamy chords &mdash; big reverb, dreamy chords</option>
+          <option value="long 808, boomy, room">long 808, boomy, room &mdash; sustained 808, roomy</option>
+          <option value="no 808, acoustic, dry">no 808, acoustic, dry &mdash; short real kick, no reverb</option>
+          <option value="no perc">no perc &mdash; percussion off</option>
+          <option value="crisp">crisp &mdash; crisp, clear samples</option>
+          <option value="dusty">dusty &mdash; dusty, aged samples</option>
+        </select></div>
+    </div>
+
+    <div class="tempo">
+      <svg class="flask auto" viewBox="0 0 120 160" aria-hidden="true">
+        <defs><clipPath id="flaskclip"><path d="M47 10H73V54L107 136Q112 152 98 152H22Q8 152 13 136L47 54Z"/></clipPath></defs>
+        <g clip-path="url(#flaskclip)"><rect class="liq" x="0" y="152" width="120" height="0"/>
+          <rect class="shine" x="22" y="0" width="6" height="160"/></g>
+        <g id="fticks"></g>
+        <path class="glass" d="M47 10H73V54L107 136Q112 152 98 152H22Q8 152 13 136L47 54Z"/>
+        <path class="glass" d="M42 10H78"/>
+      </svg>
+      <div class="bpmbox">
+        <div class="spin tspin">
+          <input type="text" id="tempo" inputmode="numeric" placeholder="auto" aria-label="Tempo in BPM"
+                 title="Leave blank to use the DJ's home tempo">
+          <span class="unit">BPM</span>
+          <span class="pm"><button type="button" data-for="tempo" data-d="-1" aria-label="Tempo down">&minus;</button><button type="button" data-for="tempo" data-d="1" aria-label="Tempo up">+</button></span>
+        </div>
+        <label class="toggle" title="Build the whole beat from loop material instead of one-shots">
+          <input type="checkbox" id="loopsonly"><span class="sw"></span>
+          <span><b>Loops only</b><small id="modeword">Beat mode</small></span></label>
       </div>
     </div>
 
-    <hr class="chalkline">
-    <div id="work" role="status"><div id="workbar"><i></i></div><div id="worktext"></div></div>
+    <button type="button" id="go" aria-label="Generate beats">
+      <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 3h6M10 3v6L4.5 19a1.5 1.5 0 0 0 1.3 2h12.4a1.5 1.5 0 0 0 1.3-2L14 9V3"/><path d="M12 13v5M9.5 15.5h5"/></svg>
+      <span id="goword">Generate Beats</span></button>
+  </section>
 
-    <div id="tracklist"></div>
-    <div id="empty"><div class="ghost"><img src="/brand?name=logo-chalk.png" alt=""
-         onerror="this.style.display='none'"></div><span class="scribble">nothing cooking yet</span>
-      <p id="emptytext">Make a beat and it lands here &mdash; with every drum in it.</p></div>
-    <div class="tray" aria-hidden="true"><i></i><i></i><b></b></div>
-  </aside>
+  <nav class="tools" aria-label="Library, saved beats and reference">
+    <details class="tool">
+      <summary><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/></svg>Pattern Library</summary>
+      <div class="tpop"><p class="note">Every transcribed groove, by genre &mdash; drums only, no chords or bass.</p>
+        <div class="row">
+          <div class="fld"><label for="libgenre">Genre</label><select id="libgenre">__LIBGENRES__</select></div>
+          <div class="fld"><label for="libpattern">Pattern</label><select id="libpattern"></select></div>
+          <button type="button" class="btn lead" id="libgo">Play it</button></div>
+        <p class="note">Renders on its own and lands in the beat list &mdash; play it again for a new kit on the same rhythm.</p></div>
+    </details>
+    <details class="tool">
+      <summary><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12h4l2.5-6 4 13 3-9 1.5 2H22"/></svg>Breaks</summary>
+      <div class="tpop"><p class="note">Famous figures and funk breaks &mdash; kept separate, played verbatim.</p>
+        <div class="row">
+          <div class="fld"><label for="libbreak">Break</label><select id="libbreak">__LIBBREAKS__</select></div>
+          <button type="button" class="btn lead" id="libbreakgo">Play it</button></div>
+        <p class="note">Saved to its own Breaks folder, never mixed into a genre.</p></div>
+    </details>
+    <details class="tool" id="savedtool">
+      <summary><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6.5A1.5 1.5 0 0 1 4.5 5H9l2 2.5h8.5A1.5 1.5 0 0 1 21 9v9.5a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 18.5z"/></svg>Saved Beats</summary>
+      <div class="tpop">
+        <div class="fld"><label for="viewsrc">Show in the list</label>
+          <select id="viewsrc">
+            <option value="batch">This batch</option>
+            <option value="favorites">Passed (Favorites)</option>
+            <option value="dj">DJ folder</option>
+            <option value="trash">Failed (Trash &mdash; get one back)</option>
+          </select></div>
+        <div class="row">
+          <div class="fld"><label for="pullno">Beat number</label><input type="number" id="pullno" min="1" placeholder="316"></div>
+          <button type="button" class="btn lead" id="pullgo">Open it</button></div>
+        <p class="note">Puts an older beat in the list so you can play it, open its stems and swap sounds. (Beats made from July&nbsp;16 on.)</p>
+        <div id="pullmsg" role="status"></div></div>
+    </details>
+    <details class="tool" id="famoustool">
+      <summary><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.8l2.8 5.9 6.4.8-4.7 4.4 1.2 6.4L12 17.2l-5.7 3.1 1.2-6.4-4.7-4.4 6.4-.8z"/></svg>Famous Beats</summary>
+      <div class="tpop">
+        <div class="fld"><label for="famous">Build on a famous drum break</label>
+          <select id="famous">
+            <option value="">none</option>
+            <option value="break">surprise me &mdash; any of them</option>
+__BREAKS__
+          </select></div>
+        <p class="note">Goes in with your next Generate. A dot on this button means one is picked.</p></div>
+    </details>
+    <details class="tool">
+      <summary><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 11.5l-8.2 8.2a5 5 0 0 1-7.1-7.1l8.6-8.6a3.4 3.4 0 0 1 4.8 4.8l-8.4 8.4a1.7 1.7 0 0 1-2.4-2.4l7.7-7.7"/></svg>Reference</summary>
+      <div class="tpop">
+        <span class="lbl" id="lbl-ref">Match a song&rsquo;s tempo and key</span>
+        <div id="refdrop" role="button" tabindex="0" aria-labelledby="lbl-ref refdrop-hint">
+          <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V4M7.5 8.5L12 4l4.5 4.5M5 14v5h14v-5"/></svg>
+          <span>Drop a track here or click to upload
+            <small id="refdrop-hint">MP3, WAV, M4A, AIFF, FLAC (max 300 MB)</small></span></div>
+        <input type="file" id="reffile" accept=".mp3,.wav,.m4a,.aif,.aiff,.flac,audio/*" hidden>
+        <div class="hint" id="refline" role="status">nothing dropped yet</div></div>
+    </details>
+  </nav>
+
+  <div id="work" role="status"><div id="workbar"><i></i></div><div id="worktext"></div></div>
+
+  <div class="lower">
+    <section aria-label="Beats">
+      <div id="tracklist"></div>
+      <div id="empty"><div class="ghost"><img src="/brand?name=logo-chalk.png" alt=""
+           onerror="this.style.display='none'"></div><span class="scribble">Nothing cooking yet</span>
+        <p id="emptytext">Make a beat and it lands here &mdash; with every drum in it.</p></div>
+    </section>
+    <aside class="panel elements" aria-labelledby="h-el">
+      <h2 id="h-el">Elements <span id="elcount"></span></h2>
+      <div id="elmeta"><span class="hint">Pick a beat to see what&rsquo;s in it.</span></div>
+      <div class="tiles" id="eltiles"></div>
+    </aside>
+  </div>
+</div>
 </div>
 
-</div>
+<footer class="nowbar" aria-label="Now playing">
+  <span class="nhead"><span class="art c0" id="nart" aria-hidden="true"><b></b></span>
+    <span class="ntitle"><b id="ntitle">Nothing playing</b><small id="nsub"></small></span></span>
+  <span class="nprog"><span class="ntrack"><i id="nfill"></i></span><span id="ntime">0:00 / 0:00</span></span>
+  <span class="nctl">
+    <button type="button" id="nprev" aria-label="Previous beat"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 5v14M19 5l-10 7 10 7z"/></svg></button>
+    <button type="button" id="npp" aria-label="Play">&#9654;</button>
+    <button type="button" id="nnext" aria-label="Next beat"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M18 5v14M5 5l10 7-10 7z"/></svg></button>
+  </span>
+  <span class="nqueue" id="nqueue" aria-label="Beats in the list"></span>
+</footer>
 <div id="toast" role="status" aria-live="polite" hidden></div>
 <script>
  // The Directions typing box is gone. Quick directions and Famous beats
@@ -7502,6 +7148,8 @@ __BREAKS__
  function syncNotes() {
    notesBox.value = [document.getElementById('famous').value,
                      document.getElementById('quick').value].filter(Boolean).join(', ');
+   document.getElementById('famoustool').classList.toggle('set',
+     !!document.getElementById('famous').value);
  }
  ['quick', 'famous'].forEach(id =>
    document.getElementById(id).addEventListener('change', syncNotes));
@@ -7567,12 +7215,15 @@ __BREAKS__
  });
  document.addEventListener('click', e => {
    if (!e.target.closest('.pick')) closePicks();
+   if (!e.target.closest('details.tool'))
+     document.querySelectorAll('details.tool[open]').forEach(d => d.open = false);
    if (!e.target.closest('.more'))
      document.querySelectorAll('.more.open').forEach(m => m.classList.remove('open'));
  });
  document.addEventListener('keydown', e => {
    if (e.key !== 'Escape') return;
    closePicks();
+   document.querySelectorAll('details.tool[open]').forEach(d => d.open = false);
    document.querySelectorAll('.more.open').forEach(m => m.classList.remove('open'));
  });
  document.querySelectorAll('.dj input').forEach(cb => {
@@ -7754,7 +7405,7 @@ __BREAKS__
  });
 
  // ------------------------------------------------------------ the batch
- const LOC = { favorites: '&starf; passed', trash: 'in Trash', dj: '' };
+ const LOC = { favorites: 'Passed', trash: 'Failed \u00b7 in Trash', dj: '' };
  const staged = {};                    // beat no -> { lane: path | null }
  const trims = {};                     // beat no -> { lane: dB }
  const SOUND_ENGINE = 'http://localhost:8767';
@@ -7774,7 +7425,7 @@ __BREAKS__
  const drops = {};                     // beat no -> { lane: true }
 
  function setLoc(el, loc) {
-   el.className = 'track loc-' + loc;
+   el.className = 'track loc-' + loc + (el === selEl ? ' sel' : '');
    el.dataset.loc = loc;
    el.querySelector('.tloc').innerHTML = LOC[loc] || '';
    el.querySelectorAll('.acts button[data-dest]').forEach(b => {
@@ -7830,45 +7481,49 @@ __BREAKS__
    el.className = 'track loc-' + b.loc;
    el.dataset.no = b.no; el.dataset.seId = b.se_id || '';
    el.au = new LoopAudio('/audio?no=' + b.no);
+   const ICON = d => '<svg class="ic" viewBox="0 0 24 24" aria-hidden="true">' + d + '</svg>';
    el.innerHTML =
      '<div class="thead">' +
-       '<span class="no">' + b.no + '</span>' +
-       '<span class="tmeta"><span class="tname"></span>' +
-         '<span class="tsub"></span></span>' +
-       // star = keep (a second click sends it back to its DJ folder);
-       // the rest live in the "..." menu — same data-dest buttons as before
-       '<span class="acts">' +
-         '<button class="star" title="Pass \u2014 save to Favorites" aria-label="Pass / Save to Favorites" aria-pressed="false" data-dest="favorites">' +
-           '<svg viewBox="0 0 24 24"><path d="M12 2.8l2.8 5.9 6.4.8-4.7 4.4 1.2 6.4L12 17.2l-5.7 3.1 1.2-6.4-4.7-4.4 6.4-.8z"/></svg></button>' +
-         '<button class="eraser" title="Fail \u2014 move to Trash (you can get it back)" aria-label="Fail / Move to Trash" aria-pressed="false" data-dest="trash">' +
-           '<svg viewBox="0 0 24 24"><path d="M3.5 15.5l9.500-9.500a2 2 0 0 1 2.800 0l3.200 3.200a2 2 0 0 1 0 2.800L11.500 20H7z"/><path d="M8 11.500l5.5 5.5M11.500 20H21"/></svg></button>' +
-         '<button class="stembtn" data-role="sketch" title="Make a whole song (2:30 to 4:00) from this beat">' +
-           '<svg viewBox="0 0 24 24"><path d="M3 7h6v10H3zM9 4h6v13H9zM15 9h6v8h-6z"/></svg>Sketch</button>' +
-         '<button class="stembtn" data-role="stems">' +
-           '<svg viewBox="0 0 24 24"><path d="M12 3l9 5-9 5-9-5z"/><path d="M3 12.5l9 5 9-5"/><path d="M3 16.5l9 5 9-5"/></svg>Stems</button>' +
-         '<span class="more"><button class="morebtn" title="More" aria-label="More" aria-haspopup="true">&middot;&middot;&middot;</button>' +
-           '<span class="menu">' +
-             (b.se_id ? '<button data-role="engine" ' +
-               'title="Open in the Sound Engine with this DJ&apos;s effects ' +
-               'already dialled in (start it from Sound Engine.command first)">' +
-               '&#10022; FX in the Sound Engine</button>' : '') +
-             '<button title="Move it back to its DJ folder (also gets a beat out of Trash or Favorites)" data-dest="dj">&#9635; Back to its DJ folder</button>' +
+       '<span class="art c' + (b.no % 4) + '" aria-hidden="true"><b>' + b.no + '</b></span>' +
+       '<span class="tmain">' +
+         '<span class="trow1"><span class="tmeta"><span class="tname"></span>' +
+           '<span class="tsub"></span></span>' +
+           // Pass = keep (Favorites), Fail = Trash (a move, never a delete);
+           // a second click sends it back to its DJ folder. Same data-dest
+           // buttons as before; "..." holds the rest.
+           '<span class="acts">' +
+             '<button class="star pass" title="Pass \u2014 save to Favorites" aria-label="Pass / Save to Favorites" aria-pressed="false" data-dest="favorites">' +
+               ICON('<circle cx="12" cy="12" r="9.5"/><path d="M7.5 12.3l3 3 6-6.3"/>') + 'Pass</button>' +
+             '<button class="eraser fail" title="Fail \u2014 move to Trash (you can get it back)" aria-label="Fail / Move to Trash" aria-pressed="false" data-dest="trash">' +
+               ICON('<circle cx="12" cy="12" r="9.5"/><path d="M8.5 8.5l7 7M15.5 8.5l-7 7"/>') + 'Fail</button>' +
+             '<span class="more"><button class="morebtn" title="More" aria-label="More" aria-haspopup="true">&middot;&middot;&middot;</button>' +
+               '<span class="menu">' +
+                 '<button title="Move it back to its DJ folder (also gets a beat out of Trash or Favorites)" data-dest="dj">Back to its DJ folder</button>' +
+               '</span></span>' +
            '</span></span>' +
+         '<span class="tmetaline"></span>' +
+         '<span class="player"><span class="bar"><canvas></canvas><i></i></span></span>' +
+         '<span class="trow3"><button class="pp" aria-label="Play">&#9654;</button>' +
+           '<button class="stembtn" data-role="sketch" title="Make a whole song (2:30 to 4:00) from this beat">' +
+             ICON('<path d="M6 3h8l4 4v14H6z"/><path d="M9 11h6M9 15h6"/>') + 'Sketch</button>' +
+           '<button class="stembtn" data-role="stems">' +
+             ICON('<path d="M12 3l9 5-9 5-9-5z"/><path d="M3 12.5l9 5 9-5"/><path d="M3 16.5l9 5 9-5"/>') + 'Stems</button>' +
+           '<button class="stembtn" data-role="engine"' + (b.se_id
+             ? ' title="Open this beat on the Physics (Effects) page, in this tab">'
+             : ' disabled title="This beat has no Effects copy. Open Stems, change something, then use Effects there.">') +
+             ICON('<path d="M14 4h6v6M20 4l-9 9"/><path d="M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/>') + 'Open Physics</button>' +
+           '<span class="time">0:00</span></span>' +
        '</span>' +
-       '<span class="player"><button class="pp" aria-label="Play">&#9654;</button>' +
-         '<span class="sep"></span>' +
-         '<span class="bar"><canvas></canvas><i></i></span>' +
-         '<span class="time">0:00</span></span>' +
      '</div>' +
      '<div class="theory"></div>' +
      '<div class="rack"></div>';
    const th = b.theory;
-   el.querySelector('.tname').innerHTML = 'Beat <u>' + esc(String(b.no)) + '</u>';
+   el.querySelector('.tname').textContent = t.rest || ('Beat ' + b.no);
    el.querySelector('.tsub').innerHTML =
-     [t.bpm ? t.bpm + ' BPM' : '', th && th.key ? esc(th.key) : '']
-       .filter(Boolean).join(' &nbsp;|&nbsp; ') +
-     ' <span class="who">&middot; ' + esc(t.rest) + '</span>' +
-     ' <span class="tloc"></span>';
+     '<span class="tag">Beat ' + esc(String(b.no)) + '</span><span class="tag tloc"></span>';
+   el.querySelector('.tmetaline').innerHTML =
+     [th && th.key ? esc(th.key) : '', t.bpm ? t.bpm + ' BPM' : '', '<span class="dur"></span>']
+       .filter(Boolean).join(' &nbsp;|&nbsp; ');
    // why this beat works — only for beats that recorded their harmony;
    // anything older just doesn't get the block (see _beat_theory)
    if (th && th.key) {
@@ -7904,10 +7559,13 @@ __BREAKS__
    // Open this beat in the Sound Engine with the DJ's effects already set
    // (sound_engine/fx_presets.py). It is a separate app on its own port, so
    // this is a plain link out — nothing is printed here and this beat's
-   // files are not touched. If the Sound Engine isn't running the new tab
+   // files are not touched. If the Sound Engine isn't running the page
    // just fails to connect, which is why the button says to start it.
    const eng = el.querySelector('[data-role=engine]');
-   if (eng) eng.onclick = () => openEffects(b.no, b.se_id);
+   if (eng && b.se_id) eng.onclick = () => openEffects(b.no, b.se_id);
+   // clicking anywhere on a card (not inside its open rack) selects it, and
+   // the Elements table beside the list follows the selection
+   el.addEventListener('click', e => { if (!e.target.closest('.rack')) selectBeat(el); });
    wireTransport(el);
    return el;
  }
@@ -7944,8 +7602,9 @@ __BREAKS__
      }
    };
    au.addEventListener('play', () => { pp.classList.add('on');
-     pp.innerHTML = '&#10073;&#10073;'; });
-   const stop = () => { pp.classList.remove('on'); pp.innerHTML = '&#9654;'; };
+     pp.innerHTML = '&#10073;&#10073;'; setNow(el, true); });
+   const stop = () => { pp.classList.remove('on'); pp.innerHTML = '&#9654;';
+                        if (nowEl === el) setNow(el, false); };
    // A preview that couldn't be built has to SAY so. It used to serve the
    // untouched beat instead, so a failed swap sounded exactly like a swap
    // that did nothing (owner 2026-08-04).
@@ -7965,6 +7624,7 @@ __BREAKS__
        paintWave(bar, au.currentTime / au.duration);
      }
      told();
+     if (nowEl === el) nowTime(au);
    });
    au.addEventListener('loadedmetadata', told);
    bar.onclick = e => {
@@ -7978,18 +7638,17 @@ __BREAKS__
  // Bars come from the server (/peaks, read-only), drawn on a canvas; the
  // part already played is full colour. If they can't be read the card
  // keeps the old thin progress bar, so playback never depends on it.
- const WAVE_COLORS = ['#9be22d', '#f2f1ea', '#f6e04b'];
  async function drawWave(el, idx) {
    const bar = el.querySelector('.bar');
    try {
      const d = await (await fetch('/peaks?no=' + el.dataset.no + '&n=150')).json();
      if (!d.ok || !d.peaks.length) throw new Error(d.error || 'no peaks');
      bar.peaks = d.peaks;
-     bar.color = WAVE_COLORS[idx % WAVE_COLORS.length];
      // the length is known before the audio loads, so the card can say
      // "0:00 / 0:12" like the mockup without fetching the whole beat
      const au = el.au, time = el.querySelector('.time');
      if (d.seconds && !au.duration) time.textContent = '0:00 / ' + clock(d.seconds);
+     if (d.seconds) el.querySelector('.dur').textContent = clock(d.seconds);
      bar.classList.add('has-wave');
      paintWave(bar, bar.frac || 0);
    } catch (e) { bar.classList.remove('has-wave'); }
@@ -8007,12 +7666,13 @@ __BREAKS__
    g.setTransform(dpr, 0, 0, dpr, 0, 0);
    g.clearRect(0, 0, w, h);
    const step = w / p.length, bw = Math.max(1, step * 0.55), mid = h / 2;
-   g.fillStyle = bar.color;
-   g.globalAlpha = .9;
-   g.fillRect(0, mid - .75, w, 1.5);                 // the chalk centre line
+   const css = getComputedStyle(document.body);
+   const lit = css.getPropertyValue('--wave').trim() || '#7CFF32',
+         grey = css.getPropertyValue('--dim').trim() || '#a7a7ad';
    p.forEach((v, i) => {
      const x = i * step;
-     g.globalAlpha = (frac > 0 && x / w > frac) ? .38 : 1;
+     g.fillStyle = (frac > 0 && x / w <= frac) ? lit : grey;
+     g.globalAlpha = (frac > 0 && x / w <= frac) ? 1 : .7;
      const bh = Math.max(2, v * (h - 4));
      g.fillRect(x, mid - bh / 2, bw, bh);
    });
@@ -8045,7 +7705,7 @@ __BREAKS__
      d = await (await fetch(SRC === 'batch' ? '/batch' : '/folder?loc=' + SRC)).json();
      if (d.ok === false) throw new Error(d.error);
    } catch (e) {
-     list.innerHTML = '';
+     list.innerHTML = ''; clearElements(); paintQueue();
      empty.classList.add('err'); empty.style.display = 'block';
      say.textContent = "Couldn't read your beats (" + (e.message || e) +
        '). Is the beats drive plugged in?';
@@ -8064,6 +7724,12 @@ __BREAKS__
      if (open.includes(String(b.no)))
        toggleRack(el, b.no, el.querySelector('[data-role=stems]'));
    });
+   const keep = selEl && selEl.dataset.no;
+   selEl = null;
+   const want = list.querySelector('.track[data-no="' + (focus || keep) + '"]') ||
+                list.querySelector('.track');
+   if (want) selectBeat(want); else clearElements();
+   paintQueue();
    if (focus) {
      const el = list.querySelector('.track[data-no="' + focus + '"]');
      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -8686,7 +8352,8 @@ __BREAKS__
  // Effects page -- volumes, pans, removals and sound swaps -- with no new
  // number. Nothing changed = the beat itself.
  async function openEffects(no, seId, msg) {
-   const tab = window.open('about:blank', '_blank');     // on the click
+   // One tab only (owner 2026-10-31): Effects loads in THIS tab, and its
+   // Send back / Sketch buttons load the Beat Machine back into it.
    const picks = staged[no] || {}, vols = trims[no] || {}, pn = pans[no] || {};
    const gone = Object.keys(drops[no] || {});
    const changed = Object.keys(picks).length || Object.keys(vols).length ||
@@ -8707,9 +8374,8 @@ __BREAKS__
      }
      if (!id) throw new Error('This beat can\'t open in Effects.');
      if (msg) msg.textContent = '';
-     tab.location = engineLink(id);
+     location.href = engineLink(id);
    } catch (e) {
-     tab.close();
      if (msg) msg.textContent = String(e.message || e); else alert(e.message || e);
    }
  }
@@ -8724,9 +8390,8 @@ __BREAKS__
    btn.disabled = true; msg.textContent = '';
    const was = btn.textContent;
    btn.textContent = 'Rebuilding…';
-   // Rebuild goes straight on to the Effects page (owner 2026-10-15).
-   // The tab opens NOW, on the click, or the browser blocks it as a popup.
-   const tab = fx ? null : window.open('about:blank', '_blank');
+   // Rebuild goes straight on to the Effects page (owner 2026-10-15),
+   // in this same tab (owner 2026-10-31: one tab only).
    try {
      const r = await fetch('/rebuild', { method: 'POST',
        headers: { 'Content-Type': 'application/json' },
@@ -8735,16 +8400,13 @@ __BREAKS__
      const d = await r.json();
      if (d.ok) { delete staged[no]; delete trims[no]; delete drops[no];
                  delete pans[no]; saveMix();
-                 if (tab && d.se_id) {
+                 if (!fx && d.se_id) {
                    await fetch('/engine-up', { method: 'POST', body: '{}' });
-                   tab.location = engineLink(d.se_id);
+                   location.href = engineLink(d.se_id); return;
                  }
-                 else if (tab) tab.close();
                  btn.textContent = was; await loadBatch(d.no); }
-     else { if (tab) tab.close();
-            msg.textContent = d.error; btn.textContent = was; btn.disabled = false; }
+     else { msg.textContent = d.error; btn.textContent = was; btn.disabled = false; }
    } catch (e) {
-     if (tab) tab.close();
      msg.textContent = String(e); btn.textContent = was; btn.disabled = false;
    }
  }
@@ -8763,6 +8425,7 @@ __BREAKS__
 
  function refSay() {
    refline.classList.remove('bad');
+   flask();
    if (!refName) { refline.textContent = 'nothing dropped yet'; return; }
    const bpm = parseFloat(tempoBox.value);
    refline.innerHTML = '<b>' + esc(refName) + '</b> &mdash; ' +
@@ -8858,7 +8521,11 @@ __BREAKS__
      if (isTempo) { box.value = Math.min(hi, Math.max(lo, Math.round(v))); return; }
    }
    box.value = Math.min(hi, Math.max(lo, Math.round(v + Number(b.dataset.d))));
+   flask();
  });
+ // a clicked arrow that sets the starting tempo returns early: catch it too
+ document.querySelectorAll('.spin [data-for=tempo]').forEach(b =>
+   b.addEventListener('click', flask));
 
  // ------------------------------------------------------------- make them
  const go = document.getElementById('go'),
@@ -8945,6 +8612,176 @@ __BREAKS__
      else msg.textContent = d.error;
    } catch (e) { msg.textContent = String(e); }
  };
+
+
+ // ------------------------------------------- class tabs + toolbar pop-ups
+ document.querySelectorAll('.tabs [data-tab]').forEach(t => t.onclick = () => {
+   document.querySelectorAll('.tabs [data-tab]').forEach(x =>
+     x.setAttribute('aria-selected', String(x === t)));
+   document.querySelectorAll('.roster').forEach(r => r.hidden = r.dataset.kind !== t.dataset.tab);
+ });
+ document.querySelectorAll('details.tool').forEach(d => d.addEventListener('toggle', () => {
+   if (d.open) document.querySelectorAll('details.tool[open]').forEach(o => { if (o !== d) o.open = false; });
+ }));
+ document.getElementById('side-saved').onclick = e => {
+   e.stopPropagation();
+   const t = document.getElementById('savedtool');
+   t.open = true; t.scrollIntoView({ behavior: 'smooth', block: 'center' });
+ };
+
+ // ------------------------------------------------------------ tempo flask
+ // The liquid and the scale come from the SAME numbers (TLO..THI), so the
+ // flask can never disagree with the BPM box. Blank = the DJ's home tempo.
+ const FL_TOP = 22, FL_BOT = 146;
+ const flY = v => FL_BOT - (v - TLO) / (THI - TLO) * (FL_BOT - FL_TOP);
+ (function ticks() {
+   const g = document.getElementById('fticks');
+   for (let i = 0; i <= 4; i++) {
+     const v = Math.round(TLO + (THI - TLO) * i / 4), y = flY(v);
+     g.insertAdjacentHTML('beforeend', '<g class="tk" data-v="' + v + '"><line x1="44" x2="51" y1="' + y +
+       '" y2="' + y + '"/><text x="55" y="' + (y + 3.4) + '">' + v + '</text></g>');
+   }
+ })();
+ function flask() {
+   const v = parseFloat(tempoBox.value), ok = isFinite(v);
+   const y = ok ? flY(Math.max(TLO, Math.min(THI, v))) : FL_BOT - 12;
+   const f = document.querySelector('.flask'), liq = f.querySelector('.liq');
+   liq.setAttribute('y', y); liq.setAttribute('height', 160 - y);
+   f.classList.toggle('auto', !ok);
+   // a tick above the liquid sits on glass, not liquid: draw it light
+   f.querySelectorAll('.tk').forEach(t => t.classList.toggle('dry', flY(+t.dataset.v) < y - 1));
+ }
+ tempoBox.addEventListener('input', flask);
+ flask();
+
+ // ------------------------------------------------------- Loops only mode
+ // Same palette, swapped roles (body.loops in the CSS), plus words, so the
+ // colour is never the only sign of which mode is on.
+ const loopsBox = document.getElementById('loopsonly');
+ function paintMode() {
+   const on = loopsBox.checked;
+   document.body.classList.toggle('loops', on);
+   document.getElementById('goword').textContent = on ? 'Generate Loops' : 'Generate Beats';
+   document.getElementById('modeword').textContent = on ? 'Loop mode' : 'Beat mode';
+   go.setAttribute('aria-label', on ? 'Generate loops' : 'Generate beats');
+   document.querySelectorAll('.bar.has-wave').forEach(b => paintWave(b, b.frac || 0));
+ }
+ loopsBox.addEventListener('change', paintMode);
+ paintMode();
+
+ // ------------------------------------------- selected beat: Elements table
+ // Tiles come from /stems (the same read-only call the rack makes): the
+ // real role and sample for every sound, however many there are.
+ let selEl = null, nowEl = null;
+ const CODES = [['open hat', 'Oh'], ['hat', 'Hh'], ['kick', 'Kk'], ['bass drum', 'Kk'],
+   ['snare', 'Sn'], ['clap', 'Cp'], ['rim', 'Rm'], ['808', 'Bm'], ['boom', 'Bm'],
+   ['sub', 'Sb'], ['bass', 'Bs'], ['chord', 'Ch'], ['pad', 'Pd'], ['lead', 'Ld'],
+   ['melod', 'Ml'], ['piano', 'Pn'], ['key', 'Ky'], ['string', 'St'], ['horn', 'Hn'],
+   ['brass', 'Br'], ['vocal', 'Vx'], ['vox', 'Vx'], ['sample', 'Sm'], ['loop', 'Lp'],
+   ['perc', 'Pc'], ['shaker', 'Sh'], ['tom', 'Tm'], ['ride', 'Rd'], ['crash', 'Cr'],
+   ['cymbal', 'Cy'], ['bell', 'Bl'], ['guitar', 'Gt'], ['organ', 'Or'], ['tag', 'Tg'],
+   ['fx', 'Fx'], ['texture', 'Fx'], ['riser', 'Fx']];
+ function code(label) {
+   const l = label.toLowerCase(), hit = CODES.find(([w]) => l.includes(w));
+   if (hit) return hit[1];
+   const w = label.replace(/[^A-Za-z]/g, '');
+   return (w[0] || '?').toUpperCase() + (w[1] || '').toLowerCase();
+ }
+ const elTiles = document.getElementById('eltiles'),
+       elMeta = document.getElementById('elmeta'),
+       elCount = document.getElementById('elcount');
+ function clearElements() {
+   elCount.textContent = ''; elTiles.innerHTML = '';
+   elMeta.innerHTML = '<span class="hint">Pick a beat to see what&rsquo;s in it.</span>';
+ }
+ async function selectBeat(el) {
+   if (!el || el === selEl) return;
+   if (selEl) selEl.classList.remove('sel');
+   selEl = el; el.classList.add('sel');
+   const no = el.dataset.no, th = el.querySelector('.theory').innerHTML;
+   elMeta.innerHTML = '<div class="eltitle">' + esc(el.querySelector('.tname').textContent) +
+     '</div><div>' + el.querySelector('.tmetaline').innerHTML + '</div>' + th;
+   elCount.textContent = ''; elTiles.innerHTML = '<p class="hint">reading the sounds&hellip;</p>';
+   let d;
+   try { d = await (await fetch('/stems?no=' + no)).json(); }
+   catch (e) { d = { ok: false, error: 'Could not read that beat.' }; }
+   if (selEl !== el) return;                  // picked another meanwhile
+   if (!d.ok) { elTiles.innerHTML = '<p class="hint bad">' + esc(d.error || 'Could not read that beat.') + '</p>'; return; }
+   elCount.textContent = '· ' + d.stems.length + (d.stems.length === 1 ? ' sound' : ' sounds');
+   elTiles.innerHTML = d.stems.map((s, i) => {
+     const name = s.label || s.lane;
+     return '<button type="button" class="tile c' + (i % 4) + (s.locked ? ' locked' : '') +
+       '" data-lane="' + esc(s.lane) + '" title="' + esc(name + ' — ' + (s.sample || '') +
+       (s.pack ? ' (' + s.pack + ')' : '') + '. Click to open it in Stems.') + '">' +
+       '<span class="tn">' + String(i + 1).padStart(2, '0') + '</span>' +
+       '<span class="tc">' + esc(code(name)) + '</span>' +
+       '<span class="tl">' + esc(name) + '</span>' +
+       '<span class="ts">' + esc(s.sample || '') + '</span></button>';
+   }).join('');
+   elTiles.querySelectorAll('.tile').forEach(t => t.onclick = async () => {
+     const rack = el.querySelector('.rack');
+     if (!rack.classList.contains('open'))
+       await toggleRack(el, no, el.querySelector('[data-role=stems]'));
+     const row = rack.querySelector('.lane[data-lane="' + CSS.escape(t.dataset.lane) + '"]');
+     if (row) {
+       row.scrollIntoView({ behavior: 'smooth', block: 'center' });
+       row.classList.add('flash'); setTimeout(() => row.classList.remove('flash'), 1400);
+     }
+   });
+ }
+
+ // ------------------------------------------------------ now-playing bar
+ // Mirrors whichever card is playing; its buttons press that card's own
+ // play button, so there is still only one player per beat.
+ const npp = document.getElementById('npp');
+ function artOf(el) {
+   const a = el.querySelector('.art');
+   return { cls: a.className, no: el.dataset.no };
+ }
+ function setNow(el, playing) {
+   nowEl = el;
+   const a = artOf(el), art = document.getElementById('nart');
+   art.className = a.cls; art.querySelector('b').textContent = a.no;
+   document.getElementById('ntitle').textContent = el.querySelector('.tname').textContent;
+   document.getElementById('nsub').innerHTML = el.querySelector('.tmetaline').innerHTML;
+   npp.classList.toggle('on', playing);
+   npp.innerHTML = playing ? '&#10073;&#10073;' : '&#9654;';
+   npp.setAttribute('aria-label', playing ? 'Pause' : 'Play');
+   document.querySelectorAll('#nqueue button').forEach(b =>
+     b.classList.toggle('now', b.dataset.no === el.dataset.no));
+ }
+ function nowTime(au) {
+   document.getElementById('nfill').style.width = (au.duration ? au.currentTime / au.duration * 100 : 0) + '%';
+   document.getElementById('ntime').textContent = clock(au.currentTime) + ' / ' + clock(au.duration);
+ }
+ npp.onclick = () => {
+   const el = nowEl || selEl || document.querySelector('.track');
+   if (el) el.querySelector('.pp').click();
+ };
+ function step(d) {
+   const all = [...document.querySelectorAll('#tracklist .track')];
+   if (!all.length) return;
+   const cur = all.indexOf(nowEl || selEl);
+   const el = all[(cur + d + all.length) % all.length];
+   selectBeat(el);
+   el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+   el.querySelector('.pp').click();
+ }
+ document.getElementById('nprev').onclick = () => step(-1);
+ document.getElementById('nnext').onclick = () => step(1);
+ function paintQueue() {
+   const q = document.getElementById('nqueue');
+   q.innerHTML = [...document.querySelectorAll('#tracklist .track')].map(el => {
+     const a = artOf(el);
+     return '<button type="button" data-no="' + a.no + '" title="' + esc(el.querySelector('.tname').textContent) +
+       '"' + (nowEl && nowEl.dataset.no === a.no ? ' class="now"' : '') +
+       '><span class="' + a.cls + '"><b>' + a.no + '</b></span></button>';
+   }).join('');
+   q.querySelectorAll('button').forEach(b => b.onclick = () => {
+     const el = document.querySelector('#tracklist .track[data-no="' + b.dataset.no + '"]');
+     if (el) { selectBeat(el); el.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
+   });
+ }
 
  loadBatch(+new URLSearchParams(location.search).get('beat') || undefined);
  // the Effects page's Sketch button lands here with &sketch=effects

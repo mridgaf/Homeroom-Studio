@@ -65,7 +65,7 @@ function showPage(p) {
   document.getElementById("p-stems").classList.toggle("on", p === "stems");
   document.getElementById("p-flask").classList.toggle("on", p !== "stems");
   if (p === "stems") { if (openStem) openCard(openStem); return; }
-  document.getElementById("flaskTitle").textContent = "Flask " + p;
+  document.getElementById("flaskTitle").textContent = "Bus " + p;
   const bus = channels["bus:" + p];
   const lvl = document.getElementById("flaskLevel");
   lvl.value = bus ? bus.faderDb : 0;
@@ -83,7 +83,7 @@ function drawFlaskWho() {
   const who = channelOrder.filter(l => channels[l].bus === openPage).map(l => channels[l].label);
   document.getElementById("flaskWho").textContent = who.length
     ? "Holding: " + who.join(", ")
-    : "Empty. Put stems in here with the A / B buttons.";
+    : "Empty. Put stems on this bus with the A / B buttons.";
 }
 
 document.getElementById("flaskLevel").addEventListener("input", e => {
@@ -118,14 +118,14 @@ function drawConn() {
   const r = channels[openStem].bus || "";
   const el = document.getElementById("conn");
   el.innerHTML = "Connect to: " + ["", "A", "B"].map(k =>
-    `<button data-k="${k}" class="${k} ${r === k ? "on" : ""}">${k ? "Flask " + k : "None"}</button>`).join("");
+    `<button data-k="${k}" class="${k} ${r === k ? "on" : ""}">${k ? "Bus " + k : "None"}</button>`).join("");
   el.querySelectorAll("button").forEach(b => b.addEventListener("click", () => route(openStem, b.dataset.k)));
 }
 
 function drawTable() {
   const has = channelOrder.length > 0;
   document.getElementById("tableHint").textContent = has
-    ? "Click a stem's square to open its own effects and pick its flask."
+    ? "Click a stem's square to open its own effects and pick its bus."
     : "Pick a beat on the board first.";
   document.getElementById("tableKey").hidden = !has;
   stableEl.innerHTML = "";
@@ -159,7 +159,7 @@ function drawLanes() {
       <input type="range" min="-24" max="12" step="0.5" value="${ch.faderDb}" aria-label="${esc(ch.label)} level">
       <span class="db">${ch.faderDb > 0 ? "+" : ""}${ch.faderDb} dB</span>
       <div class="ms"><button class="m ${ch.muted ? "active" : ""}" aria-label="Mute">M</button><button class="s ${ch.solo ? "active" : ""}" aria-label="Solo">S</button></div>
-      <div class="routes"><button class="route A ${r === "A" ? "on" : ""}" aria-label="Send to Flask A">A</button><button class="route B ${r === "B" ? "on" : ""}" aria-label="Send to Flask B">B</button></div>`;
+      <div class="routes"><button class="route A ${r === "A" ? "on" : ""}" aria-label="Send to Bus A">A</button><button class="route B ${r === "B" ? "on" : ""}" aria-label="Send to Bus B">B</button></div>`;
     row.querySelector(".ln").addEventListener("click", () => { showPage("stems"); openCard(laneId); });
     row.querySelector("input").addEventListener("input", e => {
       ch.faderDb = parseFloat(e.target.value);
@@ -200,7 +200,7 @@ const _effectsProjectOpened = effectsProjectOpened;
 effectsProjectOpened = function (data) {
   _effectsProjectOpened(data);
   targetEl.insertAdjacentHTML("beforeend",
-    '<option value="bus:A">Flask A</option><option value="bus:B">Flask B</option>');
+    '<option value="bus:A">Bus A</option><option value="bus:B">Bus B</option>');
   openStem = null;
   scardEl.hidden = true;
   document.getElementById("tableView").hidden = false;
