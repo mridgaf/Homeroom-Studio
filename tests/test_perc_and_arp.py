@@ -28,16 +28,11 @@ def _arp_share(name, flow):
     return chord_rhythm._share(chord_rhythm.spec_for(q)["figures"], "arp")
 
 
-def test_arp_flow_caps_every_identity_at_15_percent():
-    # Cutz was the example until 2026-10-24 (rebuilt to comp/stab)
-    assert _arp_share("Glass Cat", False) > 0.45     # was 50%
+def test_no_identity_ever_rolls_an_arp():
+    # owner 2026-11-01: arpeggios are gone, every DJ and genre
     for name in CREW:
-        q = normalize_preset(json.loads(json.dumps(CREW[name])))
-        q.update(chord_flow=1, arp_flow=1)
-        spec = chord_rhythm.spec_for(q)
-        if spec:
-            assert chord_rhythm._share(spec["figures"], "arp") <= \
-                chord_rhythm.ARP_MAX + 1e-3, name
+        for flow in (False, True):
+            assert _arp_share(name, flow) == 0, name
 
 
 def test_arp_bars_vary_and_rest_at_the_phrase_tail():

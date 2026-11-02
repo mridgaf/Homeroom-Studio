@@ -16,7 +16,7 @@ import numpy as np                                          # noqa: E402
 import pytest                                               # noqa: E402
 
 import chip_synth                                           # noqa: E402
-from chip_synth import (DUTIES, arp_chord, atari_detune_cents,  # noqa: E402
+from chip_synth import (DUTIES, atari_detune_cents,  # noqa: E402
                         chip_chord, chip_hat, chip_kick, chip_note,
                         chip_snare, midi_to_hz, noise, pulse, sweep,
                         triangle)
@@ -86,33 +86,6 @@ def test_sweep_changes_pitch_in_the_right_direction():
     assert edges(up[:half]) < edges(up[half:]), "upward sweep"
 
 
-def test_arp_chord_actually_cycles_the_notes():
-    # the defining gesture: one voice, several pitches, alternating fast
-    notes = [60, 64, 67]
-    dur, rate = 1.0, 20.0
-    x = arp_chord(notes, dur, rate_hz=rate)
-    assert len(x) == int(dur * SR)
-    step = int(SR / rate)
-    # measure pitch in each of the first three slots; they must differ
-    got = []
-    for k in range(3):
-        seg = x[k * step:(k + 1) * step]
-        got.append(int(np.sum((seg[1:] > 0) & (seg[:-1] <= 0))))
-    assert len(set(got)) == 3, "slots should be three different pitches: %s" % got
-    assert got[0] < got[1] < got[2], "ascending chord tones: %s" % got
-
-
-def test_arp_chord_edges_are_silent_and_it_is_not():
-    x = arp_chord([60, 64, 67], 0.8)
-    assert abs(x[0]) < 1e-9 and abs(x[-1]) < 1e-9
-    assert np.max(np.abs(x)) > 0.1
-
-
-def test_arp_chord_empty_and_single_note():
-    assert np.max(np.abs(arp_chord([], 0.5))) == 0.0
-    assert np.max(np.abs(arp_chord([60], 0.5))) > 0.1
-
-
 def test_atari_is_out_of_tune_the_way_the_hardware_was():
     # C4 lands nearly perfect, but its neighbours do not — that uneven
     # error across one octave IS the Atari sound.
@@ -166,26 +139,27 @@ def test_atari_tuning_option_actually_detunes_the_chord():
     # they come out genuinely sour. If this silently reverted to equal
     # temperament the identity would quietly vanish, so it's pinned.
     notes = [60, 64, 67]
-    equal = chip_synth.arp_chord(notes, 0.6, rate_hz=12.0, tuning="equal")
-    atari = chip_synth.arp_chord(notes, 0.6, rate_hz=12.0, tuning="atari")
+    equal = chip_chord(notes, 0.6, tuning="equal")
+    atari = chip_chord(notes, 0.6, tuning="atari")
     assert not np.allclose(equal, atari), "atari tuning changed nothing"
     # G (MIDI 67) is the sour one in this triad — well over a comma out
     assert abs(atari_detune_cents(67)) > 25
 
 
-def test_count_rate_locks_the_ripple_to_the_beat():
-    from chip_synth import count_rate
-    # 5 notes per beat at 144bpm = 12 flips/sec (his quintuplet grid)
-    assert count_rate(144, 5) == pytest.approx(12.0)
-    assert count_rate(120, 3) == pytest.approx(6.0, abs=2.1)   # clamped low
-    # faster tempo -> faster ripple, and always inside the clamp
-    assert count_rate(90, 5) < count_rate(180, 5)
-    assert 8.0 <= count_rate(300, 8) <= 80.0
+def test_chip_chord_is_held_not_arpeggiated():
+    # owner 2026-11-01: no arpeggios. Every note sounds the whole time,
+    # so the chord's first and last tenth carry the same pitches.
+    x = chip_chord([60, 64, 67], 1.0)
+    n = len(x) // 10
+    spec = lambda s: np.abs(np.fft.rfft(s))
+    a, b = spec(x[n:2 * n]), spec(x[-3 * n:-2 * n])
+    assert np.corrcoef(a, b)[0, 1] > 0.9
+    assert np.max(np.abs(chip_chord([], 0.5))) == 0.0
 
 
-def test_chip_chord_passes_tuning_and_rate_through():
-    a = chip_chord([60, 64, 67], 0.5, tuning="atari", rate_hz=12.0)
-    b = chip_chord([60, 64, 67], 0.5, tuning="equal", rate_hz=12.0)
+def test_chip_chord_passes_tuning_through():
+    a = chip_chord([60, 64, 67], 0.5, tuning="atari")
+    b = chip_chord([60, 64, 67], 0.5, tuning="equal")
     assert not np.allclose(a, b)
     for x in (a, b):
         assert np.max(np.abs(x)) <= PEAK_CEILING + 1e-9

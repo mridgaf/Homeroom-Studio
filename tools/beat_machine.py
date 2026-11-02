@@ -2469,6 +2469,10 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
     # independently — see _render_one's docstring.
     _rhythm = (_wpick(rhythm_spec, random.Random(variant * 733 + 11))
               if isinstance(rhythm_spec, list) else rhythm_spec)
+    # NO ARPS (owner 2026-11-01): "we're no longer using that, in any way,
+    # for any DJ or genre". Any old "arp" setting plays held.
+    if _rhythm == "arp":
+        _rhythm = "sustain"
     # ---- the chord PERFORMANCE grammar (owner build 2026-09-05) ----
     # Every DJ since 2026-09-14, arps half as often (chord_rhythm.spec_for);
     # genre presets still opt in with a top-level `chord_grammar` key. See
@@ -2853,13 +2857,6 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
                         strings_idx, ns, sd, used=used, pin=pin))
                 if got:
                     return got[0], "%s %s" % (lbl, got[1])
-                if (rhythm_override or _rhythm) == "arp":
-                    a = chord_synth.arp_riff(
-                        notes, dur, preset["bpm"],
-                        lambda nt, sd: string_sampler.note_slice(
-                            strings_idx, nt, sd, cache=cache, used=used,
-                            pin=pin))
-                    return a, "%s arp" % lbl
                 return (string_sampler.play_chord(
                     strings_idx, notes, dur, used=used, pin=pin), lbl)
             midi_groups = (midi_group_order
@@ -2873,13 +2870,6 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
                     strings_idx, ns, sd, used=used, pin=pin))
             if got:
                 return got[0], "strings %s" % got[1]
-            if rhythm == "arp":
-                a = chord_synth.arp_riff(
-                    notes, dur, preset["bpm"],
-                    lambda nt, sd: string_sampler.note_slice(
-                        strings_idx, nt, sd, cache=cache, used=used,
-                        pin=pin))
-                return a, "strings arp"
             return (string_sampler.play_chord(strings_idx, notes, dur,
                                               used=used, pin=pin),
                    "strings")
@@ -2933,21 +2923,13 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
             # ...otherwise the synthesized chip voice: the one synthesized
             # chord voice left in the engine, and a deliberate exception
             # the owner re-confirmed 2026-07-25 — see tools/chip_synth.py's
-            # header. Always arpeggio-fused: the NES had two pulse voices,
-            # so a held triad was IMPOSSIBLE and chords were always faked
-            # by flicking between the notes. Honouring rhythm="sustain"
-            # here would be less authentic, not more.
+            # header. Held, never arpeggiated (owner 2026-11-01).
             import chip_synth
-            # Two optional identity knobs, both New Math's (2026-07-24):
             # chip_tuning "atari" -> the TIA's integer-divider grid, out
-            # of tune on purpose; chip_count -> notes per beat.
+            # of tune on purpose (New Math).
             tuning = sig.get("chip_tuning", "equal")
-            per_beat = sig.get("chip_count")
-            rate = (chip_synth.count_rate(preset["bpm"], per_beat)
-                    if per_beat else chip_synth.NTSC_FRAME_HZ / 3.0)
-            a = chip_synth.chip_chord(notes, dur,
-                                      tuning=tuning, rate_hz=rate)
-            return a, ("chiptune arp%s"
+            a = chip_synth.chip_chord(notes, dur, tuning=tuning)
+            return a, ("chiptune%s"
                        % (" (atari-tuned)" if tuning == "atari" else ""))
         if (src in instrument_sampler.VOICES or midi_groups) and inst_idx:
             # EVERY named instrument voice — "horns", "synth", "piano",
@@ -2986,13 +2968,6 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
                     idx, ns, sd, groups=groups, used=used, pin=pin))
             if got:
                 return got[0], "%s %s" % (gname, got[1])
-            if rhythm == "arp":
-                a = chord_synth.arp_riff(
-                    notes, dur, preset["bpm"],
-                    lambda nt, sd: instrument_sampler.note_slice(
-                        idx, nt, sd, cache=cache, groups=groups,
-                        used=used, pin=pin))
-                return a, "%s stabs" % gname
             return (instrument_sampler.play_chord(
                 idx, notes, dur, groups=groups, used=used, pin=pin),
                 "%s stack" % gname)

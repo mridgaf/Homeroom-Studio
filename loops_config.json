@@ -92,12 +92,12 @@
  "Mustang": {"words": ["synth", "hiphop"], "chop": "loose"},
  "Swish Beatz": {"words": ["horns", "brass", "hiphop"], "chop": "stabs"},
  "DJ Premium": {"words": ["hiphop", "brass", "piano", "strings"], "chop": "stabs"},
- "Timberline": {"words": ["pop", "synth", "arp", "guitar", "horns"], "chop": "stabs"},
+ "Timberline": {"words": ["pop", "synth", "guitar", "horns"], "chop": "stabs"},
  "Just Flame": {"words": ["soul", "horns", "strings", "cinematic"], "chop": "stabs"},
  "Razor": {"words": ["piano", "lofi", "dirty"], "chop": "loose"},
- "Hitt Kid": {"words": ["trap", "synth", "arp"], "chop": "stabs"},
+ "Hitt Kid": {"words": ["trap", "synth"], "chop": "stabs"},
  "No Alias": {"words": ["soul", "piano", "rnb"], "chop": "held"},
- "DJ Light Green": {"words": ["trance", "synth", "arp", "bright", "trap"], "chop": "stabs"},
+ "DJ Light Green": {"words": ["trance", "synth", "bright", "trap"], "chop": "stabs"},
  "Well Damn": {"words": ["electro", "trap"], "chop": "stabs"},
  "Tenth Wonder": {"words": ["soul", "piano", "strings", "horns"], "chop": "held"},
  "DJ Hint": {"words": ["soul", "funk", "strings", "pad"], "chop": "held"},
@@ -118,5 +118,5 @@
  "Reggaeton Alt": {"words": ["reggaeton"], "chop": "held"},
  "Detroit": {"words": ["hiphop", "dirty", "hard"], "chop": "stabs"},
  "Plug": {"words": ["dreamy", "ambient", "soft", "trap"], "chop": "held"},
- "Chiptune": {"words": ["synth", "arp", "bright"], "chop": "stabs"}
+ "Chiptune": {"words": ["synth", "bright"], "chop": "stabs"}
 }

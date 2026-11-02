@@ -280,10 +280,8 @@ def spec_for(preset, free=False):
     """The chord grammar this beat plays, or None for the old two-word path.
 
     `true` means "the house default"; a dict overrides only the keys it
-    names. A DJ with no key gets DEFAULT, with its arp share taken from its
-    own old `signature.chord_rhythm` ("arp" = all, "sustain" = none, a
-    weighted list = its arp share). Either way the arp share is then cut to
-    ARP_CUT of itself. `free` (pattern_gen.free_beat): the house DEFAULT,
+    names. A DJ with no key gets DEFAULT. Arps are never in the figures
+    (owner 2026-11-01: no arpeggios, any DJ or genre). `free` (pattern_gen.free_beat): the house DEFAULT,
     whatever the DJ's own settings. Genre presets without the key -> None,
     their opt-in unchanged."""
     raw = preset.get("chord_grammar")
@@ -297,15 +295,7 @@ def spec_for(preset, free=False):
     spec = dict(DEFAULT)
     if isinstance(raw, dict) and not free:
         spec.update(raw)
-    if free or raw:
-        share = _share(spec["figures"], "arp")
-    else:
-        rhythm = (preset.get("signature") or {}).get("chord_rhythm")
-        share = (_share(rhythm, "arp") if isinstance(rhythm, list)
-                 else float(rhythm == "arp"))
-    share *= ARP_CUT
     if preset.get("arp_flow"):
-        share = min(share, ARP_MAX)
         spec["arp_flow"] = True
     if preset.get("comp_flow"):
         spec["comp_flow"] = True
@@ -317,7 +307,8 @@ def spec_for(preset, free=False):
         spec["no_halfway"] = True
     if preset.get("dj_flow"):
         spec["dj_flow"] = True
-    spec["figures"] = _with_arp_share(spec["figures"], share)
+    # NO ARPS (owner 2026-11-01, every DJ and genre): share forced to 0.
+    spec["figures"] = _with_arp_share(spec["figures"], 0.0)
     # Pattern library (2026-10-11): new beats only, so every older beat
     # rebuilds exactly as it was made.
     if preset.get("chord_flow") and preset.get("chord_library", True):
@@ -541,7 +532,9 @@ def gen_figure(spec, rng, nbars, busy=None, avoid=(), trace=None, bar0=0):
     times, which is the fault the drum grammar's per-bar composition fixed
     and the chord layer never had.
     """
-    figure = _weighted(rng, spec.get("figures", DEFAULT["figures"]))
+    # NO ARPS (owner 2026-11-01): never rolled, whatever list comes in.
+    figure = _weighted(rng, _with_arp_share(
+        spec.get("figures", DEFAULT["figures"]), 0.0))
     w = spec.get("w", DEFAULT["w"])
     lo, hi = spec.get("hits", DEFAULT["hits"])
     ghost_p = spec.get("ghost_p", DEFAULT["ghost_p"])

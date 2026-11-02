@@ -9617,3 +9617,9 @@ just not loaded by default.
 - Fix: openEffects() and rebuild() now navigate this tab (location.href). Effects side already reused its tab. Sketch is an in-page panel (no tab). Engine started from Beat Machine already runs with SOUND_ENGINE_NO_BROWSER.
 - Checked: test copy on 8790 -> Effects button loaded Effects in the same tab (only tab). Didn't click Send back/Sketch (they write beats). Backup tools/beat_machine.pre-one-tab-2026-10-31.py. Running page on 8770 needs a restart.
 - Status: open: his use.
+### [2026-11-01] Arpeggios removed from the Beat Machine (every DJ, Legend, genre)
+- Owner: "Remove the arpeggio. From the machine. We're no longer using that. In any way for any DJ. Or genre."
+- Change (invariant, not a weight): chord_rhythm.spec_for sets arp share to 0 for everyone; gen_figure strips "arp" from any figure list it gets (backstop). beat_machine: an old chord_rhythm "arp" roll plays held ("sustain"); the three arp_riff fallbacks deleted. Chiptune: chip_chord now holds its notes on stacked pulse voices (arp_chord + count_rate deleted; chip_count no longer read; atari tuning kept). loops_config: "arp" dropped from Timberline / Hitt Kid / DJ Light Green / Chiptune loop-pick words.
+- Left as-is (inert): "arp" entries in crew/legends/genres_config chord_rhythm lists and arp_step keys; Chiptune's listen line still says "arpeggio". chord_synth.arp_riff kept only for tools/demo_sounds.py.
+- Tests: chord/chip/signature/sampler 318 passed (arp tests replaced with "no arp ever" tests). Nothing rendered or heard. Running Beat Machine needs a restart.
+- Status: open: his ear on the next batch (Chiptune / New Math chords will sound held, not bubbling).
