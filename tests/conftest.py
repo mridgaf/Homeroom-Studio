@@ -31,3 +31,14 @@ def _reason_folder_never_touches_the_desktop(tmp_path_factory, monkeypatch):
     import beat_machine
     monkeypatch.setattr(beat_machine, "REASON_ROOT",
                         tmp_path_factory.mktemp("reason_loops"))
+
+
+@pytest.fixture(autouse=True)
+def _histories_never_touch_his_real_ones(tmp_path, monkeypatch):
+    """Generated test beats must not land in the pattern / drum-sample
+    memory that steers his next real beats (and the sandbox can't write
+    ~/.reason_voice anyway). A test that sets its own path still wins."""
+    import beat_recipes
+    import pattern_gen
+    monkeypatch.setattr(pattern_gen, "PAT_HIST", tmp_path / "pat_hist.json")
+    monkeypatch.setattr(beat_recipes, "HIST", tmp_path / "sample_hist.json")
