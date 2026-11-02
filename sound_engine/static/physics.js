@@ -113,8 +113,9 @@ function knob(o) {
     const d = { ArrowUp: 1, ArrowRight: 1, ArrowDown: -1, ArrowLeft: -1 }[e.key];
     if (d) { e.preventDefault(); put(o.get() + d * o.step); }
   });
-  dial.addEventListener("dblclick", () => put(o.zero));
+  dial.addEventListener("dblclick", () => put(o.reset ?? o.zero));
   show();
+  wrap.show = show;
   return wrap;
 }
 
@@ -140,28 +141,132 @@ function paintStrip() {
   ms.querySelector(".s").addEventListener("click", () => toggleSolo(l));
 }
 
-// --- 3 + 4. one effect's settings, and the list of effects ----------------------
+// --- 3. every effect stacked, each setting a knob ---------------------------------
+// The original sliders stay in the page (hidden): app.js reads and writes them,
+// and each knob moves its slider through fireControl(), the same path presets use,
+// so live audio, server sync and Export are untouched.
+const fxMain = document.querySelector(".fxmain");
+const EQ_NAMES = { lowDb: "Gain", lowHz: "Frequency", midDb: "Gain", midHz: "Frequency", midQ: "Q", highDb: "Gain", highHz: "Frequency" };
+const KCOL = ["k-or", "k-gr", "k-vi", "k-bl"];
+const fxKnobs = [];
+function sliderKnob(el, i) {
+  const lab = document.querySelector(`label[for="${el.id}"]`);
+  const val = document.getElementById(el.id + "Val");
+  const name = EQ_NAMES[el.id] || (lab ? lab.childNodes[0].textContent.trim() : el.id);
+  const unit = val && val.nextSibling ? val.nextSibling.textContent.trim().split(/\s+/)[0] : "";
+  const min = +el.min, max = +el.max;
+  const k = knob({ label: name, min, max, step: +el.step || 1, zero: min < 0 && max > 0 ? 0 : min,
+    reset: +el.defaultValue, cls: KCOL[i % 4],
+    get: () => +el.value,
+    set: v => { if (!el.disabled) fireControl(el.id, v); },
+    fmt: v => {
+      if (unit === "Hz" && v >= 1000) return (v / 1000).toFixed(1) + " kHz";
+      const t = val ? val.textContent : String(v);
+      return (min < 0 && v > 0 && !t.startsWith("+") ? "+" : "") + t + (/^[a-wyz]/i.test(unit) ? " " : "") + unit;
+    } });
+  const show = k.show;
+  k.show = () => { show(); k.classList.toggle("off", el.disabled); };
+  fxKnobs.push(k);
+  return k;
+}
+document.querySelectorAll(".channelRack .panel").forEach(panel => {
+  const key = panel.dataset.fx, name = FX_LIST.find(f => f[0] === key)[1];
+  const h2 = panel.querySelector("h2");
+  const sub = (h2.textContent.split("—")[1] || "").trim();
+  const head = document.createElement("div");
+  head.className = "fxhead";
+  head.innerHTML = `<span class="pw" aria-hidden="true">${POWER}</span><h2>${name}</h2>${sub ? `<span class="tgt">${esc(sub)}</span>` : ""}`;
+  h2.replaceWith(head);
+  if (key === "eq") head.after(eqSvg);
+  let n = 0;
+  panel.querySelectorAll(".knob").forEach((box, g) => {
+    const ranges = box.querySelectorAll("input[type=range]");
+    if (!ranges.length) return;
+    box.classList.add("knobbed");
+    const hint = [...box.querySelectorAll("span.freq")].map(s => s.textContent).join(" ");
+    if (hint) box.title = hint;
+    const row = document.createElement("div");
+    row.className = "krow";
+    if (key === "eq") {
+      row.insertAdjacentHTML("beforeend", `<span class="grp g${g}">${["LOW", "MID", "HIGH"][g]}</span>`);
+      box.classList.add("eqband");
+    }
+    ranges.forEach(el => row.appendChild(sliderKnob(el, key === "eq" ? g * 3 + (n++ % 3) : n++)));
+    box.appendChild(row);
+  });
+});
+function refreshKnobs() { fxKnobs.forEach(k => k.show()); }
+
+// compressor: the curve from its real settings (knee is 0 in app.js, so this is exact)
+const compPanel = document.querySelector('.channelRack .panel[data-fx="comp"]');
+compPanel.querySelector(".knobs").insertAdjacentHTML("beforebegin",
+  `<svg id="compcurve" class="compcurve" viewBox="0 0 220 180" aria-label="Compressor curve: input level in, output level out"></svg>`);
+compPanel.insertAdjacentHTML("beforeend",
+  `<div class="grm" title="How hard the compressor is squashing right now"><span>Squash</span><div class="grbar"><i id="grFill"></i></div><output id="grVal">0.0 dB</output></div>`);
+const compSvg = document.getElementById("compcurve");
+function drawComp() {
+  const ch = channels[selectedLane];
+  if (!ch || !ch.compressor) { compSvg.innerHTML = ""; return; }
+  const T = ch.compressor.threshold.value, R = ch.compressor.ratio.value;
+  const M = parseFloat(document.getElementById("compMakeup").value) || 0;
+  const W = 220, H = 180, L = 30, B = 24, top = 6, lo = -60;
+  const x = db => L + (db - lo) / -lo * (W - L - 6);
+  const y = db => top + Math.min(1, Math.max(0, db / lo)) * (H - top - B);
+  const out = i => (i <= T ? i : T + (i - T) / R) + M;
+  let g = "";
+  for (let d = 0; d >= lo; d -= 12) {
+    g += `<line class="gl" x1="${L}" x2="${W - 6}" y1="${y(d)}" y2="${y(d)}"/><text class="gt" x="${L - 4}" y="${y(d) + 3}" text-anchor="end">${d}</text>`;
+    g += `<line class="gl" x1="${x(d)}" x2="${x(d)}" y1="${top}" y2="${H - B}"/><text class="gt" x="${x(d)}" y="${H - 10}" text-anchor="middle">${d}</text>`;
+  }
+  const pts = [lo, T, 0].map(i => `${x(i).toFixed(1)},${y(out(i)).toFixed(1)}`);
+  compSvg.innerHTML = g + `<text class="gt" x="${(W + L) / 2}" y="${H}" text-anchor="middle">Input (dB)</text>` +
+    `<path class="area" d="M${x(lo)},${y(lo)}L${pts.join("L")}L${x(0)},${y(lo)}Z"/>` +
+    `<polyline class="curve" points="${pts.join(" ")}"/>` +
+    `<circle class="dot" cx="${x(T)}" cy="${y(out(T))}" r="5"><title>Threshold ${T.toFixed(0)} dB</title></circle>`;
+}
+// live squash meter: the compressor's own reduction reading, every frame
+const grFill = document.getElementById("grFill"), grVal = document.getElementById("grVal");
+(function grTick() {
+  const ch = channels[selectedLane];
+  const r = ch && ch.compressor ? Math.min(0, ch.compressor.reduction || 0) : 0;
+  grFill.style.height = Math.min(100, -r / 24 * 100) + "%";
+  grVal.textContent = r.toFixed(1) + " dB";
+  requestAnimationFrame(grTick);
+})();
+
+// --- 4. the list of effects: click to scroll to it -------------------------------
 function paintFx() {
   const ch = channels[selectedLane];
-  document.querySelectorAll(".channelRack .panel").forEach(p => p.hidden = p.dataset.fx !== fxOpen);
-  document.getElementById("fxtitle").textContent = FX_LIST.find(f => f[0] === fxOpen)[1];
-  document.getElementById("fxpow").className = "pw" + (fxActive(ch, fxOpen) ? " on" : "");
-  document.getElementById("fxpow").innerHTML = POWER;
-  eqSvg.style.display = fxOpen === "eq" ? "" : "none";
   const list = document.getElementById("fxlist");
   list.innerHTML = FX_LIST.map(([k, name], i) =>
     `<button type="button" class="frow a${i % 4}${k === fxOpen ? " sel" : ""}${fxActive(ch, k) ? " on" : ""}" data-k="${k}">` +
     `<span class="pw" title="${fxActive(ch, k) ? "Doing something on this stem" : "Off on this stem"}">${POWER}</span>` +
     `<span class="nm">${name}</span><span class="chev">&rsaquo;</span></button>`).join("");
-  list.querySelectorAll(".frow").forEach(b => b.addEventListener("click", () => { fxOpen = b.dataset.k; paintFx(); }));
-  drawEq();
+  list.querySelectorAll(".frow").forEach(b => b.addEventListener("click", () => {
+    fxOpen = b.dataset.k; markFx();
+    const p = document.querySelector(`.channelRack .panel[data-fx="${fxOpen}"]`);
+    fxMain.scrollTop = p.offsetTop - 8;
+  }));
+  paintFxLights(); refreshKnobs(); drawEq(); drawComp();
 }
+function markFx() {
+  document.querySelectorAll("#fxlist .frow").forEach(b => b.classList.toggle("sel", b.dataset.k === fxOpen));
+}
+// scrolling the stack moves the highlight in the list
+fxMain.addEventListener("scroll", () => {
+  let k = FX_LIST[0][0];
+  document.querySelectorAll(".channelRack .panel").forEach(p => {
+    if (p.offsetTop - fxMain.scrollTop < 60) k = p.dataset.fx;
+  });
+  if (fxMain.scrollTop + fxMain.clientHeight >= fxMain.scrollHeight - 4) return;
+  if (k !== fxOpen) { fxOpen = k; markFx(); }
+}, { passive: true });
 
 // the EQ curve is the stem's REAL filters (getFrequencyResponse), not a drawing
 function drawEq() {
   const ch = channels[selectedLane];
-  if (fxOpen !== "eq" || !ch || !ch.lowShelf) { eqSvg.innerHTML = ""; return; }
-  const W = 640, H = 220, N = 240, PADL = 34, PADB = 22, top = 8;
+  if (!ch || !ch.lowShelf) { eqSvg.innerHTML = ""; return; }
+  const W = 780, H = 200, N = 240, PADL = 34, PADB = 22, top = 8;
   const f = new Float32Array(N), mag = new Float32Array(N), ph = new Float32Array(N), tot = new Float32Array(N);
   for (let i = 0; i < N; i++) f[i] = 20 * Math.pow(1000, i / (N - 1));
   for (const node of [ch.lowShelf, ch.midPeak, ch.highShelf]) {
@@ -232,13 +337,14 @@ let pend = false;
 function soon() {
   if (pend) return;
   pend = true;
-  requestAnimationFrame(() => { pend = false; paintFxLights(); drawEq(); paintBuses(); });
-  setTimeout(drawEq, 120);              // the filters ramp for ~20 ms
+  requestAnimationFrame(() => { pend = false; paintFxLights(); refreshKnobs(); drawEq(); drawComp(); paintBuses(); });
+  setTimeout(() => { paintFxLights(); drawEq(); drawComp(); }, 120);   // the nodes ramp for ~20 ms
 }
 function paintFxLights() {
   const ch = channels[selectedLane];
   document.querySelectorAll("#fxlist .frow").forEach(b => b.classList.toggle("on", fxActive(ch, b.dataset.k)));
-  document.getElementById("fxpow").className = "pw" + (fxActive(ch, fxOpen) ? " on" : "");
+  document.querySelectorAll(".channelRack .panel").forEach(p =>
+    p.querySelector(".fxhead .pw").classList.toggle("on", fxActive(ch, p.dataset.fx)));
 }
 document.addEventListener("input", soon);
 document.addEventListener("change", soon);

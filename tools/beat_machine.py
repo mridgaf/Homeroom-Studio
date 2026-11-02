@@ -6691,7 +6691,7 @@ _PAGE = r"""<!doctype html><html><head><meta charset="utf-8">
  .pop .dj .ord { color: var(--lead); font-weight: 700; text-align: right; }
  /* tempo flask */
  .tempo { display: flex; align-items: center; gap: 12px; padding-left: 18px; border-left: 1px solid var(--line); }
- .flask { width: 104px; height: 140px; flex: none; }
+ .flask { width: 124px; height: 166px; flex: none; }
  .flask .glass { fill: #ffffff07; stroke: var(--text); stroke-width: 2.5; stroke-linejoin: round; }
  .flask .liq { fill: var(--lead); transition: y .35s ease, height .35s ease; }
  .flask .shine { fill: #ffffff22; }
@@ -6863,6 +6863,16 @@ _PAGE = r"""<!doctype html><html><head><meta charset="utf-8">
  .lane .vol .knob:hover .kcap { stroke: var(--dim); }
  .lane .vol .db { font: 12px var(--mono); min-width: 34px; text-align: left; color: var(--dim); cursor: pointer; }
  .lane.trimmed .vol .db { color: var(--lead); }
+ /* stem rack: each lane wears its Elements tile colour (same order) */
+ .lane.c0 { --ac: var(--orange); } .lane.c1 { --ac: var(--green); } .lane.c2 { --ac: var(--violet); } .lane.c3 { --ac: var(--blue); }
+ .lane .swatch { background: var(--ac); width: 4px; height: 26px; }
+ .lane .lname { color: var(--ac); }
+ .lane .vol:not(.pan) .klit { stroke: var(--ac); }
+ .lane { border-left: 2px solid color-mix(in srgb, var(--ac) 35%, transparent); padding-left: 10px; }
+ .lane:hover { background: color-mix(in srgb, var(--ac) 6%, transparent); }
+ .lane.changed .sample, .lane.trimmed .vol .db { color: var(--ac); }
+ .lane.changed select { border-color: var(--ac); }
+ .lane.locked .swatch { background: var(--dimmer); }
  .lane.dropped .who2, .lane.dropped .what, .lane.dropped .vol { opacity: .3; text-decoration: line-through; }
  .banask { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; font-size: 12.5px; color: var(--dim); }
  .banask span { flex: 1 1 220px; }
@@ -7818,9 +7828,9 @@ __BREAKS__
    refreshMix(el, no);      // every volume/remove change lands here first
  }
 
- function laneRow(no, s) {
+ function laneRow(no, s, i) {
    const row = document.createElement('div');
-   row.className = 'lane' + (s.locked ? ' locked' : '');
+   row.className = 'lane c' + ((i || 0) % 4) + (s.locked ? ' locked' : '');
    row.dataset.lane = s.lane;
    row.innerHTML =
      '<span class="who2"><span class="swatch"></span>' +
@@ -8261,7 +8271,7 @@ __BREAKS__
    const specs = d.stems;
    stemLanes[no] = specs.filter(s => s.stem)
      .map(s => ({ lane: s.lane, pan: s.pan || 0 }));
-   specs.forEach(s => rack.appendChild(laneRow(no, s)));
+   specs.forEach((s, i) => rack.appendChild(laneRow(no, s, i)));
    const foot = document.createElement('div');
    foot.className = 'rackfoot';
    foot.innerHTML = '<span class="staged"></span>' +

@@ -26,7 +26,7 @@ entries.
 - Reasoning: look + layout only, every id/endpoint kept; Effects mockup's graphs/columns would mean rewriting science.js, left for a later pass.
 - Verify by: owner uses it after restarting the Beat Machine. Checked live on a test copy (port 8790): load, select, play, nowbar, Stems, tiles, Loops toggle, tempo flask, Sketch grid + cell editor, Effects page: stem select, level knob, mute, EQ light + curve, panel switch, Bus A page, Whole beat. NOT checked: Make the sketch / Listen bar (would render), Generate.
 - Status: open
-- Outcome:
+- Outcome: 2026-11-01 evening, gaps closed (UI Handoff/WRITE-UP-2026-11-01.md "Finished"). Physics: all effect sliders are now knobs (drive the hidden sliders via fireControl — checked EQ gain and comp ratio reach the audio nodes), effects stacked + list jumps, compressor curve from real settings + live squash meter (reduction), Quick effects in a closed drawer, fits 1600x960. Sketch: columns fixed 150px (were 417px from max-content selects), taller contrast marks. Main: flask 124x166 (needs Beat Machine restart). Still impossible: phase, meters, EQ presets.
 ### [2026-10-26] Kronos: own kit copy + what the unit accepts
 - Context: wanted kick saturation and snare reverb done inside the Kronos, on copies only.
 - Decision/change: USER-G drum kit 00 (kit 136) = copy of stored kit 4; program USER-G 000 saved pointing at it (kit number byte at program offset 2776). Scratch program USER-G 127. Read Global settings (SysEx on, DrumKit unprotected). Restored kit 4 edit buffer to match stored (0 differing bytes). Tools: kronos_global.py, kronos_probe.py, kronos_kit_test.py, kronos_find_kitbyte.py, kronos_repoint.py.

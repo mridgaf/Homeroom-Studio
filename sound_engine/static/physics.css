@@ -156,7 +156,7 @@ body:has(#workspace.hidden) .emptylab { display: block; }
 .fx.on .sw i { background: #0b0b0b !important; }
 
 /* 3. one effect */
-.fxmain { padding: 14px 16px; }
+.fxmain { padding: 14px 16px; position: relative; }
 .fxhead { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
 .fxhead h2 { margin: 0; font: 500 19px var(--hand); flex: 1; }
 .fxhead .tgt { color: var(--dim); font-size: 13px; }
@@ -233,6 +233,51 @@ body:has(#workspace.hidden) .emptylab { display: block; }
 
 .modal-card { font-family: var(--hand) !important; background: var(--panel) !important; border: 1px solid var(--line2) !important; color: var(--text); }
 
+/* ------------------------------------------------ mockup match: stacked effects, knobs (2026-11-01) */
+.fxtop { color: var(--dim); font-size: 13px; margin: 0 0 10px; }
+.fxtop b { color: var(--text); font-weight: 500; }
+.channelRack { display: flex; flex-direction: column; gap: 12px; }
+.channelRack .panel { background: var(--panel2) !important; border: 1px solid var(--line) !important; border-radius: 10px !important; padding: 12px 14px !important; }
+.channelRack .fxhead { margin-bottom: 8px; }
+.channelRack .fxhead h2 { font: 500 18px var(--hand); flex: none; }
+.knob.knobbed { background: none; border: 0; padding: 0; }
+.knob.knobbed > label, .knob.knobbed > input[type=range], .knob.knobbed > .freq { display: none !important; }
+.channelRack .knobs { grid-template-columns: repeat(auto-fill, minmax(92px, 1fr)); gap: 10px !important; }
+.channelRack .knob:not(.knobbed) { align-self: center; }
+.krow { display: flex; gap: 6px; justify-content: space-around; }
+.knob.eqband { background: var(--well); border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; }
+.panel[data-fx=eq] .knobs { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.knob.eqband .krow { flex-wrap: wrap; }
+.grp { flex-basis: 100%; font: 600 13px var(--hand); display: flex; align-items: center; gap: 8px; margin-bottom: 2px; }
+.grp::before { content: ""; width: 10px; height: 10px; border-radius: 50%; background: var(--orange); }
+.grp.g1::before { background: var(--violet); } .grp.g2::before { background: var(--blue); }
+.krow .pk .pkd { width: 56px; height: 56px; }
+.krow .pk .pkl { font-size: 12.5px; color: var(--dim); }
+.krow .pk .pkv { min-width: 58px; font-size: 12px; }
+.pk.k-gr .pkd .kl { stroke: var(--green); } .pk.k-vi .pkd .kl { stroke: var(--violet); } .pk.k-bl .pkd .kl { stroke: var(--blue); }
+.pk.off { opacity: .4; } .pk.off .pkd { cursor: not-allowed; }
+.panel[data-fx=comp] { display: grid; grid-template-columns: 230px minmax(0, 1fr) 54px; gap: 4px 14px; align-items: center; }
+.panel[data-fx=comp] .fxhead { grid-column: 1 / -1; }
+.compcurve { width: 100%; height: auto; background: var(--well); border: 1px solid var(--line); border-radius: 8px; }
+.compcurve .gl { stroke: var(--line); } .compcurve .gt { fill: var(--dimmer); font: 9.5px var(--hand); }
+.compcurve .area { fill: color-mix(in srgb, var(--blue) 18%, transparent); }
+.compcurve .curve { fill: none; stroke: var(--orange); stroke-width: 2.5; }
+.compcurve .dot { fill: var(--violet); stroke: #0b0b0b; stroke-width: 2; }
+.grm { display: flex; flex-direction: column; align-items: center; gap: 4px; font-size: 11px; color: var(--dim); align-self: stretch; }
+.grbar { flex: 1; min-height: 90px; width: 12px; background: var(--well); border: 1px solid var(--line2); border-radius: 3px; position: relative; overflow: hidden; }
+.grbar i { position: absolute; top: 0; left: 0; right: 0; height: 0; background: var(--green); }
+.grm output { font: 10.5px var(--mono); white-space: nowrap; }
+details.quick { margin-top: 14px; border-top: 1px solid var(--line); padding-top: 10px; }
+details.quick summary { cursor: pointer; font-weight: 500; color: var(--text); }
+details.quick summary::marker { color: var(--dim); }
+
+/* one screen: the columns scroll inside, the bottom bar stays in view */
+@media (min-width: 1281px) and (min-height: 700px) {
+  body { height: 100vh; overflow: hidden; }
+  .workspace { flex: 1 1 0; min-height: 0; align-items: stretch; }
+  .workspace > .box { overflow-y: auto; max-height: none; }
+}
+
 /* ------------------------------------------------ narrower windows */
 @media (max-width: 1280px) {
   .workspace { grid-template-columns: 200px minmax(240px, 270px) minmax(0, 1fr); }
@@ -245,3 +290,7 @@ body:has(#workspace.hidden) .emptylab { display: block; }
   .chans { max-height: none; }
   .bottom { grid-template-columns: 1fr; }
 }
+.panel[data-fx=comp] .knobs { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+.krow .pk .pkv { font-family: var(--hand); }
+.channelRack .knob:not(.knobbed) { grid-column: span 2; }
+.channelRack .fxhead h2 { text-transform: none; letter-spacing: 0; color: var(--text); }

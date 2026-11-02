@@ -79,9 +79,11 @@
         <div class="msrow" id="msrow"></div>
         <h3>Bus Assignment</h3>
         <div class="conn" id="conn"></div>
-        <h3>Quick effects</h3>
-        <p class="nbsub">This stem's own effects. They hit before its bus.</p>
-        <div class="knobslot" id="stemSlot"><div id="knobs" class="knobgrid"></div></div>
+        <details class="quick">
+          <summary>Quick effects</summary>
+          <p class="nbsub">This stem's own effects. They hit before its bus.</p>
+          <div class="knobslot" id="stemSlot"><div id="knobs" class="knobgrid"></div></div>
+        </details>
       </div>
       <div class="whole" id="wholeCard" hidden>
         <h2 class="nbtitle">Whole beat</h2>
@@ -105,11 +107,7 @@
 
   <!-- 3. one effect, every setting -->
   <section class="box fxmain" aria-labelledby="fxtitle">
-    <div class="fxhead">
-      <span class="pw" id="fxpow" aria-hidden="true"></span>
-      <h2 id="fxtitle">EQ</h2>
-      <span class="tgt">on <b id="channelRackTitle">—</b></span>
-    </div>
+    <div class="fxtop" id="fxtitle">Effects on <b id="channelRackTitle">—</b></div>
     <svg id="eqcurve" class="eqcurve" viewBox="0 0 640 220" preserveAspectRatio="none" aria-label="EQ curve of the selected stem"></svg>
     <div class="ftrow" hidden>
       <label for="knobTarget">Knobs change:</label>

@@ -67,7 +67,7 @@
   // pair (background / marks) in every section.
   function gridHtml(d, plan) {
     const n = plan.length;
-    return '<div class="lgrid" id="sksecs" style="grid-template-columns:minmax(230px,1.25fr) repeat(' + n + ',minmax(128px,1fr))">' +
+    return '<div class="lgrid" id="sksecs" style="--n:' + n + ';grid-template-columns:230px repeat(' + n + ',minmax(118px,1fr))">' +
       '<div class="gh gcorner"><b>Instruments</b><span>Who is who</span></div>' +
       plan.map((s, i) => '<div class="gh s' + (i % 4) + '"><div class="ghtop"><b>' + esc(s.part) + '</b>' +
         '<select class="bars" data-i="' + i + '" aria-label="' + esc(s.part) + ' length">' + [4, 8].map(b => '<option value="' + b + '"' +

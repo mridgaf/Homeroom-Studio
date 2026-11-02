@@ -25,7 +25,7 @@ body.sketching { padding-bottom: 18px; }
 #sketchboard .skgridhead { margin: 0 0 8px; color: var(--dim); }
 #sketchboard .skgridhead b { color: var(--text); font-weight: 500; }
 #sketchboard #sklen.bad { color: var(--bad); }
-#sketchboard .lgrid { display: grid; gap: 6px; min-width: max-content; }
+#sketchboard .lgrid { display: grid; gap: 6px; width: max(100%, calc(236px + var(--n, 6) * 124px)); }
 #sketchboard .gh { display: flex; flex-direction: column; gap: 4px; padding: 8px; background: var(--panel2);
                    border-radius: 6px; border-top: 3px solid var(--sc, var(--line2)); min-width: 0; }
 #sketchboard .gh.s0 { --sc: var(--orange); } #sketchboard .gh.s1 { --sc: var(--violet); }
@@ -49,9 +49,9 @@ body.sketching { padding-bottom: 18px; }
 #sketchboard .l1 { --bg1: var(--violet); --mk: var(--green); }
 #sketchboard .l2 { --bg1: var(--blue);   --mk: var(--orange); }
 #sketchboard .l3 { --bg1: var(--green);  --mk: var(--violet); }
-#sketchboard .gc { position: relative; min-height: 40px; border: 0; border-radius: 4px; padding: 4px 8px 12px;
+#sketchboard .gc { position: relative; min-height: 40px; border: 0; border-radius: 4px; padding: 4px 8px 20px;
   background: var(--bg1); color: #0b0b0b; font: 600 11.5px var(--sans); text-align: left; cursor: pointer; overflow: hidden; }
-#sketchboard .gc::after { content: ""; position: absolute; left: 6px; right: 6px; bottom: 4px; height: 5px;
+#sketchboard .gc::after { content: ""; position: absolute; left: 6px; right: 6px; bottom: 4px; height: 13px;
   background: repeating-linear-gradient(90deg, var(--mk) 0 3px, transparent 3px 7px); }
 #sketchboard .gc span { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 #sketchboard .gc:hover { filter: brightness(1.08); }
@@ -111,3 +111,6 @@ body.sketching { padding-bottom: 18px; }
 }
 /* the instrument column stays put while the sections scroll sideways */
 #sketchboard .gl, #sketchboard .gcorner { position: sticky; left: 0; z-index: 2; background: var(--panel); padding-right: 6px; }
+/* nothing picked: the grid takes the whole width, the hint sits underneath */
+#sketchboard .skmid:not(:has(.gc.picked)) { grid-template-columns: minmax(0, 1fr); }
+#sketchboard .gh select, #sketchboard .gl select { min-width: 0; }
