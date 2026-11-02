@@ -886,6 +886,18 @@ def collab_preset(names, variant, bpm, tsig=None, trick=False, dirs=None,
     bb = CREW[assign["backbeat"]]["space"]
     p["space"] = (bb[0], [ln for ln in bb[1] if ln in p["lanes"]])
 
+    # harmony (owner 2026-11-02): instruments on if EITHER parent plays
+    # them; the voice is dealt to one of the parents that does
+    harm = [n for n in names
+            if (CREW[n].get("signature") or {}).get("chords_default")]
+    hp = rng.choice(harm) if harm else host
+    for k in ("signature", "chord_flow", "chord_gen", "one_chord",
+              "chord_lift", "melody_flow"):
+        if k in CREW[hp]:
+            p[k] = copy.deepcopy(CREW[hp][k])
+    if harm:
+        notes.append(f"harmony: {hp}")
+
     p["vel_seed"] = variant
     if tsig:
         p["tsig"] = list(tsig)
