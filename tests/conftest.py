@@ -34,6 +34,21 @@ def _reason_folder_never_touches_the_desktop(tmp_path_factory, monkeypatch):
 
 
 @pytest.fixture(autouse=True)
+def _sound_engine_never_touches_his_folders(tmp_path, monkeypatch):
+    """Hard rule (owner 2026-11-01): Sound Engine tests write uploads,
+    renders and exports into a temp folder, never ~/.homeroom_engine or
+    his Exports folder -- the sandbox refuses those, failing ~54 tests."""
+    import sys
+    server = sys.modules.get("sound_engine.server")
+    if server is None:
+        return
+    for name in ("UPLOADS", "RENDERS", "EXPORT_DIR"):
+        d = tmp_path / ("engine_" + name.lower())
+        d.mkdir()
+        monkeypatch.setattr(server, name, d)
+
+
+@pytest.fixture(autouse=True)
 def _histories_never_touch_his_real_ones(tmp_path, monkeypatch):
     """Generated test beats must not land in the pattern / drum-sample
     memory that steers his next real beats (and the sandbox can't write

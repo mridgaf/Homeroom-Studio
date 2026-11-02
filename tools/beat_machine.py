@@ -4712,7 +4712,7 @@ def _change_words(lanes, trims, drops, chord_voice=None, fx=False):
 
 def swap_many(number, picks, root=ROOT, shots=None, status=lambda msg: None,
               trims=None, drops=None, render_only=False, fx=False,
-              _learn=False, pans=None, stage=False):
+              _learn=False, pans=None, stage=False, solo=None):
     """Owner spec 2026-07-16 (revision flow), widened 2026-07-18 for the
     stem rack: same beat, ONE OR MORE drums swapped in a single rebuild.
     `picks` maps lane -> the sample path he chose in the dropdown, or
@@ -5039,6 +5039,20 @@ def swap_many(number, picks, root=ROOT, shots=None, status=lambda msg: None,
 
     if _learn:                 # the unchanged beat's volume setting
         return parts["lock"]
+    if render_only and solo:   # one row's new sound on its own (audition)
+        got = [parts["stems"][ln] for ln in
+               (_family_members(solo, list(parts["stems"])) or [solo])
+               if ln in parts["stems"]]
+        if not got:
+            raise ValueError(f"Beat {number} has no '{solo}' to play.")
+        L = sum(g[0] for g in got)
+        R = sum(g[1] for g in got)
+        # at full level like a drum audition: in the track a chord sits
+        # ~16 dB under the drums, too quiet to judge on its own
+        pk = float(max(np.abs(L).max(), np.abs(R).max()))
+        if pk > 0:
+            L, R = L * (0.9 / pk), R * (0.9 / pk)
+        return L, R
     if render_only:            # live preview — nothing is printed or filed
         return L, R
     if stage:                  # the Effects button: no new number
@@ -6191,7 +6205,8 @@ def _preview_render(query, q, shots=None, root=None):
     gone = [b.strip().lower()
             for b in str(q.get("drop", [""])[0] or "").split(",") if b.strip()]
     L, R = swap_many(no, clean, root=Path(root or ROOT), shots=shots,
-                     trims=trims, drops=gone, pans=pans, render_only=True)
+                     trims=trims, drops=gone, pans=pans, render_only=True,
+                     solo=(q.get("solo", [""])[0].strip().lower() or None))
     data = wav24_bytes(L, R)
     _PREVIEW_CACHE[query] = data
     for old in list(_PREVIEW_CACHE)[:-3]:
@@ -8103,11 +8118,17 @@ __BREAKS__
        // A drum has one file, so play that file. An instrument doesn't —
        // "piano" is a whole multisample, and a single note out of it says
        // nothing about how the chords will sit. So a harmony row auditions
-       // by rendering the BEAT with that instrument in it, which is the
-       // only honest way to hear the choice (owner 2026-08-04).
-       if (s.voices) play(mixUrl(no));
+       // by rendering the beat's chords with that instrument (owner
+       // 2026-08-04), played on their own (2026-11-01, below).
+       // Owner 2026-11-01: the whole beat buried the new instrument (a
+       // chord sits ~16 dB under the drums) so it sounded unchanged. Now
+       // it is the new instrument ALONE; Play hears it in the beat.
+       if (s.voices) play(mixUrl(no) + '&solo=' + encodeURIComponent(s.lane));
        else play('/sample?no=' + no + '&lane=' + encodeURIComponent(s.lane) +
                  '&path=' + encodeURIComponent(sel.value));
+       // play() stopped the beat; its next Play starts from the top
+       const au = row.closest('.track').au;
+       if (au) au.currentTime = 0;
      }
      paintLane(row, no, s);
    };
