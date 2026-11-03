@@ -34,3 +34,8 @@ _retired_reason7_2026-09-10/
 sonic/
 vox_plugin/JUCE/
 .worktrees/
+
+# DJ evolution rewrites these after every beat run (owner chose untracked, 2026-11-02)
+crew_config.json
+legends_config.json
+genres_config.json
