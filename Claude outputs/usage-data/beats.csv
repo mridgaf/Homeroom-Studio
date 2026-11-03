@@ -2969,3 +2969,429 @@ id,owner,kind,mode,date,bpm,key,progression,chord_rhythm
 4141,Just Flame,Legend,Loops only,2026-10-25,114,,,
 4142,Just Flame,Legend,Loops only,2026-10-25,80,,,
 4143,Just Flame,Legend,Loops only,2026-10-25,84,,,
+4144,Doc Day,Legend,Original,2026-10-29,91,F minor,gen:gfunk,sustain
+4145,Doc Day,Legend,Original,2026-10-29,90,G minor,gen:gfunk,sustain
+4146,Doc Day,Legend,Original,2026-10-29,91,F major,gen:gfunk,sustain
+4147,Doc Day,Legend,Original,2026-10-29,95,C minor,gen:gfunk,sustain
+4148,Doc Day,Legend,Original,2026-10-29,95,D lydian,gen:jazz,sustain
+4149,Doc Day,Legend,Original,2026-10-29,91,C minor,gen:gfunk,sustain
+4150,Doc Day,Legend,Original,2026-10-29,95,G minor,gen:gfunk,sustain
+4151,Doc Day,Legend,Original,2026-10-29,95,F minor,gen:gfunk,sustain
+4152,Doc Day,Legend,Original,2026-10-29,95,F minor,gen:gfunk,sustain
+4153,Doc Day,Legend,Original,2026-10-29,94,C minor,gen:rap,sustain
+4154,Doc Day,Legend,Original,2026-10-29,94,F phrygian,gen:trip_hop,sustain
+4155,Doc Day,Legend,Original,2026-10-29,95,F minor,gen:gfunk,sustain
+4156,Doc Day,Legend,Original,2026-10-29,91,C minor,gen:gfunk,sustain
+4157,Doc Day,Legend,Original,2026-10-29,95,F minor,gen:gfunk,sustain
+4158,Farrow,Legend,Original,2026-10-29,109,A lydian,gen:soul,sustain
+4159,Farrow,Legend,Original,2026-10-29,115,D harmonic_minor,gen:jazz_rap,sustain
+4160,Farrow,Legend,Original,2026-10-29,106,C# minor,gen:rock,sustain
+4161,Farrow,Legend,Original,2026-10-29,109,G major,gen:rap,sustain
+4162,Farrow,Legend,Original,2026-10-29,118,C minor,gen:rock,sustain
+4163,Farrow,Legend,Original,2026-10-29,106,A lydian,gen:rock,sustain
+4164,Farrow,Legend,Original,2026-10-29,112,G dorian,gen:rnb,sustain
+4165,Farrow,Legend,Original,2026-10-29,106,E mixolydian,gen:rock,sustain
+4166,Night Metro,Crew DJ / early,Original,2026-10-29,133,D# harmonic_minor,gen:jazz,arp
+4167,Night Metro,Crew DJ / early,Original,2026-10-29,144,C harmonic_minor,gen:gfunk,arp
+4168,Night Metro,Crew DJ / early,Original,2026-10-29,147,E phrygian_dominant,gen:emo_rap,arp
+4169,Night Metro,Crew DJ / early,Original,2026-10-29,147,B major,gen:rap,arp
+4170,Night Metro,Crew DJ / early,Original,2026-10-29,144,C minor,gen:emo_rap,sustain
+4171,Night Metro,Crew DJ / early,Original,2026-10-29,144,E mixolydian,gen:rap,arp
+4172,Rage Engine,Crew DJ / early,Original,2026-10-29,144,D# minor,gen:rock,arp
+4173,Rage Engine,Crew DJ / early,Original,2026-10-29,136,A harmonic_minor,gen:jazz_rap,sustain
+4174,Rage Engine,Crew DJ / early,Original,2026-10-29,144,G harmonic_minor,gen:gospel,sustain
+4175,Rage Engine,Crew DJ / early,Original,2026-10-29,140,B phrygian_dominant,gen:latin,arp
+4176,Rage Engine,Crew DJ / early,Original,2026-10-29,144,A harmonic_minor,gen:rock,sustain
+4177,Rage Engine,Crew DJ / early,Original,2026-10-29,133,A harmonic_minor,gen:rnb,arp
+4178,Rage Engine,Crew DJ / early,Original,2026-10-29,145,E harmonic_minor,gen:emo_rap,arp
+4179,Rage Engine,Crew DJ / early,Original,2026-10-29,136,F# phrygian,gen:jazz,arp
+4180,Rage Engine,Crew DJ / early,Original,2026-10-29,133,Bb mixolydian,gen:rnb,sustain
+4181,Rage Engine,Crew DJ / early,Original,2026-10-29,145,A minor,gen:trap,sustain
+4182,Cutz,Crew DJ / early,Original,2026-10-29,98,F# dorian,gen:lofi,sustain
+4183,Cutz,Crew DJ / early,Original,2026-10-29,90,Bb minor,gen:boom_bap,sustain
+4184,Cutz,Crew DJ / early,Original,2026-10-29,90,Bb dorian,gen:jazz_rap,sustain
+4185,Cutz,Crew DJ / early,Original,2026-10-29,96,Bb dorian,gen:jazz_rap,sustain
+4186,Cutz,Crew DJ / early,Original,2026-10-29,98,Bb minor,gen:boom_bap,sustain
+4187,Cutz,Crew DJ / early,Original,2026-10-29,96,D minor,gen:boom_bap,sustain
+4188,Cutz,Crew DJ / early,Original,2026-10-29,90,F# minor,gen:boom_bap,sustain
+4189,Cutz,Crew DJ / early,Original,2026-10-29,96,F# minor,gen:jazz,sustain
+4190,Cutz,Crew DJ / early,Original,2026-10-29,98,F# minor,gen:jazz,sustain
+4191,Cutz,Crew DJ / early,Original,2026-10-29,98,F# dorian,gen:gospel,sustain
+4192,Mustang,Legend,Original,2026-10-29,103,D minor,gen:gfunk,sustain
+4193,Mustang,Legend,Original,2026-10-29,105,C# minor,gen:emo_rap,arp
+4194,Mustang,Legend,Original,2026-10-29,105,B phrygian_dominant,gen:gospel,arp
+4195,Mustang,Legend,Original,2026-10-29,105,C# mixolydian,gen:trap,arp
+4196,Mustang,Legend,Original,2026-10-29,105,F minor,gen:club,arp
+4197,Mustang,Legend,Original,2026-10-29,95,A# minor,gen:rock,arp
+4198,Mustang,Legend,Original,2026-10-29,100,G mixolydian,gen:gospel,arp
+4199,Mustang,Legend,Original,2026-10-29,103,C# minor,gen:funk,arp
+4200,Mustang,Legend,Original,2026-10-29,97,C# minor,gen:club,arp
+4201,Mustang,Legend,Original,2026-10-29,105,A# minor,gen:boom_bap,arp
+4202,Tenth Wonder,Legend,Original,2026-10-29,86,F# dorian,gen:club,sustain
+4203,Tenth Wonder,Legend,Original,2026-10-29,93,C minor,gen:boom_bap,sustain
+4204,Tenth Wonder,Legend,Original,2026-10-29,87,F dorian,gen:lofi,sustain
+4205,Tenth Wonder,Legend,Original,2026-10-29,94,B phrygian_dominant,gen:gospel,sustain
+4206,Tenth Wonder,Legend,Original,2026-10-29,93,D major,gen:soul,sustain
+4207,Tenth Wonder,Legend,Original,2026-10-29,94,D major,gen:boom_bap,sustain
+4208,Tenth Wonder,Legend,Original,2026-10-29,86,G phrygian,gen:memphis,sustain
+4209,Tenth Wonder,Legend,Original,2026-10-29,90,D major,gen:soul,sustain
+4210,Tenth Wonder,Legend,Original,2026-10-29,87,G lydian,gen:jazz_rap,sustain
+4211,Tenth Wonder,Legend,Original,2026-10-29,90,F minor,gen:rnb,sustain
+4212,Razor,Legend,Original,2026-10-30,90,D minor,gen:funk,sustain
+4213,Razor,Legend,Original,2026-10-30,87,G major,gen:trap,sustain
+4214,Razor,Legend,Original,2026-10-30,87,G minor,gen:memphis,sustain
+4215,Razor,Legend,Original,2026-10-30,90,B minor,gen:boom_bap,sustain
+4216,Razor,Legend,Original,2026-10-30,87,F harmonic_minor,gen:memphis,sustain
+4217,Razor,Legend,Original,2026-10-30,93,D harmonic_minor,gen:soul,sustain
+4218,Razor,Legend,Original,2026-10-30,90,B major,gen:memphis,sustain
+4219,Razor,Legend,Original,2026-10-30,87,F minor,gen:funk,sustain
+4220,Razor,Legend,Original,2026-10-30,90,F minor,gen:emo_rap,sustain
+4221,Razor,Legend,Original,2026-10-30,90,B harmonic_minor,gen:boom_bap,sustain
+4222,Timberline,Legend,Original,2026-10-30,118,G harmonic_minor,gen:club,arp
+4223,Timberline,Legend,Original,2026-10-30,112,E major,gen:rnb,arp
+4224,Timberline,Legend,Original,2026-10-30,115,D minor,gen:funk,sustain
+4225,Timberline,Legend,Original,2026-10-30,120,Bb harmonic_minor,gen:rnb,sustain
+4226,Timberline,Legend,Original,2026-10-30,121,E mixolydian,gen:rock,sustain
+4227,Timberline,Legend,Original,2026-10-30,113,A harmonic_minor,gen:funk,arp
+4228,Timberline,Legend,Original,2026-10-30,113,G minor,gen:rnb,sustain
+4229,Timberline,Legend,Original,2026-10-30,116,G phrygian,gen:club,arp
+4230,Timberline,Legend,Original,2026-10-30,113,G# lydian,gen:gfunk,arp
+4231,Timberline,Legend,Original,2026-10-30,111,G phrygian,gen:soul,arp
+4232,No Alias,Legend,Original,2026-10-30,95,D major,gen:boom_bap,sustain
+4233,No Alias,Legend,Original,2026-10-30,92,D mixolydian,gen:soul,sustain
+4234,No Alias,Legend,Original,2026-10-30,89,G dorian,gen:jazz_rap,sustain
+4235,No Alias,Legend,Original,2026-10-30,87,D# mixolydian,gen:rock,sustain
+4236,No Alias,Legend,Original,2026-10-30,95,C major,gen:boom_bap,sustain
+4237,No Alias,Legend,Original,2026-10-30,87,C major,gen:jazz,sustain
+4238,No Alias,Legend,Original,2026-10-30,92,A phrygian_dominant,gen:gfunk,sustain
+4239,No Alias,Legend,Original,2026-10-30,92,C minor,gen:soul,sustain
+4240,No Alias,Legend,Original,2026-10-30,89,D minor,gen:boom_bap,sustain
+4241,No Alias,Legend,Original,2026-10-30,89,D major,gen:soul,sustain
+4242,Farrow,Legend,Original,2026-10-30,112,G mixolydian,gen:rock,sustain
+4243,Farrow,Legend,Original,2026-10-30,118,G minor,gen:funk,sustain
+4244,Farrow,Legend,Original,2026-10-30,118,F lydian,gen:soul,sustain
+4245,Farrow,Legend,Original,2026-10-30,106,E minor,gen:club,sustain
+4246,Farrow,Legend,Original,2026-10-30,118,C minor,gen:lofi,sustain
+4247,Farrow,Legend,Original,2026-10-30,115,B minor,gen:rock,sustain
+4248,Farrow,Legend,Original,2026-10-30,112,B minor,gen:funk,sustain
+4249,Farrow,Legend,Original,2026-10-30,115,C# phrygian_dominant,gen:gospel,sustain
+4250,Farrow,Legend,Original,2026-10-30,106,E harmonic_minor,gen:trap,sustain
+4251,Farrow,Legend,Original,2026-10-30,109,C# minor,gen:soul,sustain
+4252,Kane East,Legend,Original,2026-10-30,126,Bb harmonic_minor,gen:club,sustain
+4253,Kane East,Legend,Original,2026-10-30,136,F minor,gen:rnb,sustain
+4254,Kane East,Legend,Original,2026-10-30,136,C# minor,gen:memphis,sustain
+4255,Kane East,Legend,Original,2026-10-30,126,Bb harmonic_minor,gen:latin,sustain
+4256,Kane East,Legend,Original,2026-10-30,134,F minor,gen:jazz_rap,sustain
+4257,Kane East,Legend,Original,2026-10-30,136,G minor,gen:club,sustain
+4258,Kane East,Legend,Original,2026-10-30,136,C# phrygian_dominant,gen:gfunk,sustain
+4259,Kane East,Legend,Original,2026-10-30,134,G# major,gen:trap,sustain
+4260,Kane East,Legend,Original,2026-10-30,126,B mixolydian,gen:rap,sustain
+4261,Kane East,Legend,Original,2026-10-30,136,D# lydian,gen:boom_bap,sustain
+4262,Mustang,Legend,Original,2026-10-30,105,Bb major,gen:club,arp
+4263,Mustang,Legend,Original,2026-10-30,100,D mixolydian,gen:rnb,sustain
+4264,Mustang,Legend,Original,2026-10-30,97,Bb major,gen:club,arp
+4265,Mustang,Legend,Original,2026-10-30,100,D minor,gen:lofi,arp
+4266,Mustang,Legend,Original,2026-10-30,95,D# minor,gen:jazz_rap,arp
+4267,Mustang,Legend,Original,2026-10-30,95,D minor,gen:trap,arp
+4268,Mustang,Legend,Original,2026-10-30,100,G minor,gen:rnb,arp
+4269,Mustang,Legend,Original,2026-10-30,103,B phrygian,gen:lofi,sustain
+4270,Mustang,Legend,Original,2026-10-30,100,D lydian,gen:club,sustain
+4271,Mustang,Legend,Original,2026-10-30,105,A# lydian,gen:club,sustain
+4272,Swish Beatz,Legend,Original,2026-10-30,90,B minor,gen:trap,sustain
+4273,Swish Beatz,Legend,Original,2026-10-30,100,G dorian,gen:emo_rap,sustain
+4274,Swish Beatz,Legend,Original,2026-10-30,98,F minor,gen:rock,sustain
+4275,Swish Beatz,Legend,Original,2026-10-30,90,B minor,gen:gfunk,sustain
+4276,Swish Beatz,Legend,Original,2026-10-30,95,B minor,gen:rock,sustain
+4277,Swish Beatz,Legend,Original,2026-10-30,92,Bb harmonic_minor,gen:trap,sustain
+4278,Swish Beatz,Legend,Original,2026-10-30,92,B harmonic_minor,gen:trap,sustain
+4279,Swish Beatz,Legend,Original,2026-10-30,98,A phrygian,gen:soul,sustain
+4280,Swish Beatz,Legend,Original,2026-10-30,98,B minor,gen:rap,sustain
+4281,Swish Beatz,Legend,Original,2026-10-30,92,E minor,gen:rock,sustain
+4282,Otto Grit,Crew DJ / early,Original,2026-10-30,84,F phrygian,gen:jazz,sustain
+4283,Otto Grit,Crew DJ / early,Original,2026-10-30,91,Bb minor,gen:soul,sustain
+4284,Otto Grit,Crew DJ / early,Original,2026-10-30,84,F# major,gen:club,arp
+4285,Otto Grit,Crew DJ / early,Original,2026-10-30,84,Eb lydian,gen:jazz_rap,sustain
+4286,Otto Grit,Crew DJ / early,Original,2026-10-30,91,F# major,gen:soul,sustain
+4287,Otto Grit,Crew DJ / early,Original,2026-10-30,85,F minor,gen:boom_bap,sustain
+4288,Otto Grit,Crew DJ / early,Original,2026-10-30,92,F mixolydian,gen:soul,sustain
+4289,Otto Grit,Crew DJ / early,Original,2026-10-30,88,C dorian,gen:club,sustain
+4290,Otto Grit,Crew DJ / early,Original,2026-10-30,88,C mixolydian,gen:emo_rap,arp
+4291,Otto Grit,Crew DJ / early,Original,2026-10-30,88,F major,gen:soul,sustain
+4292,Cutz,Crew DJ / early,Original,2026-10-30,93,Bb dorian,gen:boom_bap,sustain
+4293,Cutz,Crew DJ / early,Original,2026-10-30,93,F# minor,gen:jazz_rap,sustain
+4294,Cutz,Crew DJ / early,Original,2026-10-30,93,F# dorian,gen:jazz,sustain
+4295,Cutz,Crew DJ / early,Original,2026-10-30,88,C lydian,gen:trip_hop,sustain
+4296,Cutz,Crew DJ / early,Original,2026-10-30,88,F# minor,gen:boom_bap,sustain
+4297,Cutz,Crew DJ / early,Original,2026-10-30,88,Bb minor,gen:latin,sustain
+4298,Cutz,Crew DJ / early,Original,2026-10-30,88,F# dorian,gen:boom_bap,sustain
+4299,Cutz,Crew DJ / early,Original,2026-10-30,90,F# minor,gen:jazz,sustain
+4300,Cutz,Crew DJ / early,Original,2026-10-30,93,Bb minor,gen:lofi,sustain
+4301,Cutz,Crew DJ / early,Original,2026-10-30,93,D minor,gen:jazz_rap,sustain
+4302,Chrome Dial,Crew DJ / early,Original,2026-10-30,93,B phrygian,gen:funk,arp
+4303,Chrome Dial,Crew DJ / early,Original,2026-10-30,86,B minor,gen:rnb,sustain
+4304,Chrome Dial,Crew DJ / early,Original,2026-10-30,87,Bb major,gen:latin,arp
+4305,Chrome Dial,Crew DJ / early,Original,2026-10-30,94,B minor,gen:rnb,arp
+4306,Chrome Dial,Crew DJ / early,Original,2026-10-30,86,G# phrygian,gen:jazz_rap,sustain
+4307,Chrome Dial,Crew DJ / early,Original,2026-10-30,86,D minor,gen:trap,sustain
+4308,Chrome Dial,Crew DJ / early,Original,2026-10-30,90,F mixolydian,gen:lofi,sustain
+4309,Chrome Dial,Crew DJ / early,Original,2026-10-30,90,C# minor,gen:rap,sustain
+4310,Chrome Dial,Crew DJ / early,Original,2026-10-30,86,B minor,gen:rnb,sustain
+4311,Chrome Dial,Crew DJ / early,Original,2026-10-30,94,A minor,gen:rnb,sustain
+4312,Glass Cat,Crew DJ / early,Original,2026-10-30,93,C# major,gen:gospel,arp
+4313,Glass Cat,Crew DJ / early,Original,2026-10-30,103,G phrygian,gen:gfunk,arp
+4314,Glass Cat,Crew DJ / early,Original,2026-10-30,101,A minor,gen:trap,arp
+4315,Glass Cat,Crew DJ / early,Original,2026-10-30,98,C# major,gen:funk,arp
+4316,Glass Cat,Crew DJ / early,Original,2026-10-30,98,E major,gen:funk,arp
+4317,Glass Cat,Crew DJ / early,Original,2026-10-30,98,C# mixolydian,gen:emo_rap,arp
+4318,Glass Cat,Crew DJ / early,Original,2026-10-30,93,C minor,gen:rnb,arp
+4319,Glass Cat,Crew DJ / early,Original,2026-10-30,93,C mixolydian,gen:funk,arp
+4320,Glass Cat,Crew DJ / early,Original,2026-10-30,93,G minor,gen:rnb,arp
+4321,Glass Cat,Crew DJ / early,Original,2026-10-30,95,C minor,gen:club,arp
+4322,Fast Water,Crew DJ / early,Original,2026-10-30,162,F# phrygian,gen:funk,sustain
+4323,Fast Water,Crew DJ / early,Original,2026-10-30,155,G harmonic_minor,gen:rock,sustain
+4324,Fast Water,Crew DJ / early,Original,2026-10-30,150,E phrygian,gen:funk,sustain
+4325,Fast Water,Crew DJ / early,Original,2026-10-30,147,B harmonic_minor,gen:memphis,sustain
+4326,Fast Water,Crew DJ / early,Original,2026-10-30,147,E minor,gen:trap,sustain
+4327,Fast Water,Crew DJ / early,Original,2026-10-30,162,A minor,gen:emo_rap,sustain
+4328,Fast Water,Crew DJ / early,Original,2026-10-30,155,E minor,gen:emo_rap,sustain
+4329,Fast Water,Crew DJ / early,Original,2026-10-30,147,F lydian,gen:lofi,sustain
+4330,Fast Water,Crew DJ / early,Original,2026-10-30,162,G minor,gen:emo_rap,sustain
+4331,Fast Water,Crew DJ / early,Original,2026-10-30,150,A minor,gen:lofi,sustain
+4332,Sunday Chop,Crew DJ / early,Original,2026-10-30,92,D# phrygian_dominant,gen:memphis,arp
+4333,Sunday Chop,Crew DJ / early,Original,2026-10-30,85,F lydian,gen:rnb,sustain
+4334,Sunday Chop,Crew DJ / early,Original,2026-10-30,91,C major,gen:soul,sustain
+4335,Sunday Chop,Crew DJ / early,Original,2026-10-30,92,D# lydian,gen:jazz,sustain
+4336,Sunday Chop,Crew DJ / early,Original,2026-10-30,88,G minor,gen:gospel,arp
+4337,Sunday Chop,Crew DJ / early,Original,2026-10-30,84,G# major,gen:soul,sustain
+4338,Sunday Chop,Crew DJ / early,Original,2026-10-30,92,F minor,gen:soul,sustain
+4339,Sunday Chop,Crew DJ / early,Original,2026-10-30,88,Eb minor,gen:soul,sustain
+4340,Sunday Chop,Crew DJ / early,Original,2026-10-30,88,B harmonic_minor,gen:rock,sustain
+4341,Sunday Chop,Crew DJ / early,Original,2026-10-30,85,E lydian,gen:jazz,sustain
+4342,Sunday Chop,Crew DJ / early,Original,2026-10-30,106,,,
+4343,Sunday Chop,Crew DJ / early,Original,2026-10-30,104,,,
+4344,Sunday Chop,Crew DJ / early,Original,2026-10-30,104,,,
+4345,Sunday Chop,Crew DJ / early,Original,2026-10-30,114,,,
+4346,Sunday Chop,Crew DJ / early,Original,2026-10-30,114,,,
+4347,Sunday Chop,Crew DJ / early,Original,2026-10-30,109,,,
+4348,Sunday Chop,Crew DJ / early,Original,2026-10-30,114,,,
+4349,Sunday Chop,Crew DJ / early,Original,2026-10-30,114,,,
+4350,Sunday Chop,Crew DJ / early,Original,2026-10-30,114,,,
+4351,Sunday Chop,Crew DJ / early,Original,2026-10-30,104,,,
+4352,Acid Rap Bright,Genre,Original,2026-10-30,78,F mixolydian,gen:funk,arp
+4353,Acid Rap Bright,Genre,Original,2026-10-30,80,A minor,gen:latin,sustain
+4354,Acid Rap Bright,Genre,Original,2026-10-30,78,D major,gen:funk,arp
+4355,Acid Rap Bright,Genre,Original,2026-10-30,80,C lydian,gen:funk,arp
+4356,Acid Rap Bright,Genre,Original,2026-10-30,80,C major,gen:funk,sustain
+4357,Acid Rap Bright,Genre,Original,2026-10-30,80,A phrygian,gen:rnb,sustain
+4358,Acid Rap Bright,Genre,Original,2026-10-30,82,F dorian,gen:funk,sustain
+4359,Acid Rap Bright,Genre,Original,2026-10-30,80,C lydian,gen:jazz_rap,arp
+4360,Acid Rap Bright,Genre,Original,2026-10-30,78,C major,gen:latin,sustain
+4361,Acid Rap Bright,Genre,Original,2026-10-30,82,C major,gen:jazz_rap,arp
+4362,Trip Hop,Genre,Original,2026-10-30,80,A dorian,gen:memphis,arp
+4363,Trip Hop,Genre,Original,2026-10-30,82,F# major,gen:gospel,sustain
+4364,Trip Hop,Genre,Original,2026-10-30,80,E major,gen:rap,arp
+4365,Trip Hop,Genre,Original,2026-10-30,78,A mixolydian,gen:trip_hop,sustain
+4366,Trip Hop,Genre,Original,2026-10-30,80,A minor,gen:trip_hop,arp
+4367,Trip Hop,Genre,Original,2026-10-30,82,A dorian,gen:trip_hop,sustain
+4368,Trip Hop,Genre,Original,2026-10-30,80,D mixolydian,gen:lofi,arp
+4369,Trip Hop,Genre,Original,2026-10-30,80,B dorian,gen:trap,sustain
+4370,Trip Hop,Genre,Original,2026-10-30,82,Bb phrygian,gen:jazz,sustain
+4371,Trip Hop,Genre,Original,2026-10-30,82,A minor,gen:trap,sustain
+4372,Houston Screw,Genre,Original,2026-10-30,66,C minor,gen:soul,sustain
+4373,Houston Screw,Genre,Original,2026-10-30,67,F# lydian,gen:rnb,sustain
+4374,Houston Screw,Genre,Original,2026-10-30,66,Bb minor,gen:lofi,sustain
+4375,Houston Screw,Genre,Original,2026-10-30,67,F minor,gen:memphis,sustain
+4376,Houston Screw,Genre,Original,2026-10-30,67,D minor,gen:rnb,sustain
+4377,Houston Screw,Genre,Original,2026-10-30,66,G phrygian_dominant,gen:jazz,sustain
+4378,Houston Screw,Genre,Original,2026-10-30,66,D minor,gen:soul,sustain
+4379,Houston Screw,Genre,Original,2026-10-30,66,C minor,gen:trap,sustain
+4380,Houston Screw,Genre,Original,2026-10-30,66,G# phrygian_dominant,gen:trap,sustain
+4381,Houston Screw,Genre,Original,2026-10-30,65,A minor,gen:memphis,sustain
+4382,Organized Noize,Genre,Original,2026-10-30,88,D# mixolydian,gen:gfunk,arp
+4383,Organized Noize,Genre,Original,2026-10-30,92,D major,gen:rnb,arp
+4384,Organized Noize,Genre,Original,2026-10-30,90,A major,gen:funk,arp
+4385,Organized Noize,Genre,Original,2026-10-30,90,C lydian,gen:funk,sustain
+4386,Organized Noize,Genre,Original,2026-10-30,92,F# mixolydian,gen:boom_bap,sustain
+4387,Organized Noize,Genre,Original,2026-10-30,92,D minor,gen:funk,arp
+4388,Organized Noize,Genre,Original,2026-10-30,90,G major,gen:funk,arp
+4389,Organized Noize,Genre,Original,2026-10-30,90,G major,gen:funk,arp
+4390,Organized Noize,Genre,Original,2026-10-30,88,G major,gen:soul,arp
+4391,Organized Noize,Genre,Original,2026-10-30,92,B phrygian,gen:gospel,sustain
+4392,Cutz,Crew DJ / early,Original,2026-10-30,96,F# minor,gen:jazz,sustain
+4393,Cutz,Crew DJ / early,Original,2026-10-30,88,G minor,gen:lofi,sustain
+4394,Cutz,Crew DJ / early,Original,2026-10-30,93,F# minor,gen:latin,sustain
+4395,Cutz,Crew DJ / early,Original,2026-10-30,90,F# minor,gen:jazz_rap,sustain
+4396,Doc Day,Legend,Original,2026-10-30,94,F minor,gen:gfunk,sustain
+4397,Doc Day,Legend,Original,2026-10-30,91,F minor,gen:rock,sustain
+4398,Doc Day,Legend,Original,2026-10-30,90,G minor,gen:rap,sustain
+4399,Doc Day,Legend,Original,2026-10-30,95,G minor,gen:gfunk,sustain
+4400,Doc Day,Legend,Original,2026-10-30,91,C minor,gen:rap,sustain
+4401,Doc Day,Legend,Original,2026-10-30,91,G lydian,gen:jazz_rap,sustain
+4402,Doc Day,Legend,Original,2026-10-31,90,F minor,gen:gfunk,sustain
+4403,Doc Day,Legend,Original,2026-10-31,94,Bb dorian,gen:rock,sustain
+4404,Doc Day,Legend,Original,2026-10-31,95,C minor,gen:funk,sustain
+4405,Doc Day,Legend,Original,2026-10-31,95,C minor,gen:soul,sustain
+4406,Doc Day,Legend,Original,2026-10-31,91,F minor,gen:rnb,sustain
+4407,Doc Day,Legend,Original,2026-10-31,91,C minor,gen:gfunk,sustain
+4408,Doc Day,Legend,Original,2026-10-31,95,F minor,gen:gfunk,sustain
+4409,Doc Day,Legend,Original,2026-10-31,95,A phrygian,gen:club,sustain
+4410,Doc Day,Legend,Original,2026-10-31,95,G minor,gen:gfunk,sustain
+4411,Doc Day,Legend,Original,2026-10-31,91,E minor,gen:rnb,sustain
+4412,Doc Day,Legend,Original,2026-10-31,90,C minor,gen:memphis,sustain
+4413,Doc Day,Legend,Original,2026-10-31,95,C# major,gen:emo_rap,sustain
+4414,Otto Grit,Crew DJ / early,Original,2026-10-31,91,F# mixolydian,gen:soul,sustain
+4415,Otto Grit,Crew DJ / early,Original,2026-10-31,85,F dorian,gen:rap,arp
+4416,Otto Grit,Crew DJ / early,Original,2026-10-31,88,G dorian,gen:rnb,arp
+4417,Crate Prophet,Crew DJ / early,Original,2026-10-31,95,C major,gen:rock,arp
+4418,Crate Prophet,Crew DJ / early,Original,2026-10-31,97,Bb major,gen:jazz_rap,sustain
+4419,Crate Prophet,Crew DJ / early,Original,2026-10-31,89,F minor,gen:jazz,arp
+4420,Glass Cat,Crew DJ / early,Original,2026-10-31,95,F minor,gen:gfunk,arp
+4421,Glass Cat,Crew DJ / early,Original,2026-10-31,101,G lydian,gen:trap,arp
+4422,Glass Cat,Crew DJ / early,Original,2026-10-31,93,E minor,gen:club,arp
+4423,Night Metro,Crew DJ / early,Original,2026-10-31,136,F minor,gen:trap,arp
+4424,Night Metro,Crew DJ / early,Original,2026-10-31,136,D minor,gen:memphis,arp
+4425,Night Metro,Crew DJ / early,Original,2026-10-31,144,C minor,gen:trap,sustain
+4426,New Math,Crew DJ / early,Original,2026-10-31,92,G# mixolydian,gen:gospel,arp
+4427,New Math,Crew DJ / early,Original,2026-10-31,89,G mixolydian,gen:soul,arp
+4428,New Math,Crew DJ / early,Original,2026-10-31,94,Bb mixolydian,gen:latin,arp
+4429,Crate Prophet,Crew DJ / early,Original,2026-10-31,95,B major,gen:soul,arp
+4430,Crate Prophet,Crew DJ / early,Original,2026-10-31,87,G# mixolydian,gen:trip_hop,sustain
+4431,Crate Prophet,Crew DJ / early,Original,2026-10-31,87,E minor,gen:soul,arp
+4432,Crate Prophet,Crew DJ / early,Original,2026-10-31,97,Bb minor,gen:boom_bap,sustain
+4433,Crate Prophet,Crew DJ / early,Original,2026-10-31,97,D minor,gen:soul,arp
+4434,Crate Prophet,Crew DJ / early,Original,2026-10-31,97,C major,gen:jazz_rap,sustain
+4435,Crate Prophet,Crew DJ / early,Original,2026-10-31,97,C major,gen:jazz_rap,sustain
+4436,Glass Cat,Crew DJ / early,Original,2026-10-31,98,C minor,gen:rnb,arp
+4437,Glass Cat,Crew DJ / early,Original,2026-10-31,101,C# mixolydian,gen:funk,arp
+4438,Glass Cat,Crew DJ / early,Original,2026-10-31,101,A mixolydian,gen:funk,arp
+4439,Cutz,Crew DJ / early,Original,2026-10-31,90,D minor,gen:jazz,sustain
+4440,Cutz,Crew DJ / early,Original,2026-10-31,90,F minor,gen:boom_bap,sustain
+4441,Cutz,Crew DJ / early,Original,2026-10-31,96,E lydian,gen:trip_hop,sustain
+4442,Cutz,Crew DJ / early,Original,2026-10-31,88,C# harmonic_minor,gen:jazz_rap,sustain
+4443,Cutz,Crew DJ / early,Original,2026-10-31,96,G harmonic_minor,gen:gospel,sustain
+4444,Cutz,Crew DJ / early,Original,2026-10-31,96,Bb dorian,gen:boom_bap,sustain
+4445,Cutz,Crew DJ / early,Original,2026-10-31,98,Bb dorian,gen:jazz_rap,sustain
+4446,Cutz,Crew DJ / early,Original,2026-10-31,99,,,
+4447,Cutz,Crew DJ / early,Original,2026-10-31,94,,,
+4448,Cutz,Crew DJ / early,Original,2026-10-31,94,,,
+4449,Cutz,Crew DJ / early,Original,2026-10-31,89,,,
+4450,Cutz,Crew DJ / early,Original,2026-10-31,97,,,
+4451,Cutz,Crew DJ / early,Original,2026-10-31,99,,,
+4452,Doc Day,Legend,Original,2026-10-31,95,C minor,gen:rnb,sustain
+4453,Doc Day,Legend,Original,2026-10-31,94,F minor,gen:rap,sustain
+4454,Doc Day,Legend,Original,2026-10-31,91,C minor,gen:gfunk,sustain
+4455,Doc Day,Legend,Original,2026-10-31,94,F phrygian_dominant,gen:latin,sustain
+4456,Doc Day,Legend,Original,2026-10-31,95,F minor,gen:rnb,sustain
+4457,Doc Day,Legend,Original,2026-10-31,94,C minor,gen:jazz_rap,sustain
+4458,Doc Day,Legend,Original,2026-10-31,91,C# minor,gen:trap,sustain
+4459,Doc Day,Legend,Original,2026-10-31,95,C lydian,gen:emo_rap,sustain
+4460,Doc Day,Legend,Original,2026-10-31,94,G minor,gen:rap,sustain
+4461,Doc Day,Legend,Original,2026-10-31,95,G minor,gen:rap,sustain
+4462,Doc Day,Legend,Original,2026-10-31,90,C minor,gen:rap,sustain
+4463,Doc Day,Legend,Original,2026-10-31,95,Bb lydian,gen:rnb,sustain
+4464,Farrow,Legend,Original,2026-10-31,118,F minor,gen:soul,sustain
+4465,Farrow,Legend,Original,2026-10-31,109,A mixolydian,gen:soul,sustain
+4466,Farrow,Legend,Original,2026-10-31,112,G mixolydian,gen:memphis,sustain
+4467,Farrow,Legend,Original,2026-10-31,118,F lydian,gen:boom_bap,sustain
+4468,Farrow,Legend,Original,2026-10-31,115,A major,gen:soul,sustain
+4469,Farrow,Legend,Original,2026-10-31,109,F# mixolydian,gen:trap,sustain
+4470,Farrow,Legend,Original,2026-10-31,118,F# dorian,gen:funk,sustain
+4471,J Dillo,Legend,Original,2026-10-31,88,Bb mixolydian,gen:lofi,sustain
+4472,J Dillo,Legend,Original,2026-10-31,88,D minor,gen:club,sustain
+4473,J Dillo,Legend,Original,2026-10-31,84,F mixolydian,gen:lofi,sustain
+4474,J Dillo,Legend,Original,2026-10-31,87,D minor,gen:jazz_rap,sustain
+4475,J Dillo,Legend,Original,2026-10-31,84,Bb major,gen:rnb,sustain
+4476,J Dillo,Legend,Original,2026-10-31,81,B lydian,gen:trap,sustain
+4477,J Dillo,Legend,Original,2026-10-31,80,D major,gen:rnb,sustain
+4478,Glass Cat,Crew DJ / early,Original,2026-10-31,103,C major,gen:funk,arp
+4479,Glass Cat,Crew DJ / early,Original,2026-10-31,93,C# harmonic_minor,gen:trip_hop,arp
+4480,Glass Cat,Crew DJ / early,Original,2026-10-31,101,E major,gen:trap,arp
+4481,Glass Cat,Crew DJ / early,Original,2026-10-31,103,G minor,gen:rnb,arp
+4482,Doc Day,Legend,Original,2026-10-31,91,C minor,gen:gfunk,sustain
+4483,Doc Day,Legend,Original,2026-10-31,90,G minor,gen:gfunk,sustain
+4484,Doc Day,Legend,Original,2026-10-31,91,C minor,gen:rnb,sustain
+4485,Doc Day,Legend,Original,2026-10-31,91,E major,gen:rap,sustain
+4486,Doc Day,Legend,Original,2026-10-31,90,G minor,gen:gfunk,sustain
+4487,Doc Day,Legend,Original,2026-10-31,90,G minor,gen:gfunk,sustain
+4488,Doc Day,Legend,Original,2026-10-31,90,G minor,gen:gfunk,sustain
+4489,Rage Engine,Crew DJ / early,Original,2026-10-31,145,D# minor,gen:emo_rap,sustain
+4490,Rage Engine,Crew DJ / early,Original,2026-10-31,145,D dorian,gen:rock,arp
+4491,Rage Engine,Crew DJ / early,Original,2026-10-31,136,C harmonic_minor,gen:rock,sustain
+4492,Rage Engine,Crew DJ / early,Original,2026-10-31,140,E mixolydian,gen:gfunk,arp
+4493,Rage Engine,Crew DJ / early,Original,2026-10-31,133,C major,gen:rap,arp
+4494,Rage Engine,Crew DJ / early,Original,2026-10-31,145,C minor,gen:rock,sustain
+4495,Doc Day,Legend,Original,2026-10-31,90,F minor,gen:gfunk,sustain
+4496,Kane East,Legend,Original,2026-11-01,130,D# phrygian_dominant,gen:jazz_rap,sustain
+4497,Kane East,Legend,Original,2026-11-01,136,D major,gen:trap,sustain
+4498,Kane East,Legend,Original,2026-11-01,134,G phrygian,gen:jazz,sustain
+4499,J Dillo,Legend,Original,2026-11-01,81,Bb major,gen:rock,sustain
+4500,J Dillo,Legend,Original,2026-11-01,80,C dorian,gen:club,sustain
+4501,J Dillo,Legend,Original,2026-11-01,81,D dorian,gen:rnb,sustain
+4502,J Dillo,Legend,Original,2026-11-01,81,D minor,gen:soul,sustain
+4503,J Dillo,Legend,Original,2026-11-01,81,F minor,gen:boom_bap,sustain
+4504,J Dillo,Legend,Original,2026-11-01,88,Bb major,gen:jazz_rap,sustain
+4505,Hip-Hop,Crew DJ / early,Original,2026-11-01,70,,,
+4506,Chrome Dial,Crew DJ / early,Original,2026-11-01,87,D lydian,gen:jazz_rap,arp
+4507,Chrome Dial,Crew DJ / early,Original,2026-11-01,93,C# minor,gen:funk,sustain
+4508,Chrome Dial,Crew DJ / early,Original,2026-11-01,94,C# harmonic_minor,gen:trap,sustain
+4509,Chrome Dial,Crew DJ / early,Original,2026-11-01,87,,,
+4510,Chrome Dial,Crew DJ / early,Original,2026-11-01,84,,,
+4511,Chrome Dial,Crew DJ / early,Original,2026-11-01,84,,,
+4512,Chrome Dial,Crew DJ / early,Original,2026-11-01,87,,,
+4513,Chrome Dial,Crew DJ / early,Original,2026-11-01,84,,,
+4514,Chrome Dial,Crew DJ / early,Original,2026-11-01,87,,,
+4515,Chrome Dial,Crew DJ / early,Original,2026-11-01,87,,,
+4516,J Dillo,Legend,Original,2026-11-01,80,D dorian,gen:jazz_rap,sustain
+4517,J Dillo,Legend,Original,2026-11-01,84,Bb minor,gen:soul,sustain
+4518,J Dillo,Legend,Original,2026-11-01,81,D mixolydian,gen:trap,sustain
+4519,J Dillo,Legend,Original,2026-11-01,88,C major,gen:rnb,sustain
+4520,J Dillo,Legend,Original,2026-11-01,88,Bb major,gen:soul,sustain
+4521,J Dillo,Legend,Original,2026-11-01,84,F# minor,gen:gfunk,sustain
+4522,J Dillo,Legend,Original,2026-11-01,84,Bb dorian,gen:funk,sustain
+4523,Mustang,Legend,Original,2026-11-01,97,F mixolydian,gen:funk,arp
+4524,Mustang,Legend,Original,2026-11-01,105,Bb minor,gen:trap,sustain
+4525,Mustang,Legend,Original,2026-11-01,97,F major,gen:rnb,arp
+4526,Mustang,Legend,Original,2026-11-01,105,F# phrygian,gen:rnb,arp
+4527,Mustang,Legend,Original,2026-11-01,105,Bb major,gen:rnb,sustain
+4528,Mustang,Legend,Original,2026-11-01,97,A major,gen:lofi,arp
+4529,Mustang,Legend,Original,2026-11-01,103,E phrygian,gen:club,arp
+4530,Doc Day,Legend,Original,2026-11-01,90,F minor,gen:gfunk,sustain
+4531,Doc Day,Legend,Original,2026-11-01,95,F minor,gen:rnb,sustain
+4532,Doc Day,Legend,Original,2026-11-01,91,C minor,gen:gfunk,sustain
+4533,Doc Day,Legend,Original,2026-11-01,95,C minor,gen:gfunk,sustain
+4534,Doc Day,Legend,Original,2026-11-01,91,G# mixolydian,gen:soul,sustain
+4535,Doc Day,Legend,Original,2026-11-01,95,G minor,gen:gfunk,sustain
+4536,Kane East,Legend,Original,2026-11-01,124,G phrygian,gen:jazz_rap,sustain
+4537,Kane East,Legend,Original,2026-11-01,136,F minor,gen:emo_rap,sustain
+4538,Kane East,Legend,Original,2026-11-01,134,G phrygian,gen:club,sustain
+4539,Kane East,Legend,Original,2026-11-01,126,F phrygian,gen:emo_rap,sustain
+4540,Kane East,Legend,Original,2026-11-01,130,C lydian,gen:memphis,sustain
+4541,Kane East,Legend,Original,2026-11-01,134,B mixolydian,gen:rock,sustain
+4542,Chrome Dial,Crew DJ / early,Loops only,2026-11-02,120,,,
+4543,Chrome Dial,Crew DJ / early,Loops only,2026-11-02,107,,,
+4544,Chrome Dial,Crew DJ / early,Loops only,2026-11-02,70,,,
+4545,Chrome Dial,Crew DJ / early,Loops only,2026-11-02,89,,,
+4546,Chrome Dial,Crew DJ / early,Loops only,2026-11-02,75,,,
+4547,Chrome Dial,Crew DJ / early,Loops only,2026-11-02,120,,,
+4548,Mustang,Crew DJ / early,Original,2026-11-02,95,G# harmonic_minor,gen:rap,sustain
+4549,Mustang,Crew DJ / early,Original,2026-11-02,95,D phrygian_dominant,gen:rap,sustain
+4550,Mustang,Crew DJ / early,Original,2026-11-02,95,F minor,gen:lofi,sustain
+4551,Mustang,Crew DJ / early,Original,2026-11-02,95,G minor,gen:funk,sustain
+4552,Mustang,Crew DJ / early,Original,2026-11-02,95,D# major,gen:rap,sustain
+4553,Mustang,Crew DJ / early,Original,2026-11-02,97,C# phrygian,gen:emo_rap,sustain
+4554,Mustang,Crew DJ / early,Original,2026-11-02,97,D phrygian,gen:gospel,sustain
+4555,Mustang,Crew DJ / early,Original,2026-11-02,100,C# phrygian,gen:rnb,sustain
+4556,Mustang,Crew DJ / early,Original,2026-11-02,94,C mixolydian,gen:funk,sustain
+4557,Mustang,Crew DJ / early,Original,2026-11-02,97,A phrygian,gen:gfunk,sustain
+4558,Mustang,Crew DJ / early,Original,2026-11-02,95,G# harmonic_minor,gen:rap,sustain
+4559,Fast Water,Crew DJ / early,Original,2026-11-02,155,E dorian,gen:latin,sustain
+4560,Fast Water,Crew DJ / early,Original,2026-11-02,162,D major,gen:soul,sustain
+4561,Fast Water,Crew DJ / early,Original,2026-11-02,160,E minor,gen:trap,sustain
+4562,Fast Water,Crew DJ / early,Original,2026-11-02,160,A minor,gen:jazz_rap,sustain
+4563,Fast Water,Crew DJ / early,Original,2026-11-02,160,E dorian,gen:trap,sustain
+4564,Half Light,Crew DJ / early,Original,2026-11-02,71,C dorian,gen:lofi,sustain
+4565,Half Light,Crew DJ / early,Original,2026-11-02,71,A dorian,gen:lofi,sustain
+4566,Half Light,Crew DJ / early,Original,2026-11-02,70,C dorian,gen:rap,sustain
+4567,Half Light,Crew DJ / early,Original,2026-11-02,68,C# harmonic_minor,gen:gospel,sustain
+4568,Half Light,Crew DJ / early,Original,2026-11-02,68,D minor,gen:trip_hop,sustain
+4569,Half Light,Crew DJ / early,Original,2026-11-02,71,A dorian,gen:lofi,sustain
