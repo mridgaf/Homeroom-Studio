@@ -66,6 +66,28 @@ DEFAULT = {"notes": [2, 4]}
 # which families can carry a tune over chords, best first
 VOICES = ("bell", "piano", "wood", "pluck", "guitar", "synth")
 
+# HARMONY DIET (owner 2026-11-03): no bell unless the identity's chords use
+# bell, no folk/world instruments (zither, kalimba, ocarina...), and a
+# melody never plays its mode's colour note (raised 7th, #4, b2) unless the
+# identity keeps that scale (signature.key.keep_modes). Chord tones on the
+# strong beats are untouched. New beats only (harmony_diet stamp).
+DIET_W = {"piano": 3, "guitar": 2, "synth": 2, "wood": 1, "pluck": 1,
+          "bell": 1}
+NO_WORLD = ("dan tranh", "zither", "kalimba", "ocarina", "saxello",
+            "folk harp", "idiophones", "clavisynth")
+COLOR = {"harmonic_minor": 11, "lydian": 6, "phrygian": 1,
+         "phrygian_dominant": 1}
+
+
+def melody_scale(scale, root_pc, mode, keep=()):
+    """`scale` (pitch classes) without the mode's colour note."""
+    c = COLOR.get(mode)
+    if c is None or mode in keep:
+        return scale
+    out = tuple(p for p in scale if (p - root_pc) % 12 != c)
+    return out if len(out) >= 5 else scale
+
+
 # 8 cells of a half bar; on-beats lean, the "e" of a beat is rare
 HALF_W = [5, 1, 3, 2, 4, 1, 3, 2]
 ON_CHORD = 0.25          # weight kept on a cell where the chords hit
@@ -283,7 +305,8 @@ def _covers(entries, notes, max_shift=MAX_SHIFT):
                for n in notes)
 
 
-def pick_instrument(index, notes, avoid_groups, variant, floor=None):
+def pick_instrument(index, notes, avoid_groups, variant, floor=None,
+                    diet=False, allow_bell=False):
     """(entries, octave_shift) for ONE instrument that plays every note
     within MAX_SHIFT of a recording, or (None, 0). Tries the phrase as
     written, then an octave up/down (the whole phrase, never one note).
@@ -291,7 +314,14 @@ def pick_instrument(index, notes, avoid_groups, variant, floor=None):
     note-by-note libraries before single files. A shift must keep every
     note above `floor` (the chords' and lead's top)."""
     rng = random.Random(variant * 1301 + 211)
-    groups = [g for g in VOICES if g not in avoid_groups] or list(VOICES)
+    voices = [g for g in VOICES if allow_bell or g != "bell"] if diet \
+        else VOICES
+    if diet:
+        index = [e for e in index
+                 if not any(w in ("%s %s" % (e.get("path", ""),
+                                             e.get("multi") or "")).lower()
+                            for w in NO_WORLD)]
+    groups = [g for g in voices if g not in avoid_groups] or list(voices)
     for shift in (0, 12, -12, 24, -24):
         ns = [n + shift for n in notes]
         if ns and floor is not None and min(ns) <= floor:
@@ -302,7 +332,8 @@ def pick_instrument(index, notes, avoid_groups, variant, floor=None):
             continue
         have = sorted({v[0]["group"] for v in ok.values()},
                       key=groups.index)
-        g = rng.choice(have)
+        g = (rng.choices(have, [DIET_W.get(h, 1) for h in have])[0] if diet
+             else rng.choice(have))
         mine = sorted((k for k, v in ok.items() if v[0]["group"] == g),
                       key=str)
         multi = [k for k in mine if k[0] == "multi"]

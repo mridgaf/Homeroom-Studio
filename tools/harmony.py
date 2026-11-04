@@ -23,7 +23,7 @@ from pathlib import Path
 
 sys.path.append(str(Path(__file__).parent))
 
-from key_context import MINORISH, KeyContext             # noqa: E402
+from key_context import MINORISH, KeyContext, mode_family   # noqa: E402
 
 CONFIG = Path(__file__).resolve().parent.parent / "progressions_config.json"
 PROGRESSIONS = {k: v for k, v in json.loads(CONFIG.read_text()).items()
@@ -153,6 +153,60 @@ def home_chord(key, chords):
                                                 for n in c["notes"]):
             return c
     return _chord(key, 0, key.triad(1)[1])
+
+
+# TWO CHORDS (owner 2026-11-03, Gomez-Peck 2023 / Adams 2020): real hip-hop
+# loops are repetitive (1 chord), oscillating (2 chords, "special and
+# particularly common", most often i-iv) or expansional. Dark identities stay
+# on one chord; soul and melodic ones shuttle between two. Both chords stay
+# in the key, and every 2-chord bar plan ends on the SECOND chord (an open
+# loop that pulls back to the start).
+TWO_CHORD_P = {"dark": 0.10, "grit": 0.35, "soul_jazz": 0.60,
+               "dreamy": 0.55, "bright_funk": 0.50}
+_PARTNER_MINOR = ((4, 4), (7, 3), (3, 2), (6, 2), (5, 1))   # iv bVII bIII bVI v
+_PARTNER_MAJOR = ((4, 4), (5, 3), (6, 2), (7, 1))           # IV V vi VII
+
+
+def wants_two(sig, rng):
+    """True when this beat's loop shuttles between two chords."""
+    p = (sig or {}).get("two_chord_p",
+                        TWO_CHORD_P.get((sig or {}).get("chord_family"), 0.4))
+    return rng.random() < float(p)
+
+
+def second_chord(key, loop, home, rng):
+    """The home chord's partner: first a chord from the genre loop `loop`
+    (chord dicts) that is whole-in-key, off the tonic, not dim/aug/bare 5th;
+    else a triad on iv / bVII / bIII / bVI / v (IV / V / vi in major).
+    None if nothing fits."""
+    sc = set(key.scale())
+    ok = [c for c in loop
+          if c["notes"][0] % 12 != home["notes"][0] % 12
+          and all(n % 12 in sc for n in c["notes"])
+          and c["quality"] not in ("dim", "aug", "5", "dim7", "m7b5")]
+    if ok:
+        return dict(rng.choice(ok))
+    pool = (_PARTNER_MINOR if mode_family(key.mode) == "minor"
+            else _PARTNER_MAJOR)
+    opts = []
+    for deg, w in pool:
+        root, q = key.triad(deg)
+        if q in ("dim", "aug", "5") or root == home["notes"][0] % 12:
+            continue
+        opts.append(((root, q), w))
+    if not opts:
+        return None
+    root, q = rng.choices([o for o, _ in opts], [w for _, w in opts])[0]
+    return _chord(key, (root - key.pc) % 12, q)
+
+
+def safe_scale_pair(key, chords):
+    """safe_scale over several chords: a note must be safe against all."""
+    out = None
+    for c in chords:
+        s = safe_scale(key, c["notes"])
+        out = s if out is None else tuple(x for x in out if x in s)
+    return out or safe_scale(key, chords[0]["notes"])
 
 
 def safe_scale(key, tones):

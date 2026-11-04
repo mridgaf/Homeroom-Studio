@@ -26,6 +26,27 @@ layer reads it.
 # KeyContext was handed ("Bb") is kept as-is so recipes and file names
 # don't churn.
 SHARPS = ("C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B")
+FLATS = ("C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab", "A", "Bb", "B")
+# parent-major tonic of each mode, in semitones above its own root (the
+# key signature a mode shares). Used only to pick sharp or flat NAMES.
+_PARENT = {"major": 0, "lydian": 7, "mixolydian": 5, "dorian": 10,
+           "minor": 3, "harmonic_minor": 3, "phrygian": 8,
+           "phrygian_dominant": 8}
+_FLAT_MAJORS = (5, 10, 3, 8, 1, 6)       # F Bb Eb Ab Db Gb
+
+
+def uses_flats(pc, mode):
+    """True when this key is written with flats (owner 2026-11-03: F minor
+    is Bb, Eb, Ab -- never A#, D#, G#). Key signature of the parent major
+    decides; F# major keeps sharps; C major/dorian/mixolydian-type keys with
+    no accidentals take flats for passing chords (bVII = Bb), A minor keeps
+    sharps (G#, the leading tone)."""
+    parent = (pc + _PARENT.get(mode, 3)) % 12
+    if parent == 6:
+        return pc != 6
+    if parent == 0:
+        return not (mode == "minor" and pc == 9)
+    return parent in _FLAT_MAJORS
 _ALIAS = {"DB": "C#", "EB": "D#", "GB": "F#", "AB": "G#", "BB": "A#",
           "FB": "E", "CB": "B", "E#": "F", "B#": "C"}
 
@@ -223,7 +244,7 @@ class KeyContext(object):
         return notes.index(pc) + 1 if pc in notes else None
 
     def spell(self, pc):
-        return SHARPS[pc % 12]
+        return (FLATS if uses_flats(self.pc, self.mode) else SHARPS)[pc % 12]
 
     def chord_name(self, root_pc, quality="minor"):
         """"Am", "Cmaj7" — the name a producer would say out loud."""

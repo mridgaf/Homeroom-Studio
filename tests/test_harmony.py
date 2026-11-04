@@ -25,7 +25,7 @@ def test_compose_transposes_onto_the_given_key():
     picked, chords = harmony.compose(key, "dreamy")
     assert picked == "dreamy"
     assert [(c["root"], c["quality"]) for c in chords] \
-        == [("F", "maj7"), ("A#", "maj7")]
+        == [("F", "maj7"), ("Bb", "maj7")]
     assert chords[0]["notes"] == key.voice(key.pc, "maj7", 3)
 
 

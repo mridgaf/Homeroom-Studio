@@ -892,7 +892,7 @@ def collab_preset(names, variant, bpm, tsig=None, trick=False, dirs=None,
             if (CREW[n].get("signature") or {}).get("chords_default")]
     hp = rng.choice(harm) if harm else host
     for k in ("signature", "chord_flow", "chord_gen", "one_chord",
-              "chord_lift", "melody_flow"):
+              "two_chord", "harmony_diet", "chord_lift", "melody_flow"):
         if k in CREW[hp]:
             p[k] = copy.deepcopy(CREW[hp][k])
     if harm:
@@ -1646,6 +1646,12 @@ def add_bass_and_chords(preset, kit, sources, shots, variant, dirs, vnotes,
     # ONE CHORD (owner 2026-10-31): one chord per loop, every note in the
     # key (harmony.home_chord / safe_scale). New beats only.
     preset.setdefault("one_chord", 1)
+    # HARMONY DIET (owner 2026-11-03): rap-shaped scale odds (free rolls and
+    # in-character alike), flat chord names, and a 2-chord shuttle (i-iv
+    # first) on the soul / melodic identities; dark ones stay on one chord.
+    # New beats only.
+    preset.setdefault("two_chord", 1)
+    preset.setdefault("harmony_diet", 1)
     # An 808 beat plays NO bass line: the 808 bangs with the kick on its
     # own lane (_add_sample_lanes), one note, never following the chords
     # (owner 2026-09-23, reversing that morning's 808-plays-the-roots).
@@ -2277,7 +2283,21 @@ def _decay_chord_slots(beds, slots, variant):
     return beds
 
 
-def _roll_key(sig, variant, dirs, open_roll, srng, flow=False):
+# HARMONY DIET (owner 2026-11-03). Rap lives in minor/dorian/phrygian (Hub
+# ch.4); a free roll used to pick all 8 scales at equal odds, so 31% of
+# beats came out phrygian/harmonic/dominant/lydian. Lydian and phrygian
+# dominant leave the free roll; in character they are cut unless the
+# identity lists them in signature.key.keep_modes.
+OPEN_MODES = [["minor", 55], ["dorian", 20], ["phrygian", 10],
+              ["harmonic_minor", 5], ["major", 5], ["mixolydian", 5]]
+OPEN_ROOTS = [["C", 12], ["D", 12], ["F", 12], ["G", 12], ["A", 10],
+              ["Bb", 10], ["E", 8], ["Eb", 6], ["Ab", 6], ["F#", 3],
+              ["C#", 3], ["B", 3]]
+MODE_DIET = {"lydian": 0.4, "phrygian_dominant": 0.4,
+             "harmonic_minor": 0.6, "major": 0.8}
+
+
+def _roll_key(sig, variant, dirs, open_roll, srng, flow=False, diet=False):
     """(key root, mode, progression name or None) for one beat — the three
     harmonic dice _build_chords rolls, in the same order on the same `srng`.
     A reference track's key wins hard; a free beat rolls the whole pool
@@ -2304,16 +2324,29 @@ def _roll_key(sig, variant, dirs, open_roll, srng, flow=False):
             or _any(srng))
     elif open_roll:
         # SUB_ROOTS is only seven and stays that way for the in-character pick
-        key_root = srng.choice(sorted(ROOT_HZ))
-        mode = srng.choice(sorted(MODES))
+        if diet:
+            key_root = _wpick(OPEN_ROOTS, srng)
+            mode = _wpick(OPEN_MODES, srng)
+        else:
+            key_root = srng.choice(sorted(ROOT_HZ))
+            mode = srng.choice(sorted(MODES))
         prog = dirs["chord_feel"] or _any(srng)
     else:
         key_root = _wpick(sig_key.get("roots"), srng) or srng.choice(SUB_ROOTS)
         mode = sig_key.get("mode", "minor")
         if isinstance(mode, list):                  # weighted mode list
+            if diet:
+                keep = set(sig_key.get("keep_modes") or ())
+                mode = [[m, w * (1 if m in keep else MODE_DIET.get(m, 1))]
+                        for m, w in mode]
             mode = _wpick(mode, srng)
         prog = dirs["chord_feel"] or _wpick(progs,
                                             random.Random(variant * 419 + 5))
+    if diet and not forced:
+        from key_context import FLATS, pitch_class, uses_flats
+        _pc = pitch_class(key_root)
+        if uses_flats(_pc, mode):               # F minor is Bb/Eb/Ab, not A#
+            key_root = FLATS[_pc]
     return key_root, mode, prog
 
 
@@ -2418,7 +2451,8 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
     # batch in F minor still sounds like the DJ who made it.
     flow = bool(preset.get("chord_flow"))
     key_root, mode, prog = _roll_key(sig, variant, dirs, open_roll, srng,
-                                     flow=flow)
+                                     flow=flow,
+                                     diet=bool(preset.get("harmony_diet")))
     key = KeyContext(key_root, mode)
     gen = preset.get("chord_gen")
     # a rebuild hands back "gen:<style>" as the progression: that means
@@ -2444,8 +2478,17 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
         prog_name, chords = harmony.compose(
             key, prog, rng=random.Random(variant * 419 + 5))
     _one = bool(preset.get("one_chord"))
+    _pair = False
     if _one:
+        _loop = chords
         chords = [harmony.home_chord(key, chords)]
+        if preset.get("two_chord") and harmony.wants_two(
+                sig, random.Random(variant * 863 + 29)):
+            _second = harmony.second_chord(
+                key, _loop, chords[0], random.Random(variant * 863 + 31))
+            if _second:
+                chords = [chords[0], _second]
+                _pair = True
     num, den = preset.get("tsig", (4, 4))
     bar_s = num * (4.0 / den) * 60.0 / preset["bpm"]
     nb = bars_of(preset)
@@ -2470,7 +2513,8 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
                                  turn_ok=not _one)
         voicing = harmony.voice_lead(chords, _frng)
     # the scale the riff / bass / melody pick passing notes from
-    _nscale = (harmony.safe_scale(key, chords[0]["notes"]) if _one
+    _nscale = (harmony.safe_scale_pair(key, chords) if _pair
+               else harmony.safe_scale(key, chords[0]["notes"]) if _one
                else key.scale())
     pref = sig.get("chord_source")
     # "arp" = broken-chord riff, "sustain" = held block. A weighted list
@@ -3585,8 +3629,13 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
             for b, bar in enumerate(_chord_cells.get(_i) or ("X",)):
                 _mcells.setdefault(sb + b, set()).update(
                     k for k, ch in enumerate(bar) if ch != "-")
+        _diet = bool(preset.get("harmony_diet"))
+        _mscale = (melody_rhythm.melody_scale(
+            _nscale, key.pc, key.mode,
+            (sig.get("key") or {}).get("keep_modes") or ()) if _diet
+            else _nscale)
         _mhits = melody_rhythm.plan_phrase(
-            _mslots, _nscale, melody_rhythm.spec_for(preset), variant,
+            _mslots, _mscale, melody_rhythm.spec_for(preset), variant,
             nb, _mcells, flow=int(preset.get("melody_flow") or 1))
         _by_path = {e["path"]: e for e in inst_idx}
         _avoid = {(_by_path.get(f) or {}).get("group")
@@ -3594,7 +3643,10 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
                   for f in fs}
         _ments, _mshift = melody_rhythm.pick_instrument(
             inst_idx, [n for _b, _s, _c, n in _mhits], _avoid, variant,
-            floor=max(s["top"] for s in _mslots))
+            floor=max(s["top"] for s in _mslots), diet=_diet,
+            allow_bell=any(r[0] == "bell" and r[1] for r in
+                           (sig.get("chord_source") or [])
+                           if isinstance(r, (list, tuple))))
         if _ments and _mhits:
             _mhits = [(b, st, ch, n + _mshift) for b, st, ch, n in _mhits]
             _end = int(round(nb * bar_s * instrument_sampler.SR))
