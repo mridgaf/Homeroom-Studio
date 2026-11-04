@@ -1,48 +1,60 @@
-ALERT - LOOPERMAN GETTING LOW (possible): found 45 new loops, reached page 9 of 15. Say what to do next (widen the sort, e.g. newest or a category filter, or stop the Looperman part).
-BLOCKED - FREESOUND step not run: Chrome extension disconnected after the Looperman batch (step: Freesound search). Fix: make sure Chrome is open with the Claude extension, then re-run.
-Looperman 45 new filed (Drums 23, Melody 16, Vocals 6). Second Looperman profile not logged in here, skipped. Freesound 0 (blocked). Details: BOTC Sorted Loops/SORTING-LOG-daily.txt (last section).
-Drums  looperman-l-1069771-0373171-afrobeat-drums-free-afrobeat-drum-loop_G_100bpm.wav
-Drums  looperman-l-1069771-0376915-lofi-drums-free-lo-fi-drum-loop_D_75bpm.wav
-Melody  looperman-l-1274413-0367271-piano-emotional-lead-free-rnb-piano-loop_C#m_90bpm.wav
-Drums  looperman-l-1564425-0392832-mexican-cumbia-2-free-latin-percussion-loop_F#m_97bpm.wav
-Drums  looperman-l-2158759-0427522-amapiano-x-afrobeat-x-rnb-free-afrobeat-synth-loop_G#m_103bpm.wav
-Melody  looperman-l-2273068-0391803-rex-orange-county-x-rnb-type-guitar-free-rnb-electric-guitar-loop_A#m_90bpm.wav
-Drums  looperman-l-2475129-0421416-hellion-rema-x-burna-boy-afro-mallets-free-afrobeat-bells-loop_Gm_97bpm.wav
-Vocals  looperman-l-2663-0004357-fv-female-scream-pan-by-dj_fred_val-free-house-vocal-loop_C_125bpm.wav
-Melody  looperman-l-2699269-0385525-glo-demon-glo-brass-x-chief-keef-free-rap-brass-loop_A#m_145bpm.wav
-Melody  looperman-l-2787459-0423023-j-balvin-type-afro-flute-yaya-makalo-loop-free-reggaeton-flute-loop_F#m_99bpm.wav
-Melody  looperman-l-2843322-0406899-city-lights-2-free-rock-electric-guitar-loop_G#m_100bpm.wav
-Drums  looperman-l-2844446-0311977-bronx-drill-type-drums-free-hip-hop-drum-loop_B_166bpm.wav
-Melody  looperman-l-2889958-0411664-nostalgic-guitar-afro-french-rap-part-1-free-trap-acoustic-guitar-loop_C#m_90bpm.wav
-Melody  looperman-l-2910346-0374734-playboi-carti-x-juice-wrld-x-lucki-x-nick-mira-free-trap-bells-loop_C#m_156bpm.wav
-Melody  looperman-l-2972529-0380925-slowed-shoegaze-guitar-part-2-free-indie-electric-guitar-loop_C_120bpm.wav
-Melody  looperman-l-2972529-0415637-indie-rock-x-shoegaze-guitar-free-indie-electric-guitar-loop_G_140bpm.wav
-Drums  looperman-l-2972529-0420874-grunge-x-post-punk-drums-free-indie-drum-loop_Cm_95bpm.wav
-Melody  looperman-l-3002073-0304148-bouncy-hyperpop-type-loop-ffa-free-hip-hop-synth-loop_G_140bpm.wav
-Drums  looperman-l-3014429-0411699-chill-indie-drums-free-indie-drum-loop_Cm_170bpm.wav
-Vocals  looperman-l-3486160-0401155-shed-motives-free-hip-hop-vocal-loop_Am_152bpm.wav
-Melody  looperman-l-3779950-0361593-deftones-x-mgk-alternative-acoustic-indie-guitar-free-indie-acoustic-guitar-loop_Fm_150bpm.wav
-Drums  looperman-l-4080133-0356945-bossa-nova-drums-free-samba-drum-loop_G#m_73bpm.wav
-Drums  looperman-l-4218408-0337427-jersey-club-essential-1-decentboydeacy-free-house-drum-loop_Dm_160bpm.wav
-Drums  looperman-l-4218408-0357627-afro-drums-decentboydeacy-free-afrobeat-drum-loop_F_105bpm.wav
-Vocals  looperman-l-4301710-0400978-heavenly-vox-choir-f-sharp-minor-free-cinematic-vocal-loop_F#m_145bpm.wav
-Melody  looperman-l-4716590-0393303-dsbm-goth-xxxtentacion-emo-punk-rock-prod-helpless-free-heavy-metal-electric-guitar-loop_F#m_159bpm.wav
-Drums  looperman-l-4784677-0368403-reggae-drums-clean-spacey-rim-free-reggae-drum-loop_F_72bpm.wav
-Drums  looperman-l-5226383-0326150-2000s-destinys-child-flo-drums-free-rnb-drum-loop_Fm_136bpm.wav
-Drums  looperman-l-5305911-0359071-bassripper-kick-free-hardstyle-drum-loop_F#m_155bpm.wav
-Vocals  looperman-l-5331396-0427450-music-from-goodness-free-trap-vocal-loop_Em_134bpm.wav
-Drums  looperman-l-5353999-0414248-jazz-drums-free-jazz-drum-loop_Dm_160bpm.wav
-Drums  looperman-l-5456606-0372351-nostalgic-afro-beat-drum-loop-free-afrobeat-drum-loop_C_112bpm.wav
-Drums  looperman-l-5456606-0374669-long-thing-afro-beat-drum-loop-free-afrobeat-drum-loop_G_100bpm.wav
-Drums  looperman-l-5456606-0374783-something-afro-beast-drum-loop-free-afrobeat-percussion-loop_G_107bpm.wav
-Vocals  looperman-l-5645014-0405213-whats-real-vocals-free-rnb-vocal-loop_D#m_160bpm.wav
-Vocals  looperman-l-5871252-0398057-vocals-2-apollo-free-pop-vocal-loop_Am_124bpm.wav
-Melody  looperman-l-6000702-0418469-indie-guitar-loop-free-indie-acoustic-guitar-loop_Bm_135bpm.wav
-Drums  looperman-l-6132224-0369619-travis-scott-x-drake-type-drums-agony-free-trap-drum-loop_G#m_120bpm.wav
-Drums  looperman-l-6406853-0371289-hard-osamason-drums-free-trap-drum-loop_Dm_153bpm.wav
-Melody  looperman-l-6593669-0415798-ride-wit-me-guitar-free-rnb-acoustic-guitar-loop_F#m_168bpm.wav
-Drums  looperman-l-6647434-0367731-tumtum-brazil-type-beat-free-funk-drum-loop_F_130bpm.wav
-Drums  looperman-l-6813482-0425231-early-2000s-the-neptunes-type-beat-free-rnb-drum-loop_Dm_99bpm.wav
-Melody  looperman-l-6962293-0424744-emotional-pop-piano-free-pop-rhodes-piano-loop_D#m_84bpm.wav
-Melody  looperman-l-7089306-0379555-indian-flute-sample-free-jazz-flute-loop_A_138bpm.wav
-Drums  looperman-l-7664593-0407651-xaviersobased-x-jerk-x-hoodtrap-drum-with-808-free-trap-drum-loop_Gm_188bpm.wav
+ALERT - LOOPERMAN NOT RUN: Chrome is not logged in to Looperman (Login/Register buttons showed), so 0 Looperman loops were downloaded. Log in to looperman.com in Chrome, then re-run.
+FREESOUND 58 filed (Melody 35, Drums 19, Chords 4, Bass 0, Vocals 0). Profile mridgaf only. 0 CC-BY. Nokey: 16.
+Melody  121009__Thirsk__bell-loop_F#m_78bpm.wav
+Drums  231351__waveplaySFX__drumloop-bpm-garage-beat_C_nokey_70bpm.wav
+Chords  46431__NoiseCollector__violinstereoloopelements_Fm_77bpm.wav
+Drums  23065__John Rayson__red-percussion_Fm_77bpm.wav
+Melody  71480__jobro__flipside-techno-03_C_nokey_70bpm.wav
+Melody  522620__code_box__village-wedding_Gm_74bpm.wav
+Melody  3502__patchen__wffnd_Cm_75bpm.wav
+Melody  125110__juskiddink__western-themetune3_C_nokey_70bpm.wav
+Melody  72584__zgump__tr-loop-04_G#_70bpm.wav
+Drums  77192__Spol__hip-hop-beat-loop18_C#m_75bpm.wav
+Melody  58658__suonho__zajo-loop33-overphat_C_nokey_75bpm.wav
+Drums  16442__kejkz__ninadrum_Fm_70bpm.wav
+Melody  22857__John Scott__mean-8_C_nokey_70bpm.wav
+Melody  518925__FreeSampleMelodies__alec1_Cm_75bpm.wav
+Drums  23041__kejkz__shuffle-beat_Cm_77bpm.wav
+Melody  530173__rap2h__ask-silver_G_70bpm.wav
+Melody  2206__Andrew Duke__dime_C_nokey_75bpm.wav
+Drums  232190__Exorcist__drum-loop-#001-bpm_F_78bpm.wav
+Drums  244974__xpansive__experimental-electronic-beat_C_70bpm.wav
+Melody  577603__code_box__wonky-ska_F_72bpm.wav
+Melody  534167__MeatsackJ__short-game-music-loop_Cm_70bpm.wav
+Melody  27547__John Rayson__hard-knox_Am_78bpm.wav
+Drums  20885__John Scott__kick_A_70bpm.wav
+Melody  222800__bigcat_smauls__gur-durge-loop_Am_76bpm.wav
+Drums  240090__Bronxio__drumloop-lo-fi-base-1-2-bar-bpm-swing_C_nokey_70bpm.wav
+Melody  2401__Andrew Duke__andrewduke0056_Cm_78bpm.wav
+Drums  65189__carbilicon__mind-control-drum-loop_C_nokey_70bpm.wav
+Drums  339617__NOTOTO84__tekno-beat-loop_C_nokey_75bpm.wav
+Melody  33593__adamskitek__techno-loopy-verb-n-compres_C_nokey_70bpm.wav
+Melody  147800__nicklubimov__wood-knives_D#_70bpm.wav
+Melody  380074__plagasul__lupenblock_D_110bpm.wav
+Melody  219248__radiopassiveboy__tambourine-loop_C_nokey_115bpm.wav
+Drums  272010__Sycopation__shaker1_C_nokey_100bpm.wav
+Melody  19395__Notofficial__jmal-stek_Cm_106bpm.wav
+Melody  427441__KiluaBoy__clouds_Em_100bpm.wav
+Melody  337443__nemaavla__greek-rumba_A#m_105bpm.wav
+Melody  331867__furbyguy__orchestral-short_A#_100bpm.wav
+Melody  219250__radiopassiveboy__tambourine-loop_C_nokey_105bpm.wav
+Melody  23020__John Rayson__keep-on-banging_C_nokey_150bpm.wav
+Drums  518639__Cyclez__schranz-hardcore-techno-kick-drum-loop-bpm_C_nokey_155bpm.wav
+Drums  493560__Cyclez__hardtechno-schranz-kick-loop-bpm_G#_150bpm.wav
+Chords  742752__vortexsamples__hard-techno-dominator-hoover-vs-ogkush-synths-loops-1-fmin_Fm_150bpm.wav
+Melody  162336__stixthule__piano2_Cm_156bpm.wav
+Melody  474161__deleted_user_4541234__boop-beep-twannggggg_C_nokey_150bpm.wav
+Melody  162337__stixthule__piano1_G_156bpm.wav
+Drums  742750__vortexsamples__hard-techno-open-hi-hat-loop-vs-ogkush-openhihat-loops-2-1_Cm_150bpm.wav
+Drums  742740__vortexsamples__distorted-hard-techno-kick-vs-ogkush-kick-loops-6-g#-150bp_G#_150bpm.wav
+Melody  512221__tripjazz__jazzbox_F_150bpm.wav
+Chords  521987__Cyclez__hard-techno-schranz-synth-sound-loop-bpm_Gm_155bpm.wav
+Melody  43542__mkoenig__dream-forever_G_150bpm.wav
+Melody  32411__-zin-__wave-from_B_156bpm.wav
+Melody  145215__Strever953__muted-trompets-p101_D_160bpm.wav
+Drums  509416__Cyclez__extreme-hard-techno-kick-drum-loop-bpm_F#m_160bpm.wav
+Melody  54353__GameGod0__gify-dnb-loop-jam14_C_160bpm.wav
+Melody  125371__Electrobuz__dubstep-wobble-bass_C_165bpm.wav
+Drums  612742__deadrobotmusic__cinematic-clap-percussion-loop_A_168bpm.wav
+Drums  587250__futuremusick__dark-kick-and-bass_D_160bpm.wav
+Chords  125365__Electrobuz__dubstep-riff-wobble-synth_Fm_160bpm.wav

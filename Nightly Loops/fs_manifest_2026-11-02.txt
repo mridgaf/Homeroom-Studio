@@ -1,0 +1,58 @@
+121009|Thirsk|F#m|78|CC0|125 bell loop.wav
+231351|waveplaySFX|C_nokey|70|CC0|[Drumloop] 70 bpm garage beat
+46431|NoiseCollector|Fm|77|CC0|violinstereoloopelements.wav
+23065|John Rayson|Fm|77|CC0|red percussion.wav
+71480|jobro|C_nokey|70|CC0|flipside-techno-03.wav
+522620|code_box|Gm|74|CC0|Village Wedding
+3502|patchen|Cm|75|CC0|wffnd.wav
+125110|juskiddink|C_nokey|70|CC0|Western themetune3.wav
+72584|zgump|G#|70|CC0|TR LOOP 04.wav
+77192|Spol|C#m|75|CC0|hIP hOP Beat Loop18.wav
+58658|suonho|C_nokey|75|CC0|Zajo_loop33_overphat.wav
+16442|kejkz|Fm|70|CC0|NinaDrum.wav
+22857|John Scott|C_nokey|70|CC0|Mean 8.wav
+518925|FreeSampleMelodies|Cm|75|CC0|alec1.wav
+23041|kejkz|Cm|77|CC0|Shuffle beat.wav
+530173|rap2h|G|70|CC0|ask silver.wav
+2206|Andrew Duke|C_nokey|75|CC0|dime.wav
+232190|Exorcist|F|78|CC0|drum loop #001 (078 BPM).wav
+244974|xpansive|C|70|CC0|experimental electronic beat
+577603|code_box|F|72|CC0|Wonky Ska
+534167|MeatsackJ|Cm|70|CC0|Short Game Music Loop
+27547|John Rayson|Am|78|CC0|Hard knox.wav
+20885|John Scott|A|70|CC0|Kick.wav
+222800|bigcat_smauls|Am|76|CC0|Gur Durge loop.wav
+240090|Bronxio|C_nokey|70|CC0|Drumloop Lo-fi base 1 - 2 bar - 70 BPM (swing)
+2401|Andrew Duke|Cm|78|CC0|AndrewDuke0056.wav
+65189|carbilicon|C_nokey|70|CC0|MIND CONTROL DRUM LOOP.wav
+339617|NOTOTO84|C_nokey|75|CC0|tekno beat loop .wav
+33593|adamskitek|C_nokey|70|CC0|TECHNO LOOPY VERB N COMPRES.wav
+147800|nicklubimov|D#|70|CC0|wood & knives.wav
+380074|plagasul|D|110|CC0|lupenblock.wav
+219248|radiopassiveboy|C_nokey|115|CC0|Tambourine_Loop_115bpm.wav
+272010|Sycopation|C_nokey|100|CC0|shaker1.wav
+19395|Notofficial|Cm|106|CC0|jmal'stek.WAV
+427441|KiluaBoy|Em|100|CC0|Clouds.wav
+337443|nemaavla|A#m|105|CC0|Greek Rumba.wav
+331867|furbyguy|A#|100|CC0|Orchestral Short.wav
+219250|radiopassiveboy|C_nokey|105|CC0|Tambourine_Loop_105bpm.wav
+23020|John Rayson|C_nokey|150|CC0|Keep on banging.wav
+518639|Cyclez|C_nokey|155|CC0|SCHRANZ HARDCORE TECHNO KICK DRUM LOOP 155 BPM
+493560|Cyclez|G#|150|CC0|HardTechno Schranz Kick Loop 150 BPM
+742752|vortexsamples|Fm|150|CC0|Hard Techno Dominator Hoover - VS_OGKush_Synths_Loops_1_Fmin
+162336|stixthule|Cm|156|CC0|piano2.wav
+474161|deleted_user_4541234|C_nokey|150|CC0|boop beep twannggggg
+162337|stixthule|G|156|CC0|piano1.wav
+742750|vortexsamples|Cm|150|CC0|Hard Techno Open Hi Hat Loop - VS_OGKush_OpenHiHat_Loops_2_1
+742740|vortexsamples|G#|150|CC0|Distorted Hard Techno Kick - VS_OGKush_Kick_Loops_6_G#_150BP
+512221|tripjazz|F|150|CC0|JazzBox
+521987|Cyclez|Gm|155|CC0|HARD TECHNO SCHRANZ SYNTH SOUND LOOP 155 BPM
+43542|mkoenig|G|150|CC0|dream_forever_150.wav
+32411|-zin-|B|156|CC0|wave_from_156.wav
+145215|Strever953|D|160|CC0|Muted Trompets P101 160bpm.wav
+509416|Cyclez|F#m|160|CC0|EXTREME HARD TECHNO KICK DRUM LOOP 160 BPM
+54353|GameGod0|C|160|CC0|gify - dnb loop jam14.wav
+125371|Electrobuz|C|165|CC0|dubstep_wobble_bass 165BPM.wav
+612742|deadrobotmusic|A|168|CC0|Cinematic Clap Percussion Loop [168bpm]
+587250|futuremusick|D|160|CC0|DARK kick and bass 160BPM .wav
+125365|Electrobuz|Fm|160|CC0|dubstep_riff_wobble_synth 160BPM.wav
