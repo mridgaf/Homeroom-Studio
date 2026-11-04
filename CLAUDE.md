@@ -230,6 +230,14 @@ to stop.)
 This is a hard rule, not a preference. No "just this once because the
 change is small" — that is exactly how it came back.
 
+### 0d-1. HARD RULE: 1% rule for this project's own skills
+
+Owner, 2026-11-03. If there is even a 1% chance one of THIS project's skills
+(`.claude/skills/` here — beat-crew, audio-fix-verify, expected-churn,
+hard-rule-invariant, safe-file-ops, reason-*, etc.) applies, load it before
+acting. All other skills (gstack, claude-mem, plugins) keep the normal bar:
+use them only when clearly relevant.
+
 ### 0d-2. HARD RULE: don't nitpick test failures — only real problems
 
 Owner, 2026-10-30: "Ignore them from now on, unless they cause an actual
