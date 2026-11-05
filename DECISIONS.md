@@ -9650,3 +9650,8 @@ just not loaded by default.
 - Change: Design canvas "Beat Machine Look Options" with 3 playable options (A Chalk Class, B Notebook + Board, C Paper on the Wall), all on the Chemistry layout. Nothing in the repo changed. Skill notebook-chalkboard-page marked STALE (it described the replaced look).
 - Next: owner picks a letter -> playable mockup in Front End Mockups/ -> build into tools/beat_machine.py in Claude Code (keep every id).
 - Status: open
+
+### [2026-11-05] Handoff written: Turntable Lab UI (no decisions made)
+- Context: owner wants a lab + DJ turntable UI (sleeves pull out with DJ face, album onto turntable, bubbling green beaker while generating), anime style, no default fonts/colors. Said: make no decisions, do it all in a new session.
+- Change: `Handoffs/Turntable Lab UI/` (HANDOFF.md + 5 parts + START-HERE.md + reference copies of options A-F). Nothing built.
+- Status: open

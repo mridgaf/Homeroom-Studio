@@ -3,6 +3,9 @@ name: notebook-chalkboard-page
 description: The Homeroom Studios house page look (yellow ruled spiral notebook on the left, wood-framed chalkboard on the right) and the mockup → owner pick → build process that produced the Beat Machine, Reason Voice and Sound of Science (Effects) pages. Use whenever the owner asks to redesign, re-skin, theme, restyle or "make it look like the beat generator" for any page or app in this project, asks for mockups of a page, wants a new page/room added to the app family, or asks to change the notebook, chalkboard, tabs, knobs or theme of an existing page — even if he only says "make it match" or "school style".
 ---
 
+
+> **STALE since 2026-11-01 (checked 2026-11-05).** The notebook + chalkboard look below is NOT the current Beat Machine. The live page is the black-panel "Homeroom Chemistry" UI (orange/green/violet/blue, HOMEROOM wordmark, class tabs, tempo flask, Pass/Fail, Elements tiles), built from `UI Handoff/Claude Final Package`. See DECISIONS.md "[2026-11-01] Homeroom Chemistry UI" and `UI Handoff/WRITE-UP-2026-11-01.md`. The old page is backed up as `sound_engine/static/index.pre-physics-2026-11-01.html`. Do NOT describe the notebook/chalkboard as the current look. The mockup process (steps below) still applies.
+
 # Notebook + chalkboard pages
 
 Three pages already share this look and the owner judges every new page against them. The live Beat Machine (`tools/beat_machine.py`, the CSS block after "homeroom layer") is the reference. When in doubt, match it, not a mockup.

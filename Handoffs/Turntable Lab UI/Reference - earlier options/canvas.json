@@ -1,0 +1,22 @@
+{
+  "v": 3,
+  "createdOnFiles": { "v": 1, "at": "2026-11-05T05:00:00Z" },
+  "title": "Beat Machine Look Options",
+  "launch": { "view": "canvas" },
+  "pages": [],
+  "boards": {
+    "Main.dc.html": { "x": 0, "y": 0, "w": 1440, "h": 900, "title": "A · Chalk Class", "expand": "fill", "is_interactive": true },
+    "B-Notebook.dc.html": { "x": 1520, "y": 0, "w": 1440, "h": 900, "title": "B · Notebook + Board", "expand": "fill", "is_interactive": true },
+    "C-Wall.dc.html": { "x": 3040, "y": 0, "w": 1440, "h": 900, "title": "C · Paper on the Wall", "expand": "fill", "is_interactive": true },
+    "D-ReportCard.dc.html": { "x": 0, "y": 1400, "w": 1440, "h": 900, "title": "D · Report Card", "expand": "fill", "is_interactive": true },
+    "E-Yearbook.dc.html": { "x": 1520, "y": 1400, "w": 1440, "h": 900, "title": "E · Yearbook", "expand": "fill", "is_interactive": true },
+    "F-Lockers.dc.html": { "x": 3040, "y": 1400, "w": 1440, "h": 900, "title": "F · Locker Hall", "expand": "fill", "is_interactive": true }
+  },
+  "order": ["Main.dc.html", "B-Notebook.dc.html", "C-Wall.dc.html", "D-ReportCard.dc.html", "E-Yearbook.dc.html", "F-Lockers.dc.html"],
+  "notes": {
+    "t1": { "x": 0, "y": -260, "text": "Beat Machine: three in-between looks (Chemistry layout, old-school feel)", "kind": "title1", "maxW": 4480 },
+    "t2": { "x": 0, "y": 1130, "text": "Round 2: pure school themes (report card, yearbook, hallway locker)", "kind": "title1", "maxW": 4480 },
+    "s1": { "x": 0, "y": -140, "w": 520, "text": "Everything is clickable: class tabs, portraits, tempo + / −, Loops only, Generate, Play, Pass / Fail, sound tiles. Pick a letter and I build it into the real page.", "fill": "orange" }
+  },
+  "designSystems": []
+}

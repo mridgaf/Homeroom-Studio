@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Report Card</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Caveat:wght@700&family=Courier+Prime&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#e6dfcb}
+*{box-sizing:border-box}
+button,select,input{font-family:'Libre Baskerville',Georgia,serif;color:#1d2b53}
+button{cursor:pointer}
+.pen{font-family:'Caveat',cursive;font-weight:700;color:#c62828}
+.cap{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:#4a5578}
+.fl{width:100%;height:40px;background:#fff;border:1.5px solid #1d2b53;border-radius:2px;padding:0 10px;font-size:15px}
+.st{width:38px;height:38px;border:1.5px solid #1d2b53;background:#fff;font-size:22px;line-height:1;display:inline-flex;align-items:center;justify-content:center;border-radius:2px}
+.tab{flex:1;height:42px;border:1.5px solid #1d2b53;background:#fff;font-size:14px}
+.tab.on{background:#1d2b53;color:#fbf8ef}
+.bar{width:3px;flex:none}
+.sb{border:1.5px solid #1d2b53;background:#fff;height:34px;padding:0 12px;font-size:13px;border-radius:2px}
+.sub{display:flex;align-items:center;gap:10px;padding:8px 12px;border:1.5px solid #c5c9d8;background:#fff;text-align:left;border-radius:2px}
+input[type=range]{width:100%;accent-color:#1d2b53}
+</style>
+</helmet>
+
+<div style="width:100%;min-height:900px;padding:26px 30px;background:#e6dfcb;color:#1d2b53;font-family:'Libre Baskerville',Georgia,serif">
+<div style="min-height:848px;background:#fbf8ef;border:5px double #1d2b53;padding:22px 28px 0;display:flex;flex-direction:column;gap:18px">
+
+<div style="display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;border-bottom:2px solid #1d2b53;padding-bottom:14px">
+<div><div class="cap">Official Progress Report</div><div style="font-size:42px;font-weight:700;letter-spacing:.08em;line-height:1.1">HOMEROOM STUDIOS</div></div>
+<div style="display:flex;align-items:center;gap:16px"><div style="text-align:right"><div class="cap">Term</div><div style="font-size:18px">Fall &middot; Beat Making</div></div>
+<img src="/_blob/31c4430f36130632788d41344c8012d5" alt="The Back of the Class logo" style="width:72px;height:72px;object-fit:cover;background:#1d2b53;border:2px solid #1d2b53"></div>
+</div>
+
+<div style="display:flex;gap:26px;flex-wrap:wrap;align-items:flex-start;flex:1">
+
+<div style="flex:0 1 340px;min-width:280px;display:flex;flex-direction:column;gap:12px">
+<div class="cap">Student information</div>
+<div style="display:flex"><button class="tab {{tab0cls}}" onClick="{{goBack}}">Back of the Class</button><button class="tab {{tab1cls}}" onClick="{{goLegends}}">The Legends</button></div>
+<div style="display:flex;gap:10px">
+<sc-for list="{{people}}" as="p" hint-placeholder-count="4">
+<button onClick="{{p.pick}}" aria-label="{{p.n}}" style="{{p.st}}"><span style="font-size:22px;font-weight:700">{{p.ini}}</span><span style="font-size:10px;line-height:1.1">{{p.n}}</span></button>
+</sc-for>
+</div>
+<label class="cap" for="dk">Key</label>
+<select id="dk" class="fl" value="{{key}}" onChange="{{onKey}}"><option>A Minor</option><option>C Minor</option><option>D Minor</option><option>F Minor</option><option>G Minor</option></select>
+<label class="cap" for="ds">Style</label>
+<select id="ds" class="fl" value="{{style}}" onChange="{{onStyle}}"><option>Boom bap</option><option>Trap</option><option>Lofi</option><option>Soul</option><option>Drill</option></select>
+<div style="display:flex;align-items:center;gap:10px"><span class="cap" style="flex:1">Number of beats</span><button class="st" onClick="{{nbMinus}}" aria-label="Fewer beats">&minus;</button><span style="font-size:24px;min-width:26px;text-align:center">{{nb}}</span><button class="st" onClick="{{nbPlus}}" aria-label="More beats">+</button></div>
+<div><div style="display:flex;justify-content:space-between;align-items:baseline"><label class="cap" for="dt">Tempo</label><span style="font-size:30px;font-weight:700">{{bpm}} <span style="font-size:13px;font-weight:400">BPM</span></span></div>
+<input id="dt" type="range" min="60" max="200" value="{{bpm}}" onChange="{{onBpm}}">
+<div style="display:flex;justify-content:space-between;font-size:11px;color:#4a5578"><span>60</span><span>130</span><span>200</span></div></div>
+<label style="display:flex;align-items:center;gap:10px;font-size:15px;cursor:pointer"><input type="checkbox" checked="{{loops}}" onChange="{{toggleLoops}}" style="width:20px;height:20px">Loops only <span style="font-size:12px;color:#4a5578">{{modeWord}}</span></label>
+<button onClick="{{generate}}" style="height:58px;border:0;background:#1d2b53;color:#fbf8ef;font-size:18px;letter-spacing:.06em;border-bottom:5px solid {{main}}">{{genLabel}}</button>
+</div>
+
+<div style="flex:1 1 560px;min-width:0;display:flex;flex-direction:column;gap:12px">
+<div class="cap">Grades</div>
+<div style="display:grid;grid-template-columns:52px 1.3fr 1.2fr 78px;gap:12px;padding:0 10px 6px;border-bottom:2px solid #1d2b53" class="cap"><span></span><span>Subject</span><span>Work</span><span style="text-align:center">Grade</span></div>
+<div style="display:flex;flex-direction:column;gap:2px;max-height:380px;overflow-y:auto">
+<sc-for list="{{beats}}" as="b" hint-placeholder-count="3">
+<div style="{{b.row}}">
+<button onClick="{{b.play}}" aria-label="Play or pause" style="width:46px;height:46px;border-radius:50%;background:#1d2b53;border:0;display:flex;align-items:center;justify-content:center">
+<sc-if value="{{b.showPause}}" hint-placeholder-val="{{false}}"><svg width="16" height="16" viewBox="0 0 18 18" fill="#fbf8ef" aria-hidden="true"><rect x="3" y="2" width="4" height="14"/><rect x="11" y="2" width="4" height="14"/></svg></sc-if>
+<sc-if value="{{b.showPlay}}" hint-placeholder-val="{{true}}"><svg width="16" height="16" viewBox="0 0 18 18" fill="#fbf8ef" aria-hidden="true"><path d="M4 2l12 7-12 7z"/></svg></sc-if>
+</button>
+<div><div style="font-size:19px;font-weight:700">{{b.t}}</div><div style="font-family:'Courier Prime',monospace;font-size:12px;color:#4a5578">{{b.tagline}}</div><div style="font-size:12px;margin-top:2px">{{b.meta}}</div></div>
+<div><div style="height:34px;display:flex;align-items:center;gap:2px"><sc-for list="{{b.bars}}" as="w" hint-placeholder-count="20"><span class="bar" style="{{w.st}}"></span></sc-for></div><div style="font-size:12px;color:#4a5578">{{b.time}}</div></div>
+<div style="display:flex;flex-direction:column;align-items:center;gap:4px"><div class="pen" style="font-size:38px;line-height:1">{{b.grade}}</div><div style="display:flex;gap:4px"><button class="sb" style="{{b.passSt}}" onClick="{{b.pass}}">Pass</button><button class="sb" style="{{b.failSt}}" onClick="{{b.fail}}">Fail</button></div></div>
+</div>
+</sc-for>
+</div>
+<div class="cap" style="margin-top:6px">Subjects &middot; 10 sounds</div>
+<div style="display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px">
+<sc-for list="{{tiles}}" as="t" hint-placeholder-count="10">
+<button class="sub" onClick="{{t.pick}}" style="{{t.st}}"><span style="font-weight:700;font-size:18px;min-width:26px">{{t.ab}}</span><span style="font-size:12px">{{t.nm}}</span></button>
+</sc-for>
+</div>
+</div>
+</div>
+
+<div style="margin:0 -28px;padding:12px 28px;background:#1d2b53;color:#fbf8ef;display:flex;align-items:center;gap:18px;flex-wrap:wrap">
+<div style="min-width:170px"><div style="font-size:17px;font-weight:700">{{npTitle}}</div><div style="font-size:12px;opacity:.8">{{npMeta}}</div></div>
+<div style="flex:1 1 240px;height:6px;background:rgba(255,255,255,.25)"><div style="height:100%;width:{{pct}}%;background:{{main}}"></div></div>
+<span style="font-size:13px">{{npTime}}</span>
+<button onClick="{{npPlay}}" aria-label="Play or pause" style="width:44px;height:44px;border-radius:50%;background:#fbf8ef;border:0;display:flex;align-items:center;justify-content:center">
+<sc-if value="{{playing}}" hint-placeholder-val="{{false}}"><svg width="16" height="16" viewBox="0 0 18 18" fill="#1d2b53" aria-hidden="true"><rect x="3" y="2" width="4" height="14"/><rect x="11" y="2" width="4" height="14"/></svg></sc-if>
+<sc-if value="{{paused}}" hint-placeholder-val="{{true}}"><svg width="16" height="16" viewBox="0 0 18 18" fill="#1d2b53" aria-hidden="true"><path d="M4 2l12 7-12 7z"/></svg></sc-if>
+</button>
+</div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":900}}'>
+class Component extends DCLogic {
+  state = { tab:0, cls:0, key:'A Minor', style:'Boom bap', nb:3, bpm:96, loops:false, sel:0, playing:false, prog:0.18, tile:0, gen:0,
+    beats:[
+      {t:'Stained Parade',tags:['BOOM BAP','ALTERNATIVE'],key:'A Minor',bpm:96,bars:8,len:20,seed:1,v:''},
+      {t:'Stained Hymn',tags:['TRAP','ALTERNATIVE'],key:'A Minor',bpm:104,bars:8,len:18.5,seed:4,v:''},
+      {t:'Satin Chorus',tags:['R&B','LOFI','SOUL'],key:'A Minor',bpm:92,bars:8,len:20.9,seed:9,v:''}
+    ] };
+  componentDidMount(){ this._t=setInterval(()=>{ if(this.state.playing){ let p=this.state.prog+0.012; if(p>=1)p=0; this.setState({prog:p}); } },200); }
+  componentWillUnmount(){ clearInterval(this._t); }
+  fmt(s){ const m=Math.floor(s/60), r=Math.floor(s%60); return m+':'+(r<10?'0':'')+r; }
+  setV(i,v){ this.setState({beats:this.state.beats.map((b,k)=>k===i?Object.assign({},b,{v:b.v===v?'':v}):b)}); }
+  generate(){
+    const s=this.state, names=['Chalk Dust','Hall Pass','Back Row','Pop Quiz','Lunch Line','Bell Ringer','Detention','Recess'], add=[];
+    for(let k=0;k<s.nb;k++){ const g=s.gen+k; add.push({t:names[g%names.length]+(g>=names.length?' '+(Math.floor(g/names.length)+1):''),tags:[s.style.toUpperCase(),s.loops?'LOOP':'ORIGINAL'],key:s.key,bpm:s.bpm,bars:8,len:Math.round(1920/s.bpm)/10,seed:g*3+2,v:''}); }
+    this.setState({beats:add.concat(s.beats),gen:s.gen+s.nb,sel:0,prog:0,playing:true});
+  }
+  renderVals(){
+    const s=this.state, set=(o)=>()=>this.setState(o);
+    const main=s.loops?'#2e9d4f':'#e0a21b';
+    const crews=[['Otto Grit','Cutz','Crate Prophet','Chrome Dial'],['Farrow','Doc Day','Kane East','J Dillo']];
+    const people=crews[s.tab].map((n,i)=>({n,ini:n.split(' ').map(w=>w[0]).join(''),pick:set({cls:i}),st:'flex:1;height:64px;border:1.5px solid #1d2b53;border-radius:2px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;'+(s.cls===i?'background:#1d2b53;color:#fbf8ef;':'background:#fff;color:#1d2b53;')}));
+    const beats=s.beats.map((b,i)=>{
+      const on=s.sel===i, bars=[];
+      for(let k=0;k<64;k++){ const h=5+Math.round(Math.abs(Math.sin((k+b.seed)*0.9)*Math.cos(k*0.33+b.seed*1.7))*24+(k%4===0?4:0)); const lit=on&&k/64<s.prog; bars.push({st:'height:'+h+'px;background:'+(lit?main:'#1d2b53')+';opacity:'+(lit?1:0.4)}); }
+      return {t:b.t,tagline:b.tags.join(' / '),meta:b.key+'  |  '+b.bpm+' BPM  |  '+b.bars+' bars',
+        row:'display:grid;grid-template-columns:52px 1.3fr 1.2fr 78px;gap:12px;align-items:center;padding:10px;border-left:5px solid '+(on?main:'transparent')+';border-bottom:1px solid #c5c9d8;'+(on?'background:#f1ecda;':'')+(b.v==='fail'?'opacity:.7;':''),
+        grade:b.v==='pass'?'A+':(b.v==='fail'?'F':'—'),
+        passSt:b.v==='pass'?'background:#1d2b53;color:#fbf8ef':'',failSt:b.v==='fail'?'background:#c62828;color:#fbf8ef;border-color:#c62828':'',
+        pass:()=>this.setV(i,'pass'),fail:()=>this.setV(i,'fail'),
+        play:()=>{ if(on) this.setState({playing:!s.playing}); else this.setState({sel:i,prog:0,playing:true}); },
+        showPause:on&&s.playing,showPlay:!(on&&s.playing),bars,time:(on?this.fmt(s.prog*b.len):'0:00')+' / '+this.fmt(b.len)};
+    });
+    const TL=[['Kk','Kick'],['Sn','Snare'],['Hh','Hats'],['Bs','Bass'],['Ch','Chords'],['Sm','Sample'],['Pd','Pad'],['Ld','Lead'],['Pc','Percussion'],['Fx','Texture']];
+    const tiles=TL.map((t,i)=>({ab:t[0],nm:t[1],pick:set({tile:i}),st:s.tile===i?'border-color:#1d2b53;background:#f1ecda;box-shadow:inset 0 -4px 0 '+main:''}));
+    const cur=s.beats[s.sel];
+    return {people,beats,tiles,main,key:s.key,style:s.style,nb:s.nb,bpm:s.bpm,loops:s.loops,playing:s.playing,paused:!s.playing,
+      tab0cls:s.tab===0?'on':'',tab1cls:s.tab===1?'on':'',goBack:set({tab:0,cls:0}),goLegends:set({tab:1,cls:0}),
+      onKey:(e)=>this.setState({key:e.target.value}),onStyle:(e)=>this.setState({style:e.target.value}),onBpm:(e)=>this.setState({bpm:Number(e.target.value)}),
+      nbMinus:set({nb:Math.max(1,s.nb-1)}),nbPlus:set({nb:Math.min(10,s.nb+1)}),
+      toggleLoops:set({loops:!s.loops}),modeWord:s.loops?'Loop mode':'Beat mode',genLabel:s.loops?'Issue Loops':'Issue Beats',generate:()=>this.generate(),
+      npTitle:cur.t,npMeta:cur.key+' · '+cur.bpm+' BPM',pct:Math.round(s.prog*100),npTime:this.fmt(s.prog*cur.len)+' / '+this.fmt(cur.len),npPlay:set({playing:!s.playing})};
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Chalk Class</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=Special+Elite&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#2a1d12}
+*{box-sizing:border-box}
+button,select,input{font-family:'Patrick Hand',system-ui,sans-serif;color:#f1efe6}
+button{cursor:pointer}
+.pnl{position:relative;background:rgba(255,255,255,.035);border-radius:12px;padding:16px 18px}
+.pnl::before{content:"";position:absolute;inset:0;border:2.5px solid rgba(244,244,236,.72);border-radius:11px 15px 10px 14px;filter:url(#rough);pointer-events:none}
+.h2{display:flex;align-items:center;gap:10px;font-size:26px;color:#f6e04b;margin:0 0 12px}
+.num{width:34px;height:34px;border-radius:50%;border:2.5px solid #f6e04b;display:inline-flex;align-items:center;justify-content:center;font-size:22px;filter:url(#rough)}
+.lbl{font-size:18px;color:#d9d7cb;margin-bottom:4px;display:block}
+.fld{width:100%;height:42px;background:rgba(0,0,0,.35);border:2px dashed rgba(244,244,236,.45);border-radius:8px;padding:0 12px;font-size:20px}
+.fld option{background:#1b1f1d}
+.tab{flex:1;height:44px;background:none;border:0;border-bottom:3px solid transparent;font-size:21px;color:#b9b8ad}
+.tab.on{color:#f1efe6;border-bottom-color:#f6e04b}
+.tool{flex:1 1 150px;height:48px;background:none;border:2px dashed rgba(244,244,236,.4);border-radius:10px;font-size:21px;display:flex;align-items:center;justify-content:center;gap:10px}
+.tool.on{border-style:solid;border-color:#f6e04b;color:#f6e04b}
+.side{width:88px;flex:none;display:flex;flex-direction:column;gap:6px;padding:14px 6px;border-right:2px dashed rgba(244,244,236,.25)}
+.sb{background:none;border:0;border-radius:10px;padding:10px 4px;font-size:17px;display:flex;flex-direction:column;align-items:center;gap:6px;color:#cfcdc2}
+.sb.on{background:rgba(255,138,61,.16);color:#ff8a3d}
+.step{width:42px;height:42px;border-radius:50%;background:none;border:2px solid rgba(244,244,236,.55);font-size:26px;line-height:1;display:inline-flex;align-items:center;justify-content:center}
+.mini{height:38px;padding:0 14px;background:none;border:2px solid rgba(244,244,236,.45);border-radius:9px;font-size:18px;display:inline-flex;align-items:center;gap:8px}
+.bar{width:3px;border-radius:2px;flex:none}
+.tile{aspect-ratio:1/0.92;border-radius:10px;background:rgba(255,255,255,.03);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;position:relative;padding:4px}
+</style>
+</helmet>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><filter id="rough"><feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="3" seed="4" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="3.2"/></filter></svg>
+
+<div style="width:100%;min-height:900px;padding:16px;background:linear-gradient(135deg,#8a6038,#5a3d22 48%,#7b5533);">
+<div style="position:relative;min-height:868px;display:flex;background:radial-gradient(900px 500px at 20% 10%,#252b28,transparent 70%),radial-gradient(700px 500px at 90% 90%,#222826,transparent 70%),#181b19;border-radius:4px;box-shadow:inset 0 0 40px rgba(0,0,0,.7);color:#f1efe6;font-family:'Patrick Hand',system-ui,sans-serif;overflow:hidden">
+<svg style="position:absolute;inset:0;width:100%;height:100%;opacity:.07;pointer-events:none" aria-hidden="true"><filter id="dust"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2"/></filter><rect width="100%" height="100%" filter="url(#dust)"/></svg>
+
+<div class="side" style="position:relative">
+<button class="sb on"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M9 3h6M10 3v6l-5 9a2 2 0 0 0 2 3h10a2 2 0 0 0 2-3l-5-9V3"/></svg>Beat Making</button>
+<button class="sb"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M6 3h9l4 4v14H6zM14 3v5h5M9 13h7M9 17h7"/></svg>My Beats</button>
+<button class="sb"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M9 18V6l10-2v12M9 18a3 3 0 1 1-3-3M19 16a3 3 0 1 1-3-3"/></svg>Samples</button>
+<button class="sb"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 5c3-1 6-1 8 1 2-2 5-2 8-1v13c-3-1-6-1-8 1-2-2-5-2-8-1zM12 6v13"/></svg>Library</button>
+</div>
+
+<div style="position:relative;flex:1;min-width:0;padding:16px 20px 0;display:flex;flex-direction:column;gap:14px">
+
+<div style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap">
+<div>
+<div style="font-size:46px;letter-spacing:.28em;line-height:1">HOMEROOM</div>
+<div style="font-family:'Special Elite',monospace;font-size:14px;letter-spacing:.5em;color:#cfcdc2;margin-top:6px;border-top:2px dashed rgba(244,244,236,.4);padding-top:6px">STUDIOS &middot; music starts here</div>
+</div>
+<img src="/_blob/31c4430f36130632788d41344c8012d5" alt="The Back of the Class logo" style="width:84px;height:84px;object-fit:cover;border:2px solid rgba(244,244,236,.6);border-radius:6px">
+</div>
+
+<div style="display:flex;gap:14px;flex-wrap:wrap">
+
+<div class="pnl" style="flex:1 1 380px">
+<h2 class="h2"><span class="num">1</span>Choose your class</h2>
+<div style="display:flex;border-bottom:2px dashed rgba(244,244,236,.25);margin-bottom:14px">
+<button class="tab {{tab0cls}}" onClick="{{goBack}}">The Back of the Class</button>
+<button class="tab {{tab1cls}}" onClick="{{goLegends}}">The Legends</button>
+</div>
+<div style="display:flex;gap:12px;justify-content:space-between">
+<sc-for list="{{people}}" as="p" hint-placeholder-count="4">
+<button onClick="{{p.pick}}" aria-label="{{p.n}}" style="{{p.st}}">
+<span style="width:72px;height:72px;border-radius:50%;border:3px solid {{p.ringc}};display:flex;align-items:center;justify-content:center;font-size:30px;background:rgba(255,255,255,.05)">{{p.ini}}</span>
+<span style="font-size:16px;color:#d9d7cb">{{p.n}}</span>
+</button>
+</sc-for>
+</div>
+</div>
+
+<div class="pnl" style="flex:2 1 600px">
+<h2 class="h2"><span class="num">2</span>Set your parameters</h2>
+<div style="display:flex;gap:20px;flex-wrap:wrap;align-items:center">
+<div style="flex:1 1 230px;display:flex;flex-direction:column;gap:8px">
+<label class="lbl" for="ak">Key</label>
+<select id="ak" class="fld" value="{{key}}" onChange="{{onKey}}"><option>A Minor</option><option>C Minor</option><option>D Minor</option><option>F Minor</option><option>G Minor</option></select>
+<label class="lbl" for="as">Style</label>
+<select id="as" class="fld" value="{{style}}" onChange="{{onStyle}}"><option>Boom bap</option><option>Trap</option><option>Lofi</option><option>Soul</option><option>Drill</option></select>
+<div style="display:flex;align-items:center;gap:10px"><span class="lbl" style="margin:0">Beats</span><button class="step" onClick="{{nbMinus}}" aria-label="Fewer beats">&minus;</button><span style="font-size:28px;min-width:28px;text-align:center">{{nb}}</span><button class="step" onClick="{{nbPlus}}" aria-label="More beats">+</button></div>
+</div>
+<div style="display:flex;align-items:center;gap:12px">
+<svg width="120" height="140" viewBox="0 0 120 140" aria-label="Tempo flask"><defs><clipPath id="fc"><path d="M47 6H73V50L112 118Q116 130 104 130H16Q4 130 8 118L47 50Z"/></clipPath></defs>
+<rect x="0" y="{{flaskY}}" width="120" height="{{flaskH}}" fill="{{main}}" clip-path="url(#fc)" opacity=".9"/>
+<path d="M47 6H73V50L112 118Q116 130 104 130H16Q4 130 8 118L47 50Z" fill="none" stroke="#f1efe6" stroke-width="3" filter="url(#rough)"/>
+<path d="M44 6H76" stroke="#f1efe6" stroke-width="3"/></svg>
+<div style="text-align:center">
+<div style="font-size:54px;line-height:1;color:{{main}}">{{bpm}}</div>
+<div style="font-size:18px;color:#cfcdc2;margin-bottom:8px">BPM</div>
+<div style="display:flex;gap:10px;justify-content:center"><button class="step" onClick="{{bpmMinus}}" aria-label="Slower">&minus;</button><button class="step" onClick="{{bpmPlus}}" aria-label="Faster">+</button></div>
+</div>
+</div>
+<div style="flex:1 1 180px;display:flex;flex-direction:column;gap:14px;align-items:stretch">
+<label style="display:flex;align-items:center;gap:10px;font-size:20px;cursor:pointer"><input type="checkbox" checked="{{loops}}" onChange="{{toggleLoops}}" style="width:22px;height:22px;accent-color:#9be22d">Loops only <span style="font-size:15px;color:#b9b8ad">{{modeWord}}</span></label>
+<button onClick="{{generate}}" style="height:72px;border:0;border-radius:6px;background:{{main}};color:#1a1a1a;font-size:28px;transform:rotate(-1.5deg);box-shadow:2px 3px 0 rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;gap:10px"><span style="color:#1a1a1a">{{genLabel}}</span></button>
+</div>
+</div>
+</div>
+</div>
+
+<div style="display:flex;gap:10px;flex-wrap:wrap">
+<button class="tool {{t1}}" onClick="{{tool1}}">Pattern Library</button>
+<button class="tool {{t2}}" onClick="{{tool2}}">Breaks</button>
+<button class="tool {{t3}}" onClick="{{tool3}}">Saved Beats</button>
+<button class="tool {{t4}}" onClick="{{tool4}}">Famous Beats</button>
+<button class="tool {{t5}}" onClick="{{tool5}}">Reference</button>
+</div>
+
+<div style="display:flex;gap:14px;flex-wrap:wrap;flex:1;min-height:0">
+<div style="flex:1.5 1 520px;display:flex;flex-direction:column;gap:12px;max-height:470px;overflow-y:auto;padding:4px 6px 4px 2px">
+<sc-for list="{{beats}}" as="b" hint-placeholder-count="3">
+<div class="pnl" style="{{b.card}}">
+<div style="display:flex;gap:14px;align-items:flex-start;justify-content:space-between;flex-wrap:wrap">
+<div>
+<div style="font-size:28px;line-height:1.1">{{b.t}}</div>
+<div style="display:flex;gap:6px;margin:6px 0 4px;flex-wrap:wrap"><sc-for list="{{b.tags}}" as="g" hint-placeholder-count="2"><span style="{{g.st}}">{{g.t}}</span></sc-for></div>
+<div style="font-size:17px;color:#cfcdc2">{{b.meta}}</div>
+</div>
+<div style="display:flex;gap:8px">
+<button class="mini" style="{{b.passSt}}" onClick="{{b.pass}}">Pass</button>
+<button class="mini" style="{{b.failSt}}" onClick="{{b.fail}}">Fail</button>
+</div>
+</div>
+<div style="display:flex;align-items:center;gap:12px;margin-top:10px">
+<button onClick="{{b.play}}" aria-label="Play or pause" style="width:46px;height:46px;border-radius:50%;border:2.5px solid #f1efe6;background:none;display:flex;align-items:center;justify-content:center;flex:none">
+<sc-if value="{{b.showPause}}" hint-placeholder-val="{{false}}"><svg width="18" height="18" viewBox="0 0 18 18" fill="#f1efe6" aria-hidden="true"><rect x="3" y="2" width="4" height="14"/><rect x="11" y="2" width="4" height="14"/></svg></sc-if>
+<sc-if value="{{b.showPlay}}" hint-placeholder-val="{{true}}"><svg width="18" height="18" viewBox="0 0 18 18" fill="#f1efe6" aria-hidden="true"><path d="M4 2l12 7-12 7z"/></svg></sc-if>
+</button>
+<div style="flex:1;min-width:0;height:36px;display:flex;align-items:center;gap:2px"><sc-for list="{{b.bars}}" as="w" hint-placeholder-count="20"><span class="bar" style="{{w.st}}"></span></sc-for></div>
+<span style="font-size:17px;color:#cfcdc2;flex:none">{{b.time}}</span>
+</div>
+</div>
+</sc-for>
+</div>
+
+<div class="pnl" style="flex:1 1 340px;align-self:flex-start">
+<h2 class="h2" style="font-size:24px">Elements &middot; 10 sounds</h2>
+<div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px">
+<sc-for list="{{tiles}}" as="t" hint-placeholder-count="10">
+<button class="tile" onClick="{{t.pick}}" style="{{t.st}}"><span style="position:absolute;top:4px;left:8px;font-size:13px;opacity:.8">{{t.n}}</span><span style="font-size:30px;line-height:1">{{t.ab}}</span><span style="font-size:14px;color:#d9d7cb">{{t.nm}}</span></button>
+</sc-for>
+</div>
+</div>
+</div>
+
+<div style="position:relative;margin:0 -20px;padding:10px 24px;background:linear-gradient(#7b5533,#5a3d22);box-shadow:0 -3px 8px rgba(0,0,0,.5);display:flex;align-items:center;gap:18px;flex-wrap:wrap;margin-top:auto">
+<div style="min-width:170px"><div style="font-size:21px">{{npTitle}}</div><div style="font-size:15px;color:#efe3cf">{{npMeta}}</div></div>
+<div style="flex:1 1 240px;height:8px;border-radius:4px;background:rgba(0,0,0,.45);overflow:hidden"><div style="height:100%;width:{{pct}}%;background:{{main}}"></div></div>
+<span style="font-size:17px;color:#efe3cf">{{npTime}}</span>
+<button onClick="{{npPlay}}" aria-label="Play or pause" style="width:48px;height:48px;border-radius:50%;border:2.5px solid #f1efe6;background:none;display:flex;align-items:center;justify-content:center">
+<sc-if value="{{playing}}" hint-placeholder-val="{{false}}"><svg width="18" height="18" viewBox="0 0 18 18" fill="#f1efe6" aria-hidden="true"><rect x="3" y="2" width="4" height="14"/><rect x="11" y="2" width="4" height="14"/></svg></sc-if>
+<sc-if value="{{paused}}" hint-placeholder-val="{{true}}"><svg width="18" height="18" viewBox="0 0 18 18" fill="#f1efe6" aria-hidden="true"><path d="M4 2l12 7-12 7z"/></svg></sc-if>
+</button>
+</div>
+</div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":900}}'>
+class Component extends DCLogic {
+  state = { tab:0, cls:0, key:'A Minor', style:'Boom bap', nb:3, bpm:96, loops:false, sel:0, playing:false, prog:0.18, tile:0, tool:0, gen:0,
+    beats:[
+      {t:'Stained Parade',tags:['BOOM BAP','ALTERNATIVE'],key:'A Minor',bpm:96,bars:8,len:20,seed:1,v:''},
+      {t:'Stained Hymn',tags:['TRAP','ALTERNATIVE'],key:'A Minor',bpm:104,bars:8,len:18.5,seed:4,v:''},
+      {t:'Satin Chorus',tags:['R&B','LOFI','SOUL'],key:'A Minor',bpm:92,bars:8,len:20.9,seed:9,v:''}
+    ] };
+  componentDidMount(){ this._t=setInterval(()=>{ if(this.state.playing){ let p=this.state.prog+0.012; if(p>=1)p=0; this.setState({prog:p}); } },200); }
+  componentWillUnmount(){ clearInterval(this._t); }
+  fmt(s){ const m=Math.floor(s/60), r=Math.floor(s%60); return m+':'+(r<10?'0':'')+r; }
+  setV(i,v){ this.setState({beats:this.state.beats.map((b,k)=>k===i?Object.assign({},b,{v:b.v===v?'':v}):b)}); }
+  generate(){
+    const s=this.state, names=['Chalk Dust','Hall Pass','Back Row','Pop Quiz','Lunch Line','Bell Ringer','Detention','Recess'], add=[];
+    for(let k=0;k<s.nb;k++){ const g=s.gen+k; add.push({t:names[g%names.length]+(g>=names.length?' '+(Math.floor(g/names.length)+1):''),tags:[s.style.toUpperCase(),s.loops?'LOOP':'ORIGINAL'],key:s.key,bpm:s.bpm,bars:8,len:Math.round(1920/s.bpm)/10,seed:g*3+2,v:''}); }
+    this.setState({beats:add.concat(s.beats),gen:s.gen+s.nb,sel:0,prog:0,playing:true});
+  }
+  renderVals(){
+    const s=this.state, set=(o)=>()=>this.setState(o);
+    const main=s.loops?'#9be22d':'#ff8a3d';
+    const ACC=['#ff8a3d','#b58cff','#5bc0ff','#9be22d'];
+    const crews=[['Otto Grit','Cutz','Crate Prophet','Chrome Dial'],['Farrow','Doc Day','Kane East','J Dillo']];
+    const people=crews[s.tab].map((n,i)=>({n,ini:n.split(' ').map(w=>w[0]).join(''),ringc:s.cls===i?main:'rgba(244,244,236,.45)',st:'background:none;border:0;display:flex;flex-direction:column;align-items:center;gap:6px;'+(s.cls===i?'filter:drop-shadow(0 0 6px '+main+'88)':''),pick:set({cls:i})}));
+    const beats=s.beats.map((b,i)=>{
+      const on=s.sel===i, bars=[];
+      for(let k=0;k<64;k++){ const h=5+Math.round(Math.abs(Math.sin((k+b.seed)*0.9)*Math.cos(k*0.33+b.seed*1.7))*26+(k%4===0?5:0)); const lit=on&&k/64<s.prog; bars.push({st:'height:'+h+'px;background:'+(lit?main:'#cfcfc4')+';opacity:'+(lit?1:0.5)}); }
+      const chips=['#ff8a3d','#b58cff','#5bc0ff'];
+      return {t:b.t,meta:b.key+'  |  '+b.bpm+' BPM  |  4/4  |  '+b.bars+' bars  |  0:'+(Math.round(b.len)<10?'0':'')+Math.round(b.len),
+        tags:b.tags.map((g,k)=>({t:g,st:'font-family:Special Elite,monospace;font-size:12px;padding:2px 8px;border:1.5px solid '+chips[k%3]+';color:'+chips[k%3]+';border-radius:4px'})),
+        card:'padding:14px 18px;'+(on?'background:rgba(255,255,255,.07);':'')+(b.v==='fail'?'opacity:.45;':''),
+        passSt:b.v==='pass'?'border-color:#9be22d;color:#9be22d':'',failSt:b.v==='fail'?'border-color:#ff6b5e;color:#ff6b5e':'',
+        pass:()=>this.setV(i,'pass'),fail:()=>this.setV(i,'fail'),
+        play:()=>{ if(on) this.setState({playing:!s.playing}); else this.setState({sel:i,prog:0,playing:true}); },
+        showPause:on&&s.playing,showPlay:!(on&&s.playing),bars,time:(on?this.fmt(s.prog*b.len):'0:00')+' / '+this.fmt(b.len)};
+    });
+    const TL=[['Kk','Kick',0],['Sn','Snare',1],['Hh','Hats',2],['Bs','Bass',3],['Ch','Chords',1],['Sm','Sample',2],['Pd','Pad',3],['Ld','Lead',0],['Pc','Percussion',2],['Fx','Texture',1]];
+    const tiles=TL.map((t,i)=>{ const c=ACC[t[2]], on=s.tile===i; return {n:(i<9?'0':'')+(i+1),ab:t[0],nm:t[1],pick:set({tile:i}),st:'border:2px '+(on?'solid':'dashed')+' '+c+';color:'+c+';'+(on?'background:'+c+'26;':'')}; });
+    const cur=s.beats[s.sel], tb=(n)=>s.tool===n?'on':'';
+    const hh=14+(s.bpm-60)/140*100;
+    return {people,beats,tiles,main,key:s.key,style:s.style,nb:s.nb,bpm:s.bpm,loops:s.loops,playing:s.playing,paused:!s.playing,
+      tab0cls:s.tab===0?'on':'',tab1cls:s.tab===1?'on':'',goBack:set({tab:0,cls:0}),goLegends:set({tab:1,cls:0}),
+      onKey:(e)=>this.setState({key:e.target.value}),onStyle:(e)=>this.setState({style:e.target.value}),
+      nbMinus:set({nb:Math.max(1,s.nb-1)}),nbPlus:set({nb:Math.min(10,s.nb+1)}),
+      bpmMinus:set({bpm:Math.max(60,s.bpm-4)}),bpmPlus:set({bpm:Math.min(200,s.bpm+4)}),
+      flaskY:130-hh,flaskH:hh,toggleLoops:set({loops:!s.loops}),modeWord:s.loops?'Loop mode':'Beat mode',genLabel:s.loops?'Generate Loops':'Generate Beats',
+      generate:()=>this.generate(),
+      t1:tb(1),t2:tb(2),t3:tb(3),t4:tb(4),t5:tb(5),tool1:set({tool:s.tool===1?0:1}),tool2:set({tool:s.tool===2?0:2}),tool3:set({tool:s.tool===3?0:3}),tool4:set({tool:s.tool===4?0:4}),tool5:set({tool:s.tool===5?0:5}),
+      npTitle:cur.t,npMeta:cur.key+' · '+cur.bpm+' BPM',pct:Math.round(s.prog*100),npTime:this.fmt(s.prog*cur.len)+' / '+this.fmt(cur.len),npPlay:set({playing:!s.playing})};
+  }
+}
+</script>
+</body>
+</html>

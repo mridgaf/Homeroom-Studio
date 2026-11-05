@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Locker Hall</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Saira+Stencil+One&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#22303a}
+*{box-sizing:border-box}
+button,select,input{font-family:'Barlow',system-ui,sans-serif;color:#eaf0f3}
+button{cursor:pointer}
+.stn{font-family:'Saira Stencil One',Impact,sans-serif;font-weight:400}
+.steel{background:linear-gradient(90deg,#4f6e81,#6f93a8 18%,#5d7f93 50%,#6f93a8 82%,#4f6e81);border:3px solid #2b4150}
+.vent{height:34px;background:repeating-linear-gradient(#1f2f3a 0 4px,transparent 4px 10px);opacity:.65}
+.tape{display:block;background:#15191c;color:#f1f4f5;font-size:17px;font-weight:600;letter-spacing:.04em;padding:5px 12px;box-shadow:0 1px 0 #000,inset 0 0 0 1px #3a444a;border-radius:2px}
+.fl{width:100%;height:40px;background:#15191c;border:2px solid #3a444a;border-radius:2px;padding:0 10px;font-size:17px;font-weight:500}
+.fl option{background:#15191c}
+.st{width:44px;height:44px;border-radius:50%;background:#15191c;border:2px solid #8fa9b8;font-size:24px;line-height:1;display:inline-flex;align-items:center;justify-content:center}
+.bar{width:3px;flex:none}
+.plate{height:38px;padding:0 14px;background:#15191c;border:2px solid #3a444a;font-size:16px;font-weight:600;border-radius:2px}
+.tab{flex:1;height:42px;background:#15191c;border:2px solid #3a444a;font-size:17px;font-weight:600}
+.tab.on{background:#e3b23c;color:#15191c;border-color:#e3b23c}
+</style>
+</helmet>
+
+<div style="width:100%;min-height:900px;padding:24px 28px 0;background:linear-gradient(#2a3a43,#22303a);display:flex;flex-direction:column;gap:20px;color:#eaf0f3;font-family:'Barlow',system-ui,sans-serif">
+
+<div style="display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap">
+<div><div class="stn" style="font-size:44px;line-height:1;color:#e3b23c;letter-spacing:.04em">Homeroom Studios</div><div style="font-size:17px;color:#b7c8d1">Pick a locker, set the combination, make beats.</div></div>
+<img src="/_blob/31c4430f36130632788d41344c8012d5" alt="The Back of the Class logo" style="width:70px;height:70px;object-fit:cover;border:3px solid #8fa9b8">
+</div>
+
+<div style="display:flex;flex-direction:column;gap:10px">
+<div style="display:flex;gap:0;max-width:420px"><button class="tab {{tab0cls}}" onClick="{{goBack}}">The Back of the Class</button><button class="tab {{tab1cls}}" onClick="{{goLegends}}">The Legends</button></div>
+<div style="display:flex;gap:14px;flex-wrap:wrap">
+<sc-for list="{{people}}" as="p" hint-placeholder-count="4">
+<button class="steel" onClick="{{p.pick}}" aria-label="{{p.n}}" style="{{p.st}}">
+<span class="vent" style="display:block;width:100%"></span>
+<span class="stn" style="{{p.plate}}">{{p.no}}</span>
+<span style="{{p.name}}">{{p.n}}</span>
+<span style="{{p.handle}}"></span>
+</button>
+</sc-for>
+</div>
+</div>
+
+<div style="display:flex;gap:22px;flex-wrap:wrap;align-items:flex-start;flex:1">
+
+<div class="steel" style="flex:0 1 430px;min-width:300px;padding:18px;display:flex;flex-direction:column;gap:12px;border-radius:4px">
+<div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap">
+<svg width="170" height="170" viewBox="0 0 160 160" aria-label="Tempo dial">
+<circle cx="80" cy="80" r="76" fill="#15191c" stroke="#8fa9b8" stroke-width="3"/>
+<circle cx="80" cy="80" r="66" fill="none" stroke="#8fa9b8" stroke-width="8" stroke-dasharray="2 9.4"/>
+<g transform="rotate({{rot}} 80 80)"><circle cx="80" cy="80" r="46" fill="#2b4150" stroke="#e3b23c" stroke-width="3"/><rect x="77" y="38" width="6" height="22" fill="#e3b23c"/></g>
+<path d="M80 2l-7 12h14z" fill="#e3b23c"/>
+<text x="80" y="90" text-anchor="middle" font-family="Saira Stencil One" font-size="30" fill="#eaf0f3">{{bpm}}</text>
+</svg>
+<div style="display:flex;flex-direction:column;gap:10px;align-items:center"><span style="font-size:15px;color:#15191c;font-weight:600">Tempo, BPM</span>
+<div style="display:flex;gap:10px"><button class="st" onClick="{{bpmMinus}}" aria-label="Slower">&minus;</button><button class="st" onClick="{{bpmPlus}}" aria-label="Faster">+</button></div></div>
+</div>
+<label for="fk" class="tape" style="width:max-content">Key</label>
+<select id="fk" class="fl" value="{{key}}" onChange="{{onKey}}"><option>A Minor</option><option>C Minor</option><option>D Minor</option><option>F Minor</option><option>G Minor</option></select>
+<label for="fs" class="tape" style="width:max-content">Style</label>
+<select id="fs" class="fl" value="{{style}}" onChange="{{onStyle}}"><option>Boom bap</option><option>Trap</option><option>Lofi</option><option>Soul</option><option>Drill</option></select>
+<div style="display:flex;align-items:center;gap:10px"><span class="tape" style="flex:1">Number of beats</span><button class="st" onClick="{{nbMinus}}" aria-label="Fewer beats">&minus;</button><span class="stn" style="font-size:28px;min-width:28px;text-align:center;color:#15191c">{{nb}}</span><button class="st" onClick="{{nbPlus}}" aria-label="More beats">+</button></div>
+<label style="display:flex;align-items:center;gap:10px;font-size:17px;color:#15191c;font-weight:600;cursor:pointer"><input type="checkbox" checked="{{loops}}" onChange="{{toggleLoops}}" style="width:22px;height:22px;accent-color:#15191c">Loops only <span style="font-size:14px;font-weight:500">{{modeWord}}</span></label>
+<button onClick="{{generate}}" class="stn" style="height:66px;border:3px solid #15191c;background:{{main}};color:#15191c;font-size:28px;letter-spacing:.04em;border-radius:3px">{{genLabel}}</button>
+</div>
+
+<div style="flex:1 1 520px;min-width:0;display:flex;flex-direction:column;gap:14px">
+<div style="display:flex;flex-direction:column;gap:12px;max-height:430px;overflow-y:auto;padding-right:6px">
+<sc-for list="{{beats}}" as="b" hint-placeholder-count="3">
+<div style="{{b.card}}">
+<div style="display:flex;gap:12px;justify-content:space-between;flex-wrap:wrap;align-items:flex-start">
+<div><div class="stn" style="font-size:26px;line-height:1.1">{{b.t}}</div><div style="font-size:16px;color:#b7c8d1">{{b.tagline}}</div><div style="font-size:15px;margin-top:2px">{{b.meta}}</div></div>
+<div style="display:flex;gap:8px"><button class="plate" style="{{b.passSt}}" onClick="{{b.pass}}">Pass</button><button class="plate" style="{{b.failSt}}" onClick="{{b.fail}}">Fail</button></div>
+</div>
+<div style="display:flex;align-items:center;gap:12px;margin-top:10px">
+<button onClick="{{b.play}}" aria-label="Play or pause" style="width:48px;height:48px;border-radius:50%;background:#e3b23c;border:0;display:flex;align-items:center;justify-content:center;flex:none">
+<sc-if value="{{b.showPause}}" hint-placeholder-val="{{false}}"><svg width="16" height="16" viewBox="0 0 18 18" fill="#15191c" aria-hidden="true"><rect x="3" y="2" width="4" height="14"/><rect x="11" y="2" width="4" height="14"/></svg></sc-if>
+<sc-if value="{{b.showPlay}}" hint-placeholder-val="{{true}}"><svg width="16" height="16" viewBox="0 0 18 18" fill="#15191c" aria-hidden="true"><path d="M4 2l12 7-12 7z"/></svg></sc-if>
+</button>
+<div style="flex:1;min-width:0;height:36px;display:flex;align-items:center;gap:2px"><sc-for list="{{b.bars}}" as="w" hint-placeholder-count="20"><span class="bar" style="{{w.st}}"></span></sc-for></div>
+<span style="font-size:15px;color:#b7c8d1;flex:none">{{b.time}}</span>
+</div>
+</div>
+</sc-for>
+</div>
+<div class="stn" style="font-size:24px;color:#e3b23c">Shelf: 10 sounds</div>
+<div style="display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;padding:12px;background:#15191c;border-bottom:8px solid #5d7f93">
+<sc-for list="{{tiles}}" as="t" hint-placeholder-count="10">
+<button onClick="{{t.pick}}" style="{{t.st}}"><span class="stn" style="font-size:26px;line-height:1">{{t.ab}}</span><span style="font-size:13px;font-weight:600">{{t.nm}}</span></button>
+</sc-for>
+</div>
+</div>
+</div>
+
+<div style="margin:0 -28px;padding:12px 28px;background:repeating-linear-gradient(90deg,#d9d6cc 0 44px,#34393c 44px 88px);border-top:6px solid #5d7f93">
+<div style="background:#15191c;padding:10px 18px;display:flex;align-items:center;gap:18px;flex-wrap:wrap">
+<div style="min-width:170px"><div class="stn" style="font-size:20px">{{npTitle}}</div><div style="font-size:14px;color:#b7c8d1">{{npMeta}}</div></div>
+<div style="flex:1 1 240px;height:8px;background:#3a444a"><div style="height:100%;width:{{pct}}%;background:#e3b23c"></div></div>
+<span style="font-size:15px">{{npTime}}</span>
+<button onClick="{{npPlay}}" aria-label="Play or pause" style="width:48px;height:48px;border-radius:50%;background:#e3b23c;border:0;display:flex;align-items:center;justify-content:center">
+<sc-if value="{{playing}}" hint-placeholder-val="{{false}}"><svg width="16" height="16" viewBox="0 0 18 18" fill="#15191c" aria-hidden="true"><rect x="3" y="2" width="4" height="14"/><rect x="11" y="2" width="4" height="14"/></svg></sc-if>
+<sc-if value="{{paused}}" hint-placeholder-val="{{true}}"><svg width="16" height="16" viewBox="0 0 18 18" fill="#15191c" aria-hidden="true"><path d="M4 2l12 7-12 7z"/></svg></sc-if>
+</button>
+</div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":900}}'>
+class Component extends DCLogic {
+  state = { tab:0, cls:0, key:'A Minor', style:'Boom bap', nb:3, bpm:96, loops:false, sel:0, playing:false, prog:0.18, tile:0, gen:0,
+    beats:[
+      {t:'Stained Parade',tags:['Boom bap','Alternative'],key:'A Minor',bpm:96,bars:8,len:20,seed:1,v:''},
+      {t:'Stained Hymn',tags:['Trap','Alternative'],key:'A Minor',bpm:104,bars:8,len:18.5,seed:4,v:''},
+      {t:'Satin Chorus',tags:['R&B','Lofi','Soul'],key:'A Minor',bpm:92,bars:8,len:20.9,seed:9,v:''}
+    ] };
+  componentDidMount(){ this._t=setInterval(()=>{ if(this.state.playing){ let p=this.state.prog+0.012; if(p>=1)p=0; this.setState({prog:p}); } },200); }
+  componentWillUnmount(){ clearInterval(this._t); }
+  fmt(s){ const m=Math.floor(s/60), r=Math.floor(s%60); return m+':'+(r<10?'0':'')+r; }
+  setV(i,v){ this.setState({beats:this.state.beats.map((b,k)=>k===i?Object.assign({},b,{v:b.v===v?'':v}):b)}); }
+  generate(){
+    const s=this.state, names=['Chalk Dust','Hall Pass','Back Row','Pop Quiz','Lunch Line','Bell Ringer','Detention','Recess'], add=[];
+    for(let k=0;k<s.nb;k++){ const g=s.gen+k; add.push({t:names[g%names.length]+(g>=names.length?' '+(Math.floor(g/names.length)+1):''),tags:[s.style,s.loops?'Loop':'Original'],key:s.key,bpm:s.bpm,bars:8,len:Math.round(1920/s.bpm)/10,seed:g*3+2,v:''}); }
+    this.setState({beats:add.concat(s.beats),gen:s.gen+s.nb,sel:0,prog:0,playing:true});
+  }
+  renderVals(){
+    const s=this.state, set=(o)=>()=>this.setState(o);
+    const main=s.loops?'#7fc46a':'#e3b23c';
+    const ENAM=['#e3b23c','#e0713a','#4fb3a5','#b7c8d1'];
+    const crews=[['Otto Grit','Cutz','Crate Prophet','Chrome Dial'],['Farrow','Doc Day','Kane East','J Dillo']];
+    const people=crews[s.tab].map((n,i)=>{ const on=s.cls===i; return {n,no:'No. '+(112+i*7+s.tab*40),pick:set({cls:i}),
+      st:'flex:1 1 150px;height:210px;padding:0;display:flex;flex-direction:column;align-items:center;gap:12px;position:relative;border-radius:3px;'+(on?'background:#10181d;border-color:'+main+';':''),
+      plate:'background:'+(on?main:'#e8e4d8')+';color:#15191c;padding:3px 10px;font-size:18px;margin-top:6px',
+      name:'font-size:19px;font-weight:600;color:'+(on?main:'#15191c'),
+      handle:'position:absolute;right:12px;top:110px;width:8px;height:44px;background:'+(on?main:'#15191c')+';border-radius:2px'}; });
+    const beats=s.beats.map((b,i)=>{
+      const on=s.sel===i, bars=[];
+      for(let k=0;k<64;k++){ const h=5+Math.round(Math.abs(Math.sin((k+b.seed)*0.9)*Math.cos(k*0.33+b.seed*1.7))*26+(k%4===0?5:0)); const lit=on&&k/64<s.prog; bars.push({st:'height:'+h+'px;background:'+(lit?main:'#8fa9b8')+';opacity:'+(lit?1:0.55)}); }
+      return {t:b.t,tagline:b.tags.join(', '),meta:b.key+', '+b.bpm+' BPM, '+b.bars+' bars',
+        card:'padding:14px 18px;background:#15191c;border-left:8px solid '+(on?main:'#5d7f93')+';border-bottom:6px solid #5d7f93;'+(b.v==='fail'?'opacity:.5;':''),
+        passSt:b.v==='pass'?'background:#7fc46a;color:#15191c;border-color:#7fc46a':'',failSt:b.v==='fail'?'background:#e0713a;color:#15191c;border-color:#e0713a':'',
+        pass:()=>this.setV(i,'pass'),fail:()=>this.setV(i,'fail'),
+        play:()=>{ if(on) this.setState({playing:!s.playing}); else this.setState({sel:i,prog:0,playing:true}); },
+        showPause:on&&s.playing,showPlay:!(on&&s.playing),bars,time:(on?this.fmt(s.prog*b.len):'0:00')+' / '+this.fmt(b.len)};
+    });
+    const TL=[['Kk','Kick'],['Sn','Snare'],['Hh','Hats'],['Bs','Bass'],['Ch','Chords'],['Sm','Sample'],['Pd','Pad'],['Ld','Lead'],['Pc','Percussion'],['Fx','Texture']];
+    const tiles=TL.map((t,i)=>{ const c=ENAM[i%4], on=s.tile===i; return {ab:t[0],nm:t[1],pick:set({tile:i}),st:'aspect-ratio:1/0.85;border:0;border-radius:3px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;background:'+c+';color:#15191c;'+(on?'outline:3px solid #fff;outline-offset:2px;':'opacity:.85;')}; });
+    const cur=s.beats[s.sel];
+    return {people,beats,tiles,main,key:s.key,style:s.style,nb:s.nb,bpm:s.bpm,loops:s.loops,playing:s.playing,paused:!s.playing,rot:Math.round(-135+(s.bpm-60)/140*270),
+      tab0cls:s.tab===0?'on':'',tab1cls:s.tab===1?'on':'',goBack:set({tab:0,cls:0}),goLegends:set({tab:1,cls:0}),
+      onKey:(e)=>this.setState({key:e.target.value}),onStyle:(e)=>this.setState({style:e.target.value}),
+      nbMinus:set({nb:Math.max(1,s.nb-1)}),nbPlus:set({nb:Math.min(10,s.nb+1)}),bpmMinus:set({bpm:Math.max(60,s.bpm-4)}),bpmPlus:set({bpm:Math.min(200,s.bpm+4)}),
+      toggleLoops:set({loops:!s.loops}),modeWord:s.loops?'Loop mode':'Beat mode',genLabel:s.loops?'Generate loops':'Generate beats',generate:()=>this.generate(),
+      npTitle:cur.t,npMeta:cur.key+', '+cur.bpm+' BPM',pct:Math.round(s.prog*100),npTime:this.fmt(s.prog*cur.len)+' / '+this.fmt(cur.len),npPlay:set({playing:!s.playing})};
+  }
+}
+</script>
+</body>
+</html>

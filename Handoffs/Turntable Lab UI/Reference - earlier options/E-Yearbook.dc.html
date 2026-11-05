@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Yearbook</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#3a0b15}
+*{box-sizing:border-box}
+button,select,input{font-family:'Source Serif 4',Georgia,serif;color:#1b1013}
+button{cursor:pointer}
+.sl{font-family:'Alfa Slab One',Georgia,serif;font-weight:400}
+.fl{width:100%;height:42px;background:#fff;border:2px solid #5b1220;border-radius:0;padding:0 10px;font-size:16px}
+.st{width:40px;height:40px;background:#5b1220;color:#f6d37a;border:0;font-size:24px;line-height:1;display:inline-flex;align-items:center;justify-content:center}
+.tab{flex:1;height:42px;border:2px solid #5b1220;background:#fff;font-size:16px;font-weight:600}
+.tab.on{background:#5b1220;color:#f6d37a}
+.bar{width:3px;flex:none}
+.sbt{height:36px;padding:0 14px;border:2px solid #5b1220;background:#fff;font-size:15px;font-weight:600}
+.crest{width:100%;aspect-ratio:1/1;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;border:3px solid #5b1220;background:#fff}
+</style>
+</helmet>
+
+<div style="width:100%;min-height:900px;padding:28px;background:radial-gradient(900px 600px at 50% 0%,#5b1220,#3a0b15);display:flex;flex-direction:column;align-items:center;gap:0;font-family:'Source Serif 4',Georgia,serif;color:#1b1013">
+
+<div style="width:100%;max-width:1380px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:16px">
+<div style="display:flex;align-items:center;gap:16px">
+<div class="sl" style="width:74px;height:74px;background:#5b1220;color:#f6d37a;border:4px solid #f6d37a;display:flex;align-items:center;justify-content:center;font-size:44px;box-shadow:0 0 0 4px #5b1220">H</div>
+<div><div class="sl" style="font-size:36px;color:#f6d37a;line-height:1">Homeroom Studios</div><div style="font-style:italic;color:#e9d9c0;font-size:17px">The beat yearbook</div></div>
+</div>
+<img src="/_blob/31c4430f36130632788d41344c8012d5" alt="The Back of the Class logo" style="width:70px;height:70px;object-fit:cover;border:3px solid #f6d37a">
+</div>
+
+<div style="width:100%;max-width:1380px;display:flex;flex-wrap:wrap;background:#f2f4f7;box-shadow:0 20px 40px rgba(0,0,0,.55);flex:1">
+
+<div style="flex:1 1 560px;padding:28px 34px;background:linear-gradient(90deg,#f2f4f7 92%,#d5d9e0);display:flex;flex-direction:column;gap:14px">
+<div class="sl" style="font-size:30px;color:#5b1220">Choose your class</div>
+<div style="display:flex"><button class="tab {{tab0cls}}" onClick="{{goBack}}">The Back of the Class</button><button class="tab {{tab1cls}}" onClick="{{goLegends}}">The Legends</button></div>
+<div style="display:flex;gap:14px;justify-content:space-between">
+<sc-for list="{{people}}" as="p" hint-placeholder-count="4">
+<button onClick="{{p.pick}}" aria-label="{{p.n}}" style="{{p.st}}">
+<span class="sl" style="{{p.pic}}">{{p.ini}}</span>
+<span style="font-style:italic;font-size:15px;color:#1b1013">{{p.n}}</span>
+</button>
+</sc-for>
+</div>
+<div class="sl" style="font-size:30px;color:#5b1220;margin-top:6px">Set your parameters</div>
+<div style="display:flex;gap:22px;flex-wrap:wrap">
+<div style="flex:1 1 220px;display:flex;flex-direction:column;gap:6px">
+<label for="ek" style="font-weight:600">Key</label>
+<select id="ek" class="fl" value="{{key}}" onChange="{{onKey}}"><option>A Minor</option><option>C Minor</option><option>D Minor</option><option>F Minor</option><option>G Minor</option></select>
+<label for="es" style="font-weight:600;margin-top:4px">Style</label>
+<select id="es" class="fl" value="{{style}}" onChange="{{onStyle}}"><option>Boom bap</option><option>Trap</option><option>Lofi</option><option>Soul</option><option>Drill</option></select>
+<div style="display:flex;align-items:center;gap:10px;margin-top:8px"><span style="font-weight:600;flex:1">Number of beats</span><button class="st" onClick="{{nbMinus}}" aria-label="Fewer beats">&minus;</button><span class="sl" style="font-size:26px;min-width:26px;text-align:center">{{nb}}</span><button class="st" onClick="{{nbPlus}}" aria-label="More beats">+</button></div>
+</div>
+<div style="flex:0 0 190px;background:#5b1220;border:4px solid #f6d37a;outline:4px solid #5b1220;padding:12px;text-align:center;color:#f6d37a;align-self:flex-start">
+<div style="font-style:italic;font-size:15px">Tempo</div>
+<div class="sl" style="font-size:78px;line-height:1">{{bpm}}</div>
+<div style="font-size:14px;margin-bottom:8px">BPM</div>
+<div style="display:flex;gap:10px;justify-content:center"><button class="st" style="background:#f6d37a;color:#5b1220" onClick="{{bpmMinus}}" aria-label="Slower">&minus;</button><button class="st" style="background:#f6d37a;color:#5b1220" onClick="{{bpmPlus}}" aria-label="Faster">+</button></div>
+</div>
+</div>
+<label style="display:flex;align-items:center;gap:10px;font-size:17px;cursor:pointer"><input type="checkbox" checked="{{loops}}" onChange="{{toggleLoops}}" style="width:22px;height:22px;accent-color:#5b1220">Loops only <span style="font-style:italic;color:#555;font-size:14px">{{modeWord}}</span></label>
+<button onClick="{{generate}}" class="sl" style="height:64px;border:0;background:#f6d37a;color:#5b1220;font-size:26px;box-shadow:0 0 0 4px #5b1220 inset">{{genLabel}}</button>
+<div class="sl" style="font-size:30px;color:#5b1220;margin-top:6px">Clubs <span style="font-family:'Source Serif 4',serif;font-size:16px;font-style:italic;color:#555">10 sounds</span></div>
+<div style="display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px">
+<sc-for list="{{tiles}}" as="t" hint-placeholder-count="10">
+<button onClick="{{t.pick}}" aria-label="{{t.nm}}" style="background:none;border:0;padding:0;display:flex;flex-direction:column;align-items:center;gap:4px"><span class="crest" style="{{t.st}}"><span class="sl" style="font-size:24px;line-height:1">{{t.ab}}</span></span><span style="font-size:14px;font-style:italic">{{t.nm}}</span></button>
+</sc-for>
+</div>
+</div>
+
+<div style="flex:1 1 560px;padding:28px 34px;background:linear-gradient(270deg,#f2f4f7 92%,#d5d9e0);display:flex;flex-direction:column;gap:14px">
+<div class="sl" style="font-size:30px;color:#5b1220">Your beats</div>
+<div style="display:flex;flex-direction:column;gap:16px;max-height:700px;overflow-y:auto;padding-right:6px">
+<sc-for list="{{beats}}" as="b" hint-placeholder-count="3">
+<div style="{{b.card}}">
+<div style="display:flex;gap:12px;justify-content:space-between;flex-wrap:wrap;align-items:flex-start">
+<div><div class="sl" style="font-size:26px;line-height:1.1;color:#5b1220">{{b.t}}</div><div style="font-style:italic;font-size:16px;color:#333">{{b.tagline}}</div><div style="font-size:15px;margin-top:2px">{{b.meta}}</div></div>
+<div style="display:flex;gap:8px"><button class="sbt" style="{{b.passSt}}" onClick="{{b.pass}}">Pass</button><button class="sbt" style="{{b.failSt}}" onClick="{{b.fail}}">Fail</button></div>
+</div>
+<div style="display:flex;align-items:center;gap:12px;margin-top:10px">
+<button onClick="{{b.play}}" aria-label="Play or pause" style="width:48px;height:48px;border-radius:50%;background:#5b1220;border:0;display:flex;align-items:center;justify-content:center;flex:none">
+<sc-if value="{{b.showPause}}" hint-placeholder-val="{{false}}"><svg width="16" height="16" viewBox="0 0 18 18" fill="#f6d37a" aria-hidden="true"><rect x="3" y="2" width="4" height="14"/><rect x="11" y="2" width="4" height="14"/></svg></sc-if>
+<sc-if value="{{b.showPlay}}" hint-placeholder-val="{{true}}"><svg width="16" height="16" viewBox="0 0 18 18" fill="#f6d37a" aria-hidden="true"><path d="M4 2l12 7-12 7z"/></svg></sc-if>
+</button>
+<div style="flex:1;min-width:0;height:36px;display:flex;align-items:center;gap:2px"><sc-for list="{{b.bars}}" as="w" hint-placeholder-count="20"><span class="bar" style="{{w.st}}"></span></sc-for></div>
+<span style="font-size:15px;flex:none">{{b.time}}</span>
+</div>
+</div>
+</sc-for>
+</div>
+</div>
+</div>
+
+<div style="width:100%;max-width:1380px;margin-top:16px;padding:12px 22px;background:#5b1220;border-top:4px solid #f6d37a;display:flex;align-items:center;gap:18px;flex-wrap:wrap;color:#f6d37a">
+<div style="min-width:170px"><div class="sl" style="font-size:20px">{{npTitle}}</div><div style="font-size:14px;color:#e9d9c0">{{npMeta}}</div></div>
+<div style="flex:1 1 240px;height:8px;background:rgba(246,211,122,.25)"><div style="height:100%;width:{{pct}}%;background:#f6d37a"></div></div>
+<span style="font-size:15px">{{npTime}}</span>
+<button onClick="{{npPlay}}" aria-label="Play or pause" style="width:48px;height:48px;border-radius:50%;background:#f6d37a;border:0;display:flex;align-items:center;justify-content:center">
+<sc-if value="{{playing}}" hint-placeholder-val="{{false}}"><svg width="16" height="16" viewBox="0 0 18 18" fill="#5b1220" aria-hidden="true"><rect x="3" y="2" width="4" height="14"/><rect x="11" y="2" width="4" height="14"/></svg></sc-if>
+<sc-if value="{{paused}}" hint-placeholder-val="{{true}}"><svg width="16" height="16" viewBox="0 0 18 18" fill="#5b1220" aria-hidden="true"><path d="M4 2l12 7-12 7z"/></svg></sc-if>
+</button>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":900}}'>
+class Component extends DCLogic {
+  state = { tab:0, cls:0, key:'A Minor', style:'Boom bap', nb:3, bpm:96, loops:false, sel:0, playing:false, prog:0.18, tile:0, gen:0,
+    beats:[
+      {t:'Stained Parade',tags:['Boom bap','Alternative'],key:'A Minor',bpm:96,bars:8,len:20,seed:1,v:''},
+      {t:'Stained Hymn',tags:['Trap','Alternative'],key:'A Minor',bpm:104,bars:8,len:18.5,seed:4,v:''},
+      {t:'Satin Chorus',tags:['R&B','Lofi','Soul'],key:'A Minor',bpm:92,bars:8,len:20.9,seed:9,v:''}
+    ] };
+  componentDidMount(){ this._t=setInterval(()=>{ if(this.state.playing){ let p=this.state.prog+0.012; if(p>=1)p=0; this.setState({prog:p}); } },200); }
+  componentWillUnmount(){ clearInterval(this._t); }
+  fmt(s){ const m=Math.floor(s/60), r=Math.floor(s%60); return m+':'+(r<10?'0':'')+r; }
+  setV(i,v){ this.setState({beats:this.state.beats.map((b,k)=>k===i?Object.assign({},b,{v:b.v===v?'':v}):b)}); }
+  generate(){
+    const s=this.state, names=['Chalk Dust','Hall Pass','Back Row','Pop Quiz','Lunch Line','Bell Ringer','Detention','Recess'], add=[];
+    for(let k=0;k<s.nb;k++){ const g=s.gen+k; add.push({t:names[g%names.length]+(g>=names.length?' '+(Math.floor(g/names.length)+1):''),tags:[s.style,s.loops?'Loop':'Original'],key:s.key,bpm:s.bpm,bars:8,len:Math.round(1920/s.bpm)/10,seed:g*3+2,v:''}); }
+    this.setState({beats:add.concat(s.beats),gen:s.gen+s.nb,sel:0,prog:0,playing:true});
+  }
+  renderVals(){
+    const s=this.state, set=(o)=>()=>this.setState(o);
+    const main=s.loops?'#1f7a4a':'#5b1220';
+    const crews=[['Otto Grit','Cutz','Crate Prophet','Chrome Dial'],['Farrow','Doc Day','Kane East','J Dillo']];
+    const people=crews[s.tab].map((n,i)=>({n,ini:n.split(' ').map(w=>w[0]).join(''),pick:set({cls:i}),
+      st:'background:#fff;border:0;padding:8px 8px 6px;display:flex;flex-direction:column;align-items:center;gap:6px;box-shadow:0 2px 6px rgba(0,0,0,.25);'+(s.cls===i?'outline:4px solid #f6d37a;box-shadow:0 0 0 8px #5b1220;':''),
+      pic:'width:84px;height:104px;border-radius:50%;background:'+(s.cls===i?'#5b1220':'#c9ced8')+';color:'+(s.cls===i?'#f6d37a':'#5b1220')+';display:flex;align-items:center;justify-content:center;font-size:32px'}));
+    const beats=s.beats.map((b,i)=>{
+      const on=s.sel===i, bars=[];
+      for(let k=0;k<64;k++){ const h=5+Math.round(Math.abs(Math.sin((k+b.seed)*0.9)*Math.cos(k*0.33+b.seed*1.7))*26+(k%4===0?5:0)); const lit=on&&k/64<s.prog; bars.push({st:'height:'+h+'px;background:'+(lit?'#5b1220':'#9aa1b0')}); }
+      return {t:b.t,tagline:b.tags.join(', '),meta:b.key+', '+b.bpm+' BPM, '+b.bars+' bars',
+        card:'padding:14px 16px;background:#fff;border-left:8px solid '+(on?'#f6d37a':'#d5d9e0')+';box-shadow:0 2px 6px rgba(0,0,0,.18);'+(b.v==='fail'?'opacity:.55;':''),
+        passSt:b.v==='pass'?'background:#f6d37a;border-color:#5b1220':'',failSt:b.v==='fail'?'background:#5b1220;color:#f6d37a':'',
+        pass:()=>this.setV(i,'pass'),fail:()=>this.setV(i,'fail'),
+        play:()=>{ if(on) this.setState({playing:!s.playing}); else this.setState({sel:i,prog:0,playing:true}); },
+        showPause:on&&s.playing,showPlay:!(on&&s.playing),bars,time:(on?this.fmt(s.prog*b.len):'0:00')+' / '+this.fmt(b.len)};
+    });
+    const TL=[['Kk','Kick'],['Sn','Snare'],['Hh','Hats'],['Bs','Bass'],['Ch','Chords'],['Sm','Sample'],['Pd','Pad'],['Ld','Lead'],['Pc','Percussion'],['Fx','Texture']];
+    const tiles=TL.map((t,i)=>({ab:t[0],nm:t[1],pick:set({tile:i}),st:s.tile===i?'background:#f6d37a;border-color:#5b1220;color:#5b1220':'color:#5b1220'}));
+    const cur=s.beats[s.sel];
+    return {people,beats,tiles,key:s.key,style:s.style,nb:s.nb,bpm:s.bpm,loops:s.loops,playing:s.playing,paused:!s.playing,
+      tab0cls:s.tab===0?'on':'',tab1cls:s.tab===1?'on':'',goBack:set({tab:0,cls:0}),goLegends:set({tab:1,cls:0}),
+      onKey:(e)=>this.setState({key:e.target.value}),onStyle:(e)=>this.setState({style:e.target.value}),
+      nbMinus:set({nb:Math.max(1,s.nb-1)}),nbPlus:set({nb:Math.min(10,s.nb+1)}),bpmMinus:set({bpm:Math.max(60,s.bpm-4)}),bpmPlus:set({bpm:Math.min(200,s.bpm+4)}),
+      toggleLoops:set({loops:!s.loops}),modeWord:s.loops?'Loop mode':'Beat mode',genLabel:s.loops?'Generate loops':'Generate beats',generate:()=>this.generate(),
+      npTitle:cur.t,npMeta:cur.key+', '+cur.bpm+' BPM',pct:Math.round(s.prog*100),npTime:this.fmt(s.prog*cur.len)+' / '+this.fmt(cur.len),npPlay:set({playing:!s.playing})};
+  }
+}
+</script>
+</body>
+</html>
