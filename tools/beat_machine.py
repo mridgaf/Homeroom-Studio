@@ -1583,7 +1583,7 @@ def add_bass_and_chords(preset, kit, sources, shots, variant, dirs, vnotes,
         import real_groove
         preset["real_feel"] = real_groove.pick(
             preset.get("listen") or (CREW.get(dj) or {}).get("listen", ""),
-            random, dj)
+            random, dj, (CREW.get(dj) or {}).get("real_feel_style"))
     # ARRANGEMENT FLOW (2026-10-20): one optional structural move inside
     # the loop plus an optional fill into bar 1. New beats only.
     import arrangement

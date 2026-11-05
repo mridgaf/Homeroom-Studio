@@ -109,20 +109,31 @@ def templates():
     return _TEMPLATES
 
 
-def pick(listen, rng, name=""):
+OUTSIDE_P = 0.10    # owner 2026-11-04: 1 beat in 10 plays outside its zone
+
+
+def pick(listen, rng, name="", style=None):
     """The `real_feel` stamp for a new beat: {"key": "hiphop:drummer3",
-    "skip": [...]}, or None for a machine-timed identity."""
+    "skip": [...]}, or None for a machine-timed identity.  1 beat in 10
+    (OUTSIDE_P) swaps to a drummer family outside the identity's own zone:
+    any family but its own, and a machine-timed identity gets a real one."""
     low = (listen or "").lower()
-    if name in MACHINE_NAMES or any(w in low for w in MACHINE_WORDS):
+    skip = ["hat"] if "hats dead straight" in low else []
+    own = None                          # None = machine zone
+    if style:                           # crew_config "real_feel_style"
+        own = style
+    elif not (name in MACHINE_NAMES or any(w in low for w in MACHINE_WORDS)):
+        own = "hiphop"
+        if any(w in low for w in PLAYED_WORDS):
+            own = next((st for w, st in STYLE_WORDS if w in low), "hiphop")
+    if rng.random() < OUTSIDE_P:
+        fams = sorted({k.split(":")[0] for k in templates()} - {own})
+        if fams:
+            own = rng.choice(fams)
+    if own is None:
         return None
-    style = "hiphop"
-    if any(w in low for w in PLAYED_WORDS):
-        style = next((st for w, st in STYLE_WORDS if w in low), "hiphop")
-    keys = sorted(k for k in templates() if k.startswith(style + ":"))
-    if not keys:
-        return None
-    return {"key": rng.choice(keys),
-            "skip": ["hat"] if "hats dead straight" in low else []}
+    keys = sorted(k for k in templates() if k.startswith(own + ":"))
+    return {"key": rng.choice(keys), "skip": skip} if keys else None
 
 
 def lane_class(lane):
@@ -156,6 +167,11 @@ def offset_s(tpl, lane_class, step16, bpm):
 def _demo():
     import random
     assert pick("dark trap, 808s", random.Random(1)) is None
+    n = sum(pick("dark trap, 808s", random.Random(i)) is not None
+            for i in range(2000))
+    assert 130 < n < 270, n            # about 10% play outside the zone
+    fam = lambda i: pick("jazz played by hand", random.Random(i))["key"][:4]
+    assert sum(fam(i) != "jazz" for i in range(2000)) < 270
     st = pick("New York boom bap, hats dead straight", random.Random(1))
     if st:                                   # needs groove_templates.json
         assert st["key"].startswith("hiphop:") and st["skip"] == ["hat"]

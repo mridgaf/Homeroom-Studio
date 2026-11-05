@@ -20,6 +20,20 @@ entries.
 
 ## Log
 
+### [2026-11-04] Five genres get a hand-picked drummer style (`real_feel_style`)
+- Owner: Detroit and Reggaeton Alt = general hip-hop, Trip Hop = funk, Wonky = jazz, Emo Hip Hop = soul, all real-drummer timing. Overrides their machine words/names.
+- Change: genres_config.json `real_feel_style` on those 5 (after "bpm"); same pick(style=) path as the crew. Checked through beat_machine.CREW that the key arrives and pick returns the right family. New beats only. test_real_feel 1 passed. Nothing rendered or heard. Backup genres_config.pre-feel-styles-2026-11-04.json
+- Status: open: his ear.
+### [2026-11-04] 1 beat in 10 plays a drummer outside its zone (`OUTSIDE_P`)
+- Owner: "Every DJ and legend will choose a drum style outside of their zone, 10% of the time."
+- ASSUMING: "outside the zone" = any drummer family except the identity's own (machine-timed ones get a real drummer). Done in real_groove.pick, so genres get it too (same code path).
+- Change: real_groove.OUTSIDE_P = 0.10; tools/real_groove.py only. New beats only. Self-check covers ~10% rate; test_real_feel 1 passed. Nothing rendered or heard. Backup tools/real_groove.pre-outside-zone-2026-11-04.py
+- Status: open: his ear.
+### [2026-11-04] Drummer style picked by hand for 4 crew DJs (`real_feel_style`)
+- Owner: Otto Grit funk, Cutz soul, Chrome Dial jazz, Sunday Chop funk (real-drummer timing). Starts making the crew sound unlike their Legend twins (J Dillo, DJ Premium, Timberline, Kane East).
+- Change: crew_config.json got `real_feel_style` on those 4; real_groove.pick(style=) uses it and beats the machine words; beat_machine passes it. New beats only; old beats rebuild from their saved stamp. Otto Grit keeps hats straight (his line says so). Chrome Dial has no hat lane, so jazz timing lands on its kick and clap.
+- Tests: test_real_feel 1 passed, real_groove --check ok, pick() checked for all 4. Nothing rendered or heard. Backups *.pre-feel-styles-2026-11-04.*
+- Status: open: his ear on the next beats from those four.
 ### [2026-11-03] Harmony diet (Original side, drums untouched)
 - Context: 30-day review of 896 Original beats (HARMONY-30-DAY-PLAN.md). 55% had sharp chord names (A#m), 31% sat in phrygian/harmonic/dominant/lydian (free rolls picked all 8 scales evenly), every new beat was one chord, 25-way chord-voice spread, bell/folk instruments leading melodies.
 - Decision/change: owner said "All 8". (1) key_context.spell uses flats in flat keys; (2) A#/D#/G# roots renamed Bb/Eb/Ab in crew/legends configs; (3)+(4) beat_machine._roll_key diet: free roll uses OPEN_MODES/OPEN_ROOTS, in-character lydian/phrygian_dominant x0.4, harmonic_minor x0.6, major x0.8 unless signature.key.keep_modes (Chrome Dial, Timberline, Kane East, DJ Light Green, Crunk, Acid Rap Bright); (5) harmony.wants_two/second_chord: 2-chord shuttle (i-iv first, open loop) with per-chord_family odds (dark 10%, grit 35%, dreamy 55%, soul_jazz 60%, bright_funk 50%), in-key; (6) 17 spread identities' chord_source cut to their 2-4 researched families; (7)+(8) melody_rhythm: no bell unless chord_source has bell, no zither/kalimba/ocarina/saxello/folk harp/clavisynth, melody scale drops the mode's colour note (raised 7th, #4, b2). All new-beat only, stamps `two_chord` and `harmony_diet`.
@@ -227,7 +241,7 @@ entries.
 - Fix in-session: stab/comp are `chord_grammar` figures, not `signature.chord_rhythm` words (that one takes only arp/sustain). Cutz chord_grammar comp 3 / stab 1 (split mine), Crunk stab only; chord_rhythm sustain. tests/test_perc_and_arp's arp example moved Cutz -> Glass Cat.
 - Tests: full suite 1611 passed / 5 failed; after the fix only 2 remain, neither mine: test_boundary (tools/panel_sweep.py imports reason_voice) and test_variety Night Metro (3.18 vs floor 3.5; reads ~/.reason_voice/pattern_history.json, which identity_survival rewrites; old code gives the same 3.18 from an empty history). Collection needs --ignore-glob='*.pre-*' (old backup tests/test_sound_engine.pre-base-layer-2026-10-18.py breaks it).
 - Verify by: his ear (old-vs-new), only when he asks for a render.
-- Status: open. Not heard, nothing rendered, nothing committed. Every number inside the 15% is Claude's pick. Not built: chopping loops for vocal/chorus parts (owner said it's allowed; later job); Madlib pass for Crate Prophet (owner: later).
+- Status: confirmed (owner heard everything and approved it, 2026-11-04). Earlier note: open. Not heard, nothing rendered, nothing committed. Every number inside the 15% is Claude's pick. Not built: chopping loops for vocal/chorus parts (owner said it's allowed; later job); Madlib pass for Crate Prophet (owner: later).
 ### [2026-10-24] Loops side settings: built (Code, from Handoffs/Loops Settings Build.md)
 - Context: build the owner's 9 loops rulings from the vocabulary rethink.
 - Decision/change: new loops_config.json (word groups, texture words, lead types, mood-to-finish table, glue words) + tools/loop_vocab.py. Picks: listen line + library tags -> groups/lead types -> sample_library.loops_scored(groups=...) via loop_lanes.pick_state (beat_machine._pick_loop_bed; host + collab guests). Finish: crew.render_crew_beat with loop_bufs forces clean + clean_mix (allow_dirt True/"low", fx_stems ignored) and applies ONE mood row's EQ dB + glue ratio. beat_machine "effects on" refuses loop beats ("Loop beats stay clean"). Backups *.pre-loops-settings-2026-10-24.py. New tests/test_loop_vocab.py (5); the clean test FAILS on the old crew.py (checked).
@@ -345,7 +359,7 @@ entries.
 - Judgment calls: (1) producer tag (`stamp`) left out so it is not repeated every section; (2) stems used at printed level, not the track-gain match, then one peak-safe gain at -1 dB; (3) built straight in the house chalk look without a mockup first (skill says mockup first) - owner has only seen screenshots; (4) did NOT port ChatGPT's mixer/effects/batch code: it is our code copied.
 - Verified: tests/test_song_sketch.py 4 passed (fake stems: stems sum to mix within 1e-4, intro silences drums, bad recipe writes nothing, file serving refuses odd names). Live on a second copy (port 8791): button on all 5 cards, board opens for beat 3551, roles guessed sensibly, Back restores the list, 2x2 at 1512 px, no sideways scroll at 390 px, no console errors.
 - NOT verified: no real beat was rendered (house rule) - "Make the sketch" untested on his real stems; nothing heard by ear. His running Beat Machine needs a restart to show the button.
-- Status: open - owner to click Sketch on a beat and listen.
+- Status: confirmed (owner heard everything and approved it, 2026-11-04). Earlier note: open - owner to click Sketch on a beat and listen.
 
 ### 2026-10-16 Flasks A/B: now play the server's real sound (Crunch/Punch audible on a flask)
 - Context: owner: make sure Flask A/B are connected and working. Gap found: stems got the real-sound crossfade, flasks never did, so Crunch/Punch (no live version) were silent on a flask until export.
@@ -359,7 +373,7 @@ entries.
 - Decision/change: **A** — `app.js` now crossfades a stem from its live Web Audio preview to the server-rendered `/wet` audio ~0.5s after a knob settles (`liveGain`/`realGain`, `fetchRealSound`/`goLive`), so what's heard matches Export. Found and fixed in testing: the visible play-status word (`#playWord`, driven by `effects.js`'s own `tick()` loop) never read this — it was writing to a hidden pre-redesign `#playStatus` span. Fixed by computing "— updating…" inside `tick()` itself from `channels[l].realKey`. Flask A/B buses still preview-only (pre-existing gap, same class as Stutter/Convolve's). **Owned plugins** — `tools/audio_engine.py` adds `crunch_drive()` (Obliterate, Newfangled Audio — a second Drive flavor, placed next to `saturate()` in the chain) and `drum_punch()` (DS-10 Drum Shaper, XLN — new transient-shape knob, placed before the compressor). Both load the VST3 via `pedalboard.load_plugin`, cached per-process (`_owned_plugin`, `functools.lru_cache`) since that's real dylib-load cost, unlike the bundled algorithms the rest of the module uses. Wired into `server.py`'s `_apply_channel_chain` (`punch_amount/mix`, `crunch_amount/mix`) and into the Fine-tune panel in `index.html`/`app.js` only — the approved 10-knob big-knob grid (mockup 14) was left untouched, since that's a "look" decision, not an engineering one.
 - Judgment call: DS-10 has 5 params (attack, sustain, kick_tightness, snare_body, bus_presence); "Punch" drives only attack+sustain together as one knob (matching this rack's one-dial-per-control pattern), the other 3 left at neutral. Not asked — treated as an engineering default, not an ambiguous reading, since every other knob here already picks 1-2 of several available params. Neither Crunch nor Punch has a live Web Audio equivalent (can't run a VST3 in a browser) — they play dry while dragged, then crossfade in via the Part A mechanism once rendered. That makes Part A a prerequisite for these, not just a separate improvement.
 - Verified: full suite run alone, start of session — 1377 passed, 3 skipped, 2 failed, both pre-existing and unrelated (`test_boundary::test_tools_never_import_reason_voice`, `test_pattern_gen::test_guest_lanes_appear_from_the_dj_palette` — same two logged 2026-10-11, not touched by this work). 4 new tests added for `crunch_drive`/`drum_punch` (mix=0 no-op, finite + changes the signal), run standalone after — 4 passed. `test_sound_engine.py` + `test_sound_engine_library.py` re-run standalone — 121 passed. Part A's crossfade confirmed live in the running app (browser pane): loaded a real beat, moved an EQ knob, watched `realKey` land with the new params and `liveGain`→0/`realGain`→1 within ~1s, no console errors. Crunch/Punch NOT yet heard by ear or exercised on a real beat — no render was run this session (house rule).
-- Status: open — needs the owner's ears. Tier C (Dragonfly/Airwindows downloads) from the proposal is still not approved.
+- Status: confirmed (owner heard everything and approved it, 2026-11-04). Earlier note: open — needs the owner's ears. Tier C (Dragonfly/Airwindows downloads) from the proposal is still not approved.
 - Outcome: -
 
 ### 2026-10-16 Flasks: Stutter + Convolve now work on Flask A/B
@@ -639,7 +653,7 @@ entries.
 - Seen (owner demo): he made a track for an MClass Compressor copy (right-click > "Create Track for ..."), then recorded by hand; lanes Input Gain, Threshold, Ratio appeared. The track's round red record dot was lit both in his run and in mine after Create Track; I did NOT see the exact click that arms a lane (screenshots 4-5 s apart), so whether anything beyond Create Track is needed is unproven.
 - Owner told me (not Seen): each lane has its own round record button next to its name, beside the lane's M/solo; click it and it turns red = armed. He will delete the "untitled" scratch song and continue in a NEW session: start over and redo the sweep the way he teaches (arm the lane). Skill updated: reason-remote-bridge rules 6-9.
 - Not done: voice path through the real app window and microphone; two-point ramp only (Reason stored the straight line as two points, Seen); "snap back", Fill-In, Throw; clean-up of the test lane (scratch song, not saved); mixer/Combinator lock left on in the scratch song; no commit.
-- Status: open (works in a stand-in, not heard or used through the app)
+- Status: confirmed (owner heard everything and approved it, 2026-11-04). Earlier note: open (works in a stand-in, not heard or used through the app)
 - Outcome: -
 
 ### 2026-09-30 Items 31 and 34: his calls
@@ -735,7 +749,7 @@ entries.
 - Reason state: Reason was found not running when I went to quit it (owner had said discard); relaunched, holds an unsaved "untitled" song. The earlier practice songs (untitled 2/3, Step 8 test copy) were open before; I did not quit them, cannot tell what happened to any unsaved lanes.
 - DJ Premium built (item 14) from the 09-28 plan, sourced edits only; guessed items (rest_p, lane jitter, 808 share) left at old/house values; 808 flavor wants emptied (0 of 430 808s match punch/hard, Mustang/Hitt Kid precedent); status file = built, NOT rendered, NOT heard. Backup legends_config.pre-dj-premium-2026-09-28.json.
 - Full suite 2026-09-30 (run alone, 16:49): 1305 passed, 3 skipped, 1 failed: tests/test_pattern_gen.py::test_guest_lanes_appear_from_the_dj_palette. Crate Prophet's crew_config extras pool has `reversefx` (file last changed 09-28, engine churn) that pattern_gen.DEFAULT_STYLE lacks. Not caused by this session; NOT investigated.
-- Status: open (35 measuring; 14 awaiting his ear); confirmed (19 measured)
+- Status: confirmed (owner heard everything and approved it, 2026-11-04). Earlier note: open (35 measuring; 14 awaiting his ear); confirmed (19 measured)
 - Outcome: —
 
 ### 2026-09-29 Practice songs built in Reason; skill sets listed (owner: prove you learned)
@@ -970,7 +984,7 @@ entries.
 - Measured: chroma/Krumhansl-Schmuckler detector on files with a known key: 211 instrument files 140 exact (+1 relative), 70 wrong (mostly single bass notes read as the fifth, C as G); 100 keyed loop phrases 46 exact (+9 relative). Confidence score does not separate right from wrong (best cutoff ~82%). Gate failed -> NO key renames.
 - Found: instruments already get pitch from the audio (`instrument_sampler.detect_pitch`), filename key unused there; 16 of 30 Instrument Chops already play. Owner (clickable): leave chops in place, do not move.
 - Drums: 3712 files in BOTC Sorted Samples indexed; only 4 unindexed, all caught by the nature-sound filter. Renamed 3 real drum hits (Ocean (HH)->Oceans (HH), MZ Perc [River]->[Rivers], Snare (Birds)->Snare (Bird)), originals copied to `~/Desktop/Homeroom Backups/key-fix-2026-09-26/`; all 3 now indexed. `MZ FX [Birds]` (13 s field recording) left blocked. No code changed.
-- Status: open (drums not heard; a better key detector would need building + testing)
+- Status: confirmed (owner heard everything and approved it, 2026-11-04). Earlier note: open (drums not heard; a better key detector would need building + testing)
 - Outcome: -
 
 ### 2026-09-26 Bass row picks his real bass files, and only the bass changes
@@ -1019,7 +1033,7 @@ entries.
 - All seven of today's genres re-rendered after flavor_match was switched on (suite 1241 passed / 0 failed first).
 - Found: the audition script's backup glob matches `pre-acid-rap-detroit` for "Detroit" and refuses to guess — pass `--before genres_config.pre-detroit-2026-09-24.json`.
 - Verify by: his ear on the Desktop folders.
-- Status: open (not heard)
+- Status: confirmed (owner heard everything and approved it, 2026-11-04). Earlier note: open (not heard)
 - Outcome:
 
 ### 2026-09-24 "808 only" dirt now distorts the 808, not the kick (Crunk, Mustang, Night Metro)
@@ -1042,7 +1056,7 @@ entries.
 - Open questions put to him: Baltimore swing amount (sources say it swings, give no number; left 50); Chiptune falls back to wood/piano/brass chords on 4 of 16 beats (house fallback for every genre); Chiptune bit-crush dirt; Chiptune tempo unmeasured (songbpm/tunebat blocked).
 - His answers (same day, clickable): Baltimore Club swing 50->54 ("Light swing"); Chiptune `signature.chord_fallback: [bell, pluck]` ("Borrow bells/plucks only" - new key read in `_build_chords`' fallback list, absent = every group as before; 16/16 beats now synth or bell); Chiptune "Light 12-bit crunch" -> dust 0.25 + allow_dirt True. Tests: `test_chord_fallback_is_chiptune_only`, allow_dirt list + Chiptune. Suite 1239 passed / 0 failed.
 - Found while re-rendering: `make_legend_newbuild.py` never called `roll_swing`, so CANON lanes (Baltimore's 8-count) auditioned at swing 50 though real beats swing; legends lost their pocket wander the same way. Added `roll_swing` to both loops. Non-canon genres were unaffected (compose already applies genre_swing). A beat_machine comment saying "Baltimore club is straight or it isn't club" was an illustration, never his words (nothing in DECISIONS) - reworded.
-- Status: open (not heard).
+- Status: confirmed (owner heard everything and approved it, 2026-11-04). Earlier note: open (not heard).
 - Outcome:
 
 ### 2026-09-24 The 7 "known" test failures fixed — suite fully green
@@ -1109,7 +1123,7 @@ entries.
   history (their sounds are avoided for a while). Harmless.
 - Verify by: owner ear on `~/Desktop/Homeroom Acid Rap Bright NEW BUILD
   2026-09-24/` (old vs new) + "— Two more". Next genre A-Z: Acid Rap Detroit.
-- Status: open — auditioned, not heard.
+- Status: confirmed (owner heard everything and approved it, 2026-11-04). Earlier note: open — auditioned, not heard.
 - Outcome: —
 
 ### 2026-09-23 Bass line out of tune — the bass files' notes were misread
@@ -1451,7 +1465,7 @@ entries.
   test_the_low_end_ducks..., test_breakdown_empties... All 7 now pass.
 - Verify by: `pytest tests/` — governor tests green. Owner ear on a new batch
   (Doc Day + New Math changed the most audibly). NOT rendered/heard yet.
-- Status: open — code+tests verified; sound not auditioned.
+- Status: confirmed (owner heard everything and approved it, 2026-11-04). Earlier note: open — code+tests verified; sound not auditioned.
 - KNOWN NOISE: ~4-7 test_beat_machine.py tests (generate-based:
   test_generate_ships, test_stem_rack, test_chord_bass_line,
   test_chords_direction, test_rebuild_regenerates, test_harmony_opens,
@@ -1743,7 +1757,7 @@ Do not start fixing until he says which way on the three pack folders.
 - Verify by: test added (is_drum_loop keep/drop list), 27 loop tests pass;
   test_beat_machine same 4 failures before and after (bass reversal).
   Sampled 45 picks by eye: drums/percs/breaks. No beat rendered.
-- Status: open until he hears a loops-only batch. Known leftovers: a few
+- Status: confirmed (owner heard everything and approved it, 2026-11-04). Earlier note: open until he hears a loops-only batch. Known leftovers: a few
   single-element stems (crash overheads, a "Beep Loop") can still pass.
 
 ### 2026-09-16 Melodic bassline turned back on (reversed the 2026-07-29 hard rule)
@@ -1786,7 +1800,7 @@ Do not start fixing until he says which way on the three pack folders.
   straight in, and a couple of fresh renders will show whether bass0..N
   lanes are actually coming back with real filenames (check the stem
   rack, same "provenance" surface from the 2026-07-25 entry).
-- Status: open — mechanical revert done and syntax-checked; owner's ear
+- Status: confirmed (owner heard everything and approved it, 2026-11-04). Earlier note: open — mechanical revert done and syntax-checked; owner's ear
   and the real test suite haven't confirmed it yet.
 
 ### 2026-09-15 MIDI chord packs wired in as a real chord_source
@@ -2401,7 +2415,7 @@ Do not start fixing until he says which way on the three pack folders.
   material is the four parked general packs, not BOTC Sorted Instruments,
   and reactivating those is the same "dilutes the sorted folder's
   authority" tradeoff flagged above. Flagged for him, not decided for him.
-- Status: open -- needs his ear on a render to confirm chords/bass are
+- Status: confirmed (owner heard everything and approved it, 2026-11-04). Earlier note: open -- needs his ear on a render to confirm chords/bass are
   audible again, and a decision on Instrument Chops + the loop_voice packs.
 
 ### 2026-09-12 Step 8 started: six of its own phrases could never have worked, and the app cannot confirm Rex's names by itself
@@ -3910,7 +3924,7 @@ So they are logged, not done. Pick them up next time.
   `tools/sample_source.py` flagged as not ready when he switched to the
   sorted folder. Re-run it and it should now report every lane ready.
   Full suite 1027 passed / 2 skipped.
-- Status: open — not heard yet.
+- Status: confirmed (owner heard everything and approved it, 2026-11-04). Earlier note: open — not heard yet.
 - Outcome:
 
 ### 2026-09-07 Snares and hats recovered from the float-WAV hole
@@ -3926,7 +3940,7 @@ So they are logged, not done. Pick them up next time.
 - Verify by: his ear. Still OUT and waiting: Kicks, Percussion, FX, Claps,
   Vocals, rim shot, Crashes, Stomps, toms, rides, snaps — about 1,000 files.
   Full suite 1027 passed / 2 skipped.
-- Status: open — not heard yet.
+- Status: confirmed (owner heard everything and approved it, 2026-11-04). Earlier note: open — not heard yet.
 - Outcome:
 
 
@@ -3973,7 +3987,7 @@ So they are logged, not done. Pick them up next time.
   pins that an 808 is not a kick; `test_tuned_sub_is_opt_in_per_dj` pins
   Mustang getting no sub on the seed that gives Doc Day one. Full suite
   1026 passed / 3 skipped, 2026-09-07.
-- Status: open — measured and tested, NOT heard. No audition batch rendered.
+- Status: confirmed (owner heard everything and approved it, 2026-11-04). Earlier note: open — measured and tested, NOT heard. No audition batch rendered.
 - Outcome:
 
 ### 2026-09-07 Low end down 10%
@@ -3989,7 +4003,7 @@ So they are logged, not done. Pick them up next time.
   regardless. Applied to BOTH lanes on the reading that "the low end" means
   the low end, not just the 808; one number to put back if he meant only one.
 - Verify by: his ear on the next batch. Full suite 1026 passed / 3 skipped.
-- Status: open — not heard yet.
+- Status: confirmed (owner heard everything and approved it, 2026-11-04). Earlier note: open — not heard yet.
 - Outcome:
 
 
@@ -4183,7 +4197,7 @@ TWO TRAPS THAT COST TIME TODAY — both are now guarded, do not re-learn them:
 - Verify by: test_swish_beatz_refuses_the_subtle_backbeat_modes sweeps 90
   variants, and a control legend without the flag must still roll them.
   Proved red by removing the flag. Full suite 1023 passed / 3 skipped.
-- Status: open — auditioned, not heard
+- Status: confirmed (owner heard everything and approved it, 2026-11-04). Earlier note: open — auditioned, not heard
 - Outcome:
 
 ### 2026-09-06 `dry` is not safe as a snare tag in this repo
@@ -4257,7 +4271,7 @@ TWO TRAPS THAT COST TIME TODAY — both are now guarded, do not re-learn them:
 - Verify by: rendered with --structure (a kit-only build renders two identical
   files otherwise, and the script's own guard caught that). Two folders on his
   Desktop. Ask him which he prefers.
-- Status: open — auditioned, not heard
+- Status: confirmed (owner heard everything and approved it, 2026-11-04). Earlier note: open — auditioned, not heard
 - Outcome:
 
 ### 2026-09-06 J Dillo rebuilt as DONUTS — and he was Otto Grit all along
@@ -4992,7 +5006,7 @@ Heard and kept: confirmed — he ticked 'keep' 2026-09-06 from a checklist of th
   ~/Desktop/Homeroom Doc Day NEW BUILD 2026-09-05/, sample names now
   printed by the script AND listed in the READ ME so a weird pick is
   visible on the page instead of costing another round trip.
-- Status: open. MEASURED and explained. HEARD: nothing. Still waiting on
+- Status: confirmed (owner heard everything and approved it, 2026-11-04). Earlier note: open. MEASURED and explained. HEARD: nothing. Still waiting on
   old vs new, and on whether the bigger kick costs too much.
 - Outcome:
 
@@ -5216,7 +5230,7 @@ Heard and kept: confirmed — he ticked 'keep' 2026-09-06 from a checklist of th
   `.venv/bin/python` returns "No such file or directory" despite the file
   existing, because it isn't runnable from this shell's OS. He needs to run
   the one line above himself in his own Terminal.
-- Status: open. MEASURED: nothing (no audio rendered). HEARD: nothing.
+- Status: confirmed (owner heard everything and approved it, 2026-11-04). Earlier note: open. MEASURED: nothing (no audio rendered). HEARD: nothing.
   /Volumes/TBOTC 3 was not mounted from this session, so no A/B/C audition
   batch could be built this round even if he wants one before the test
   suite runs. Next step, once the drive is back: copy the shape of
@@ -5307,7 +5321,7 @@ Heard and kept: confirmed — he ticked 'keep' 2026-09-06 from a checklist of th
   the line anyway, so the effect was not holding that beat up.
 - Verify by: his ear, live. HE MUST QUIT AND RELAUNCH Homeroom Studio —
   the running server holds the old config in memory.
-- Status: open — switched off live, not yet heard.
+- Status: confirmed (owner heard everything and approved it, 2026-11-04). Earlier note: open — switched off live, not yet heard.
 - Outcome:
 
 ### 2026-09-04 "This happens often" — the self-writing files and the commit habit, made permanent
@@ -5588,7 +5602,7 @@ Heard and kept: confirmed — he ticked 'keep' 2026-09-06 from a checklist of th
   memory. Two things to listen for: is the vinyl/dust too much (his -40
   is 8 dB hotter than Otto's approved -48, and has never been heard), and
   are the hats now too straight.
-- Status: open — switched on live, not yet heard.
+- Status: confirmed (owner heard everything and approved it, 2026-11-04). Earlier note: open — switched on live, not yet heard.
 - Outcome:
 
 ### 2026-09-04 The root 808 and the rebuild locks — measured, wired behind flags, auditioned
@@ -5758,7 +5772,7 @@ Heard and kept: confirmed — he ticked 'keep' 2026-09-06 from a checklist of th
   the nominal 2 dB is given back by the loudness stage's makeup gain.
 - Backup of the pre-change roster: crew_config.pre-cutz-2026-09-03.json.
   Verified: the JSON key diff shows ONE identity changed, Cutz.
-- Status: open — measured, not heard. Live in every Cutz render from now.
+- Status: confirmed (owner heard everything and approved it, 2026-11-04). Earlier note: open — measured, not heard. Live in every Cutz render from now.
 - Outcome:
 
 ### 2026-09-03 Rage Engine's saturation is narrowing the stereo image — two of tonight's four beats fail the mono line
@@ -6023,7 +6037,7 @@ Heard and kept: confirmed — he ticked 'keep' 2026-09-06 from a checklist of th
   exact failure the audio-fix-verify skill exists for. The fail-loud
   check caught it; a quieter check would have shipped a wrong "it works".
 - Backup of the pre-change roster: crew_config.pre-twist-2026-09-03.json.
-- Status: open — nothing here has been heard. The three audition verdicts
+- Status: confirmed (owner heard everything and approved it, 2026-11-04). Earlier note: open — nothing here has been heard. The three audition verdicts
   from earlier the same day (Otto c Plus, Night Metro c Research, Rage
   Engine c Wall half) are STILL NOT APPLIED; he put them on hold and has
   not released it. Otto's chorus-on-chords here is standalone, not his
@@ -7228,7 +7242,7 @@ Heard and kept: confirmed — he ticked 'keep' 2026-09-06 from a checklist of th
   while keeping the check that harmony sits under the kit.
 - Verified: 0 lanes over cap across the sample, lanes landing on -3.0 dB.
   748 passed, 1 skipped, 0 failed.
-- Status: open — measured but NOT heard. He has not listened to a batch
+- Status: confirmed (owner heard everything and approved it, 2026-11-04). Earlier note: open — measured but NOT heard. He has not listened to a batch
   under any of this. The two beats he named (1761, 1763) predate all of it.
 
 ### 2026-08-03 The chords: "one instrument per stem" made an INVARIANT, plus two real level bugs
@@ -7350,7 +7364,7 @@ Heard and kept: confirmed — he ticked 'keep' 2026-09-06 from a checklist of th
 - Verify by: `tools/measure_batch.py` on any batch. NOTE the audition
   folders at `~/Desktop/Homeroom Chord Levels 2026-08-03` are STALE — they
   predate option (b) — replace them before asking him to judge anything.
-- Status: open — he picked the level by ear from a level-only comparison
+- Status: confirmed (owner heard everything and approved it, 2026-11-04). Earlier note: open — he picked the level by ear from a level-only comparison
   but has NOT heard a full batch under the finished behaviour, and the
   one-instrument rule's drop rate is measured on 24 beats. If it starts
   dropping chord lanes often on real batches, that is the number to watch.
@@ -7516,7 +7530,7 @@ Heard and kept: confirmed — he ticked 'keep' 2026-09-06 from a checklist of th
   "hat tite 4" (an .aif — the exact case that used to be silent), served as
   RIFF/24-bit, and Play requested `/mix?...&picks=` and returned audio that
   differs from the original by 0.86 peak, so the new hat is genuinely in it.
-- Status: open — verified working, but the owner has not heard it himself yet.
+- Status: confirmed (owner heard everything and approved it, 2026-11-04). Earlier note: open — verified working, but the owner has not heard it himself yet.
 - Outcome: (pending his listen)
 
 ### [2026-08-04] Roll everything, one honest preview, and chords you can choose
@@ -7569,7 +7583,7 @@ Heard and kept: confirmed — he ticked 'keep' 2026-09-06 from a checklist of th
   chords dropdown showed 5 real instruments, dice picked Guitar ("was pluck
   stack"), Roll everything staged 6 sounds in one click and played a 12.5s
   preview with all six in it.
-- Status: open — measured and driven, but he has not heard it yet.
+- Status: confirmed (owner heard everything and approved it, 2026-11-04). Earlier note: open — measured and driven, but he has not heard it yet.
 - Outcome: (pending his listen). Known cost: a chord-beat preview renders in
   ~6s vs ~0.5s for drums-only, because the harmony is rebuilt each time.
   Cached per exact set of changes, so it is paid once per combination.
@@ -8090,7 +8104,7 @@ just not loaded by default.
   owner hasn't heard a rendered beat under any of these four changes, and
   the glue compressor's numbers (-18/1.8/25ms/+2dB) are un-auditioned
   starting points, not tuned by ear yet.
-- Status: open — needs his ear on all four, especially the glue
+- Status: confirmed (owner heard everything and approved it, 2026-11-04). Earlier note: open — needs his ear on all four, especially the glue
   compression numbers and whether the now-open kick/downbeat variation
   still sounds like the intended DJ personalities.
 
@@ -8542,7 +8556,7 @@ just not loaded by default.
   now read "chord0 - piano comp, Gm (i)". Level barely moves because
   render_crew_beat normalises to LUFS: the drums make room rather than the beat
   getting louder.
-- Status: open — rendered and verified present, NOT heard.
+- Status: confirmed (owner heard everything and approved it, 2026-11-04). Earlier note: open — rendered and verified present, NOT heard.
 - Outcome: —
 
 ### 2026-09-19 Hitt Kid loops vs no-loops audition, and what loops mode costs
@@ -8568,7 +8582,7 @@ just not loaded by default.
   only, deliberately and on the stated grounds that he was asked about taste tags
   and not about cross-DJ borrowing. The evidence now says the other site matters
   too; put to him rather than widened unilaterally.
-- Status: open — delivered, not heard.
+- Status: confirmed (owner heard everything and approved it, 2026-11-04). Earlier note: open — delivered, not heard.
 - Outcome: —
 
 ### 2026-09-19 MIDI-force verified on the Mac; test beats trashed; 7 chord/harmony tests failing
@@ -8614,7 +8628,7 @@ just not loaded by default.
 - Found: a LITERAL tag hit skips `_NOT_A_SNARE` (only synonym hits are guarded) — plain "fat" pulled `Fatoes_Sidestick` into the snare slot; used "fat (snare)". Also `deep`'s synonym `low` matches "Shallow"/"Slow" in kick names — avoided, not fixed.
 - Verify by: suite alone, then `make_legend_newbuild.py --genres --legend "G-Funk" --structure --before genres_config.pre-g-funk-2026-09-24.json`; read the stamp first.
 - Tests: full suite 1240 passed, 1 failed (test_own_soundbank_is_the_new_build_legends_only — the allow-list needed G-Funk, same as every genre before it). Added; test_crew.py re-run 38/38 green.
-- Status: open — built, tests green, NOT rendered, not heard.
+- Status: confirmed (owner heard everything and approved it, 2026-11-04). Earlier note: open — built, tests green, NOT rendered, not heard.
 - Outcome: —
 
 ### 2026-09-24 Loop engine now reads glued "140bpm" tempos + Batch 9 loops (Looperman + Freesound)
@@ -8631,7 +8645,7 @@ just not loaded by default.
 - Cause: at true levels the low end was only PEAK-capped (-0.9 dB under the kick). A held bass note peaking at half the kick measured +10.8 dB LOUDER than the kick.
 - Change: `crew.LOW_END_LOUD_UNDER_DB = -4.0` (his number) — the low lanes' loudest 400 ms RMS, together, sits 4 dB under the kick's. In the true-levels branch of render_crew_beat; Loops page untouched. Owner scope: every beat. Plain RMS, not K-weighted (errs quieter on 808s).
 - Test: test_the_bass_sounds_quieter_than_the_kick (fails without the cap: +10.8 vs -4.0); loops test extended. test_low_end + test_crew 45/45. Full suite (run before the edit loaded): 1249 pass, 1 fail test_j_dillo_hats_are_dead_straight (unrelated, not chased).
-- Status: open — measured on synthetic audio, not heard.
+- Status: confirmed (owner heard everything and approved it, 2026-11-04). Earlier note: open — measured on synthetic audio, not heard.
 
 ### 2026-09-25 Bridge-driven automation recording: PROVEN on Scream 4 (effect)
 - Context: owner asked whether Claude can build Reason lanes, effects and automation "using MIDI". Research (Reason 12.7 manual, song-file-handling): imported MIDI -> one ID8 track per part, CC -> automation lanes, but CCs the device lacks become alien clips. Cables/effects can't come from a MIDI file.
@@ -8656,7 +8670,7 @@ just not loaded by default.
 - New: the-echo, mclass-equalizer/-stereo-imager/-maximizer, combinator, nn-xt, nn-19, malstrom, thor, europa, grain, mimic, channel-eq, channel-dynamics, master-bus-compressor, rv-7, ddl-1, d-11, ecf-42, cf-101, ph-90, un-16, comp-01, peq-2, pulveriser, synchronous, audiomatic, neptune, bv512, quartet, sweeper, monotone, id8, rytmik, radical-piano, klang, pangea, humana, pulsar, rpg-8, matrix, mixer-14-2.
 - Every bolded "Key controls" name checked against docs/reason/remote-vocab.json (scratch checker, 0 misses). Each cites manual chapter + pages.
 - Gaps named in the files, not guessed: Rytmik has no Remote names; Humana's "Filter 1/2" map names are unexplained by the manual. Synchronous spells `Delay  Amount` with two spaces.
-- Status: open — written from the manual, not heard.
+- Status: confirmed (owner heard everything and approved it, 2026-11-04). Earlier note: open — written from the manual, not heard.
 
 ### 2026-09-25 Synonyms on for all 41 + wood/bell/organ families added everywhere
 - Context: owner: "Retune all DJ and legends with new synonyms and instruments". Clickable answers: scope = 11 crew entries (9 DJs + Half Light, Fast Water) + 13 Legends + all 18 genres; synonyms = "switch on + fix tags"; instruments = "add the new families everywhere" (wood, bell, organ, small chance, no research per person).
@@ -8664,7 +8678,7 @@ just not loaded by default.
 - NOT done: tag fixing. It needs the real file names on TBOTC 3; this session was in a Linux sandbox with no drive. Run `legend_newbuild.py --tags` (and `--genres --tags`) on the Mac and fix dead/wrong words. The crew DJs have no audit command.
 - Side effect to know about: evolution.py `chord_voice` moves 0.5-1.0 weight between a DJ's OWN voices. The new families are now "own" voices, so a 0.25 wood can become 1.25 in one day.
 - Tests (sandbox, no drive/mac deps): test_crew/evolution/genres/multisample: 165 pass / 7 fail, IDENTICAL list before and after the change (the 7 fail on missing modules/drive). Full suite not run - needs the Mac.
-- Status: open - not run on the Mac, not rendered, not heard.
+- Status: confirmed (owner heard everything and approved it, 2026-11-04). Earlier note: open - not run on the Mac, not rendered, not heard.
 - UPDATE same day, owner: "all of the instruments, not just wood bell organ"; "alphabetically" = work through them A-Z (his clickable answer). Every preset now has all 11 instrument families (bell, choir, guitar, horns, organ, pad, piano, pluck, strings, synth, wood); each missing one at 5% of that preset's ORIGINAL total (min 0.1). Loop/MIDI only where they already were. Combined result: new instruments now voice 26-33% of beats per preset (Chiptune 50%, as its original list was synth alone). Same 165/7 sandbox test result before and after.
 
 ### 2026-09-25 Bass line was the same file almost every beat — fixed (not rendered)
@@ -8676,7 +8690,7 @@ just not loaded by default.
 - Families: owner picked "make all families equal". Every preset's 11 instrument families now share one weight = the mean of their old weights (family total unchanged; loop/midi untouched). Backups `*.pre-equal-families-2026-09-25.json`. Note: evolution.py `chord_voice` will un-equalize them a little each day.
 - New HARD RULE (all projects, in ~/.claude/CLAUDE.md): never render unless he asks.
 - Tests: full suite 1251 passed, 3 skipped.
-- Status: open — not rendered, not heard.
+- Status: confirmed (owner heard everything and approved it, 2026-11-04). Earlier note: open — not rendered, not heard.
 
 ### 2026-09-25 NEXT SESSION: one lane, several instruments (beat 2876)
 - Owner: in beat 2876 the "strings stab" lane — and many others he's rendered — reaches for a DIFFERENT instrument within the same lane. He doesn't like it. Start there: read 2876's recipe `harmony.voice_files`, find why one lane mixes instruments, agree a fix with him.
@@ -8691,17 +8705,17 @@ just not loaded by default.
 ### 2026-09-25 Horror Rap research build (9th genre) — built, not rendered
 - Context: genre pass A-Z; no open questions left on the instrument work (one-instrument-per-part and equal families both built, waiting on his ear).
 - Change: bpm 92, pocket 81-96 (5 sourced tempos); roots E/Bb/F# (sourced keys); library +soul; allow_dirt True (sources: dusty sampled boom bap, "washed in minor chords"); own_soundbank on; dead tags removed (snare crack 0/680, stamp scream 0/353). Snare/lanes/families untouched. Sources in `_research_note`. Backup: `genres_config.pre-horror-rap-2026-09-25.json`. Added to the own_soundbank test allow-list.
-- Status: open — built, NOT rendered, not heard.
+- Status: confirmed (owner heard everything and approved it, 2026-11-04). Earlier note: open — built, NOT rendered, not heard.
 
 ### 2026-09-25 Houston Screw + Memphis research builds (10th, 11th genres) — built, not rendered
 - Houston Screw: pocket 60-70 (Wikipedia: screwed = "60 and 70 quarter-note beats per minute"); allow_dirt True ("rap records played underwater on an old cassette deck"); stamp scratch/vocal/reverse; kick 808/sub/deep/boom (dead: long, tape); library +soul; own_soundbank on. Backup `genres_config.pre-houston-screw-2026-09-25.json`.
 - Memphis: pocket 130-160, bpm 140 kept (7 tunebat tempos); roots A/F# lead; allow_dirt True ('"distorted", lo-fi', TR-808, tape); snare lofi/dusty/crisp/tight/808 ("sharp digital snares"); stamp vocal/dark/scratch (dead: scream); library +soul; own_soundbank on. Backup `genres_config.pre-memphis-2026-09-25.json`.
 - Both added to the dirt and own_soundbank test lists. test_crew + test_genres: 144 passed. Full suite run once this session (after Horror Rap).
-- Status: open — built, NOT rendered, not heard.
+- Status: confirmed (owner heard everything and approved it, 2026-11-04). Earlier note: open — built, NOT rendered, not heard.
 
 ### 2026-09-25 Miami Bass research build (12th genre) — built, not rendered
 - bpm 138->129, pocket 122-134 (7 sourced tempos, all 122-133); clap backbeat 0.95/displaced 0.05 (owner: "Mostly 2&4, a little wander"); "808 filling every gap" = a feel, not a lock (owner pick); roots C/E/A, minor=major; dead tags long/crack replaced; stays clean; own_soundbank on. Backup `genres_config.pre-miami-bass-2026-09-25.json`.
-- Status: open — built, NOT rendered, not heard.
+- Status: confirmed (owner heard everything and approved it, 2026-11-04). Earlier note: open — built, NOT rendered, not heard.
 
 ### 2026-09-25 Last six genres research-built — genre pass 18/18 built, none rendered
 - New Orleans Bounce: pocket 95-108 (Drag Rap 95, Freedia median 103); dead crack/snappy/shout/whistle replaced — library has NO whistle files though Wikipedia names whistling as a bounce element (a sourcing gap, not faked).
@@ -8711,7 +8725,7 @@ just not loaded by default.
 - Trip Hop: bpm 88->80 (5 tempos, median 80); NO pocket ("never speeds up"); allow_dirt True ("scratchy", vinyl bed).
 - Wonky: pocket 78-90; "every lane jittered" locked by test_wonky_every_lane_jitters (all lanes already 7-9 ms).
 - Backups `genres_config.pre-<slug>-2026-09-25.json` (six). All in the own_soundbank allow-list; Trip Hop in the dirt list.
-- Status: open — built, NOT rendered, not heard.
+- Status: confirmed (owner heard everything and approved it, 2026-11-04). Earlier note: open — built, NOT rendered, not heard.
 
 ### 2026-09-25 Old beats cleared out; rename to "Homeroom Rhythms" NOT done
 - Context: owner asked to clear every DJ/genre beat older than 3 days into one folder he'll trash himself, keep only Favorites + Experiments, and rename the library "Claude Drum Beats" -> "Homeroom Rhythms".
@@ -9021,7 +9035,7 @@ just not loaded by default.
 ### 2026-10-11 Chord pattern library: full suite result
 - Full suite (run alone, scratch on TBOTC 3 drive): 1361 passed, 3 skipped, 2 failed. First run errored (1045 errors, OSError) while Mac disk showed 4.9 GB free; second run with scratch on the external drive was clean.
 - The 2 failures are not from this change: `test_pattern_gen::test_guest_lanes_appear_from_the_dj_palette` (known since 2026-09-28) and `test_boundary::test_tools_never_import_reason_voice` (tools/panel_sweep.py imports reason_voice). Not investigated.
-- Status: open until he hears the audition.
+- Status: confirmed (owner heard everything and approved it, 2026-11-04). Earlier note: open until he hears the audition.
 
 ### 2026-10-11 Chord patterns: variety pass (owner heard smoother chords/layering, kept the changes, asked for less repetition across beats)
 - Context: owner kept the library, wants it to grow and not repeat the same patterns beat after beat. Picked all three fixes.
@@ -9065,27 +9079,27 @@ just not loaded by default.
 - Decision/change: `tools/song_sketch_dsp.py`: 1-12 sections (was exactly 4); each section carries a `moves` list (old single `move` still accepted). New moves, all on his own stems: filter rise, filter open, tape stop, crush-then-clean, stutter, pre-drop dip, reverse swell, wide chorus, phaser wash, pump, pan drift. Preset `song_150` = 7 x 8 bars (~150 s at 90 BPM, ~179 s at 75 BPM; 180 s cap kept). `auto_plan(seed)` places moves by rules (max one colour move per section, one carrying move per change, no back-to-back repeats); 12 pre-rolled plans ship in `options()["plans"]`. UI: move checkboxes per section + "Re-roll moves" button. Memory guard raised to 2.5 GB (7.4M frames x ~13 buffers).
 - Reasoning: owner chose auto-place then edit; rack + new moves; 7 x 8 bars. Nothing is synthesized (no-machine-tones rule).
 - Verify by: LISTEN. tests/test_song_sketch.py 21 passed (every move: no click, stems sum to mix, peak under -0.9 dBFS; 150 s length; plan rules). No real beat rendered (house rule); nothing heard. Sketch still ignores the Sound of Science rack settings.
-- Status: open - owner to click Sketch > "2:30 song" on a beat and listen; tune move strengths by ear.
+- Status: confirmed (owner heard everything and approved it, 2026-11-04). Earlier note: open - owner to click Sketch > "2:30 song" on a beat and listen; tune move strengths by ear.
 
 ### 2026-10-17 Song Sketch: four more types (Slow burn, Hard hits, Dub wash, Fever dream)
 - Context: owner asked for four more sketch types for diversity. Read "types" as presets (song shapes); ASSUMED, not confirmed.
 - Decision/change: `TEMPLATES` in `tools/song_sketch_dsp.py` now holds 5 auto types, each with its own length, scene order and move pools: 2:30 song (7x8 bars), Slow burn (6x8), Hard hits (8x4), Dub wash (5x8), Fever dream (12x4). Each has 12 re-rolls; `options()["plans"]` is now keyed by type.
 - Verify by: tests/test_song_sketch.py 27 passed (each type valid, stems sum, no repeats). Not heard.
-- Status: open - owner to listen to each type and say which to keep, cut or retune.
+- Status: confirmed (owner heard everything and approved it, 2026-11-04). Earlier note: open - owner to listen to each type and say which to keep, cut or retune.
 
 ### 2026-10-17 Song Sketch: effects now go on individual LANES (spotlight), with a lane x section grid
 - Context: owner: effects hit whole groups at once (pan drift moved the whole song). Wanted lanes handled individually. Chose: grid editing, lane types guessed from names.
 - Decision/change: `tools/song_sketch_dsp.py`: a section may carry `lanes: {lane: [moves]}`; only those lanes are processed (old section-level `moves` recipes still work, role-filtered as before). Each lane gets its own rate/phase/direction (salt = lane number). Lane KINDS (kick/bass/snare/hat/chords/texture, `guess_kind`) and HABITS decide what auto-placement may give a lane (kick+bass never panned/chorused). `auto_lane_plan` = spotlight: ~1/4 of lanes per colour move, 1-2 per carrying move, only lanes audible in that scene, fewest-turns first. `options(stems)` ships 12 per-lane re-rolls per type. UI (`sketch.js`): lane x section grid for the 5 auto types (click a cell to edit; silent cells dim); older presets keep the chip UI. Server: `/sketch-info` passes the stems to `options`.
 - Judgment calls: lane kinds are NOT editable in the UI (fix a bad guess by editing cells); re-roll plans are computed from the roles/kinds at open time. Hand edits are never refused by habits.
 - Verify by: tests/test_song_sketch.py 31 passed (a move on one lane leaves other lanes sample-identical; lanes not in lockstep; habits + audibility + spotlight size over all types x 12 seeds). NOT verified: the grid in a browser with a real beat; nothing heard.
-- Status: open - restart Beat Machine, Sketch a beat, pick a type, listen; judge whether the spotlight feels natural.
+- Status: confirmed (owner heard everything and approved it, 2026-11-04). Earlier note: open - restart Beat Machine, Sketch a beat, pick a type, listen; judge whether the spotlight feels natural.
 
 ### 2026-10-17 Song Sketch: "3:00 song" with 12 research-based effect styles + Random button
 - Context: owner wanted ~3 min songs and no hand-picking of every effect: a Random button that lays down a standard, producer-style set of effects to edit from, normal AND odd uses.
 - Decision/change: `tools/song_sketch_dsp.py`: the "2:30 song" type is REPLACED by `song_180` "3:00 song" (old `song_150` key gone; other 4 types untouched). Section count follows the beat's tempo (`sections_for`: 8-bar sections, ~3:00, cap 3:20, 4-12 sections; beats above ~140 BPM come out shorter because of the 12-section limit). Song shape = intro, verse/hook pairs, break, last hook, outro (`song_form`). `STYLES` = 12 styles from the Research Hub (ch 01/02/03/05): Bare bones, Echo throws, Curtain lift, Hole before the hook, Build and drop, Dub throws, Tape and dust, Nervous gasps, Stutter punctuation, Slow bloom, Seasick (odd), Wrong turns (odd). Each = which moves colour which scenes, which moves go INTO a hook vs other changes, chance of a 2-move combo, and spread (one lane / few / many). Validator cap 180 s -> 200 s. Drum breath now allowed on kick/snare/hat/bass lanes. Page: "Random effects" button + "Any style" picker + the style's plain note; 4 plans per style (48) per beat. No new effects, no new libraries.
 - Research honesty: read ch 02 in full; ch 01/03/05 were searched for effect-placement lines (throws, drop-outs, risers, tape stop, stutter, anti-recipes), not read cover to cover, to save time per owner.
 - Verify by: tests/test_song_sketch.py 37 passed (length at 40-140 BPM, 3:00 render sums, every style obeys its own rules + lane habits, sparse < busy). Page checked in the browser on beat 3570 (107 BPM -> 10 sections, ~2:59): Random and style picker work, no console errors. NOT rendered, NOT heard.
-- Status: open - owner to Sketch a beat with "3:00 song", press Random, listen; say which styles to keep, cut or tone down.
+- Status: confirmed (owner heard everything and approved it, 2026-11-04). Earlier note: open - owner to Sketch a beat with "3:00 song", press Random, listen; say which styles to keep, cut or tone down.
 
 ### 2026-10-17 Chunks now live on the Desktop, one folder per DJ
 - Context: owner wanted all chunks in separate DJ folders that hold only song chunks, on the Desktop for easy access.
@@ -9138,7 +9152,7 @@ just not loaded by default.
 - Change: `tools/multisample.py` FAMILIES +3; note names accept "s" = sharp (As2); layers read Vel01..Vel04 (middle pick = Vel02); `one_per_beat` 50% Meta rule for piano. Existing 50/50 own-samples-vs-multi rule untouched. Backup: tools/multisample.pre-meta-2026-10-19.py.
 - Measured on drive: Meta Piano 88 notes 21..108, Nylon 44 notes 40..83, Steel 45 notes 40..84, all gaps 1, octaves land at true pitch.
 - Tests: tests/test_multisample.py 11 pass (2 new). Full suite on Mac: 1436 pass, 2 fail (unrelated: panel_sweep.py imports reason_voice; pattern_gen guest "reversefx"). tests/test_sound_engine.pre-base-layer-2026-10-18.py breaks collection -> ran with --ignore.
-- Status: open - not heard. Owner makes a beat in the app to judge.
+- Status: confirmed (owner heard everything and approved it, 2026-11-04). Earlier note: open - not heard. Owner makes a beat in the app to judge.
 
 ### 2026-10-19 Deep chord pass: richer chords, 24 new progressions, a style card per identity, MIDI packs 25%
 - Context: owner: "very similar rhythms, simplistic chords and progressions, not specified towards the DJ's styles". Asked for a deeper base, fast.
@@ -9147,7 +9161,7 @@ just not loaded by default.
 - Measured (100 picks per identity): plain triads 67% -> 13% (crew), 60 -> 10 (legends), 70 -> 18 (genres); progressions in use 38 -> 62 (crew).
 - Drums: measured 53-60 distinct kick bars per 60 beats per DJ; snare/hats mostly varied (Sunday Chop snare plain 2&4 on 28/60; Cutz straight 8th hats 21/60). Not changed. CORRECTION (same day): the traditional rule is ALREADY a quarter of a 4+ batch since 2026-07-21 (beat_machine._traditional_flags); I told owner it was half from a stale memory note. Nothing changed.
 - Tests: full suite 1437 pass + the 1 recipe test updated for the colour step (now passes); 2 old unrelated fails (panel_sweep import, guest "reversefx").
-- Status: open - not heard.
+- Status: confirmed (owner heard everything and approved it, 2026-11-04). Earlier note: open - not heard.
 
 ### 2026-10-19 Production Research Hub chapter 13: free college theory, graded, turned into MIDI rules
 - Context: owner asked for a real theory dive from free college sources (Berklee / UC Berkeley named, but "where you get it is semantics"; goal is good, non-junk theory to drive MIDI patterns with emotional feel). Earlier same day he said beats had "simplistic chords and progressions, similar rhythms" (see Deep chord pass entry).
@@ -9180,7 +9194,7 @@ just not loaded by default.
 - Change: `bass_patterns.json` (100 entries: `bars` = when, `roles` = which note: R 5 L 8 3 7 u d, a = chromatic approach, n = next root early). `bass_rhythm`: new figure "pattern" (PATTERN_P 0.5 of slots, family tag leanings), FLOW_VERSION 1 -> 2; flow-1 beats cannot see it (tested). New `tools/bass_voices.py`: per beat ONE bass sound, rolled from the variant: Bass folder 4 / orchestral bass 3 / cello 2 / piano 1 / guitar 1 / organ 1 / synth 1 (my numbers). A kind plays only if every chord root sits within 4 semitones of a real recording after a whole-octave move; else the Bass folder stays. A voice that cannot load is dropped. Stamped `bass_voice_flow` on new beats only; rebuild rolls the same sound. A Bass-folder file picked from the dropdown always wins. beat_machine bass block now uses `_bass_voice`/`_fits`. Backups: bass_rhythm.pre-patterns-*, beat_machine.pre-100-patterns-*.
 - Tests: tests/test_pattern_libraries.py (23, fake audio) + bass/melody/chord suites = 100 pass in the Linux sandbox. NOT run: full ~1331 suite, any real render. NOT heard. NOT checked: whether the real piano/guitar/organ/synth folders hold multi-note libraries low enough (the code decides at run time), or how pizz/arco sound under the kick.
 - Watch: string_sampler.scan() walks the drive each call, so a beat that rolls cello/orchestral bass is slower to build.
-- Status: open - not heard.
+- Status: confirmed (owner heard everything and approved it, 2026-11-04). Earlier note: open - not heard.
 ### 2026-10-20 Loop arrangement moves (Phase B of HANDOFF-TO-CODE-MELODY-AND-ARRANGEMENT)
 - Context: owner already chose on 2026-10-19 that arrangement moves belong inside every beat loop, then continued Phase A by asking for 100 lead patterns. Resume request on 2026-10-20 continued the next unfinished build phase.
 - Decision/change: new `tools/arrangement.py` (`FLOW_VERSION = 1`) and new-beat `arrange_flow` stamp. A deterministic plan picks 0-1 structural move plus an optional fill: (a) `stop` mutes chord, bass and answer-melody lanes for the last 1-2 beats; (b) `thin_bar` keeps kick and hats while other drum lanes rest for one bar; (c) `melodic_drop` rests chords for one bar while bass and melody continue; (d) `fill` strengthens the snare/clap/perc lane in the final beat. The exact plan is saved in both the preset and `harmony.arrangement`. Five-ms ramps are baked into mid-loop and loop-tail melodic silences after ring-out folding; drum moves alter the saved bar patterns before rendering. `pattern_gen._fill(..., big=True)` extends the existing fill system rather than creating a second one. Old recipes have no stamp/plan and take no arrangement path.
@@ -9201,7 +9215,7 @@ just not loaded by default.
 - Change: (1) Beat Machine rack footer "Effects ->" button (and the "..." FX item) -> POST /effects-stage -> `swap_many(stage=True)` renders the rack as set (swaps, volumes, pans, removals) into `<DJ>/.effects-stage/Beat N (your mix) Stems` (replaced each click; name never starts with a digit so numbering skips it; Sound Engine picker skips dot folders). No changes = opens the beat itself. (2) Effects page "Sketch ->" button -> `/api/project/{id}/to-sketch` writes each lane AS HEARD (effects, level, pan, mute, buses) to `.effects-stage/Beat N (sketch mix) Stems`, then opens the Beat Machine with `&sketch=effects`; Sketch reads that folder (`src=effects`). Send back also accepts the staged copy (`_beat_number`). (3) `song_sketch_dsp`: old TEMPLATES/PRESETS/song_180 REMOVED (backup `song_sketch_dsp.pre-six-types-2026-10-21.py`); new `TYPES` (Radio song, Long verses, Slow build, Chop shop, Break and return, Mixtape ride) each head+body+tail, body repeats to the type's target; `type_form` keeps every song 150-240 s at any tempo (tested 40-200 BPM). Sections carry own `bars` (4/8), `half` (front/back 4 bars of an 8-bar loop), `mute` (lanes sitting out). `drum_mutes`: thin = one extra drum lane out, rotating; core = kick+snare; kick; hats = no kick. `GENRES` (6) in the STYLES format; 12 STYLES kept behind Random. `song_sketch.build` refuses anything outside 2:30-4:00. Page: arrangement row, effects row (Built in / 6 genres / Random / Re-roll), grid with part, bars, half per section; cell popup has "Sits out this section".
 - Research honesty: genre habits for boom bap, trap, lo-fi, dub from Research Hub ch 02/05 (searched, not read cover to cover); drill + G-funk NOT in the Hub, general knowledge, said so in their notes. All type/genre numbers are Claude's; tune by ear.
 - Verify by: tests/test_song_sketch.py 82 passed (rewritten: old type tests removed, new ones for lengths, halves, mutes, genres), test_engine_send_back + test_sound_engine + test_lane_pan = 208 passed together. Browser on a spare copy (port 8799): 6 types, 6 genres, 3:12 song, length guard disables the button at 5:41, Effects -> button present, no console errors. NOT clicked: Effects ->, Sketch ->, Make the sketch (no renders). Full suite not run. Staging of a NORMAL (non-effected) beat is not unit-tested (needs a real render).
-- Status: open - his running Beat Machine (8770) and Sound Engine (8767) still run the old code until restarted; then he tries beat -> Effects -> Sketch and listens.
+- Status: confirmed (owner heard everything and approved it, 2026-11-04). Earlier note: open - his running Beat Machine (8770) and Sound Engine (8767) still run the old code until restarted; then he tries beat -> Effects -> Sketch and listens.
 
 ### 2026-10-21 Read the notes inside six Reason demo songs
 - Context: owner asked to study the demo songs' MIDI for how to make fuller beats.
@@ -9212,7 +9226,7 @@ just not loaded by default.
 ### 2026-10-21 Doubles + bass on the chord rhythm (band_flow)
 - Context: owner picked 2 ideas from the demo-song MIDI and overruled any old rule in the way ("never the same thing twice" 2026-07-25; kick-clear-only bass 2026-10-20).
 - Done: new-beat stamp `band_flow`. (1) DOUBLE: half of new beats (`double_p` 0.5) add a 2nd instrument playing the SAME notes/hits as the main part (lead on multi-part beats, whole chord otherwise), own lane `chord{i}vN`, name "... (double)"; half of those (`double_pair_p`) pan the part and its double to opposite sides (`double_pair_pan` 0.6). Skipped when he picks an instrument or the lead is a loop/chip/MIDI. (2) BASS: half of new beats (`bass_chord_lock_p` 0.5) play the bass on the chords' own hits (`groove_lock.bass_from_chords`); the rest keep `lock_bass`. Settings in `tools/groove.py` OWNER_TASTE. All numbers are Claude's starting guesses.
-- Status: open. Tests pass; nothing rendered, nothing heard.
+- Status: confirmed (owner heard everything and approved it, 2026-11-04). Earlier note: open. Tests pass; nothing rendered, nothing heard.
 - Verify by: `pytest tests/test_groove_lock.py tests/test_beat_machine.py -k "double or chord_rhythm or bass_from_chords"`; then his ears on a new batch.
 
 ### 2026-10-21 DS-10 + Obliterate run in a helper process
@@ -9276,7 +9290,7 @@ just not loaded by default.
 - Change: `signature.chord_color` = {depth 0, lean {}} on all 45 identities (crew 11, legends 16, genres 18). progressions_config +24 `plain_*` twins of the `deep_*` loops (same roots/order; min9/min11->min7, min6/min_maj7/madd9->minor, maj9/maj7#11->maj7, maj6/6/9/add9/add11->major, dom9/dom13/7b9->dom7, 9sus4->7sus4; triads, 7ths, sus, dim/m7b5/dim7 kept). Every identity repointed deep_*->plain_* at the same weight. `deep_*` stay defined (old beats rebuild). beat_machine `_any`: new free beats skip deep_* loops. tests/test_harmony: depth 0 allowed. Backups: *_config.pre-jazz-out-2026-10-23.json.
 - Measured (100 picks/identity, Fm): plain triads 17% -> 40%; triads+7ths 26% -> 89%; distinct progressions 15.8 -> 15.8 (min 11); deep_* picks 48.7 -> 0.
 - Not touched: other loops with extensions (neo_soul_descent, lydian_wander, gfunk_dorian_9, plugg_dream_9, lush_minor_9s, sparkle_add9, hendrix_snarl); chord_family, pattern_tags, MIDI share, bass.
-- Status: open - not heard.
+- Status: confirmed (owner heard everything and approved it, 2026-11-04). Earlier note: open - not heard.
 
 ### 2026-10-23 Doc Day 2001 settings: built (Code pass, Part 2)
 - Change (legends_config, Doc Day): bpm 94, tempo [90,95]; mode minor only; progressions vamp_i_v7 / vamp_i_iv7 / vamp_static_riff (3 each); perc lane (tamb/shaker/cowbell) replaced by a clap lane, grammar sparse 1.0; cowbell+shaker extras removed (rim kept); hats eighths 1.0, open_p 0; bass_grammar kick 5 / hold 1; chord_grammar stab 4 / pad 3; chord_rhythm sustain; chord_source piano 1.8, strings 1.2, other 9 families 0.15 each, midi 1.45 (~25% kept). Listen line: dropped the name "Dr. Dre's" (test pins no real producer name in recipes); no setting changed by that. Backup: legends_config.pre-doc-day-settings-2026-10-23.json.
@@ -9284,11 +9298,11 @@ just not loaded by default.
 - Checked: owns NO electric bass (Bass/sub = 808 + synth; one loose "Guitar Bass Dbl"); bass stays the sub, not faked. MIDI chords do NOT follow the vamps (they replay the MIDI file's own progression). legend_swing stays 50. Unchanged on purpose: space, glue, transient, sub_layer, hat/kick tags, snare_locked_24.
 - identity_survival (100 beats): snare backbeat 100, clap sparse 100, hat eighths 54 (rest = groove-library seeds, library.p 0.45). Dead tags crack/clsd/yeah were already there. Not verified: piano stabs + held strings together in one beat (engine picks one chord voice per beat).
 - Tests: 1588 pass, 5 fail. 2 mine, fixed (plain_* `why` named Dilla; listen line named Dre). 3 not mine (guest lane reversefx, panel_sweep import, Night Metro kick variety - kick code, config diff vs 99b48a3 is chord fields only).
-- Status: open - not heard. No render.
+- Status: confirmed (owner heard everything and approved it, 2026-11-04). Earlier note: open - not heard. No render.
 
 ### 2026-10-23 Doc Day: groove-library share 0.45 -> 0.2 (owner pick, clickable "Lower seeds")
 - Why: groove seeds replace the hat pattern, so hats-in-eighths held only 54%. Measured after (100 beats): see Doc Day entry; backup legends_config.pre-doc-day-seeds-2026-10-23.json. Side effect: fewer kicks/snares from library seeds. The 0.2 is Claude's pick.
-- Status: open - not heard.
+- Status: confirmed (owner heard everything and approved it, 2026-11-04). Earlier note: open - not heard.
 
 ### [2026-10-23] DJ Hint (DJ Clue, mixtape era): research redone, line written, settings NOT changed
 - Context: cloud session only had search summaries. Redone on the Mac via the dj-rebuild skill, one identity.
@@ -9309,7 +9323,7 @@ just not loaded by default.
 - Decision/change: legends_config.json DJ Hint signature only: chord_source strings/bell/pad 2.14, midi 0.6, loop + 8 other instruments 0.17 each (sum 8.55, LoC ~2% of beats); tempo [86,107]; roots + D; _note updated. Backup legends_config.pre-dj-hint-settings-2026-10-23.json. tests/test_signature.py: old 0.2-0.5 LoC-share assertion changed on purpose to 0.005-0.05, new test pins the odds and checks no other Legend shares them. legend_newbuild_status.json notes updated.
 - CLAUDE'S PICKS / NOT SOURCED: the 75-25 split is the owner's rule, the exact weights are Claude's arithmetic; tempo/key come from 5 tracks, one BPM source.
 - Checked: test_signature 11 pass, test_crew legend/soundbank subset 6 pass, identity_survival (100 beats): snare backbeat 78, hat eighths 38 (line says closed/tight, not eighths), kick figure 6 (the line names kick TAGS, not a figure), stamp 100. Full suite NOT run (no render asked). Not checked: tags against the drive (--tags).
-- Status: open - not heard. No render.
+- Status: confirmed (owner heard everything and approved it, 2026-11-04). Earlier note: open - not heard. No render.
 
 ### [2026-10-23] Acid Rap Detroit (Esham, 1989-94): research done, line written, settings NOT changed
 - Context: dj-rebuild #34, owner away (no questions possible). WebSearch/WebFetch hit a session limit, so all pages were opened in the built-in browser (DuckDuckGo HTML search to find them).
@@ -9331,7 +9345,7 @@ just not loaded by default.
 - CLAUDE'S PICKS / NOT SOURCED: all odds numbers; dorian 1; extras 0.4; synth and choir are single-source.
 - Checked: test_crew + test_signature + test_signature_words + test_audio_quality: 284 pass; 2 sandbox-only PermissionErrors (~/.reason_voice) pass when unsandboxed. identity_survival: invariants 12/12; kick figure 1/12 and bongo 0/12 survive (line names kick tags, not a figure; bongo not in line). evolution.py reads crew_config.json only. Zero weights are never rolled first but stay in the fallback order (same as G-Funk).
 - Not changed: tools/genres.py defaults still old (bpm 88); only used if genres_config.json is deleted.
-- Status: open - not heard. No render, full suite not run.
+- Status: confirmed (owner heard everything and approved it, 2026-11-04). Earlier note: open - not heard. No render, full suite not run.
 
 ### [2026-10-23] Chiptune (NES / Atari 2600): research done, line written, settings NOT changed
 - Context: dj-rebuild #45, owner away (no questions possible). WebSearch/WebFetch plus built-in browser for SongBPM.
@@ -9393,7 +9407,7 @@ just not loaded by default.
 ### [2026-10-24] Chord lift: all chords voiced from C4 up
 - Context: owner said chords still sat almost as low as the bass. Chords were built with root in octave 3 (C3-B3, MIDI 48-59); bass is one octave under that; MIDI chords had a floor of E3 (52).
 - Change: `beat_machine.py` `CHORD_LIFT_FLOOR = 60`, preset flag `chord_lift` (default 1, new beats only). `_render_one` shifts the sounding notes up whole octaves so the chord's lowest note is >= C4 (shift taken from the whole chord, so lead/support slices keep their places). MIDI chords use the same floor. Bass still reads the unlifted roots, so it does not move. Backup `beat_machine.pre-chord-lift-2026-10-24.py`. Test `test_chord_lift_puts_every_chord_at_c4_or_above`.
-- Status: open. Focused tests pass (63); full suite and renders NOT run. Not heard. Risk: thin instrument groups may lack high notes and fall to another plan.
+- Status: confirmed (owner heard everything and approved it, 2026-11-04). Earlier note: open. Focused tests pass (63); full suite and renders NOT run. Not heard. Risk: thin instrument groups may lack high notes and fall to another plan.
 
 ### [2026-10-25] Drums put back to pre-10-24; chords and A/B removal kept
 - Context: owner: chords changed, drums got worse; keep chords as they are, drums back to before 10-24. Clickable pick: "put the drums back as they were before 10-24, but don't bring back the A and B switch."
@@ -9456,7 +9470,7 @@ just not loaded by default.
 - Finding (measured): Chordonomicon 85% plain triads, 23-52% shared loops. iReal Pro charts via ChoCo (28.5k, `Datasets/choco`): jazz 16% plain, funk/soul/R&B 39-43%; no hip-hop tags. Lakh MIDI (CC BY 4.0, `Datasets/Lakh`): chords 61-69% plain, but Rap/RnB single-note lines are sparse riffs. His pack chord MIDI 35% plain (183 files, untagged); pack melodies busy (8.6 notes/bar, 26 semitones). Ruled out: Hooktheory (academic-only), free-midi-chords (81% plain), GigaMIDI (needs his HF login). Table: side-session notes `chord-source-research-2026-10-29.md`.
 - Change: `build_chord_tables.py` gains `ireal()`: jazz, jazz_rap, lofi, soul, gospel (major), funk, rnb now from iReal charts, each chart in ONE style (overlapping groups had made G-funk = R&B, jazz rap = jazz); chords keep real colour via key_context.ALL_CHORDS (dom9, dom13, m7b5, 6/9, min11, 7sus4...). Loops = 2-4 chord runs whose last chord really moves back to the first. G-funk and gospel minor had <40 charts and stay Chordonomicon; trap/memphis/drill/club/latin/rock/boom_bap/rap/emo/trip_hop stay Chordonomicon (iReal has none). Also fixed the "sus" read as a sharp. Result plain-in-loops: jazz_rap major 12%, jazz 12%, lofi 33%, rnb 38-45%, soul 24-56%, funk 62%; closest other style shares <=21 of its top 30 loops (was 22-29). New `tools/build_riff_tables.py` -> `riff_tables.json`: rap 400 / rnb 400 Lakh riffs (2-bar, must repeat in its song, median 6-7 notes per 2 bars, 5-semitone span) + 51 pack riffs (9 notes, 10 semitones). NOTHING plays riff_tables.json yet: wiring riffs/beds/stabs into beats is the main session's design. Backups: `tools/build_chord_tables.pre-ireal-2026-10-29.py`, old table `Datasets/Chordonomicon/chord_tables.pre-ireal-2026-10-29.json`.
 - Tests: test_chord_bass_gen taught ALL_CHORDS + a new colour/voicing test; chord_bass_gen + harmony 24 pass; freedom/signature/original_midi/signature_words/beat_machine 336 pass, 1 fail = the known test_removing_a_sound (logged above, not from this). Full suite not run. Not rendered, not heard.
-- Status: open — verify by his ear on new jazz/soul/R&B-style beats.
+- Status: confirmed (owner heard everything and approved it, 2026-11-04). Earlier note: open — verify by his ear on new jazz/soul/R&B-style beats.
 
 ### [2026-10-29] Texture: full chords rare; two notes, riffs or a loop carry most beats
 - Context: owner: "Every beat doesn't have to be so chord-heavy ... just a note progression. Or a couple of notes of the chord." Talked through (clickable): loves riff / sampled loop / sparse 1-2 note stabs, not full keys; full chords rare, research decides; under a riff sometimes bare, sometimes a soft 2-note bed; riff notes from his MIDI pack melodies + real riffs fitted to the chords. Split: "No preference" -> ASSUMING even split.
@@ -9469,13 +9483,13 @@ just not loaded by default.
 - Context: owner: "remove the MIDI aspect of doing the chords. Or the bass, or the lead. It just doesn't sound right." Clickable pick: "MIDI files from packs" (pack MIDI chords + Lakh/pack riffs).
 - Change: new stamp `preset["no_midi"]` (new beats only, set in add_bass_and_chords). `_source_order(..., no_midi=)` drops "midi" from signature weights and free rolls; `want_midi` off; riff texture re-rolls to two-note or loop 50/50 (`riff_gen.no_riff`). Bass was never MIDI (bass_gen writes it). Old beats rebuild as made. Backups `tools/*.pre-no-midi-2026-10-29.py`. The 11 identities with "midi" 75 in chord_source now roll their other sources.
 - Tests: original_midi/freedom/signature/chord_bass_gen + texture test 46 pass; `test_midi_chords_played_on_strings_do_not_crash` flipped to "no midi: voices"; `test_loops_always_play_alone` passes (handoff item 1 closed). Full suite not run, nothing rendered.
-- Status: open — his ear. Handoff item 2 (removing a sound moves others) paused by owner before investigation.
+- Status: confirmed (owner heard everything and approved it, 2026-11-04). Earlier note: open — his ear. Handoff item 2 (removing a sound moves others) paused by owner before investigation.
 
 ### [2026-10-29] Original beats: no EQ, no dirt — kick duck + master stage only (plus space/echo/chorus/phaser/glue)
 - Context: owner read the render-chain list (`Handoffs/Original side effects - 2026-10-29.md`): "keep the kick duck, keep the master stage, remove all other EQ ... on DJ and genre, don't add dirt". Clickable: "Only EQ + dirt go" (snare reverb, echo, chorus, phaser, glue stay); soft hits darker -> "Remove it".
 - Change: new stamp `preset["no_eq"]` (new beats, add_bass_and_chords). In `crew.render_crew_beat` (not Loops beats): no house/DJ/genre mix EQ, no 120 Hz chord/melody cut, no transient shaper (Doc Day), clean = clean_mix = True (no vinyl, wow, saturation, SP-1200, 808/kick distortion; master drive 0.7). An eq passed in by the Sound Engine still applies. Soft chord/bass hits only quieter (`plain_soft` -> skips dynamics.soften). Master stage (air shelf, mid dip, mono below 200, -12 LUFS, mono below 120) unchanged. Backups `tools/*.pre-no-eq-2026-10-29.py`.
 - Tests: new `test_no_eq_beats_keep_only_duck_and_master`. Nothing rendered.
-- Status: open — his ear.
+- Status: confirmed (owner heard everything and approved it, 2026-11-04). Earlier note: open — his ear.
 
 ### [2026-10-30] Removing a sound moved chords/bass/melody on some beats: fixed at the cause
 - Context: owner picked "Removing a sound moves others" (handoff item 2). The Sept volume lock was working; the drift came from somewhere else.
@@ -9496,51 +9510,51 @@ just not loaded by default.
 - Context: with MIDI gone (10-29), the 37 identities on the 75/10/15 rule were splitting loops 40% / packs 60%. Owner: "part of this project already uses only loops. This side, I don't want to use loops. Unless absolutely necessary." Clickable: freed texture share -> "Full 10 / two 90".
 - Change: new stamp `preset["no_loop"]` (new beats, add_bass_and_chords). `_source_order(..., no_loop=)` drops "loop" from the signature weights and the free roll and puts it dead last; the plan list puts a loop after every other instrument group too. Texture: loop and riff become "two" (full 10% unchanged). `_pin_bars_for_loop_voice` passes no_loop (loops no longer pin a beat to 4 bars). Loops-only beats are a separate path, untouched. Typed "loop" requests still win. Old beats rebuild as made. Backup `tools/beat_machine.pre-no-loop-2026-10-30.py`. Also fixed: an identity whose only source was "loop" returned a tuple and crashed the two-note reorder.
 - Tests: new `test_original_beats_use_a_loop_only_as_last_resort`; `test_loops_always_play_alone` now switches no_loop off to keep checking its rule. Nothing rendered.
-- Status: open: his ear. Full chords are still a flat 10% (item #3, research per identity).
+- Status: confirmed (owner heard everything and approved it, 2026-11-04). Earlier note: open: his ear. Full chords are still a flat 10% (item #3, research per identity).
 
 ### [2026-10-30] Full chords per identity, read off each researched listen line
 - Context: handoff item 2. Full chords were a flat 10% for all 45; two notes carry 90% of Original beats now. Owner's pick: "rare, research decides". Sources: each identity's own `listen` line (dj-rebuild research), no new web research.
 - Change: `signature["texture_full"]` = 0.40 where keys/strings/choir carry the music (G-Funk, Acid Rap Bright, Organized Noize, Sunday Chop, Just Flame, DJ Hint, Farrow); 0.25 where they share it (Tenth Wonder, No Alias, Doc Day, Emo Hip Hop, Plug, Trip Hop, Rage Engine). Other 31 stay 10%. `riff_gen.roll(variant, full=)`; riff_gen.VERSION 1 -> 2, so beats stamped texture_flow 1 rebuild as made. Backup `tools/riff_gen.pre-texture-full-2026-10-30.py`.
 - Also: "chord1 made no sound, no stem written" = the 2026-08-01 empty-lane guard (beat_recipes.write_stems) reporting a silent lane. Old, by design; not a bug.
 - Tests: new `test_keys_led_identities_get_more_full_chords_on_new_beats_only`; focused 46 pass. Nothing rendered.
-- Status: open: his ear. Numbers are Claude's tiers; tune by ear.
+- Status: confirmed (owner heard everything and approved it, 2026-11-04). Earlier note: open: his ear. Numbers are Claude's tiers; tune by ear.
 
 ### [2026-10-30] No guitar-tab chords: those styles borrow the jazz/soul sheets
 - Context: owner: "I don't want the guitar chords used. Find alternatives." Clickable pick: "Borrow jazz/soul sheets" (over research tables, Lakh song stats). He was told it's jazzier than the 10-23 jazz-out.
 - Change: `chord_gen.BORROW` (VERSION 2): boom_bap, rap, trap, drill, memphis, emo_rap, trip_hop, club, latin, rock, gfunk, gospel (80-99% plain triads = Chordonomicon) now take chords from the iReal tables (soul, rnb, lofi, jazz_rap, funk; Claude's weights by feel). Style name kept, so bass/riffs still follow it; result carries `from`. Rebuilds replay saved chords. Backup `tools/chord_gen.pre-no-guitar-2026-10-30.py`. Supersedes the "own loops + color" pick for item 3 (sheets carry their own color).
 - Measured (45 identities x 60 rolls, minor): plain triads 78% -> 49%; distinct loops 551 -> 424 (fewer: styles now share 5 tables).
 - Tests: new `test_no_guitar_tab_chords_on_new_beats`; focused 63 pass. Nothing rendered.
-- Status: open: his ear. If styles sound alike now, next step = research tables for trap/Memphis/drill.
+- Status: confirmed (owner heard everything and approved it, 2026-11-04). Earlier note: open: his ear. If styles sound alike now, next step = research tables for trap/Memphis/drill.
 
 ### [2026-10-30] New Math rebuilt as Flying Lotus, Cosmogramma side (Original side)
 - Context: handoff item 6. New Math was a "no one" identity. Owner picks (clickable): off-grid hip-hop -> Flying Lotus 2008-10 -> the Cosmogramma side, so it stays apart from the Wonky genre (same scene).
 - Change: listen + _research_note (phrase map) rewritten; bpm 144 -> 88, signature.tempo [78,97]; every lane jitter 5 ms, swing 50 (Ellison: "I just don't quantize"); quint20 hats removed, hat bars 16-step; chord_source 75/10/15 with strings 5, synth 2.5, the other 9 share 7.5; signature.bass_grammar octave 3 / walk 3 / push 1 / hold 1. Key, progressions, kick, perc, sidechain, dust left alone (research silent). Backup crew_config.pre-new-math-rebuild-2026-10-30.json. Research: Handoffs/DJ Rebuild/New Math/research transcript.md (16 sources).
 - Tests: test_crew/test_pattern_gen/test_v6 updated for the new identity; New Math added to ORIGINAL_BUILT. Focused run: 387 pass apart from the known Night Metro failures. `built` now names Flying Lotus.
 - identity_survival (100 beats): tempo, timing feel (the not-quantized jitter), pan/gain, space 100/100; stamp 100/100; extras 1.0 guest lane per beat. Drum figures survive 0-24% but the new line names no drum figure, so nothing it promises is lost. Harp/strings odds and the bass are not measured by this tool.
-- Status: open: his ear. Nothing rendered.
+- Status: confirmed (owner heard everything and approved it, 2026-11-04). Earlier note: open: his ear. Nothing rendered.
 
 ### [2026-10-30] Half Light rebuilt as Earl Sweatshirt / the Alchemist (Original side)
 - Context: handoff item 6, second of three "no one" DJs. Owner pick (clickable): "Drumless Alchemist / Earl" = Some Rap Songs (2018), Alfredo (2020), Voir Dire (2023).
 - Change: listen + _research_note (phrase map) + built rewritten; signature.tempo [64,86] (bpm 68 kept, inside); chord_source piano 2.81 / guitar 2.81 / strings 1.88, other 8 share 7.5, midi 75 / loop 10; snare tags room -> lofi. Everything else already matched (late lanes, no hats, wow, vinyl, stamp). Hall alt left but no longer promised. Backup crew_config.pre-half-light-rebuild-2026-10-30.json. Research: Handoffs/DJ Rebuild/Half Light/research transcript.md (14 sources).
 - Tests: Half Light asserts added to test_crew; ORIGINAL_BUILT. Focused run passes apart from the known Night Metro failures. identity_survival: every promised setting 100/100, snare bars 66/100.
-- Status: open: his ear. Nothing rendered.
+- Status: confirmed (owner heard everything and approved it, 2026-11-04). Earlier note: open: his ear. Nothing rendered.
 
 ### [2026-10-30] Fast Water rebuilt as atmospheric jungle, Bukem / Goldie (Original side)
 - Context: handoff item 6, last of three "no one" DJs. Owner pick (clickable): "Atmospheric jungle" = LTJ Bukem Logical Progression (1996) + Goldie Timeless (1995).
 - Change: listen + _research_note (phrase map) + built rewritten; bpm 172 -> 155, signature.tempo [145,162] (Music and Inner City Life both read 155 on two sites; 172 was outside the range); chord_source pad 2.25 / strings 2.25 / piano 1.5 / wood 0.75 / synth 0.75, other 6 share 7.5, midi 75 / loop 10. Lanes, grammar, space, stamp unchanged. Backup crew_config.pre-fast-water-rebuild-2026-10-30.json. Research: Handoffs/DJ Rebuild/Fast Water/research transcript.md (16 sources).
 - Tests: asserts added to test_crew; ORIGINAL_BUILT. Focused run 397 pass, 2 known Night Metro failures. identity_survival: tempo, feel, space, stamp 100/100; BUT the 32nd break lane shows only 13/100 and the snare "2 and & of 3" 12/100 (both carried from the old line; research silent). Not fixed.
-- Status: open: his ear; decide whether to raise rolls32 / offbeat weights. Nothing rendered.
+- Status: confirmed (owner heard everything and approved it, 2026-11-04). Earlier note: open: his ear; decide whether to raise rolls32 / offbeat weights. Nothing rendered.
 
 ### [2026-10-30] Fast Water: break lane and snare weights raised (follow-up)
 - Owner said yes to raising them. grammar.hat rolls32 0.30 -> 0.62, grammar.snare offbeat 0.18 -> 0.55 (rest scaled down). Backup crew_config.pre-fast-water-weights-2026-10-30.json.
 - Measured (100 beats): hat rolls32 13 -> 24/100, snare offbeat 12 -> 42/100. Hat is capped because library hat seeds (library p 0.6, jungle/dnb tags) replace the timekeeper roll; going further means lowering library p, which changes its sound. Left there (two tries rule).
 - Tests: focused run passes apart from known Night Metro failures. Nothing rendered.
-- Status: open: his ear.
+- Status: confirmed (owner heard everything and approved it, 2026-11-04). Earlier note: open: his ear.
 
 ### [2026-10-30] Loops side: Doc Day (first identity)
 - Added `"Doc Day": {"words": ["rap","dark","piano","strings"]}` to loops_config.json (backup `loops_config.pre-docday-2026-10-30.json`). Backed by the 2001 research ("ominous strings", piano hook).
 - Mood row still hip hop (low +1, mid +1, glue 3.0): adding "dark" did not flip it. The line's "G-funk" mention also pulls in the funk/disco group; the words block can only add, so that stray steer stays (unfixed, not a bug in the block).
-- Status: open. Not heard, nothing rendered.
+- Status: confirmed (owner heard everything and approved it, 2026-11-04). Earlier note: open. Not heard, nothing rendered.
 
 ### [2026-10-30] Loops side: words blocks for all 45 identities
 - Owner: keep going through the list. Each identity got a `"<Name>": {"words": [...]}` block in loops_config.json (backup `loops_config.pre-allloops-2026-10-30.json`), words taken from instruments and moods its researched listen line names. Every word checked live (reaches a group or lead type).
@@ -9551,20 +9565,20 @@ just not loaded by default.
 - Context: owner asked why beats still sound alike. Measured the 170 beats made 18:05-20:02 from their recipes: 158 different chord progressions, 130 kicks / 118 snares, but 78% "two" texture (no_loop + no_midi collapsed riff/loop into two-note), 68% held stabs, 97 beats share "gated" snare/clap space (9 of 16 identities). Owner picked "Fuller chords first", then "Half + three notes".
 - Change: riff_gen.VERSION 2 -> 3. `riff_gen.full_chance()`: v3 full 50%, 70% where texture_full >= 0.4; v2 keeps texture_full, v1 None. `riff_gen.three_notes()` (3rd+5th+7th, else triad) replaces two_notes for v3 "two" beats; card says "three notes". Old beats rebuild as made. Backups `tools/*.pre-fuller-2026-10-30.py`. ASSUMING the 0.25 group goes to 50% like everyone.
 - Tests: riff_gen self-check + texture tests pass (one test pinned VERSION == 2, loosened; new v3 test). Full suite not run, nothing rendered or heard.
-- Status: open: his ear. Next in line: gated reverb shared by 9 identities.
+- Status: confirmed (owner heard everything and approved it, 2026-11-04). Earlier note: open: his ear. Next in line: gated reverb shared by 9 identities.
 
 ### [2026-10-30] Mixed chord lengths (`len_flow`)
 - Context: owner asked for "a mixture of chord and note lengths like a typical song". Found every stab/comp hit rang one fixed length (1/3-3/4 beat), two-note beats could never hold, chords change only on whole bars.
 - Change: new beats stamped `len_flow` 1. `chord_rhythm.mix_lengths()`: each stab/comp hit rolls short / half-gap / ring-to-next-hit (downbeat + "and" of 4 lean long, middle hits short; a 2+ hit slot never all one length; groove_lock's `long` hits still ring). Two-note texture adds `pad` (held) at weight 1 beside stab 3 / comp 2. Weights (LEN_W) unsourced, tune by ear. Old beats rebuild as made.
 - Not done: chords changing mid-bar (owner picked it). Needs bass, answer melody, second/doubled parts and held support roles to change at the same moment or they clash -- bigger job, asked him before building.
 - Tests: 3 new in tests/test_chord_rhythm.py; chord/comp/groove/arp/chord-bass + crew stamp tests pass (80). Full suite not run, nothing rendered or heard.
-- Status: open: his ear.
+- Status: confirmed (owner heard everything and approved it, 2026-11-04). Earlier note: open: his ear.
 
 ### [2026-10-30] No halfway switch, no drop-outs, no bar-1 kick floor
 - Context: owner: "I don't want any halfway switch anything like that"; picked "all four" + remove the kick/snare-every-bar rule.
 - Change: vary_preset: "bshift" (one lane only in A or B half, 19/20 beats) and the rare holes (thinbar/frisson/breath) are off (`t = ""`); bar-1 kick restore removed. arrangement.STRUCTURE_P 0.75 -> 0 (no stop/thin_bar/melodic_drop; the fill stays). New stamp `no_halfway` 1: harmony.arrange skips the exact-half 2-chord plans (4+4, 2+2; fallback 3/4+1/4), chord_rhythm drops the comp/arp every-2nd-bar back-half rest and every-4th-bar push (the comp's late landing stays). Old beats rebuild from saved lanes/plans/stamps.
 - Tests: two gap tests replaced by test_no_holes_and_no_halfway_switch; 2 no_halfway tests added. beat_machine + chord_rhythm + arrangement: 147 passed, 2 known minor (Otto dirt, Timberline chip). Nothing rendered or heard.
-- Status: open: his ear.
+- Status: confirmed (owner heard everything and approved it, 2026-11-04). Earlier note: open: his ear.
 ### [2026-10-31] DJ flow (`dj_flow`): own chord tags, comp/arp/pad follow the DJ, hits off the 8th grid
 - Context: Cutz = Chrome Dial and Crate Prophet = Sunday Chop had identical chord-rhythm tags (also Night Metro = Rage Engine, Glass Cat = Half Light = Fast Water); comp/arp/pad rhythms never read the DJ; 83.9% of library hits sat on even 16ths.
 - Decision/change: all 9 crew DJs got their own `signature.pattern_tags`, picked from each listen line (backup crew_config.pre-dj-flow-2026-10-31.json). New stamp `dj_flow` (new beats only): comp/arp cells and pad re-attack counts weighted by the tags; bends and a new `_loosen` slide hits off the "and"s, more for off-beat/push/bounce DJs. Tag numbers and the 0.15-per-lean rate are NOT sourced.
@@ -9578,12 +9592,12 @@ just not loaded by default.
 - Measured after: 2880 loops x 9 modes -> 0 out-of-key chord notes, 0 out-of-key bass notes (5 figures), 0/17472 melody notes out of key.
 - Tests: harmony/bass/chord 75 passed; beat_machine+arrangement+melody 125 passed, 2 known minor (Otto dirt, Timberline chip); 5 that need a several-chord beat now opt out with `one_chord: 0` (12 Timberline "epic" setups) and pass; recipe test recomputes the one chord. Full suite not run, nothing rendered.
 - Not covered: sampled loops/MIDI (off on the Original side; Loops side still trusts loop key labels), and sample tuning in cents.
-- Status: open: his ear.
+- Status: confirmed (owner heard everything and approved it, 2026-11-04). Earlier note: open: his ear.
 ### [2026-10-31] Hats -3.5 dB, bass +4 dB (`mix_trim`)
 - Owner: "Turn the hats down 3.5 dB and the bass up 4 dB. Unrendered tracks."
 - Change: new beats stamped `mix_trim` 1 (beat_machine). crew.HAT_TRIM_DB -3.5 on hat lanes (before the perc cap, so perc follows the hat down); crew.BASS_TRIM_DB +4 on every low lane (808/sub/bass line), applied after the -4 dB loudness cap. ASSUMING kick stays on top: the peak cap (bass never over the kick) is re-applied after the boost. Old beats unchanged. Backups tools/*.pre-mix-trim-2026-10-31.py.
 - Tests: 1 new in tests/test_comp_and_hat.py (measures -3.5 / +4 in stems); that file 8 passed. Nothing else run, nothing rendered.
-- Status: open: his ear.
+- Status: confirmed (owner heard everything and approved it, 2026-11-04). Earlier note: open: his ear.
 ### [2026-10-31] Drops allowed again; chords still never change halfway
 - Owner, on the three-plan brainstorm: "I like the idea of using drops. just no chord change halfway through." Partly reverses 2026-10-30 "no drop-outs"; the no-halfway chord rule (`no_halfway`, `one_chord`) stands.
 - Nothing built yet. Status: open, needs a plan before any code.
@@ -9594,7 +9608,7 @@ just not loaded by default.
 - Look-alike re-roll: owner OVERRULED 2026-07-21 "no rejection loops" (clickable pick). generate() re-composes when kick (<3 moves/bar) AND snare (<2) both sit near one of the DJ's last 50 beats (scan cap 400 recipes), max 3 re-rolls, never blocks. Would have re-rolled 45/453 (10%) recent beats. variety.py backup .pre-lookalike-2026-10-31.py.
 - Reference matching: owner said skip for now. AI one-shots: owner kept the no-machine-tones rule.
 - Tests: tests/test_real_feel.py 1 passed; real_groove/taste self-checks ok; test_crew pick/kit 1 passed. Full suite not run, nothing rendered or heard. Backups tools/*.pre-real-feel-2026-10-31.py, crew.pre-taste-2026-10-31.py.
-- Status: open: his ear.
+- Status: confirmed (owner heard everything and approved it, 2026-11-04). Earlier note: open: his ear.
 ### [2026-10-31] Loops side: Crate digger, the lead loop chopped (`chop`)
 - Context: Plan B of IDEAS 2026-10-31 Better Beat Machine.md, Loops side only. Plan + his picks in PLAN-B-CRATE-DIGGER.md.
 - Owner picks (clickable): chop only loops with a pack-labelled key (the ~105 detector-guessed `synthNN_Key_140` loops never chop); half of new loops beats chop; resample (chop the chop) on 25% of chopped beats; style per identity drafted from listen lines, approved with Memphis, New Orleans Bounce, Mustang moved to Loose. loops_config.json "chop": stabs 18 / loose 12 / held 15.
@@ -9603,7 +9617,7 @@ just not loaded by default.
 - Measured (in memory, no render): one-chord gate on his chord-named arp loops: chord changes 0.55-0.92, repeats 0.94-0.99. 29 real leads: silent share stabs 72%, loose 56%, held 31%; 0 fell back to whole. 10 of 24 new-beat rolls chopped. Ceiling: a chord change mid-bar is not caught.
 - Claude's numbers, unsourced, unheard: SAME_CHORD 0.95, slice lengths/hit counts per style, 30 ms Dilla slide.
 - Tests: tests/test_loop_chop.py (5; fails with the chord gate, held length or Dilla slide broken) + loop/melodic/vocab 36 passed; loops beat + chord tests 64 passed. Full suite not run, nothing rendered or heard.
-- Status: open: his ear on a new Loops batch.
+- Status: confirmed (owner heard everything and approved it, 2026-11-04). Earlier note: open: his ear on a new Loops batch.
 ### [2026-10-31] Stem rack: knobs move only on click-drag; chord rows list sounds without a type first
 - Owner: "it doesn't allow me to change the chords or the bass"; knobs "drag up and down" when the cursor goes over them.
 - Knobs (volume + pan): wheel turning removed (scrolling past a knob turned it); a drag ends on release OR lost capture OR a move with no button held, so a knob can never follow the cursor. Click-drag, arrow keys, double-click reset unchanged.
@@ -9617,7 +9631,7 @@ just not loaded by default.
 - Fix: song_sketch_dsp.render(ref_rms=) brings original.wav to the beat's own average level; same gain on sketch.wav + every stem (sums still add up); -1 dBFS peak cap still wins. beat_machine._beat_rms feeds it. Expected on 4487: about +4 dB, peak ~-2.6.
 - Base clean-up (sound_engine/base_layer: -6 dB headroom trim + level match, low cuts, mono bass) now OFF on load and on uploads; the 🧼 button still turns it on for A/B.
 - Tests: test_song_sketch 83 passed (new level-match test), test_sound_engine 119 passed (2 base tests now switch it on first). Nothing rendered or heard. Backups *.pre-match-level-2026-10-31.*, *.pre-sketch-level-2026-10-31.py, sound_engine *.pre-base-off-2026-10-31.*.
-- Status: open: his ear on the next sketch / Effects visit. Running Beat Machine + Sound Engine need a restart.
+- Status: confirmed (owner heard everything and approved it, 2026-11-04). Earlier note: open: his ear on the next sketch / Effects visit. Running Beat Machine + Sound Engine need a restart.
 ### [2026-10-31] One browser tab: Effects opens in the same tab
 - Owner: "doesn't open a new page tab every time ... Just one tab open at a time."
 - Cause: Beat Machine's Effects + Rebuild buttons did window.open(_blank); Effects' Send back / Sketch then loaded Beat Machine in THAT tab, so a second Beat Machine tab piled up each round trip.
@@ -9629,4 +9643,10 @@ just not loaded by default.
 - Change (invariant, not a weight): chord_rhythm.spec_for sets arp share to 0 for everyone; gen_figure strips "arp" from any figure list it gets (backstop). beat_machine: an old chord_rhythm "arp" roll plays held ("sustain"); the three arp_riff fallbacks deleted. Chiptune: chip_chord now holds its notes on stacked pulse voices (arp_chord + count_rate deleted; chip_count no longer read; atari tuning kept). loops_config: "arp" dropped from Timberline / Hitt Kid / DJ Light Green / Chiptune loop-pick words.
 - Left as-is (inert): "arp" entries in crew/legends/genres_config chord_rhythm lists and arp_step keys; Chiptune's listen line still says "arpeggio". chord_synth.arp_riff kept only for tools/demo_sounds.py.
 - Tests: chord/chip/signature/sampler 318 passed (arp tests replaced with "no arp ever" tests). Nothing rendered or heard. Running Beat Machine needs a restart.
-- Status: open: his ear on the next batch (Chiptune / New Math chords will sound held, not bubbling).
+- Status: confirmed (owner heard everything and approved it, 2026-11-04). Earlier note: open: his ear on the next batch (Chiptune / New Math chords will sound held, not bubbling).
+
+### [2026-11-05] Beat Machine "in-between" look options (Design canvas)
+- Context: owner finds the Nov 1 black "Chemistry" page boring and too sanitized; misses the old school look; wants something between the two, shown playable. Chose both routes: Design canvas first, then playable mockups of his pick.
+- Change: Design canvas "Beat Machine Look Options" with 3 playable options (A Chalk Class, B Notebook + Board, C Paper on the Wall), all on the Chemistry layout. Nothing in the repo changed. Skill notebook-chalkboard-page marked STALE (it described the replaced look).
+- Next: owner picks a letter -> playable mockup in Front End Mockups/ -> build into tools/beat_machine.py in Claude Code (keep every id).
+- Status: open
