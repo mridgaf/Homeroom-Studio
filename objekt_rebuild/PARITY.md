@@ -1,3 +1,5 @@
+> Historical baseline below. For the expanded 2026-11-06 VST and current validation, see EXPANDED-BUILD.md. Earlier pluginval/host results do not validate this new build.
+
 # Reconstruction Parity Ledger
 
 Legend: **implemented**, **approximation**, **not implemented**, **requires reference unit**.

@@ -1,1 +1,5 @@
-ALERT - BLOCKED 2026-11-05: Chrome loop-site tab group (Looperman + Freesound) not visible to the session; re-checked for 20 min; no downloads done. Open the loop-site window and log in, then the next run will resume.
+ALERT - LOOPERMAN GETTING LOW: found 45 new loops, reached page 10 of 15. Next: widen the sort (newest or a category filter) or stop the Looperman part.
+Filed 44 Looperman loops: Melody 31, Chords 3, Drums 4, Vocals 6, Bass 0. 1 skipped (soundscapes, left in Downloads for you to judge).
+Second Looperman profile: not logged in on this Chrome, not run.
+Freesound: NOT RUN. Chrome refused site access to freesound.org. Allow it in Chrome and the next run resumes.
+Full details: BOTC Sorted Loops/SORTING-LOG-daily.txt

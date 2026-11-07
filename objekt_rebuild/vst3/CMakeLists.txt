@@ -30,6 +30,10 @@ target_link_libraries(objekt_processor_tests PRIVATE objekt_dsp juce::juce_audio
 target_compile_definitions(objekt_processor_tests PRIVATE JUCE_WEB_BROWSER=0 JUCE_USE_CURL=0)
 add_test(NAME objekt_processor_tests COMMAND objekt_processor_tests)
 
+# Keep assert-based validation active in Release builds.
+target_compile_options(objekt_engine_tests PRIVATE -UNDEBUG)
+target_compile_options(objekt_processor_tests PRIVATE -UNDEBUG)
+
 juce_add_plugin(ObjektRebuild
     VERSION 0.1.0
     COMPANY_NAME "Homeroom Studio"
@@ -54,3 +58,18 @@ target_compile_definitions(ObjektRebuild PRIVATE
     JUCE_USE_CURL=0
     JUCE_VST3_CAN_REPLACE_VST2=0
 )
+
+add_executable(objekt_modulation_tests tests/ModulationTests.cpp)
+target_include_directories(objekt_modulation_tests PRIVATE src)
+target_compile_options(objekt_modulation_tests PRIVATE -UNDEBUG)
+add_test(NAME objekt_modulation_tests COMMAND objekt_modulation_tests)
+
+add_executable(objekt_effects_tests tests/EffectsTests.cpp)
+target_include_directories(objekt_effects_tests PRIVATE src)
+target_compile_options(objekt_effects_tests PRIVATE -UNDEBUG)
+add_test(NAME objekt_effects_tests COMMAND objekt_effects_tests)
+
+add_executable(objekt_tuner_tests tests/TunerTests.cpp)
+target_include_directories(objekt_tuner_tests PRIVATE src)
+target_compile_options(objekt_tuner_tests PRIVATE -UNDEBUG)
+add_test(NAME objekt_tuner_tests COMMAND objekt_tuner_tests)

@@ -1,3 +1,5 @@
+> Historical baseline below. For the expanded 2026-11-06 VST and current validation, see EXPANDED-BUILD.md. Earlier pluginval/host results do not validate this new build.
+
 # Objekt Clean-Room Rebuild
 
 A working, from-scratch physical-modeling synthesizer inspired by the published architecture of Reason Studios' Objekt.

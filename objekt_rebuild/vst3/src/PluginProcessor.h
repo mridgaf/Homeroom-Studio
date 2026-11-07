@@ -2,6 +2,7 @@
 
 #include <juce_audio_utils/juce_audio_utils.h>
 #include "ObjektEngine.h"
+#include <array>
 
 class ObjektRebuildAudioProcessor final : public juce::AudioProcessor
 {
@@ -42,6 +43,9 @@ private:
     objekt::Engine engine;
     juce::AudioProcessorValueTreeState parameters;
     int currentProgram = 0;
+    bool sustainDown = false;
+    float pitchWheel = 0, channelPressure = 0, modWheel = 0;
+    std::array<bool, 128> deferredRelease {};
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ObjektRebuildAudioProcessor)
 };

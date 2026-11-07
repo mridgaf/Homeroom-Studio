@@ -1,0 +1,48 @@
+{
+  "Name": "Objekt Rebuild",
+  "Version": "0.1.0",
+  "Factory Info": {
+    "Vendor": "Homeroom Studio",
+    "URL": "",
+    "E-Mail": "",
+    "Flags": {
+      "Unicode": true,
+      "Classes Discardable": false,
+      "Component Non Discardable": false,
+    },
+  },
+  "Classes": [
+    {
+      "CID": "ABCDEF019182FAEB486D526D4F625231",
+      "Category": "Audio Module Class",
+      "Name": "Objekt Rebuild",
+      "Vendor": "Homeroom Studio",
+      "Version": "0.1.0",
+      "SDKVersion": "VST 3.8.0",
+      "Sub Categories": [
+        "Instrument",
+        "Synth",
+      ],
+      "Class Flags": 2,
+      "Cardinality": 2147483647,
+      "Snapshots": [
+      ],
+    },
+    {
+      "CID": "ABCDEF011234ABCD486D526D4F625231",
+      "Category": "Component Controller Class",
+      "Name": "Objekt Rebuild",
+      "Vendor": "Homeroom Studio",
+      "Version": "0.1.0",
+      "SDKVersion": "VST 3.8.0",
+      "Sub Categories": [
+        "Instrument",
+        "Synth",
+      ],
+      "Class Flags": 2,
+      "Cardinality": 2147483647,
+      "Snapshots": [
+      ],
+    },
+  ],
+}
