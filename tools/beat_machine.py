@@ -2376,7 +2376,7 @@ def _limit_loop_pool(pool, sig, key, variant):
 
 def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
                   allow_basses=None, bass808=None, bass_line=True,
-                  bass_pick=None, exact=None):
+                  bass_pick=None, exact=None, melody_pick=None):
     """Every chord lane's audio: key, progression, and voice (strings vs
     sampled loop vs synth pad), per the DJ's `signature` (or the old
     identity-blind default without one).
@@ -3647,7 +3647,8 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
             floor=max(s["top"] for s in _mslots), diet=_diet,
             allow_bell=any(r[0] == "bell" and r[1] for r in
                            (sig.get("chord_source") or [])
-                           if isinstance(r, (list, tuple))))
+                           if isinstance(r, (list, tuple))),
+            want=melody_pick)
         if _ments and _mhits:
             _mhits = [(b, st, ch, n + _mshift) for b, st, ch, n in _mhits]
             _end = int(round(nb * bar_s * instrument_sampler.SR))
@@ -3687,6 +3688,15 @@ def _build_chords(preset, kit, sources, variant, dirs, vnotes, voice=None,
                          int(min(127, max(1, round(127 * v)))))
                         for t, d, n, v in mnotes]
                 melody_info = {"instrument": _mname,
+                               "pick": melody_pick,
+                               "raw_notes": [n - _mshift for _b, _s, _c, n
+                                             in _mhits],
+                               "floor": max(s["top"] for s in _mslots),
+                               "diet": _diet,
+                               "allow_bell": any(
+                                   r[0] == "bell" and r[1] for r in
+                                   (sig.get("chord_source") or [])
+                                   if isinstance(r, (list, tuple))),
                                "group": _ments[0]["group"],
                                "notes": [list(h) for h in _mhits]}
                 vnotes.append("melody: %d notes on %s"
@@ -4858,12 +4868,15 @@ def swap_many(number, picks, root=ROOT, shots=None, status=lambda msg: None,
     # first. Only the chord family takes one: the bass line is his to
     # play (2026-07-29), so its lanes are never rendered.
     chord_voice = chord_exact = None
-    bass_pick = None
+    bass_pick = melody_pick = None
     for fam in [f for f in list(picks) if _family_members(f, all_lanes)]:
         want = picks.pop(fam)
         if fam == MELODY_FAM:
-            raise ValueError("The melody's instrument can't be swapped yet "
-                             "— turn it down or remove it.")
+            if want and want not in {c["path"] for c in
+                                     _lane_candidates(number, fam, root=root)}:
+                raise ValueError(f"'{want}' can't play this beat's melody.")
+            melody_pick = want or None
+            continue
         if fam == CHORD_BASS_FAM:
             # the bass row lists his real bass FILES (owner 2026-09-26),
             # and the pick is one of them -- never a chord voice
@@ -4917,7 +4930,8 @@ def swap_many(number, picks, root=ROOT, shots=None, status=lambda msg: None,
         preset["allow_dirt"] = True    # crew.render_crew_beat's own switch
         preset["fx_stems"] = True      # ...and onto every stem, not just the mix
     if (not picks and not trims and not pans and not drops
-            and not chord_voice and not bass_pick and not fx and not _learn):
+            and not chord_voice and not bass_pick and not melody_pick
+            and not fx and not _learn):
         raise ValueError("Nothing to change — pick a different sound, "
                          "move a volume slider, or remove a stem first.")
     for lane in drops:
@@ -4930,7 +4944,8 @@ def swap_many(number, picks, root=ROOT, shots=None, status=lambda msg: None,
             ln: g for ln, g in (lock.get("lane_gains") or {}).items()
             if ln not in _changed
             and not (chord_voice and ln.startswith("chord"))
-            and not (bass_pick and _CHORD_BASS_LANE.match(ln))})
+            and not (bass_pick and _CHORD_BASS_LANE.match(ln))
+            and not (melody_pick and _MELODY_LANE.match(ln))})
     if fx:                   # the effects button re-voices everything:
         lock = None          # it gets levelled fresh, then locked anew
     # bake the trims into this beat's own gains. The child recipe stores
@@ -5078,6 +5093,8 @@ def swap_many(number, picks, root=ROOT, shots=None, status=lambda msg: None,
                           preset, kit, chord_sources, rec["variant"],
                           _dirs, [], voice=play_voice, bass_pick=_bp,
                           exact=play_exact,
+                          melody_pick=(melody_pick or ((rec.get("harmony")
+                                       or {}).get("melody") or {}).get("pick")),
                           # beats made since 2026-09-23 (the key exists
                           # even when None) never let the strings' basses
                           # play; older beats rebuild the way they were made
@@ -5090,10 +5107,17 @@ def swap_many(number, picks, root=ROOT, shots=None, status=lambda msg: None,
             for lane in drops:
                 preset["lanes"].pop(lane, None)
                 kit.pop(lane, None)
+            # a picked instrument plays the chords as ONE part, so the old
+            # layers (chord0v1…) are gone: their lanes must go too, or the
+            # render looks up audio that was never built (KeyError)
+            for lane in [ln for ln in preset["lanes"]
+                         if _chord_family(ln) and ln not in kit]:
+                preset["lanes"].pop(lane, None)
 
         lanes = sorted(picks)
         what, changed = _change_words(
-            lanes + (["bass"] if bass_pick else []), trims, drops,
+            lanes + (["bass"] if bass_pick else [])
+            + (["melody"] if melody_pick else []), trims, drops,
             chord_voice, fx)
         status(f"Re-rendering beat {number} with the new {changed}…")
         L, R, lufs, parts = render_crew_beat(names[0], kit, space=rec["space"],
@@ -5105,6 +5129,10 @@ def swap_many(number, picks, root=ROOT, shots=None, status=lambda msg: None,
     if _learn:                 # the unchanged beat's volume setting
         return parts["lock"]
     if render_only and solo:   # one row's new sound on its own (audition)
+        # a picked instrument merges layered chord rows into one part
+        if (chord_voice and solo.startswith(CHORD_FAM) and solo != CHORD_BASS_FAM
+                and not _family_members(solo, list(parts["stems"]))):
+            solo = CHORD_FAM
         got = [parts["stems"][ln] for ln in
                (_family_members(solo, list(parts["stems"])) or [solo])
                if ln in parts["stems"]]
@@ -5166,6 +5194,15 @@ def swap_many(number, picks, root=ROOT, shots=None, status=lambda msg: None,
             **(_h.get("voice_files") or {}),
             **{ln: fs for ln, fs in bass_rebuilt["voice_files"].items()
                if _CHORD_BASS_LANE.match(ln)}}
+        rec2["harmony"] = _h
+    if melody_pick and bass_rebuilt:   # ...and its melody instrument
+        _h = dict(rec2.get("harmony") or {})
+        _h["melody"] = bass_rebuilt.get("melody") or _h.get("melody")
+        for k in ("voice_files", "voice_names"):
+            _h[k] = {**{ln: v for ln, v in (_h.get(k) or {}).items()
+                        if not _MELODY_LANE.match(ln)},
+                     **{ln: v for ln, v in (bass_rebuilt.get(k) or {}).items()
+                        if _MELODY_LANE.match(ln)}}
         rec2["harmony"] = _h
     if chord_voice and bass_rebuilt:   # ...and its chord instrument
         _h = dict(rec2.get("harmony") or {})
@@ -6094,9 +6131,8 @@ def _beat_stems(no, root=None, folder=None):
             # could only be levelled and removed.
             "can_swap": not (fam == CHORD_BASS_FAM
                              and (rec.get("harmony") or {}).get("bass808"))
-                        and fam != MELODY_FAM
                         and not rec.get("engine_fx"),
-            "voices": fam != MELODY_FAM,          # the dropdown lists instruments
+            "voices": True,                       # the dropdown lists instruments
             "why": why,
             "members": sorted(members, key=_lane_sort),
             "stem": bool(_stem_wav(no, members[0], root, folder=folder)),
@@ -6382,9 +6418,7 @@ def _chord_voices(rec=None, idx=None, sidx=None):
             out.append("strings")
     except Exception:
         pass
-    # a melodic loop is a finished riff in ONE file, so it never has a
-    # second instrument to fail on and never needs per-note coverage
-    out.append("loop")
+    # no "loop" voice: Original beats never offer or roll loops (owner 2026-11-06)
     return [{"path": g, "name": CHORD_VOICE_NAMES.get(g, g.title()),
              "pack": "your instruments", "current": False}
             for g in sorted(set(out), key=lambda g: CHORD_VOICE_NAMES
@@ -6479,6 +6513,40 @@ def _chord_choices(rec):
     return out
 
 
+def _melody_choices(rec):
+    """The melody row's dropdown: every instrument of his that plays the
+    tune's notes as written (owner 2026-11-06). Value = a melody_rhythm
+    instrument ref, which _build_chords gets back as melody_pick."""
+    import instrument_sampler
+    import melody_rhythm
+    m = (rec.get("harmony") or {}).get("melody") or {}
+    # a beat made before the melody row was swappable has no raw notes:
+    # use the printed ones (a pick that can't fit falls back to the default)
+    notes = sorted(set(m.get("raw_notes")
+                       or [h[3] for h in m.get("notes") or []]))
+    if not notes:
+        return []
+    current = m.get("pick")
+    out = []
+    for ref, es in melody_rhythm.covering(
+            instrument_sampler.scan(), notes, floor=m.get("floor"),
+            diet=m.get("diet"), allow_bell=m.get("allow_bell")):
+        e = es[0]
+        name = (e["multi"].split("/")[-1] + (" — " + e["art"] if e.get("art")
+                                             not in (None, "-", "") else "")
+                if e.get("multi") else Path(e["path"]).stem)
+        out.append({"path": ref, "name": name,
+                    "pack": _pack_of(e["path"]) or Path(e["path"]).parent.name,
+                    "type": TYPE_NAMES.get(e.get("group"), "Other"),
+                    "current": ref == current})
+    return sound_words_tag(out)
+
+
+def sound_words_tag(items):
+    import sound_words
+    return sound_words.tag(items, by="type")
+
+
 def _loop_type(e):
     """A loop's instrument for the Loops page's first dropdown: from its
     name, else its folder names, else "Unlabeled" (owner 2026-09-28)."""
@@ -6541,6 +6609,8 @@ def _lane_candidates(no, lane, shots=None, root=None):
               "current": e["path"] == current, "bpm": e.get("bpm"),
               "type": _loop_type(e) if typed else None}
              for e in pool], by="type")
+    if lane == MELODY_FAM and _family_members(lane, rec["preset"].get("lanes", {})):
+        return _melody_choices(rec)
     if _family_members(lane, rec["preset"].get("lanes", {})):
         if lane == CHORD_BASS_FAM:
             return sound_words.tag(_bass_files(rec))

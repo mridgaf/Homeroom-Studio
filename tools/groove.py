@@ -265,7 +265,7 @@ OWNER_TASTE = {
     # crew.render_crew_beat, the same way the snare bus has been governed
     # since 2026-07-18. This number is just the starting point that
     # normaliser works from, and the rack's dB arrows still move it.
-    "chord_gain": 0.30,          # starting point; the bus target below wins
+    "chord_gain": 0.30 * 10 ** (-5 / 20),   # owner 2026-11-06: chords + melody 5 dB quieter than 0.30; starting point, the bus target below wins
     # how far under the kick the whole harmonic bus lands. The old comment
     # on chord_gain always claimed "~10 dB under the kick" as the intent —
     # this is that intent, finally enforced instead of hoped for.

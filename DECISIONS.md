@@ -9655,3 +9655,9 @@ just not loaded by default.
 - Context: owner wants a lab + DJ turntable UI (sleeves pull out with DJ face, album onto turntable, bubbling green beaker while generating), anime style, no default fonts/colors. Said: make no decisions, do it all in a new session.
 - Change: `Handoffs/Turntable Lab UI/` (HANDOFF.md + 5 parts + START-HERE.md + reference copies of options A-F). Nothing built.
 - Status: open
+### [2026-11-06] Instrument swap fixes + melody swap + chords/melody −5 dB
+- Owner: instrument switch broken on the Original side; no loops in its instrument list or dice; melody row swappable; chords + melody 5 dB quieter.
+- Change: layered-chord swaps no longer crash (stale chord lanes dropped in swap_many); `"loop"` removed from `_chord_voices`; melody row swap (`melody_pick`, `melody_rhythm.covering`, `_melody_choices`); `OWNER_TASTE["chord_gain"]` 0.30 → 0.30·10^(−5/20) (new beats only; melody + G-Funk backing vox share it). ASSUMING "pluck, stab" = chord figures on the chord lane.
+- Verify: beats 4691/4689/4694 rebuilt in memory; 61 focused tests pass (1 order-dependent stem-rack test fails with or without). Nothing rendered to disk or heard; page not checked in browser.
+- Handoff: `Handoffs/Beat Engine Mix - NEXT SESSION 2026-11-06.md`
+- Status: open: his ear + restart server on 8770.

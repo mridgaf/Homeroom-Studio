@@ -305,8 +305,47 @@ def _covers(entries, notes, max_shift=MAX_SHIFT):
                for n in notes)
 
 
+def instrument_ref(key):
+    """The string a rack dropdown carries for an instrument key."""
+    return ("multi:%s|%s" % (key[1], key[2] or "-") if key[0] == "multi"
+            else "file:" + key[1])
+
+
+def covering(index, notes, floor=None, diet=False, allow_bell=False):
+    """[(ref, entries)] for every instrument pick_instrument could land on
+    for this phrase (same diet filter, same octave-shift rule): the melody
+    row's dropdown."""
+    voices = [g for g in VOICES if allow_bell or g != "bell"] if diet \
+        else VOICES
+    if diet:
+        index = [e for e in index
+                 if not any(w in ("%s %s" % (e.get("path", ""),
+                                             e.get("multi") or "")).lower()
+                            for w in NO_WORLD)]
+    out = []
+    for k, v in _instruments(index, voices).items():
+        for shift in (0, 12, -12, 24, -24):
+            ns = [n + shift for n in notes]
+            if floor is not None and min(ns) <= floor:
+                continue
+            if _covers(v, ns):
+                out.append((instrument_ref(k), v))
+                break
+    return out
+
+
 def pick_instrument(index, notes, avoid_groups, variant, floor=None,
-                    diet=False, allow_bell=False):
+                    diet=False, allow_bell=False, want=None):
+    got = _pick_instrument(index, notes, avoid_groups, variant, floor, diet,
+                           allow_bell, want)
+    if want and got[0] is None:       # his pick can't play it: the default
+        got = _pick_instrument(index, notes, avoid_groups, variant, floor,
+                               diet, allow_bell, None)
+    return got
+
+
+def _pick_instrument(index, notes, avoid_groups, variant, floor=None,
+                     diet=False, allow_bell=False, want=None):
     """(entries, octave_shift) for ONE instrument that plays every note
     within MAX_SHIFT of a recording, or (None, 0). Tries the phrase as
     written, then an octave up/down (the whole phrase, never one note).
@@ -328,6 +367,8 @@ def pick_instrument(index, notes, avoid_groups, variant, floor=None,
             continue
         insts = _instruments(index, groups)
         ok = {k: v for k, v in insts.items() if _covers(v, ns)}
+        if want:      # the instrument he picked in the rack, if it fits
+            ok = {k: v for k, v in ok.items() if instrument_ref(k) == want}
         if not ok:
             continue
         have = sorted({v[0]["group"] for v in ok.values()},
