@@ -88,6 +88,10 @@ PERC_LIKE = {"snap", "stamp", "bell", "cowbell", "rim", "tamb"}
 PERC_UNDER_DB = -6.2      # the HAT TIER only: hat, clap, snap (2026-08-31; -3.0 -> -6.2 owner 2026-10-24, "20% quieter" = -3.2 dB)
 FX_LANE_TRIM_DB = -3.2        # sound-effects lanes: "20% quieter" (owner 2026-10-10)
 FX_LANES = ("fx", "fxloop", "fxloop2", "airs")
+# owner 2026-11-07: percussion, snaps, clicks, chords, melody 2.5 dB quieter,
+# a flat lane gain after the governors (NEW beats; a saved beat keeps its lock)
+TRIM_2_5_DB = -2.5
+TRIM_2_5_LANES = ("perc", "rim", "bongo", "conga", "shaker", "tamb", "cowbell", "claves", "tabla", "wood", "bell", "tom", "club", "snap", "clicks", "chord", "melody")
 PUNCTUATION_UNDER_DB = -6.0  # crashes, impacts, risers — punctuation
 MELODIC_UNDER_DB = -6.0   # chords/bass: under the backbone AND the perc tier
 
@@ -1458,8 +1462,8 @@ def boom_bap_variant(bpm=94):
     import copy
     p = copy.deepcopy(CREW["New Math"])
     p["bpm"] = bpm
-    p["dust"] = 0.5
-    p["vinyl"] = -44
+    p["dust"] = 0.0
+    p["vinyl"] = 0
     p["kit"]["snare"] = ("snare", None, ["dusty", "vinyl", "lofi"], 1.0)
     p["kit"]["kick"] = ("kick", None, ["boom", "punch", "knock"],
                         (0.55, 0.9))
@@ -2562,6 +2566,13 @@ def render_crew_beat(name, kit, space=None, preset=None, want_parts=False,
             bufs[ln] = bufs[ln] * _fx_g
             if ln in wet_side:
                 wet_side[ln] = wet_side[ln] * _fx_g
+
+    _tg = 10 ** (TRIM_2_5_DB / 20.0)
+    for ln in bufs:
+        if ln.startswith(TRIM_2_5_LANES):
+            bufs[ln] = bufs[ln] * _tg
+            if ln in wet_side:
+                wet_side[ln] = wet_side[ln] * _tg
 
     # THE LOCK, per sound: a lane the edit didn't touch gets back the
     # level the rules gave it when the beat was made, so changing the kick

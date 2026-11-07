@@ -30,3 +30,17 @@ Read `DECISIONS.md` first (not the ARCHIVE). He commits himself.
 - Changes reach NEW beats only (a beat locks its saved settings).
 - Anything that changes how it sounds and isn't a clear match to the plan: ask him, clickable options, recommendation first.
 - Items 2 and 8 are taste calls — ask before applying.
+
+## Audit result (2026-11-07, code read only, nothing changed)
+- 3 DONE: bass centred below 120 Hz (`mono_below(L,R,120)`, crew.py ~2623/2709).
+- 4 DONE: 808 + bass line share one choke group, "one low sound at a time" (crew.py ~1819).
+- 6 DONE: `make_ir` high-passes every reverb at 300 Hz (groove.py 499); gated snare reverb uses it.
+- 7 DONE: same IR is low-passed at 3.2-6.5 kHz (crew.py ~1970, 2074) and high-passed 300 Hz — inside the plan's 200 Hz / 8 kHz window.
+- 5 MOSTLY DONE: `kick_layer` splits at 100 Hz (click above, sub below); `kick_sub_reinforce` is Otto Grit only.
+- Still open: 1 (needs stem measure), 2, 8, 9 (taste calls — ask him).
+
+## Close-out (2026-11-07, later)
+- 1 SKIPPED, measured 14 recent chord stems: the 300-500 Hz bump is the chord notes themselves (peak moves 315/400/500 Hz with the key), so a fixed cut would hit the notes. Only reopen if he hears boxiness.
+- 9 DONE already: `groove.sp1200(out_lp=9000)` rolls off 9 kHz on dirt beats only.
+- 2 and 8 NOT applied: 2 is a vocal-advice guess for sample melodies; 8 fights the +8 kHz master air shelf. Only on his say-so.
+- Net: no further code change needed. EQ plan is closed.
