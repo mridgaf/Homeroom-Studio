@@ -71,7 +71,7 @@ def lowcuts(role):
     board = []
     if not skips_rumble_cut(role):
         board += hp12(RUMBLE_HZ)
-    if role == "chord":
+    if role in ("chord", "melody"):   # owner 2026-11-07: melody gets the chord 150 Hz cut too
         board += hp12(CHORD_HZ)
     return board
 
