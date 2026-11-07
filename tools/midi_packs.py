@@ -30,7 +30,7 @@ sys.path.append(str(Path(__file__).parent))
 
 import mido                                              # noqa: E402
 
-from key_context import (KeyContext, MODES, SHARPS,              # noqa: E402
+from key_context import (KeyContext, MODES, SHARPS, same_root,            # noqa: E402
                         mode_family, name_chord)
 from sample_library import load_midi_roots, load_midi_sorted_root  # noqa: E402
 
@@ -267,7 +267,7 @@ def in_key(index, key, role="chord"):
     want_family = mode_family(key.mode)
     want = [e for e in index if e.get("role") == role and e.get("key")]
     hit = [e for e in want
-           if e["key"] == key.root and mode_family(e["mode"]) == want_family]
+           if same_root(e["key"], key) and mode_family(e["mode"]) == want_family]
     spot = set(e["path"] for e in hit)
     return hit + [e for e in want
                   if mode_family(e["mode"]) == want_family

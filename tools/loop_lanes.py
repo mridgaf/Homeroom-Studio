@@ -345,7 +345,12 @@ def build_lane(lane, path, bpm, sr, fx_bars=None, chop_spec=None):
 def _key_ok(e, anchor):
     if anchor is None or e.get("key") is None:
         return True
-    return (e["key"] == anchor[0]
+    from key_context import pitch_class
+    try:                     # spelling-proof: Bb == A#
+        same = pitch_class(e["key"]) == pitch_class(anchor[0])
+    except ValueError:
+        same = e["key"] == anchor[0]
+    return (same
             and mode_family(e.get("mode") or "major")
             == mode_family(anchor[1] or "major"))
 

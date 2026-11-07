@@ -36,7 +36,7 @@ sys.path.append(str(Path(__file__).parent))
 
 import numpy as np                                          # noqa: E402
 
-from key_context import KeyContext, mode_family, pitch_class   # noqa: E402
+from key_context import KeyContext, mode_family, pitch_class, same_root   # noqa: E402
 from sample_library import AUDIO_EXTS, load_loop_roots        # noqa: E402
 
 CACHE = Path(os.path.expanduser("~/.reason_voice/melodic_loop_index.json"))
@@ -387,7 +387,7 @@ def in_key(index, key, role=None, bpm=None):
 
     def tier(e):
         fam = None if e["mode"] is None else mode_family(e["mode"])
-        if e["key"] == key.root and (fam is None or fam == want_family):
+        if same_root(e["key"], key) and (fam is None or fam == want_family):
             return 0
         if fam == want_family:
             return 1
@@ -415,7 +415,7 @@ def in_key_scored(index, key, role=None, bpm=None):
 
     def tier(e):
         fam = None if e["mode"] is None else mode_family(e["mode"])
-        if e["key"] == key.root and (fam is None or fam == want_family):
+        if same_root(e["key"], key) and (fam is None or fam == want_family):
             return 0
         if fam == want_family:
             return 1

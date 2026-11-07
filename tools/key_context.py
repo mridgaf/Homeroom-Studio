@@ -178,6 +178,15 @@ def pitch_class(name):
     return SHARPS.index(up)
 
 
+def same_root(name, key):
+    """True when note name `name` ("A#", "Bb", ...) is `key`'s root, whatever the
+    spelling. Index entries are sharp-spelled; keys can now be flat."""
+    try:
+        return pitch_class(name) == key.pc
+    except ValueError:
+        return False
+
+
 class KeyContext(object):
     """What key this beat is in: a root note and a mode.
 

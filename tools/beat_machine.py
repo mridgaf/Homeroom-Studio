@@ -2361,13 +2361,14 @@ def _limit_loop_pool(pool, sig, key, variant):
     loop_voice then returns None and the caller falls through to an
     instrument voice, instead of quietly playing a loop from the wrong
     library. No setting -> the pool comes back untouched."""
+    from key_context import same_root
     only = (sig.get("loop_pool_only") or "").lower()
     if not only or not pool:
         return pool
     pool = [e for e in pool if only in e["path"].lower()]
     rg = random.Random(variant * 977)
-    hit = [e for e in pool if e.get("key") == key.root]
-    rest = [e for e in pool if e.get("key") != key.root]
+    hit = [e for e in pool if same_root(e.get("key"), key)]
+    rest = [e for e in pool if not same_root(e.get("key"), key)]
     rg.shuffle(hit)
     rg.shuffle(rest)
     return hit + rest
